@@ -16,7 +16,9 @@
 			"extensions": [
 				"ms-dotnettools.csdevkit",
 				"ms-dotnettools.csharp",
-				"esbenp.prettier-vscode"
+				"esbenp.prettier-vscode",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg"
 			]
 		}
 		// Use 'forwardPorts' to make a list of ports inside the container available locally.
