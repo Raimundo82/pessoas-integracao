@@ -11,14 +11,18 @@ env:
   RUNNER_TOOL_CACHE: /toolcache
   http_proxy: http://proxy-n-wcg.marinha.pt:8080
   https_proxy: http://proxy-n-wcg.marinha.pt:8080
-  no_proxy: "devops-01.marinha.pt, .marinha.pt, localhost, 10.45.1.165"
+  no_proxy: "devops-01.marinha.pt, marinha.pt,.marinha.pt, localhost, 10.45.1.165"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
       - name: Setup .NET 9.0.x
         uses: actions/setup-dotnet@v4
