@@ -2,6 +2,9 @@
     "extends": [
         "config:recommended"
     ],
+    "enabledManagers": [
+        "nuget"
+    ],
     "ignoreTests": true,
     "includePaths": [
         "./SigdnRhStaggingApi/SigdnRhStaggingApi.csproj"
