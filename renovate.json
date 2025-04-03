@@ -1,0 +1,21 @@
+{
+    "extends": [
+        "config:recommended"
+    ],
+    "ignoreTests": true,
+    "includePaths": [
+        "./SigdnRhStaggingApi/SigdnRhStaggingApi.csproj"
+    ],
+    "rangeStrategy": "bump",
+    "packageRules": [
+        {
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ],
+            "automerge": true
+        }
+    ]
+}
