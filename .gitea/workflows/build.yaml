@@ -9,26 +9,27 @@ on:
 
 env:
   RUNNER_TOOL_CACHE: /toolcache
+  http_proxy: http://proxy-n-wcg.marinha.pt:8080
+  https_proxy: http://proxy-n-wcg.marinha.pt:8080
+  no_proxy: "devops-01.marinha.pt, .marinha.pt, localhost, 10.45.1.165"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      
       - uses: actions/checkout@v4
-      
+
       - name: Setup .NET 9.0.x
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: "9.0.x"
 
       - name: Install dependencies
         run: dotnet restore
-      
+
       - name: Build
         run: dotnet build --no-restore
-      
+
       - name: Test with the dotnet CLI
         run: dotnet test --no-build
