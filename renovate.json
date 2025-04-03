@@ -5,9 +5,8 @@
     "enabledManagers": [
         "nuget"
     ],
-    "ignoreTests": true,
     "includePaths": [
-        "./SigdnRhStaggingApi/SigdnRhStaggingApi.csproj"
+        "SigdnRhStaggingApi.csproj"
     ],
     "rangeStrategy": "bump",
     "packageRules": [
