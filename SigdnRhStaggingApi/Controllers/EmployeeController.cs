@@ -5,7 +5,7 @@ using SigdnRhStaggingApi.Services;
 namespace SigdnRhStaggingApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/employees")]
 public class EmployeeController(IEmployeeService employeeService) : ControllerBase
 {
     private readonly IEmployeeService _employeeService = employeeService;

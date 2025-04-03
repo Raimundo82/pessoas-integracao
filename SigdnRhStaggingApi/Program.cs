@@ -15,12 +15,14 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
-    app.UseSwaggerUi(options => options.DocumentPath = "/openapi/v1.json");
+    var db = scope.ServiceProvider.GetRequiredService<RhStaggingDbContext>();
+    await db.Database.MigrateAsync();
 }
+
+app.MapOpenApi();
+app.UseSwaggerUi(options => options.DocumentPath = "/openapi/v1.json");
 
 app.UseHttpsRedirection();
 
