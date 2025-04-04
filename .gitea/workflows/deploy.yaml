@@ -32,3 +32,11 @@ jobs:
           context: .
           push: true
           tags: devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api:latest
+
+      - name: Executing remote SSH commands
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.PAAS_01_HOST }}
+          username: ${{ secrets.PAAS_01_USERNAME }}
+          key: ${{ secrets.PAAS_01_SSH_PVT_KEY }}
+          script: docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
