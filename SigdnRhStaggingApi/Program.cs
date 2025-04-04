@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
 using SigdnRhStaggingApi.Services;
+using SigdnRhStaggingApi.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>()?.SubPath ?? "/rh-stagging");
 
 using (var scope = app.Services.CreateScope())
 {
