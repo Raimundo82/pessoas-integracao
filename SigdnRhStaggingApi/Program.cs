@@ -2,21 +2,49 @@ using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
 using SigdnRhStaggingApi.Services;
 using SigdnRhStaggingApi.Settings;
+using Keycloak.AuthServices.Authentication;
+using NSwag.Generation.Processors.Security;
+using Keycloak.AuthServices.Common;
+using NSwag.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+var services = builder.Services;
 
 // Add services to the container.
-builder.Services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
+        .AddScoped<IEmployeeService, EmployeeService>()
+        .AddAuthorization()
+        .AddKeycloakWebApiAuthentication(configuration).Services
+        .AddControllers();
 
-builder.Services.AddControllers();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+var keycloakOptions = configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+services.AddOpenApiDocument(options =>
+{
+    options.AddSecurity("Bearer", [], new NSwag.OpenApiSecurityScheme
+    {
+        Type = NSwag.OpenApiSecuritySchemeType.OAuth2,
+        Description = "Authentication",
+        Name = "SIGDN RH Stagging API",
+
+        Flow = NSwag.OpenApiOAuth2Flow.Implicit,
+        Flows = new NSwag.OpenApiOAuthFlows
+        {
+            Implicit = new NSwag.OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{keycloakOptions!.KeycloakUrlRealm}protocol/openid-connect/auth").ToString(),
+                //                TokenUrl = new Uri($"{keycloakOptions.KeycloakUrlRealm}protocol/openid-connect/token").ToString(),
+                Scopes = new Dictionary<string, string>(),
+            },
+
+        },
+    });
+    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+});
 
 var app = builder.Build();
-
-app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>()?.SubPath ?? "/rh-stagging");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -24,12 +52,22 @@ using (var scope = app.Services.CreateScope())
     await db.Database.MigrateAsync();
 }
 
-app.MapOpenApi();
-app.UseSwaggerUi(options => options.DocumentPath = "/openapi/v1.json");
 
-app.UseHttpsRedirection();
+app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>()?.SubPath ?? "/rh-stagging")
+   .UseOpenApi()
+   .UseSwaggerUi(settings =>
+   {
+       settings.OAuth2Client = new OAuth2ClientSettings
+       {
+           ClientId = keycloakOptions.Resource,
+           ClientSecret = keycloakOptions.Credentials.Secret,
+           AppName = keycloakOptions.Resource,
+           Realm = keycloakOptions.Realm
 
-app.UseAuthorization();
+       };
+   })
+   .UseAuthentication()
+   .UseAuthorization();
 
 app.MapControllers();
 

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SigdnRhStaggingApi.DTOs;
 using SigdnRhStaggingApi.Services;
@@ -6,6 +7,7 @@ namespace SigdnRhStaggingApi.Controllers;
 
 [ApiController]
 [Route("api/employees")]
+[Authorize]
 public class EmployeeController(IEmployeeService employeeService) : ControllerBase
 {
     private readonly IEmployeeService _employeeService = employeeService;
