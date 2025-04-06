@@ -6,17 +6,28 @@ using Keycloak.AuthServices.Authentication;
 using NSwag.Generation.Processors.Security;
 using Keycloak.AuthServices.Common;
 using NSwag.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
+services.AddKeycloakWebApiAuthentication(
+    configuration,
+    options =>
+    {
+        options.Authority = "https://devops-01.marinha.pt/auth/realms/marinha-si";
+    }
+);
+
+
+
+
 // Add services to the container.
 services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
         .AddScoped<IEmployeeService, EmployeeService>()
         .AddAuthorization()
-        .AddKeycloakWebApiAuthentication(configuration).Services
         .AddControllers();
 
 var keycloakOptions = configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>();
