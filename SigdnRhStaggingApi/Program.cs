@@ -62,7 +62,6 @@ app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>
            AppName = keycloakOptions?.Resource,
            Realm = keycloakOptions?.Realm,
        };
-       //settings.OAuth2Client.AdditionalQueryStringParameters.Add("prompt", "login");
    })
    .UseAuthentication()
    .UseAuthorization();
