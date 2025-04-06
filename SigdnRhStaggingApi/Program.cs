@@ -30,7 +30,7 @@ services.AddOpenApiDocument(options =>
         Name = "SIGDN RH Stagging API",
         Flows = new NSwag.OpenApiOAuthFlows
         {
-            AuthorizationCode = new NSwag.OpenApiOAuthFlow
+            Implicit = new NSwag.OpenApiOAuthFlow
             {
                 AuthorizationUrl = new Uri($"{keycloakOptions!.KeycloakUrlRealm}protocol/openid-connect/auth").ToString(),
                 TokenUrl = new Uri($"{keycloakOptions.KeycloakUrlRealm}protocol/openid-connect/token").ToString(),
@@ -57,11 +57,10 @@ app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>
    {
        settings.OAuth2Client = new OAuth2ClientSettings
        {
-           ClientId = keycloakOptions.Resource,
-           ClientSecret = keycloakOptions.Credentials.Secret,
-           AppName = keycloakOptions.Resource,
-           UsePkceWithAuthorizationCodeGrant = true,
-           Realm = keycloakOptions.Realm,
+           ClientId = keycloakOptions?.Resource,
+           ClientSecret = keycloakOptions?.Credentials.Secret,
+           AppName = keycloakOptions?.Resource,
+           Realm = keycloakOptions?.Realm,
        };
        settings.OAuth2Client.AdditionalQueryStringParameters.Add("prompt", "login");
    })
