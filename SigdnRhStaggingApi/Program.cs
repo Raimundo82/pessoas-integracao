@@ -6,6 +6,7 @@ using Keycloak.AuthServices.Authentication;
 using NSwag.Generation.Processors.Security;
 using Keycloak.AuthServices.Common;
 using NSwag.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -23,7 +24,7 @@ var keycloakOptions = configuration.GetKeycloakOptions<KeycloakAuthenticationOpt
 
 services.AddOpenApiDocument(options =>
 {
-    options.AddSecurity("Bearer", [], new NSwag.OpenApiSecurityScheme
+    options.AddSecurity("Implicit OAuth2", [], new NSwag.OpenApiSecurityScheme
     {
         Type = NSwag.OpenApiSecuritySchemeType.OAuth2,
         Description = "Authentication",
@@ -37,9 +38,20 @@ services.AddOpenApiDocument(options =>
                 Scopes = new Dictionary<string, string>(),
             },
 
+
         },
     });
-    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Implicit OAuth2"));
+
+    options.AddSecurity("JWT Bearer", [], new NSwag.OpenApiSecurityScheme
+    {
+        Type = NSwag.OpenApiSecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        BearerFormat = "JWT",
+        Description = "Type into the textbox: {your JWT token}."
+    });
+    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Bearer"));
+
 });
 
 var app = builder.Build();
@@ -53,15 +65,12 @@ using (var scope = app.Services.CreateScope())
 
 app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>()?.SubPath ?? "/rh-stagging")
    .UseOpenApi()
-   .UseSwaggerUi(settings =>
+   .UseSwaggerUi(settings => settings.OAuth2Client = new OAuth2ClientSettings
    {
-       settings.OAuth2Client = new OAuth2ClientSettings
-       {
-           ClientId = keycloakOptions?.Resource,
-           ClientSecret = keycloakOptions?.Credentials.Secret,
-           AppName = keycloakOptions?.Resource,
-           Realm = keycloakOptions?.Realm,
-       };
+       ClientId = keycloakOptions?.Resource,
+       ClientSecret = keycloakOptions?.Credentials.Secret,
+       AppName = keycloakOptions?.Resource,
+       Realm = keycloakOptions?.Realm,
    })
    .UseAuthentication()
    .UseAuthorization();
