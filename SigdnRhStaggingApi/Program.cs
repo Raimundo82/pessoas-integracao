@@ -13,16 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
-services.AddKeycloakWebApiAuthentication(
-    configuration,
-    options =>
-    {
-        options.Authority = "https://devops-01.marinha.pt/auth/realms/marinha-si";
-    }
-);
-
-
-
+services.AddKeycloakWebApiAuthentication(configuration);
 
 // Add services to the container.
 services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
