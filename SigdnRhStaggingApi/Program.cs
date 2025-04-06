@@ -6,18 +6,12 @@ using Keycloak.AuthServices.Authentication;
 using NSwag.Generation.Processors.Security;
 using Keycloak.AuthServices.Common;
 using NSwag.AspNetCore;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
-services.AddKeycloakWebApiAuthentication(options =>
-{
-    configuration.BindKeycloakOptions(options);
-    options.VerifyTokenAudience = false;
-});
+services.AddKeycloakWebApiAuthentication(configuration);
 
 // Add services to the container.
 services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
@@ -68,13 +62,7 @@ app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>
            AppName = keycloakOptions?.Resource,
            Realm = keycloakOptions?.Realm,
        };
-       settings.OAuth2Client.AdditionalQueryStringParameters.Add("prompt", "login");
-   })
-   .UseForwardedHeaders(new ForwardedHeadersOptions
-   {
-       ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-       ForwardLimit = 1, // adjust if you have multiple proxy hops
-       KnownProxies = { IPAddress.Parse("127.0.0.1") } // or the IP of your Nginx proxy
+       //settings.OAuth2Client.AdditionalQueryStringParameters.Add("prompt", "login");
    })
    .UseAuthentication()
    .UseAuthorization();
