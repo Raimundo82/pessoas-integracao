@@ -6,7 +6,11 @@ The application is deployed and running in production at:
 
 **http://paas-01.marinha.pt/rh-stagging**
 
-However it does deliver yet any relevant functionality.
+You can test swagger API with SSO
+
+**http://paas-01.marinha.pt/rh-stagging/swagger**
+
+For now, it doesn't deliver yet any relevant functionality.
 
 ## 🛠️ Development Environment with Dev Containers
 
@@ -56,5 +60,5 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 
 - VS Code will automatically:
   - Build the dev container using docker-compose.yml
-  - Mount the project into /workspaces/<project-folder>
+  - Mount the project into /workspaces/sigdn-rh-stagging-api
   - Install required dependencies and extensions
