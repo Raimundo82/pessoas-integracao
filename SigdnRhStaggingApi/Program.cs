@@ -7,12 +7,23 @@ using NSwag.Generation.Processors.Security;
 using Keycloak.AuthServices.Common;
 using NSwag.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using SigdnRhStaggingApi;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = builder.Configuration;
 var services = builder.Services;
 
-services.AddKeycloakWebApiAuthentication(configuration);
+var keycloakOptions = configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>();
+
+services.AddKeycloakWebApiAuthentication(configuration, options =>
+{
+    options.BackchannelHttpHandler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+});
 
 // Add services to the container.
 services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
@@ -20,7 +31,6 @@ services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configur
         .AddAuthorization()
         .AddControllers();
 
-var keycloakOptions = configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>();
 
 services.AddOpenApiDocument(options =>
 {
@@ -29,6 +39,7 @@ services.AddOpenApiDocument(options =>
         Type = NSwag.OpenApiSecuritySchemeType.OAuth2,
         Description = "Authentication",
         Name = "SIGDN RH Stagging API",
+        Flow = NSwag.OpenApiOAuth2Flow.Implicit,
         Flows = new NSwag.OpenApiOAuthFlows
         {
             Implicit = new NSwag.OpenApiOAuthFlow
@@ -61,9 +72,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<RhStaggingDbContext>();
     await db.Database.MigrateAsync();
 }
-
-
-app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>()?.SubPath ?? "/rh-stagging")
+app.UsePathBase(configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>()?.SubPath)
    .UseOpenApi()
    .UseSwaggerUi(settings => settings.OAuth2Client = new OAuth2ClientSettings
    {
@@ -77,4 +86,4 @@ app.UsePathBase(builder.Configuration.GetSection("ApiSettings").Get<AppSettings>
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
