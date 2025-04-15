@@ -22,7 +22,8 @@
 				"mtxr.sqltools",
 				"mtxr.sqltools-driver-pg",
 				"SonarSource.sonarlint-vscode",
-				"fernandoescolar.vscode-solution-explorer"
+				"fernandoescolar.vscode-solution-explorer",
+				"me-dutour-mathieu.vscode-github-actions"
 			]
 		}
 	},
