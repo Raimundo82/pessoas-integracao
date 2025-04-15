@@ -11,16 +11,20 @@
 		// Configure properties specific to VS Code.
 		"vscode": {
 			// Set *default* container specific settings.json values on container create.
-			"settings": {},
+			"settings": {
+				"sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v18.17.0/bin/node"
+			},
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"ms-dotnettools.csdevkit",
 				"ms-dotnettools.csharp",
 				"esbenp.prettier-vscode",
 				"mtxr.sqltools",
-				"mtxr.sqltools-driver-pg"
+				"mtxr.sqltools-driver-pg",
+				"SonarSource.sonarlint-vscode",
+				"fernandoescolar.vscode-solution-explorer"
 			]
-		},
+		}
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [5000, 5001, 5432],
@@ -40,7 +44,7 @@
 		"ghcr.io/devcontainers/features/node:1": {
 			"nodeGypDependencies": true,
 			"installYarnUsingApt": true,
-			"version": "18",
+			"version": "v18.17.0",
 			"pnpmVersion": "8.8.0",
 			"nvmVersion": "0.39"
 		}
