@@ -2,12 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
 using SigdnRhStaggingApi.Services;
 using SigdnRhStaggingApi.Settings;
+using SigdnRhStaggingApi.Graphql.Queries;
 using Keycloak.AuthServices.Authentication;
 using NSwag.Generation.Processors.Security;
 using Keycloak.AuthServices.Common;
-using NSwag.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using SigdnRhStaggingApi;
+using NSwag.AspNetCore;
+using HotChocolate.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,13 @@ services.AddDbContext<RhStaggingDbContext>(options => options.UseNpgsql(configur
         .AddControllers();
 
 
+// GraphQL service
+services.AddGraphQLServer()
+        .AddAuthorization()
+        .ModifyRequestOptions(options => options.IncludeExceptionDetails = true)
+        .AddQueryType<EmployeeQuery>();
+
+
 services.AddOpenApiDocument(options =>
 {
     options.AddSecurity("Implicit OAuth2", [], new NSwag.OpenApiSecurityScheme
@@ -48,8 +56,6 @@ services.AddOpenApiDocument(options =>
                 TokenUrl = new Uri($"{keycloakOptions.KeycloakUrlRealm}protocol/openid-connect/token").ToString(),
                 Scopes = new Dictionary<string, string>(),
             },
-
-
         },
     });
     options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Implicit OAuth2"));
@@ -72,17 +78,26 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<RhStaggingDbContext>();
     await db.Database.MigrateAsync();
 }
+
 app.UsePathBase(configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>()?.SubPath)
-   .UseOpenApi()
-   .UseSwaggerUi(settings => settings.OAuth2Client = new OAuth2ClientSettings
-   {
-       ClientId = keycloakOptions?.Resource,
-       ClientSecret = keycloakOptions?.Credentials.Secret,
-       AppName = keycloakOptions?.Resource,
-       Realm = keycloakOptions?.Realm,
-   })
+    .UseOpenApi()
+    .UseSwaggerUi(settings => settings.OAuth2Client = new OAuth2ClientSettings
+    {
+        ClientId = keycloakOptions?.Resource,
+        ClientSecret = keycloakOptions?.Credentials.Secret,
+        AppName = keycloakOptions?.Resource,
+        Realm = keycloakOptions?.Realm,
+    })
    .UseAuthentication()
    .UseAuthorization();
+
+app.MapGraphQL()
+    .WithOptions(
+        new GraphQLServerOptions
+        {
+            Tool = { ServeMode = GraphQLToolServeMode.Embedded }
+        }
+    );
 
 app.MapControllers();
 
