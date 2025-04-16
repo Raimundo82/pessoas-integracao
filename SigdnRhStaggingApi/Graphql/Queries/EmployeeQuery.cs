@@ -4,13 +4,12 @@ using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Graphql.Queries
 {
-    public class EmployeeQuery(IEmployeeService employeeService)
+    public class EmployeeQuery()
     {
-        private readonly IEmployeeService _employeeService = employeeService;
         [AllowAnonymous]
-        public async Task<IEnumerable<EmployeeDto>> GetEmployees()
+        public async Task<IEnumerable<EmployeeDto>> GetEmployees(IEmployeeService employeeService)
         {
-            return await _employeeService.GetEmployees();
+            return await employeeService.GetEmployees();
         }
     }
 }
