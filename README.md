@@ -6,9 +6,9 @@ The application is deployed and running in production at:
 
 **http://paas-01.marinha.pt/rh-stagging**
 
-You can test swagger API with SSO
+You can test GraphQL API with SSO
 
-**http://paas-01.marinha.pt/rh-stagging/swagger**
+**http://paas-01.marinha.pt/rh-stagging/graphql**
 
 For now, it doesn't deliver yet any relevant functionality.
 
@@ -49,8 +49,8 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 1. **Clone the repository** (if you haven't already):
 
    ```bash
-   git clone https://github.com/your-org/your-repo.git
-   cd your-repo
+   git clone http://devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api.git
+   cd sigdn-rh-stagging-api
    ```
 
 2. **Open in VS Code**:
