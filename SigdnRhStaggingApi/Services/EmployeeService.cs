@@ -5,9 +5,12 @@ using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;
 
-public class EmployeeService(RhStaggingDbContext dbContext) : IEmployeeService
+// CA1816: Call GC.SuppressFinalize correctly
+// https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1816#how-to-fix-violations
+// If the type is not meant to be overridden, mark it as sealed.
+public sealed class EmployeeService(IDbContextFactory<RhStaggingDbContext> dbContextFactory) : IEmployeeService, IAsyncDisposable
 {
-    private readonly RhStaggingDbContext _context = dbContext;
+    private readonly RhStaggingDbContext dbContext = dbContextFactory.CreateDbContext();
 
     private static EmployeeDto GetEmployeeDto(Employee employee)
     {
@@ -28,54 +31,59 @@ public class EmployeeService(RhStaggingDbContext dbContext) : IEmployeeService
             Ni = employeeDto.Ni,
         };
 
-        _context.Employees.Add(employee);
-        await _context.SaveChangesAsync();
+        dbContext.Employees.Add(employee);
+        await dbContext.SaveChangesAsync();
         return GetEmployeeDto(employee);
     }
 
     public async Task<bool> DeleteEmployee(int id)
     {
-        var employee = await _context.Employees.FindAsync(id);
+        var employee = await dbContext.Employees.FindAsync(id);
         if (employee == null) return false;
-        _context.Employees.Remove(employee);
-        await _context.SaveChangesAsync();
+        dbContext.Employees.Remove(employee);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
     public async Task<EmployeeDto?> EditEmployee(int id, EmployeeDto employeeDto)
     {
-        Employee? employee = await _context.Employees.FindAsync(id);
+        Employee? employee = await dbContext.Employees.FindAsync(id);
         if (employee == null) return null;
 
         employee.Ni = employeeDto.Ni;
         employee.Numsap = employeeDto.Numsap;
-        await _context.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         return GetEmployeeDto(employee);
     }
 
     public async Task<EmployeeDto?> GetEmployeeById(int id)
     {
-        var employee = await _context.Employees.FindAsync(id);
+        var employee = await dbContext.Employees.FindAsync(id);
         return employee is not null ? GetEmployeeDto(employee) : null;
     }
 
     public async Task<EmployeeDto?> GetEmployeeByNi(string ni)
     {
-        var employee = await _context.Employees.FirstOrDefaultAsync(emp => emp.Ni == ni);
+        var employee = await dbContext.Employees.FirstOrDefaultAsync(emp => emp.Ni == ni);
         return employee is not null ? GetEmployeeDto(employee) : null;
     }
 
     public async Task<EmployeeDto?> GetEmployeeByNumsap(string numsap)
     {
-        var employee = await _context.Employees.FirstOrDefaultAsync(emp => emp.Numsap == numsap);
+        var employee = await dbContext.Employees.FirstOrDefaultAsync(emp => emp.Numsap == numsap);
         return employee is not null ? GetEmployeeDto(employee) : null;
     }
 
     public async Task<IEnumerable<EmployeeDto>> GetEmployees()
     {
-        return await _context
+        return await dbContext
             .Employees
             .Select(employee => GetEmployeeDto(employee))
             .ToListAsync();
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return dbContext.DisposeAsync();
     }
 }
