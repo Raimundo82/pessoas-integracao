@@ -1,8 +1,6 @@
-using SigdnRhStaggingApi.Data;
 using SigdnRhStaggingApi.Settings;
 using SigdnRhStaggingApi.Startup;
 using SigdnRhStaggingApi;
-using SigdnRhStaggingApi.Graphql.Queries;
 using HotChocolate.AspNetCore;
 
 

@@ -1,4 +1,3 @@
-using System;
 using SigdnRhStaggingApi.Graphql.Queries;
 
 namespace SigdnRhStaggingApi.Startup;
