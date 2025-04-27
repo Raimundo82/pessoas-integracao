@@ -1,5 +1,6 @@
 using SigdnRhStaggingApi.Settings;
 using SigdnRhStaggingApi.Startup;
+using SigdnRhStaggingApi.Middleware;
 using SigdnRhStaggingApi;
 using HotChocolate.AspNetCore;
 
@@ -22,8 +23,9 @@ var app = builder.Build();
 DatabaseUtils.MigrateDatabase(app.Services);
 
 app.UsePathBase(configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>()?.SubPath)
-   .UseAuthentication()
-   .UseAuthorization();
+    .UseRequestLogging()
+    .UseAuthentication()
+    .UseAuthorization();
 
 app.MapGraphQL()
     .WithOptions(new GraphQLServerOptions { Tool = { ServeMode = GraphQLToolServeMode.Embedded } });
