@@ -6,7 +6,6 @@ namespace SigdnRhStaggingApi.Data;
 public class RhStaggingDbContext(DbContextOptions<RhStaggingDbContext> options) : DbContext(options)
 {
     public DbSet<Employee> Employees { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -18,6 +17,9 @@ public class RhStaggingDbContext(DbContextOptions<RhStaggingDbContext> options) 
         modelBuilder.Entity<Employee>()
             .HasIndex(employee => employee.Numsap)
             .IsUnique();
+
+        modelBuilder.Entity<Employee>()
+            .OwnsOne(e => e.BiometricDetails);
 
     }
 

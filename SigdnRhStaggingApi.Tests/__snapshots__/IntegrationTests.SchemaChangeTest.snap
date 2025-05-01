@@ -2,10 +2,17 @@
   query: EmployeeQuery
 }
 
+type BiometricDetailsDto {
+  bloodType: String
+  eyesColor: String
+  heightCm: String
+}
+
 type EmployeeDto {
   id: Int!
   numsap: String!
   ni: String!
+  biometricDetailsDto: BiometricDetailsDto
 }
 
 type EmployeeQuery {

@@ -17,7 +17,6 @@ public sealed class EmployeeService(
     private readonly ILogger<EmployeeService> _logger = logger;
     private static EmployeeDto GetEmployeeDto(Employee employee)
     {
-
         return new EmployeeDto
         {
             Id = employee.Id,
@@ -34,6 +33,7 @@ public sealed class EmployeeService(
         {
             Numsap = employeeDto.Numsap,
             Ni = employeeDto.Ni,
+            BiometricDetails = new()
         };
 
         dbContext.Employees.Add(employee);

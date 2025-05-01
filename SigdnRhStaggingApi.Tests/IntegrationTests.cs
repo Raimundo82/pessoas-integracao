@@ -34,8 +34,8 @@ public class IntegrationTests
         {
 
             var employees = new List<Employee> {
-            new() { Ni = "11111", Numsap = "30001111" },
-            new() { Ni = "11112", Numsap = "30001112" }
+            new() { Ni = "11111", Numsap = "30001111", BiometricDetails = new() },
+            new() { Ni = "11112", Numsap = "30001112", BiometricDetails = new() }
             };
             dbContext.Employees.AddRange(employees);
             await dbContext.SaveChangesAsync();
