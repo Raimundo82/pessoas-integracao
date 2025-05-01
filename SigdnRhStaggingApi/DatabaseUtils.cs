@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
 
 namespace SigdnRhStaggingApi;
@@ -6,7 +7,7 @@ public static class DatabaseUtils
 {
     public static void Run(RhStaggingDbContext context)
     {
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 
     public static void MigrateDatabase(IServiceProvider serviceProvider)
