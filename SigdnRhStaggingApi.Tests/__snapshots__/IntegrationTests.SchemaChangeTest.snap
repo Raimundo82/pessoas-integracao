@@ -1,5 +1,16 @@
 ﻿schema {
   query: EmployeeQuery
+  mutation: EmployeeMutation
+}
+
+type AddEmployeePayload {
+  employeeDto: EmployeeDto
+}
+
+type BiometricDetails {
+  bloodType: String
+  eyesColor: String
+  heightCm: String
 }
 
 type BiometricDetailsDto {
@@ -8,15 +19,112 @@ type BiometricDetailsDto {
   heightCm: String
 }
 
-type EmployeeDto {
+type Employee {
   id: Int!
+  numsap: String!
+  ni: String!
+  biometricDetails: BiometricDetails!
+}
+
+type EmployeeDto {
+  id: Int
   numsap: String!
   ni: String!
   biometricDetailsDto: BiometricDetailsDto
 }
 
+type EmployeeMutation {
+  addEmployee(input: AddEmployeeInput!): AddEmployeePayload! @cost(weight: "10")
+  removeEmployee(input: RemoveEmployeeInput!): RemoveEmployeePayload! @cost(weight: "10")
+}
+
 type EmployeeQuery {
-  employees: [EmployeeDto!]! @allowAnonymous @cost(weight: "10")
+  employees(where: EmployeeFilterInput @cost(weight: "10") order: [EmployeeSortInput!] @cost(weight: "10")): [Employee!]! @allowAnonymous @cost(weight: "10")
+}
+
+type RemoveEmployeePayload {
+  employeeDto: EmployeeDto
+}
+
+input AddEmployeeInput {
+  employeeDto: EmployeeDtoInput!
+}
+
+input BiometricDetailsDtoInput {
+  bloodType: String
+  eyesColor: String
+  heightCm: String
+}
+
+input BiometricDetailsFilterInput {
+  and: [BiometricDetailsFilterInput!]
+  or: [BiometricDetailsFilterInput!]
+  bloodType: StringOperationFilterInput
+  eyesColor: StringOperationFilterInput
+  heightCm: StringOperationFilterInput
+}
+
+input BiometricDetailsSortInput {
+  bloodType: SortEnumType @cost(weight: "10")
+  eyesColor: SortEnumType @cost(weight: "10")
+  heightCm: SortEnumType @cost(weight: "10")
+}
+
+input EmployeeDtoInput {
+  id: Int
+  numsap: String!
+  ni: String!
+  biometricDetailsDto: BiometricDetailsDtoInput
+}
+
+input EmployeeFilterInput {
+  and: [EmployeeFilterInput!]
+  or: [EmployeeFilterInput!]
+  id: IntOperationFilterInput
+  numsap: StringOperationFilterInput
+  ni: StringOperationFilterInput
+  biometricDetails: BiometricDetailsFilterInput
+}
+
+input EmployeeSortInput {
+  id: SortEnumType @cost(weight: "10")
+  numsap: SortEnumType @cost(weight: "10")
+  ni: SortEnumType @cost(weight: "10")
+  biometricDetails: BiometricDetailsSortInput @cost(weight: "10")
+}
+
+input IntOperationFilterInput {
+  eq: Int @cost(weight: "10")
+  neq: Int @cost(weight: "10")
+  in: [Int] @cost(weight: "10")
+  nin: [Int] @cost(weight: "10")
+  gt: Int @cost(weight: "10")
+  ngt: Int @cost(weight: "10")
+  gte: Int @cost(weight: "10")
+  ngte: Int @cost(weight: "10")
+  lt: Int @cost(weight: "10")
+  nlt: Int @cost(weight: "10")
+  lte: Int @cost(weight: "10")
+  nlte: Int @cost(weight: "10")
+}
+
+input RemoveEmployeeInput {
+  id: Int!
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String @cost(weight: "10")
+  neq: String @cost(weight: "10")
+  contains: String @cost(weight: "20")
+  ncontains: String @cost(weight: "20")
+  in: [String] @cost(weight: "10")
+  nin: [String] @cost(weight: "10")
+  startsWith: String @cost(weight: "20")
+  nstartsWith: String @cost(weight: "20")
+  endsWith: String @cost(weight: "20")
+  nendsWith: String @cost(weight: "20")
 }
 
 "Defines when a policy shall be executed."
@@ -27,6 +135,11 @@ enum ApplyPolicy {
   AFTER_RESOLVER
   "The policy is applied in the validation step before the execution."
   VALIDATION
+}
+
+enum SortEnumType {
+  ASC
+  DESC
 }
 
 directive @allowAnonymous repeatable on FIELD_DEFINITION

@@ -15,15 +15,27 @@ public sealed class EmployeeService(
 {
     private readonly RhStaggingDbContext dbContext = dbContextFactory.CreateDbContext();
     private readonly ILogger<EmployeeService> _logger = logger;
+
+    private static BiometricDetailsDto GetBiometricDetailsDto(BiometricDetails biometricDetails)
+    {
+        return new BiometricDetailsDto
+        {
+            EyesColor = biometricDetails.EyesColor,
+            BloodType = biometricDetails.BloodType,
+            HeightCm = biometricDetails.HeightCm
+        };
+    }
     private static EmployeeDto GetEmployeeDto(Employee employee)
     {
         return new EmployeeDto
         {
             Id = employee.Id,
             Numsap = employee.Numsap,
-            Ni = employee.Ni
+            Ni = employee.Ni,
+            BiometricDetailsDto = GetBiometricDetailsDto(employee.BiometricDetails)
         };
     }
+    public IQueryable<Employee> GetEmployees() => dbContext.Employees;
 
     public async Task<EmployeeDto> AddEmployee(EmployeeDto employeeDto)
     {
@@ -34,6 +46,11 @@ public sealed class EmployeeService(
             Numsap = employeeDto.Numsap,
             Ni = employeeDto.Ni,
             BiometricDetails = new()
+            {
+                EyesColor = employeeDto.BiometricDetailsDto?.EyesColor,
+                HeightCm = employeeDto.BiometricDetailsDto?.HeightCm,
+                BloodType = employeeDto.BiometricDetailsDto?.BloodType
+            }
         };
 
         dbContext.Employees.Add(employee);
@@ -41,66 +58,17 @@ public sealed class EmployeeService(
         return GetEmployeeDto(employee);
     }
 
-    public async Task<bool> DeleteEmployee(int id)
-    {
-        var employee = await dbContext.Employees.FindAsync(id);
-        if (employee == null) return false;
-        dbContext.Employees.Remove(employee);
-        await dbContext.SaveChangesAsync();
-        return true;
-    }
-
-    public async Task<EmployeeDto?> EditEmployee(int id, EmployeeDto employeeDto)
-    {
-        Employee? employee = await dbContext.Employees.FindAsync(id);
-        if (employee == null) return null;
-
-        employee.Ni = employeeDto.Ni;
-        employee.Numsap = employeeDto.Numsap;
-        await dbContext.SaveChangesAsync();
-        return GetEmployeeDto(employee);
-    }
-
-    public async Task<EmployeeDto?> GetEmployeeById(int id)
-    {
-        _logger.LogInformation("Fetching employee with Id: {Id}", id);
-
-        var employee = await dbContext.Employees.FindAsync(id);
-        if (employee == null)
-        {
-            _logger.LogWarning("Employee with Id: {Id} not found", id);
-        }
-        return employee is not null ? GetEmployeeDto(employee) : null;
-    }
-
-    public async Task<EmployeeDto?> GetEmployeeByNi(string ni)
-    {
-        _logger.LogInformation("Fetching employee with Ni: {Ni}", ni);
-
-        var employee = await dbContext.Employees.FirstOrDefaultAsync(emp => emp.Ni == ni);
-        return employee is not null ? GetEmployeeDto(employee) : null;
-    }
-
-    public async Task<EmployeeDto?> GetEmployeeByNumsap(string numsap)
-    {
-        _logger.LogInformation("Fetching employee with Numsap: {Numsap}", numsap);
-
-        var employee = await dbContext.Employees.FirstOrDefaultAsync(emp => emp.Numsap == numsap);
-        return employee is not null ? GetEmployeeDto(employee) : null;
-    }
-
-    public async Task<IEnumerable<EmployeeDto>> GetEmployees()
-    {
-        _logger.LogInformation("Fetching all employees");
-
-        return await dbContext
-            .Employees
-            .Select(employee => GetEmployeeDto(employee))
-            .ToListAsync();
-    }
-
     public ValueTask DisposeAsync()
     {
         return dbContext.DisposeAsync();
+    }
+
+    public async Task<EmployeeDto?> DeleteEmployee(int id)
+    {
+        var employee = await dbContext.Employees.FindAsync(id);
+        if (employee == null) return null;
+        dbContext.Employees.Remove(employee);
+        await dbContext.SaveChangesAsync();
+        return GetEmployeeDto(employee);
     }
 }

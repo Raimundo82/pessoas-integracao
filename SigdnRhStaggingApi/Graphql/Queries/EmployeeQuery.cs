@@ -1,15 +1,14 @@
 using HotChocolate.Authorization;
-using SigdnRhStaggingApi.DTOs;
+using SigdnRhStaggingApi.Models;
 using SigdnRhStaggingApi.Services;
 
-namespace SigdnRhStaggingApi.Graphql.Queries
+namespace SigdnRhStaggingApi.Graphql.Queries;
+public class EmployeeQuery
 {
-    public class EmployeeQuery()
-    {
-        [AllowAnonymous]
-        public async Task<IEnumerable<EmployeeDto>> GetEmployees(IEmployeeService employeeService)
-        {
-            return await employeeService.GetEmployees();
-        }
-    }
+    [AllowAnonymous]
+    [UseProjection]
+    [UseFiltering]
+    [UseSorting]
+    public IQueryable<Employee> GetEmployees(IEmployeeService employeeService) =>
+                employeeService.GetEmployees();
 }

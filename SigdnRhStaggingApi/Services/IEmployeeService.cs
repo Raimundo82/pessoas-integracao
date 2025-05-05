@@ -1,17 +1,15 @@
 
 using SigdnRhStaggingApi.DTOs;
+using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;
 
 public interface IEmployeeService
 {
-    Task<IEnumerable<EmployeeDto>> GetEmployees();
-    Task<EmployeeDto?> GetEmployeeById(int id);
-    Task<EmployeeDto?> GetEmployeeByNi(string ni);
-    Task<EmployeeDto?> GetEmployeeByNumsap(string numsap);
-
+    IQueryable<Employee> GetEmployees();
     Task<EmployeeDto> AddEmployee(EmployeeDto employeeDto);
-    Task<EmployeeDto?> EditEmployee(int id, EmployeeDto employeeDto);
-    Task<bool> DeleteEmployee(int id);
+
+    Task<EmployeeDto?> DeleteEmployee(int id);
+
 
 }

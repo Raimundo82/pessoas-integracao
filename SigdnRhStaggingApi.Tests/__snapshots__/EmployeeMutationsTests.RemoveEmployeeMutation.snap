@@ -1,0 +1,11 @@
+﻿{
+  "data": {
+    "removeEmployee": {
+      "employeeDto": {
+        "id": 1,
+        "ni": "11111",
+        "numsap": "30001111"
+      }
+    }
+  }
+}

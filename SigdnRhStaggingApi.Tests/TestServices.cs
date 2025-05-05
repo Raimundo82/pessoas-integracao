@@ -3,23 +3,32 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SigdnRhStaggingApi.Data;
+using SigdnRhStaggingApi.Graphql.Mutations;
 using SigdnRhStaggingApi.Graphql.Queries;
 using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Tests;
 
-public static class TestServices
+public class TestServices
 {
-    static TestServices()
+    public IServiceProvider Services { get; }
+
+    public RequestExecutorProxy Executor { get; }
+    public TestServices(string dbName)
     {
         Services = new ServiceCollection()
             .AddLogging()
             .AddAuthorization()
-            .AddDbContextFactory<RhStaggingDbContext>(options => options.UseInMemoryDatabase("TestInMemDB"))
+            .AddDbContextFactory<RhStaggingDbContext>(options => options.UseInMemoryDatabase(dbName))
             .AddScoped<IEmployeeService, EmployeeService>()
             .AddGraphQLServer()
+            .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization()
             .AddQueryType<EmployeeQuery>()
+            .AddMutationType<EmployeeMutation>()
+            .AddFiltering()
+            .AddSorting()
+            .AddProjections()
             .Services
             .AddSingleton(sp => new RequestExecutorProxy(sp.GetRequiredService<IRequestExecutorResolver>(), Schema.DefaultName))
             .BuildServiceProvider();
@@ -27,27 +36,21 @@ public static class TestServices
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
 
-    public static IServiceProvider Services { get; }
 
-    public static RequestExecutorProxy Executor { get; }
-
-    public static async Task<(IServiceScope scope, RhStaggingDbContext dbContext)> CreateScopeAndDbContextAsync()
+    public async Task<(IServiceScope scope, RhStaggingDbContext dbContext)> CreateScopeAndDbContextAsync()
     {
-        var scope = Services.CreateAsyncScope();
-        var provider = scope.ServiceProvider;
-        var dbFactory = provider.GetRequiredService<IDbContextFactory<RhStaggingDbContext>>();
+        var dbScope = Services.CreateAsyncScope();
+        var dbFactory = dbScope.ServiceProvider.GetRequiredService<IDbContextFactory<RhStaggingDbContext>>();
         var dbContext = await dbFactory.CreateDbContextAsync();
-
-        return (scope, dbContext);
+        return (dbScope, dbContext);
     }
 
-    public static async Task<string> ExecuteRequestAsync(
-        IServiceProvider serviceProvider,
+    public async Task<string> ExecuteRequestAsync(
         Action<OperationRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {
         var requestBuilder = new OperationRequestBuilder();
-        requestBuilder.SetServices(serviceProvider);
+        requestBuilder.SetServices(Services.CreateAsyncScope().ServiceProvider);
         configureRequest(requestBuilder);
         var request = requestBuilder.Build();
 
