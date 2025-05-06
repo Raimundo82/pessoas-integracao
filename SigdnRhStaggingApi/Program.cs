@@ -12,11 +12,11 @@ var services = builder.Services;
 
 // Add services to the container.
 services.AddInfrastructure(configuration)
-        .AddAuth(configuration)
-        .AddAuthorization()
-        .AddAppServices()
-        .AddGraphQl()
-        .AddControllers();
+    .AddAuth(configuration)
+    .AddAuthorization()
+    .AddAppServices()
+    .AddGraphQl()
+    .AddControllers();
 
 var app = builder.Build();
 

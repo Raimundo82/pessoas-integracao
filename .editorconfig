@@ -1,0 +1,21 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+tab_width = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+
+[*.cs]
+# IDE0004: Remove unnecessary cast
+dotnet_diagnostic.IDE0004.severity = error
+
+# IDE0005: Remove unnecessary import
+dotnet_diagnostic.IDE0005.severity = error

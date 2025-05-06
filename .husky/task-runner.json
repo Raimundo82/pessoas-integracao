@@ -1,0 +1,29 @@
+{
+    "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+    "tasks": [
+        {
+            "name": "format-check",
+            "command": "dotnet",
+            "args": [
+                "format",
+                "--verify-no-changes"
+            ]
+        },
+        {
+            "name": "build",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore"
+            ]
+        },
+        {
+            "name": "test",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build"
+            ]
+        }
+    ]
+}

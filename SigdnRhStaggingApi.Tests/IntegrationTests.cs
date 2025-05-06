@@ -1,4 +1,4 @@
-﻿namespace SigdnRhStaggingApi.Tests;
+namespace SigdnRhStaggingApi.Tests;
 
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Models;
