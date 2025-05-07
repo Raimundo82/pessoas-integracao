@@ -11,10 +11,6 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    env:
-      HUSKY: 0
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,8 +24,6 @@ jobs:
           registry: devops-01.marinha.pt
           username: m22600
           password: ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
-
-      - run: echo "HUSKY env var is $HUSKY"
 
       - name: Build and push
         uses: docker/build-push-action@v6

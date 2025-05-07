@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080
 ENV https_proxy=http://proxy-n-wcg.marinha.pt:8080
 ENV no_proxy="devops-01.marinha.pt, marinha.pt,.marinha.pt, localhost, 10.45.1.165"
+ENV HUSKY=0
 
 WORKDIR /app
 COPY ./SigdnRhStaggingApi ./
