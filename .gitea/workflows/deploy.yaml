@@ -1,42 +1,43 @@
 name: Deploy .NET App with Docker Compose
 
 on:
-  push:
-    branches:
-      - master
+    push:
+        branches:
+            - master
 
 env:
-  RUNNER_TOOL_CACHE: /toolcache
+    RUNNER_TOOL_CACHE: /toolcache
+    HUSKY: 0
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+    build-and-deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ssh-key: ${{ secrets.SSH_KEY }}
-          ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  ssh-key: ${{ secrets.SSH_KEY }}
+                  ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
-      - name: Login to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: devops-01.marinha.pt
-          username: m22600
-          password: ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
+            - name: Login to Registry
+              uses: docker/login-action@v3
+              with:
+                  registry: devops-01.marinha.pt
+                  username: m22600
+                  password: ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api:latest
+            - name: Build and push
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  push: true
+                  tags: devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api:latest
 
-      - name: Executing remote SSH commands
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ vars.PAAS_01_HOST }}
-          username: ${{ secrets.PAAS_01_USERNAME }}
-          key: ${{ secrets.PAAS_01_SSH_PVT_KEY }}
-          script: docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
+            - name: Executing remote SSH commands
+              uses: appleboy/ssh-action@v1.2.0
+              with:
+                  host: ${{ vars.PAAS_01_HOST }}
+                  username: ${{ secrets.PAAS_01_USERNAME }}
+                  key: ${{ secrets.PAAS_01_SSH_PVT_KEY }}
+                  script: docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
