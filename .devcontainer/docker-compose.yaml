@@ -11,6 +11,7 @@ services:
 
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
+      API_KEY: ${API_KEY}
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

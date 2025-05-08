@@ -1,41 +1,56 @@
 {
-    "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
-    "tasks": [
-        {
-            "name": "format-check",
-            "command": "dotnet",
-            "filteringRule": "staged",
-            "output": "verbose",
-            "args": [
-                "format",
-                "--verify-no-changes"
-            ]
-        },
-        {
-            "name": "build",
-            "command": "dotnet",
-            "filteringRule": "staged",
-            "include": [
-                "./SigdnRhStaggingApi/*"
-            ],
-            "output": "verbose",
-            "args": [
-                "build",
-                "--no-restore"
-            ]
-        },
-        {
-            "name": "test",
-            "command": "dotnet",
-            "filteringRule": "staged",
-            "include": [
-                "./SigdnRhStaggingApi/*"
-            ],
-            "output": "verbose",
-            "args": [
-                "test",
-                "--no-build"
-            ]
-        }
-    ]
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "format",
+      "command": "dotnet",
+      "filteringRule": "staged",
+      "output": "verbose",
+      "args": [
+        "format"
+      ]
+    },
+    {
+      "name": "prettier",
+      "command": "npx",
+      "filteringRule": "staged",
+      "output": "verbose",
+      "include": [
+        "**/*.json",
+        "**/*.yaml",
+        "**/*.yml",
+        "**/*.md"
+      ],
+      "args": [
+        "prettier",
+        "--check",
+      ]
+    },
+    {
+      "name": "build",
+      "command": "dotnet",
+      "filteringRule": "staged",
+      "include": [
+        "./SigdnRhStaggingApi/*"
+      ],
+      "output": "verbose",
+      "args": [
+        "build",
+        "--no-restore"
+      ]
+    },
+    {
+      "name": "test",
+      "command": "dotnet",
+      "filteringRule": "staged",
+      "include": [
+        "./SigdnRhStaggingApi/*"
+      ],
+      "output": "verbose",
+      "args": [
+        "test",
+        "--no-build"
+      ]
+    }
+  ]
 }
