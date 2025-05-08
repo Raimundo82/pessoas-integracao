@@ -4,6 +4,8 @@
         {
             "name": "format-check",
             "command": "dotnet",
+            "filteringRule": "staged",
+            "output": "verbose",
             "args": [
                 "format",
                 "--verify-no-changes"
@@ -12,6 +14,11 @@
         {
             "name": "build",
             "command": "dotnet",
+            "filteringRule": "staged",
+            "include": [
+                "./SigdnRhStaggingApi/*"
+            ],
+            "output": "verbose",
             "args": [
                 "build",
                 "--no-restore"
@@ -20,6 +27,11 @@
         {
             "name": "test",
             "command": "dotnet",
+            "filteringRule": "staged",
+            "include": [
+                "./SigdnRhStaggingApi/*"
+            ],
+            "output": "verbose",
             "args": [
                 "test",
                 "--no-build"
