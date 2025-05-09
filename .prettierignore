@@ -1,3 +1,5 @@
+**/*.cs
 bin
 obj
 out
+.editorconfig

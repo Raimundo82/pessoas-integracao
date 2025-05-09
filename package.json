@@ -1,0 +1,6 @@
+{
+  "name": "sigdn-rh-stagging-api",
+  "devDependencies": {
+    "prettier": "^3.5.0"
+  }
+}

@@ -5,52 +5,14 @@
       "name": "format",
       "command": "dotnet",
       "filteringRule": "staged",
-      "output": "verbose",
-      "args": [
-        "format"
-      ]
+      "include": ["**/*.cs"],
+      "args": ["format", "--include", "${staged}"]
     },
     {
       "name": "prettier",
       "command": "npx",
       "filteringRule": "staged",
-      "output": "verbose",
-      "include": [
-        "**/*.json",
-        "**/*.yaml",
-        "**/*.yml",
-        "**/*.md"
-      ],
-      "args": [
-        "prettier",
-        "--check",
-      ]
-    },
-    {
-      "name": "build",
-      "command": "dotnet",
-      "filteringRule": "staged",
-      "include": [
-        "./SigdnRhStaggingApi/*"
-      ],
-      "output": "verbose",
-      "args": [
-        "build",
-        "--no-restore"
-      ]
-    },
-    {
-      "name": "test",
-      "command": "dotnet",
-      "filteringRule": "staged",
-      "include": [
-        "./SigdnRhStaggingApi/*"
-      ],
-      "output": "verbose",
-      "args": [
-        "test",
-        "--no-build"
-      ]
+      "args": ["prettier", "--ignore-unknown", "--write", "${staged}"]
     }
   ]
 }

@@ -1,20 +1,12 @@
 {
-	"extends": [
-		"config:recommended"
-	],
-	"enabledManagers": [
-		"nuget"
-	],
-	"rangeStrategy": "bump",
-	"packageRules": [
-		{
-			"matchUpdateTypes": [
-				"minor",
-				"patch",
-				"pin",
-				"digest"
-			],
-			"automerge": true
-		}
-	]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["nuget", "dockerfile", "npm"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ]
 }
