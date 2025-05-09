@@ -3,6 +3,7 @@
   "tasks": [
     {
       "name": "format",
+      "group": "pre-commit",
       "command": "dotnet",
       "filteringRule": "staged",
       "include": ["**/*.cs"],
@@ -10,9 +11,28 @@
     },
     {
       "name": "prettier",
+      "group": "pre-commit",
       "command": "npx",
       "filteringRule": "staged",
       "args": ["prettier", "--ignore-unknown", "--write", "${staged}"]
+    },
+    {
+      "name": "build",
+      "group": "pre-push",
+      "command": "dotnet",
+      "filteringRule": "staged",
+      "include": ["./SigdnRhStaggingApi/*"],
+      "output": "verbose",
+      "args": ["build"]
+    },
+    {
+      "name": "test",
+      "group": "pre-push",
+      "command": "dotnet",
+      "filteringRule": "staged",
+      "include": ["./SigdnRhStaggingApi/*"],
+      "output": "verbose",
+      "args": ["test"]
     }
   ]
 }
