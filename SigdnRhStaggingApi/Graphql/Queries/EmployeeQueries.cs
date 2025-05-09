@@ -1,14 +1,18 @@
 using HotChocolate.Authorization;
+using HotChocolate.Data;
+using HotChocolate.Types;
 using SigdnRhStaggingApi.Models;
 using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Graphql.Queries;
-public class EmployeeQuery
+
+[QueryType]
+public static class EmployeesQueries
 {
     [AllowAnonymous]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<Employee> GetEmployees(IEmployeeService employeeService) =>
+    public static IQueryable<Employee> GetEmployees(IEmployeeService employeeService) =>
                 employeeService.GetEmployees();
 }

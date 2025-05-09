@@ -1,6 +1,6 @@
 ﻿schema {
-  query: EmployeeQuery
-  mutation: EmployeeMutation
+  query: Query
+  mutation: Mutation
 }
 
 type AddEmployeePayload {
@@ -33,12 +33,12 @@ type EmployeeDto {
   biometricDetailsDto: BiometricDetailsDto
 }
 
-type EmployeeMutation {
+type Mutation {
   addEmployee(input: AddEmployeeInput!): AddEmployeePayload! @cost(weight: "10")
   removeEmployee(input: RemoveEmployeeInput!): RemoveEmployeePayload! @cost(weight: "10")
 }
 
-type EmployeeQuery {
+type Query {
   employees(where: EmployeeFilterInput @cost(weight: "10") order: [EmployeeSortInput!] @cost(weight: "10")): [Employee!]! @allowAnonymous @cost(weight: "10")
 }
 

@@ -3,8 +3,6 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SigdnRhStaggingApi.Data;
-using SigdnRhStaggingApi.Graphql.Mutations;
-using SigdnRhStaggingApi.Graphql.Queries;
 using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Tests;
@@ -24,8 +22,7 @@ public class TestServices
             .AddGraphQLServer()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization()
-            .AddQueryType<EmployeeQuery>()
-            .AddMutationType<EmployeeMutation>()
+            .AddTypes()
             .AddFiltering()
             .AddSorting()
             .AddProjections()
