@@ -48,6 +48,9 @@ Generated\ Files/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# reportgenerator
+coverage-report
+
 # NUnit
 *.VisualState.xml
 TestResult.xml
