@@ -1,6 +1,4 @@
 using HotChocolate.Authorization;
-using HotChocolate.Data;
-using HotChocolate.Types;
 using SigdnRhStaggingApi.Models;
 using SigdnRhStaggingApi.Services;
 

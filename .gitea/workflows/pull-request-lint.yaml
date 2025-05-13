@@ -1,4 +1,5 @@
 name: pull request lint
+
 on:
   pull_request:
     types:
