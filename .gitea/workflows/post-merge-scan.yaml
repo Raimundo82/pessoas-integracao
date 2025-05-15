@@ -32,7 +32,8 @@ jobs:
           dotnet tool update coverlet.console --tool-path ./.sonar/coverage
 
       - name: Begin SonarQube Analysis
-        run: ./.sonar/scanner/dotnet-sonarscanner begin \
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner begin \
           /key:sigdn-rh-stagging-api \
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
           /d:sonar.host.url="${{ vars.SONAR_HOST_URL }}" \
@@ -47,7 +48,8 @@ jobs:
         run: dotnet build --no-incremental
 
       - name: Run tests with coverage for SonarQube
-        run: dotnet coverlet ./SigdnRhStaggingApi.Tests/bin/Debug/net9.0/SigdnRhStaggingApi.Tests.dll \
+        run: |
+          dotnet coverlet ./SigdnRhStaggingApi.Tests/bin/Debug/net9.0/SigdnRhStaggingApi.Tests.dll \
           --target dotnet \
           --targetargs "test --no-build" \
           -f=opencover \
