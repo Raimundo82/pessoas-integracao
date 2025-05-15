@@ -12,7 +12,7 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v18.17.0/bin/node"
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v20.8.1/bin/node"
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
@@ -46,7 +46,7 @@
     "ghcr.io/devcontainers/features/node:1": {
       "nodeGypDependencies": true,
       "installYarnUsingApt": true,
-      "version": "18.17.0",
+      "version": "20.8.1",
       "pnpmVersion": "8.8.0",
       "nvmVersion": "0.39"
     }
