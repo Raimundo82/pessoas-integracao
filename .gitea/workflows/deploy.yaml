@@ -2,9 +2,8 @@ name: Deploy .NET App with Docker Compose
 
 on:
   push:
-    branches:
-      - master
-
+    tags:
+      - '*'
 env:
   RUNNER_TOOL_CACHE: /toolcache
 
@@ -18,19 +17,8 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
           ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
-      - name: Login to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: devops-01.marinha.pt
-          username: m22600
-          password: ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api:latest
+      - name: Show current tag
+        run: echo "Tag pushed ${{ gitea.ref }}"
 
       - name: Executing remote SSH commands
         uses: appleboy/ssh-action@v1.2.0
