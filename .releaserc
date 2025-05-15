@@ -3,10 +3,12 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    "@codedependant/semantic-release-docker",
-    {
-      "dockerRegistry": "devops-01.marinha.pt",
-      "dockerProject": "marinha-si"
-    }
+    [
+      "@codedependant/semantic-release-docker",
+      {
+        "dockerRegistry": "devops-01.marinha.pt",
+        "dockerProject": "marinha-si"
+      }
+    ]
   ]
 }
