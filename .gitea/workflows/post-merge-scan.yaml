@@ -38,9 +38,6 @@ jobs:
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
           /d:sonar.host.url="${{ vars.SONAR_HOST_URL }}" \
           /d:sonar.cs.opencover.reportsPaths=coverage.xml \
-          /d:sonar.pullrequest.key=${{ gitea.event.number }} \
-          /d:sonar.pullrequest.branch=${{ gitea.head_ref }} \
-          /d:sonar.pullrequest.base=${{ gitea.base_ref }} \
           /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**" \
           /d:sonar.scanner.scanAll=false
 
