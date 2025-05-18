@@ -6,6 +6,20 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["*"],
+      "semanticCommitType": "chore"
+    },
+    {
+      "matchDatasources": ["nuget"],
+      "matchFileNames": ["**/SigdnRhStaggingApi.csproj"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchDatasources": ["nuget"],
+      "matchPackageNames": ["Microsoft.EntityFrameworkCore.tools", "Microsoft.EntityFrameworkCore.design"],
+      "semanticCommitType": "chore"
     }
   ]
 }
