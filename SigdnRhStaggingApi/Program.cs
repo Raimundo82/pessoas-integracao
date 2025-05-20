@@ -3,6 +3,7 @@ using SigdnRhStaggingApi.Startup;
 using SigdnRhStaggingApi.Middleware;
 using SigdnRhStaggingApi;
 using HotChocolate.AspNetCore;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,9 @@ var configuration = builder.Configuration;
 var services = builder.Services;
 
 // Add services to the container.
-services.AddInfrastructure(configuration)
+services
+    .Configure<AppSettingsOptions>(configuration.GetSection(AppSettingsOptions.AppSettings))
+    .AddInfrastructure(configuration)
     .AddAuth(configuration)
     .AddAuthorization()
     .AddAppServices()
@@ -22,7 +25,8 @@ var app = builder.Build();
 
 DatabaseUtils.MigrateDatabase(app.Services);
 
-app.UsePathBase(configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>()?.SubPath)
+var appSettings = app.Services.GetRequiredService<IOptions<AppSettingsOptions>>().Value;
+app.UsePathBase(appSettings.SubPath)
     .UseRequestLogging()
     .UseAuthentication()
     .UseAuthorization();
