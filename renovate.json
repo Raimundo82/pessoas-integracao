@@ -20,6 +20,16 @@
       "matchDatasources": ["nuget"],
       "matchPackageNames": ["Microsoft.EntityFrameworkCore.tools", "Microsoft.EntityFrameworkCore.design"],
       "semanticCommitType": "chore"
+    },
+    {
+      "extends": ["monorepo:hotchocolate"],
+      "groupName": "hotchocolate monorepo",
+      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+    },
+    {
+      "extends": ["monorepo:dotnet"],
+      "groupName": "dotnet monorepo",
+      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
     }
   ]
 }
