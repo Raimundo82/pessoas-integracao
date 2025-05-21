@@ -28,6 +28,4 @@ jobs:
           envs: GITEA_REF
           script: |
             docker login ${{ vars.REGISTRY_SERVER }} -u m22600 -p ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
-            TAG="${GITEA_REF##refs/tags/v}"
-            echo "Extracted TAG: $TAG"
-            docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
+            TAG="${GITEA_REF##refs/tags/v}" docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
