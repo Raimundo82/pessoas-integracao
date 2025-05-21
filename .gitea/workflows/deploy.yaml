@@ -19,10 +19,14 @@ jobs:
 
       - name: Executing remote SSH commands
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          GITEA_REF: ${{ gitea.ref }}
         with:
           host: ${{ vars.PAAS_01_HOST }}
           username: ${{ secrets.PAAS_01_USERNAME }}
           key: ${{ secrets.PAAS_01_SSH_PVT_KEY }}
           script: |
             docker login ${{ vars.REGISTRY_SERVER }} -u m22600 -p ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
+            TAG="${GITEA_REF##refs/tags/v}"
+            echo "Extracted TAG: $TAG"
             TAG=${{ gitea.ref }} docker compose --project-directory ~/projects/sigdn-rh-stagging up --build --force-recreate --detach
