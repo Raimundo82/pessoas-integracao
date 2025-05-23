@@ -2,18 +2,18 @@ using Microsoft.Extensions.DependencyInjection;
 using SigdnRhStaggingApi.Data;
 using SigdnRhStaggingApi.Models;
 
-namespace SigdnRhStaggingApi.Tests;
+namespace SigdnRhStaggingApi.Tests.GraphqlTesting;
 
 public class EmployeesFixture : IAsyncLifetime
 {
     public IServiceScope Scope { get; }
     public RhStaggingDbContext DbContext { get; }
 
-    public TestServices TestServices { get; }
+    public GraphqlTestServices TestServices { get; }
 
     public EmployeesFixture()
     {
-        TestServices = new TestServices("testDBFixture");
+        TestServices = new GraphqlTestServices();
         (Scope, DbContext) = TestServices.CreateScopeAndDbContextAsync().GetAwaiter().GetResult();
     }
 

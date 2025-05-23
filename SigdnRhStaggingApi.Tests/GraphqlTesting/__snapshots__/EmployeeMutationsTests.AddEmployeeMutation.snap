@@ -1,0 +1,16 @@
+﻿{
+  "data": {
+    "addEmployee": {
+      "employeeDto": {
+        "id": 1,
+        "ni": "22600",
+        "numsap": "30002697",
+        "biometricDetailsDto": {
+          "eyesColor": null,
+          "heightCm": null,
+          "bloodType": null
+        }
+      }
+    }
+  }
+}

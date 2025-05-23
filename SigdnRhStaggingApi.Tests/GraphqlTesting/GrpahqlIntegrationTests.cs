@@ -1,16 +1,16 @@
-namespace SigdnRhStaggingApi.Tests;
-
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Models;
 using Snapshooter.Xunit;
 
-public class IntegrationTests
+namespace SigdnRhStaggingApi.Tests.GraphqlTesting;
+
+public class GraphqlIntegrationTests
 {
 
     [Fact]
     public async Task SchemaChangeTest()
     {
-        var testService = new TestServices("TestDbSchema");
+        var testService = new GraphqlTestServices();
 
         var schema = await testService.Executor.GetSchemaAsync(default);
         schema.ToString().MatchSnapshot();
@@ -19,7 +19,7 @@ public class IntegrationTests
     [Fact]
     public async Task FetchEmployeesWithEmptyDB()
     {
-        var testService = new TestServices("TestDbEmpty");
+        var testService = new GraphqlTestServices();
 
         var (scope, dbContext) = await testService.CreateScopeAndDbContextAsync();
         using (scope)
@@ -31,7 +31,6 @@ public class IntegrationTests
     }
 
 }
-
 
 [Collection("Employees Collection")]
 public class EmployeeQueriesTests(EmployeesFixture fixture)
@@ -113,7 +112,7 @@ public class EmployeeMutationsTests
             }
         }";
 
-        var testService = new TestServices("MutationDbTest");
+        var testService = new GraphqlTestServices();
 
         var (scope, dbContext) = await testService.CreateScopeAndDbContextAsync();
         using (scope)
@@ -130,7 +129,7 @@ public class EmployeeMutationsTests
     [Fact]
     public async Task RemoveEmployeeMutation()
     {
-        var testService = new TestServices("RemoveDbTest");
+        var testService = new GraphqlTestServices();
 
         var (scope, dbContext) = await testService.CreateScopeAndDbContextAsync();
 
@@ -153,7 +152,7 @@ public class EmployeeMutationsTests
         var mutation = $@"
         mutation {{
             removeEmployee(input: {{ id: {employeeAdded.Entity.Id} }}) {{
-                employeeDto {{ 
+                employeeDto {{
                     id
                     ni
                     numsap

@@ -11,6 +11,7 @@ public static class EmployeesQueries
     [UseProjection]
     [UseFiltering]
     [UseSorting]
+    [UseReadApiKeyMiddleware]
     public static IQueryable<Employee> GetEmployees(IEmployeeService employeeService) =>
                 employeeService.GetEmployees();
 }

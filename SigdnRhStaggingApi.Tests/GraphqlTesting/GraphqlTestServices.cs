@@ -3,25 +3,30 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SigdnRhStaggingApi.Data;
-using SigdnRhStaggingApi.Services;
+using SigdnRhStaggingApi.Settings;
+using SigdnRhStaggingApi.Startup;
 
-namespace SigdnRhStaggingApi.Tests;
+namespace SigdnRhStaggingApi.Tests.GraphqlTesting;
 
-public class TestServices
+public class GraphqlTestServices
 {
     public IServiceProvider Services { get; }
-
     public RequestExecutorProxy Executor { get; }
-    public TestServices(string dbName)
+    public GraphqlTestServices()
     {
+        Guid uniqueId = Guid.NewGuid();
+
         Services = new ServiceCollection()
             .AddLogging()
+            .Configure<AppSettingsOptions>(options => options.AllowMissingHttpContext = true)
             .AddAuthorization()
-            .AddDbContextFactory<RhStaggingDbContext>(options => options.UseInMemoryDatabase(dbName))
-            .AddScoped<IEmployeeService, EmployeeService>()
+            .AddDbContextFactory<RhStaggingDbContext>(options => options.UseInMemoryDatabase(uniqueId.ToString()))
+            .AddHttpContextAccessor()
+            .AddAppServices()
             .AddGraphQLServer()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization()
+            .ModifyRequestOptions(options => options.IncludeExceptionDetails = true)
             .AddTypes()
             .AddFiltering()
             .AddSorting()

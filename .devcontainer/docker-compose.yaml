@@ -12,6 +12,8 @@ services:
     environment:
       ConnectionStrings__DefaultConnection: 'Host=localhost;Database=postgres;Username=postgres;Password=${DB_PASSWORD}'
       AppSettings__SubPath: ${APP_SUB_PATH}
+      AppSettings__ReadApiKey: ${READ_API_KEY}
+      AppSettings__WriteApiKey: ${WRITE_API_KEY}
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

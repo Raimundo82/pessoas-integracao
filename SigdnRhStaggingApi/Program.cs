@@ -1,29 +1,32 @@
 using SigdnRhStaggingApi.Settings;
 using SigdnRhStaggingApi.Startup;
 using SigdnRhStaggingApi.Middleware;
-using SigdnRhStaggingApi;
 using HotChocolate.AspNetCore;
 using Microsoft.Extensions.Options;
+using SigdnRhStaggingApi.Graphql;
+using SigdnRhStaggingApi;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-var configuration = builder.Configuration;
 var services = builder.Services;
 
 // Add services to the container.
 services
-    .Configure<AppSettingsOptions>(configuration.GetSection(AppSettingsOptions.AppSettings))
-    .AddInfrastructure(configuration)
-    .AddAuth(configuration)
+    .AddConfig(builder.Configuration)
+    .AddHttpContextAccessor()
+    .AddInfrastructure(builder.Configuration)
+    .AddAuth(builder.Configuration)
     .AddAuthorization()
     .AddAppServices()
     .AddGraphQl()
-    .AddControllers();
+    .AddHttpResponseFormatter<CustomHttpResponseFormatter>();
 
 var app = builder.Build();
 
-DatabaseUtils.MigrateDatabase(app.Services);
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    DatabaseUtils.MigrateDatabase(app.Services);
+}
 
 var appSettings = app.Services.GetRequiredService<IOptions<AppSettingsOptions>>().Value;
 app.UsePathBase(appSettings.SubPath)
@@ -35,3 +38,8 @@ app.MapGraphQL()
     .WithOptions(new GraphQLServerOptions { Tool = { ServeMode = GraphQLToolServeMode.Embedded } });
 
 await app.RunAsync();
+
+public partial class Program
+{
+    protected Program() { }
+}
