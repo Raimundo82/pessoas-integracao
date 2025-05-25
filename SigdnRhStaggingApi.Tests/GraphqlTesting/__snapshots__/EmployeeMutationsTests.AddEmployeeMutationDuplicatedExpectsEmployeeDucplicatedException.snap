@@ -1,0 +1,12 @@
+﻿{
+  "data": {
+    "addEmployee": {
+      "employee": null,
+      "errors": [
+        {
+          "message": "Employee with NI 11111 already exists."
+        }
+      ]
+    }
+  }
+}

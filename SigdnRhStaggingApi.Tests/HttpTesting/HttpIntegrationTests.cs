@@ -7,6 +7,40 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
 {
     private readonly CustomWebApplicationFactory<Program> _factory = factory;
 
+    const string mutation = @"
+            mutation AddEmployee {
+                addEmployee(
+                    input: {
+                        employee: {
+                                biometricDetails: {
+                                    bloodType: ""O+"",
+                                    eyesColor: ""brown"",
+                                    heightCm: ""176""
+                                }
+                                ni: ""22600"",
+                                numsap: ""30002697""
+                            }
+                        }
+                ) {
+                    employee {
+                      id
+                      ni
+                      numsap
+                      biometricDetails {
+                        bloodType
+                        eyesColor
+                        heightCm
+                      }
+                    }
+                    errors {
+                      ... on EmployeeDuplicatedError {
+                        message
+                      }
+                    }
+                  }
+                }
+        ";
+
     [Fact]
     public async Task GetDefaultEndpointNotFoundtatusCode()
     {
@@ -113,29 +147,7 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
         var url = "/graphql";
 
         // Act
-        var response = await client.PostAsJsonAsync(url, new
-        {
-            query = @"
-                        mutation {
-                            addEmployee(input: {
-                                employeeDto: {
-                                    ni: ""22600"",
-                                    numsap: ""30002697""
-                                }
-                            }) {
-                                employeeDto {
-                                    id
-                                    ni
-                                    numsap
-                                    biometricDetailsDto {
-                                        eyesColor
-                                        heightCm
-                                        bloodType
-                                    }
-                                }
-                            }
-                        }"
-        });
+        var response = await client.PostAsJsonAsync(url, new { query = mutation });
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -150,29 +162,8 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
         var url = "/graphql";
 
         // Act
-        var response = await client.PostAsJsonAsync(url, new
-        {
-            query = @"
-                        mutation {
-                            addEmployee(input: {
-                                employeeDto: {
-                                    ni: ""22600"",
-                                    numsap: ""30002697""
-                                }
-                            }) {
-                                employeeDto {
-                                    id
-                                    ni
-                                    numsap
-                                    biometricDetailsDto {
-                                        eyesColor
-                                        heightCm
-                                        bloodType
-                                    }
-                                }
-                            }
-                        }"
-        });
+        var response = await client.PostAsJsonAsync(url, new { query = mutation });
+
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -187,29 +178,7 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
         var url = "/graphql";
 
         // Act
-        var response = await client.PostAsJsonAsync(url, new
-        {
-            query = @"
-                        mutation {
-                            addEmployee(input: {
-                                employeeDto: {
-                                    ni: ""22600"",
-                                    numsap: ""30002697""
-                                }
-                            }) {
-                                employeeDto {
-                                    id
-                                    ni
-                                    numsap
-                                    biometricDetailsDto {
-                                        eyesColor
-                                        heightCm
-                                        bloodType
-                                    }
-                                }
-                            }
-                        }"
-        });
+        var response = await client.PostAsJsonAsync(url, new { query = mutation });
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -224,29 +193,7 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
         var url = "/graphql";
 
         // Act
-        var response = await client.PostAsJsonAsync(url, new
-        {
-            query = @"
-                        mutation {
-                            addEmployee(input: {
-                                employeeDto: {
-                                    ni: ""22600"",
-                                    numsap: ""30002697""
-                                }
-                            }) {
-                                employeeDto {
-                                    id
-                                    ni
-                                    numsap
-                                    biometricDetailsDto {
-                                        eyesColor
-                                        heightCm
-                                        bloodType
-                                    }
-                                }
-                            }
-                        }"
-        });
+        var response = await client.PostAsJsonAsync(url, new { query = mutation });
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

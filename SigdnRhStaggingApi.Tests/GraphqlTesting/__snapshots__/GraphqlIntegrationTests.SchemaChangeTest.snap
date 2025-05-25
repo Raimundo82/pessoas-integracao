@@ -3,17 +3,16 @@
   mutation: Mutation
 }
 
+interface Error {
+  message: String!
+}
+
 type AddEmployeePayload {
-  employeeDto: EmployeeDto
+  employee: Employee
+  errors: [AddEmployeeError!]
 }
 
 type BiometricDetails {
-  bloodType: String
-  eyesColor: String
-  heightCm: String
-}
-
-type BiometricDetailsDto {
   bloodType: String
   eyesColor: String
   heightCm: String
@@ -26,11 +25,14 @@ type Employee {
   biometricDetails: BiometricDetails!
 }
 
-type EmployeeDto {
-  id: Int
-  numsap: String!
+type EmployeeDuplicatedError implements Error {
+  message: String!
   ni: String!
-  biometricDetailsDto: BiometricDetailsDto
+}
+
+type EmployeeNotFoundError implements Error {
+  message: String!
+  id: Int!
 }
 
 type Mutation {
@@ -43,17 +45,16 @@ type Query {
 }
 
 type RemoveEmployeePayload {
-  employeeDto: EmployeeDto
+  boolean: Boolean
+  errors: [RemoveEmployeeError!]
 }
+
+union AddEmployeeError = EmployeeDuplicatedError
+
+union RemoveEmployeeError = EmployeeNotFoundError
 
 input AddEmployeeInput {
-  employeeDto: EmployeeDtoInput!
-}
-
-input BiometricDetailsDtoInput {
-  bloodType: String
-  eyesColor: String
-  heightCm: String
+  employee: EmployeeInput!
 }
 
 input BiometricDetailsFilterInput {
@@ -64,17 +65,16 @@ input BiometricDetailsFilterInput {
   heightCm: StringOperationFilterInput
 }
 
+input BiometricDetailsInput {
+  bloodType: String!
+  eyesColor: String!
+  heightCm: String!
+}
+
 input BiometricDetailsSortInput {
   bloodType: SortEnumType @cost(weight: "10")
   eyesColor: SortEnumType @cost(weight: "10")
   heightCm: SortEnumType @cost(weight: "10")
-}
-
-input EmployeeDtoInput {
-  id: Int
-  numsap: String!
-  ni: String!
-  biometricDetailsDto: BiometricDetailsDtoInput
 }
 
 input EmployeeFilterInput {
@@ -84,6 +84,13 @@ input EmployeeFilterInput {
   numsap: StringOperationFilterInput
   ni: StringOperationFilterInput
   biometricDetails: BiometricDetailsFilterInput
+}
+
+input EmployeeInput {
+  id: Int
+  numsap: String!
+  ni: String!
+  biometricDetails: BiometricDetailsInput!
 }
 
 input EmployeeSortInput {

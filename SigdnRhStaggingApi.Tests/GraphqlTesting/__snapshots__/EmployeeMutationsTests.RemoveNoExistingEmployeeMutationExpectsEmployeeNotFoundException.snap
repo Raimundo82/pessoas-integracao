@@ -1,0 +1,12 @@
+﻿{
+  "data": {
+    "removeEmployee": {
+      "boolean": null,
+      "errors": [
+        {
+          "message": "The employee with Id 1 was not found."
+        }
+      ]
+    }
+  }
+}

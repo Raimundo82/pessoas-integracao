@@ -92,25 +92,38 @@ public class EmployeeMutationsTests
 
         // Arrange
         var mutation = @"
-        mutation {
-            addEmployee(input: {
-                employeeDto: {
-                    ni: ""22600"",
-                    numsap: ""30002697""
-                }
-            }) {
-                employeeDto {
-                    id
-                    ni
-                    numsap
-                    biometricDetailsDto {
+            mutation AddEmployee {
+                addEmployee(
+                    input: {
+                        employee: {
+                                biometricDetails: {
+                                    bloodType: ""O+"",
+                                    eyesColor: ""brown"",
+                                    heightCm: ""176""
+                                }
+                                ni: ""22600"",
+                                numsap: ""30002697""
+                            }
+                        }
+                ) {
+                    employee {
+                      id
+                      ni
+                      numsap
+                      biometricDetails {
+                        bloodType
                         eyesColor
                         heightCm
-                        bloodType
+                      }
                     }
+                    errors {
+                      ... on EmployeeDuplicatedError {
+                        message
+                      }
+                    }
+                  }
                 }
-            }
-        }";
+        ";
 
         var testService = new GraphqlTestServices();
 
@@ -122,6 +135,65 @@ public class EmployeeMutationsTests
             var inTest = await dbContext.Employees.Where(employee => employee.Ni == "22600").FirstAsync();
             Assert.Equal("22600", inTest.Ni);
             Assert.Equal("30002697", inTest.Numsap);
+            result.MatchSnapshot();
+        }
+    }
+
+    [Fact]
+    public async Task AddEmployeeMutationDuplicatedExpectsEmployeeDucplicatedException()
+    {
+
+        // Arrange
+        var testService = new GraphqlTestServices();
+
+        var (scope, dbContext) = await testService.CreateScopeAndDbContextAsync();
+        var employee = new Employee
+        {
+            Ni = "11111",
+            Numsap = "30001111",
+            BiometricDetails = new BiometricDetails
+            {
+                EyesColor = "brown",
+                BloodType = "O+",
+                HeightCm = "176"
+            }
+        };
+        dbContext.Employees.Add(employee);
+        await dbContext.SaveChangesAsync();
+
+        var mutation = @"
+            mutation AddEmployee {
+                addEmployee(
+                    input: {
+                        employee: {
+                                biometricDetails: {
+                                    bloodType: ""O+"",
+                                    eyesColor: ""brown"",
+                                    heightCm: ""176""
+                                }
+                                ni: ""11111"",
+                                numsap: ""30001111""
+                            }
+                        }
+                ) {
+                    employee {
+                      id
+                      ni
+                      numsap
+                    }
+                    errors {
+                      ... on EmployeeDuplicatedError {
+                        message
+                      }
+                    }
+                  }
+                }
+        ";
+
+        using (scope)
+        await using (dbContext)
+        {
+            var result = await testService.ExecuteRequestAsync(b => b.SetDocument(mutation));
             result.MatchSnapshot();
         }
     }
@@ -152,10 +224,12 @@ public class EmployeeMutationsTests
         var mutation = $@"
         mutation {{
             removeEmployee(input: {{ id: {employeeAdded.Entity.Id} }}) {{
-                employeeDto {{
-                    id
-                    ni
-                    numsap
+                boolean
+                errors {{
+                    ... on EmployeeNotFoundError {{
+                        message
+                    }}
+
                 }}
             }}
         }}";
@@ -168,6 +242,34 @@ public class EmployeeMutationsTests
             var inTest = await dbContext.Employees.ToListAsync();
             Assert.Empty(inTest);
 
+        }
+
+    }
+
+    [Fact]
+    public async Task RemoveNoExistingEmployeeMutationExpectsEmployeeNotFoundException()
+    {
+        var testService = new GraphqlTestServices();
+
+        var (scope, dbContext) = await testService.CreateScopeAndDbContextAsync();
+
+        var mutation = @"
+        mutation {
+            removeEmployee(input: { id: 1 }) {
+                boolean
+                errors {
+                    ... on EmployeeNotFoundError {
+                        message
+                    }
+                }
+            }
+        }";
+
+        using (scope)
+        await using (dbContext)
+        {
+            var result = await testService.ExecuteRequestAsync(b => b.SetDocument(mutation));
+            result.MatchSnapshot();
         }
 
     }

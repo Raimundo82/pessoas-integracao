@@ -1,5 +1,4 @@
-
-using SigdnRhStaggingApi.DTOs;
+using SigdnRhStaggingApi.Graphql.Inputs;
 using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;
@@ -7,9 +6,6 @@ namespace SigdnRhStaggingApi.Services;
 public interface IEmployeeService
 {
     IQueryable<Employee> GetEmployees();
-    Task<EmployeeDto> AddEmployee(EmployeeDto employeeDto);
-
-    Task<EmployeeDto?> DeleteEmployee(int id);
-
-
+    Task<Employee> AddEmployee(EmployeeInput employee);
+    Task<bool> DeleteEmployee(int id);
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
-using SigdnRhStaggingApi.DTOs;
+using SigdnRhStaggingApi.Graphql.Exceptions;
+using SigdnRhStaggingApi.Graphql.Inputs;
 using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;
@@ -16,46 +17,32 @@ public sealed class EmployeeService(
     private readonly RhStaggingDbContext dbContext = dbContextFactory.CreateDbContext();
     private readonly ILogger<EmployeeService> _logger = logger;
 
-    private static BiometricDetailsDto GetBiometricDetailsDto(BiometricDetails biometricDetails)
-    {
-        return new BiometricDetailsDto
-        {
-            EyesColor = biometricDetails.EyesColor,
-            BloodType = biometricDetails.BloodType,
-            HeightCm = biometricDetails.HeightCm
-        };
-    }
-    private static EmployeeDto GetEmployeeDto(Employee employee)
-    {
-        return new EmployeeDto
-        {
-            Id = employee.Id,
-            Numsap = employee.Numsap,
-            Ni = employee.Ni,
-            BiometricDetailsDto = GetBiometricDetailsDto(employee.BiometricDetails)
-        };
-    }
     public IQueryable<Employee> GetEmployees() => dbContext.Employees;
 
-    public async Task<EmployeeDto> AddEmployee(EmployeeDto employeeDto)
+    public async Task<Employee> AddEmployee(EmployeeInput employee)
     {
-        _logger.LogInformation("Adding employee with Numsap: {Numsap}", employeeDto.Numsap);
+        _logger.LogInformation("Adding employee with Numsap {Numsap} and Ni {Ni}", employee.Numsap, employee.Ni);
 
-        Employee employee = new()
+        var employeeExists = await dbContext.Employees.AnyAsync(e => e.Ni == employee.Ni);
+        if (employeeExists) throw new EmployeeDuplicatedException(employee.Ni);
+
+        Employee newEmployee = new()
         {
-            Numsap = employeeDto.Numsap,
-            Ni = employeeDto.Ni,
+            Numsap = employee.Numsap,
+            Ni = employee.Ni,
             BiometricDetails = new()
             {
-                EyesColor = employeeDto.BiometricDetailsDto?.EyesColor,
-                HeightCm = employeeDto.BiometricDetailsDto?.HeightCm,
-                BloodType = employeeDto.BiometricDetailsDto?.BloodType
+                EyesColor = employee.BiometricDetails?.EyesColor,
+                HeightCm = employee.BiometricDetails?.HeightCm,
+                BloodType = employee.BiometricDetails?.BloodType
             }
         };
 
-        dbContext.Employees.Add(employee);
+
+
+        var employeeAdded = dbContext.Employees.Add(newEmployee).Entity;
         await dbContext.SaveChangesAsync();
-        return GetEmployeeDto(employee);
+        return employeeAdded;
     }
 
     public ValueTask DisposeAsync()
@@ -63,12 +50,11 @@ public sealed class EmployeeService(
         return dbContext.DisposeAsync();
     }
 
-    public async Task<EmployeeDto?> DeleteEmployee(int id)
+    public async Task<bool> DeleteEmployee(int id)
     {
-        var employee = await dbContext.Employees.FindAsync(id);
-        if (employee == null) return null;
+        var employee = await dbContext.Employees.FindAsync(id) ?? throw new EmployeeNotFoundException(id);
         dbContext.Employees.Remove(employee);
         await dbContext.SaveChangesAsync();
-        return GetEmployeeDto(employee);
+        return true;
     }
 }

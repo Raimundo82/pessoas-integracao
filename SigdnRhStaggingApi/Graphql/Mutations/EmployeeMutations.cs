@@ -1,4 +1,6 @@
-using SigdnRhStaggingApi.DTOs;
+using SigdnRhStaggingApi.Graphql.Exceptions;
+using SigdnRhStaggingApi.Graphql.Inputs;
+using SigdnRhStaggingApi.Models;
 using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Graphql.Mutations;
@@ -7,13 +9,15 @@ namespace SigdnRhStaggingApi.Graphql.Mutations;
 public static class EmployeeMutations
 {
     [UseWriteApiKeyMiddleware]
-    public static async Task<EmployeeDto> AddEmployee(EmployeeDto employeeDto, IEmployeeService employeeService)
+    [Error(typeof(EmployeeDuplicatedException))]
+    public static async Task<Employee> AddEmployee(EmployeeInput employee, IEmployeeService employeeService)
     {
-        return await employeeService.AddEmployee(employeeDto);
+        return await employeeService.AddEmployee(employee);
     }
 
     [UseWriteApiKeyMiddleware]
-    public static async Task<EmployeeDto?> RemoveEmployee(int id, IEmployeeService employeeService)
+    [Error(typeof(EmployeeNotFoundException))]
+    public static async Task<bool?> RemoveEmployee(int id, IEmployeeService employeeService)
     {
         return await employeeService.DeleteEmployee(id);
     }
