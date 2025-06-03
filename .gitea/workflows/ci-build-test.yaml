@@ -1,0 +1,33 @@
+name: Build and Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+env:
+  RUNNER_TOOL_CACHE: /toolcache
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
+
+      - name: Setup .NET 9.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Build (No incremental)
+        run: dotnet build --no-incremental
+
+      - name: Test with dotnet CLI
+        run: dotnet test --no-build

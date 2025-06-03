@@ -1,4 +1,4 @@
-name: Build, Test, and PR SonarQube Analysis
+name: PR SonarQube Analysis
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ env:
   RUNNER_TOOL_CACHE: /toolcache
 
 jobs:
-  build-and-pr-sonarscan:
+  pr-sonarscan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,16 +24,7 @@ jobs:
       - name: Setup .NET 9.0.x
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
-
-      - name: Install dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Test with dotnet CLI
-        run: dotnet test --no-build --collect:"XPlat Code Coverage"
+          dotnet-version: "9.0.x"
 
       - name: Install SonarQube scanner and Coverlet
         shell: bash
