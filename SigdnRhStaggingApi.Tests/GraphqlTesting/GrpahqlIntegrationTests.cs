@@ -116,11 +116,6 @@ public class EmployeeMutationsTests
                         heightCm
                       }
                     }
-                    errors {
-                      ... on EmployeeDuplicatedError {
-                        message
-                      }
-                    }
                   }
                 }
         ";
@@ -181,11 +176,6 @@ public class EmployeeMutationsTests
                       ni
                       numsap
                     }
-                    errors {
-                      ... on EmployeeDuplicatedError {
-                        message
-                      }
-                    }
                   }
                 }
         ";
@@ -225,12 +215,6 @@ public class EmployeeMutationsTests
         mutation {{
             removeEmployee(input: {{ id: {employeeAdded.Entity.Id} }}) {{
                 boolean
-                errors {{
-                    ... on EmployeeNotFoundError {{
-                        message
-                    }}
-
-                }}
             }}
         }}";
 
@@ -257,11 +241,6 @@ public class EmployeeMutationsTests
         mutation {
             removeEmployee(input: { id: 1 }) {
                 boolean
-                errors {
-                    ... on EmployeeNotFoundError {
-                        message
-                    }
-                }
             }
         }";
 

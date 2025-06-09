@@ -1,4 +1,4 @@
-using SigdnRhStaggingApi.Graphql.Inputs;
+using SigdnRhStaggingApi.Graphql.Employees;
 using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;

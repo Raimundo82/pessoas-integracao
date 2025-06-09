@@ -59,6 +59,6 @@ public class ApiKeyMiddleware(FieldDelegate next, IOptions<AppSettingsOptions> a
     private static void Reject(IMiddlewareContext context)
     {
         context.Result = null;
-        context.ReportError(GraphQLErrorHelper.Unauthorized());
+        context.ReportError(new UnauthorizedException());
     }
 }

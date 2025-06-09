@@ -32,11 +32,6 @@ public class HttpIntegrationTests(CustomWebApplicationFactory<Program> factory) 
                         heightCm
                       }
                     }
-                    errors {
-                      ... on EmployeeDuplicatedError {
-                        message
-                      }
-                    }
                   }
                 }
         ";

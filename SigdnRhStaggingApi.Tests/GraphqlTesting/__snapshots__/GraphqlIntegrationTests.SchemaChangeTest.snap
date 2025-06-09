@@ -3,13 +3,8 @@
   mutation: Mutation
 }
 
-interface Error {
-  message: String!
-}
-
 type AddEmployeePayload {
   employee: Employee
-  errors: [AddEmployeeError!]
 }
 
 type BiometricDetails {
@@ -25,16 +20,6 @@ type Employee {
   biometricDetails: BiometricDetails!
 }
 
-type EmployeeDuplicatedError implements Error {
-  message: String!
-  ni: String!
-}
-
-type EmployeeNotFoundError implements Error {
-  message: String!
-  id: Int!
-}
-
 type Mutation {
   addEmployee(input: AddEmployeeInput!): AddEmployeePayload! @cost(weight: "10")
   removeEmployee(input: RemoveEmployeeInput!): RemoveEmployeePayload! @cost(weight: "10")
@@ -46,12 +31,7 @@ type Query {
 
 type RemoveEmployeePayload {
   boolean: Boolean
-  errors: [RemoveEmployeeError!]
 }
-
-union AddEmployeeError = EmployeeDuplicatedError
-
-union RemoveEmployeeError = EmployeeNotFoundError
 
 input AddEmployeeInput {
   employee: EmployeeInput!

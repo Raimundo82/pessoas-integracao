@@ -4,9 +4,10 @@ public static class GraphqlServiceExtensions
 {
     public static IServiceCollection AddGraphQl(this IServiceCollection services)
     {
-        services.AddGraphQLServer()
+        services
+        .AddGraphQLServer()
         .AddTypes()
-        .AddMutationConventions(applyToAllMutations: true)
+        .AddMutationConventions()
         .AddAuthorization()
         .ModifyRequestOptions(options => options.IncludeExceptionDetails = true)
         .AddFiltering()

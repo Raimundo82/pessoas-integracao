@@ -2,7 +2,7 @@ using HotChocolate.Authorization;
 using SigdnRhStaggingApi.Models;
 using SigdnRhStaggingApi.Services;
 
-namespace SigdnRhStaggingApi.Graphql.Queries;
+namespace SigdnRhStaggingApi.Graphql.Employees;
 
 [QueryType]
 public static class EmployeesQueries

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Data;
-using SigdnRhStaggingApi.Graphql.Exceptions;
-using SigdnRhStaggingApi.Graphql.Inputs;
+using SigdnRhStaggingApi.Graphql.Employees;
 using SigdnRhStaggingApi.Models;
 
 namespace SigdnRhStaggingApi.Services;
@@ -45,16 +44,16 @@ public sealed class EmployeeService(
         return employeeAdded;
     }
 
-    public ValueTask DisposeAsync()
-    {
-        return dbContext.DisposeAsync();
-    }
-
     public async Task<bool> DeleteEmployee(int id)
     {
-        var employee = await dbContext.Employees.FindAsync(id) ?? throw new EmployeeNotFoundException(id);
+        var employee = await dbContext.Employees.FindAsync(id) ?? throw new EmployeeByIdNotFoundException(id);
         dbContext.Employees.Remove(employee);
         await dbContext.SaveChangesAsync();
         return true;
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return dbContext.DisposeAsync();
     }
 }

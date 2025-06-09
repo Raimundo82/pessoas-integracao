@@ -1,12 +1,17 @@
 ﻿{
-  "data": {
-    "removeEmployee": {
-      "boolean": null,
-      "errors": [
+  "errors": [
+    {
+      "message": "Employee with ID 1 not found.",
+      "locations": [
         {
-          "message": "The employee with Id 1 was not found."
+          "line": 3,
+          "column": 13
         }
+      ],
+      "path": [
+        "removeEmployee"
       ]
     }
-  }
+  ],
+  "data": null
 }

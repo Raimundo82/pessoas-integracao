@@ -1,8 +1,7 @@
 ﻿{
   "data": {
     "removeEmployee": {
-      "boolean": true,
-      "errors": null
+      "boolean": true
     }
   }
 }

@@ -1,12 +1,17 @@
 ﻿{
-  "data": {
-    "addEmployee": {
-      "employee": null,
-      "errors": [
+  "errors": [
+    {
+      "message": "Employee with NI 11111 already exists.",
+      "locations": [
         {
-          "message": "Employee with NI 11111 already exists."
+          "line": 3,
+          "column": 17
         }
+      ],
+      "path": [
+        "addEmployee"
       ]
     }
-  }
+  ],
+  "data": null
 }

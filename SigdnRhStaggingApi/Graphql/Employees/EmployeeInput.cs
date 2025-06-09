@@ -1,4 +1,4 @@
-namespace SigdnRhStaggingApi.Graphql.Inputs;
+namespace SigdnRhStaggingApi.Graphql.Employees;
 
 public record class EmployeeInput(
     int? Id,
