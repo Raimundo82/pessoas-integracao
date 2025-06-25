@@ -84,6 +84,148 @@ public class EmployeeQueriesTests(EmployeesFixture fixture)
     }
 }
 
+[Collection("Employees Collection")]
+public class EmployeeByNiQueriesTests(EmployeesFixture fixture)
+{
+    private readonly EmployeesFixture _fixture = fixture;
+
+    [Fact]
+    public async Task GetEmployeeByNi_ReturnsQueriedEmployee()
+    {
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(
+            @"
+                {
+                    employeeByNi(ni: ""11111"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                }
+            ")
+        );
+
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task GetEmployeeByNi__NonExisting__ReturnsNullAndNotFounDByNiException()
+    {
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(
+            @"
+                {
+                    employeeByNi(ni: ""22600"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                }
+            ")
+        );
+
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task GetEmployeeByNiWithMultipleFields__ReturnsQueriedEmployees()
+    {
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(
+            @"
+                {
+                    a: employeeByNi(ni: ""11111"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                    b: employeeByNi(ni: ""11112"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                    c: employeeByNi(ni: ""11110"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                }
+            ")
+        );
+
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task GetEmployeeByNiWithMultipleFields__NonExistingAndExisting_ReturnsNullAndNotFoundByNiExceptionAndExistingQueriedEmployees()
+    {
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(
+            @"
+                {
+                    a: employeeByNi(ni: ""22600"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                    b: employeeByNi(ni: ""11112"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                    c: employeeByNi(ni: ""11110"") {
+                        numsap
+                        ni
+                        id
+                        biometricDetails {
+                          bloodType
+                          eyesColor
+                          heightCm
+                        }
+                    }
+                }
+            ")
+        );
+
+        result.MatchSnapshot();
+    }
+}
+
 public class EmployeeMutationsTests
 {
     [Fact]

@@ -1,0 +1,39 @@
+﻿{
+  "errors": [
+    {
+      "message": "Employee with NI 22600 not found.",
+      "locations": [
+        {
+          "line": 3,
+          "column": 21
+        }
+      ],
+      "path": [
+        "a"
+      ]
+    }
+  ],
+  "data": {
+    "a": null,
+    "b": {
+      "numsap": "30001112",
+      "ni": "11112",
+      "id": 2,
+      "biometricDetails": {
+        "bloodType": null,
+        "eyesColor": null,
+        "heightCm": null
+      }
+    },
+    "c": {
+      "numsap": "30001110",
+      "ni": "11110",
+      "id": 3,
+      "biometricDetails": {
+        "bloodType": "A+",
+        "eyesColor": "brown",
+        "heightCm": "180"
+      }
+    }
+  }
+}

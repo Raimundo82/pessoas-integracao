@@ -1,0 +1,14 @@
+﻿{
+  "data": {
+    "employeeByNi": {
+      "numsap": "30001111",
+      "ni": "11111",
+      "id": 1,
+      "biometricDetails": {
+        "bloodType": null,
+        "eyesColor": null,
+        "heightCm": null
+      }
+    }
+  }
+}

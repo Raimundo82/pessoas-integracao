@@ -52,6 +52,16 @@ public sealed class EmployeeService(
         return true;
     }
 
+    public async Task<Employee?> GetEmployeeByNi(string ni, CancellationToken cancellationToken)
+    {
+        var employees = await dbContext
+                .Employees
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+        return employees.FirstOrDefault(e => e.Ni == ni) ?? throw new EmployeeByNiNotFoundException(ni);
+    }
+
     public ValueTask DisposeAsync()
     {
         return dbContext.DisposeAsync();

@@ -12,6 +12,9 @@ public static class EmployeesQueries
     [UseFiltering]
     [UseSorting]
     [UseReadApiKeyMiddleware]
-    public static IQueryable<Employee> GetEmployees(IEmployeeService employeeService) =>
-                employeeService.GetEmployees();
+    public static IQueryable<Employee> GetEmployees(IEmployeeService employeeService) => employeeService.GetEmployees();
+
+    public static Task<Employee?> GetEmployeeByNi(string ni, IEmployeeService employeeService, CancellationToken cancellationToken) =>
+        employeeService.GetEmployeeByNi(ni, cancellationToken);
+
 }

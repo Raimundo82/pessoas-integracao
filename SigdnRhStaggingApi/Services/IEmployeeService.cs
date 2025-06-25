@@ -8,4 +8,5 @@ public interface IEmployeeService
     IQueryable<Employee> GetEmployees();
     Task<Employee> AddEmployee(EmployeeInput employee);
     Task<bool> DeleteEmployee(int id);
+    Task<Employee?> GetEmployeeByNi(string ni, CancellationToken cancellationToken);
 }

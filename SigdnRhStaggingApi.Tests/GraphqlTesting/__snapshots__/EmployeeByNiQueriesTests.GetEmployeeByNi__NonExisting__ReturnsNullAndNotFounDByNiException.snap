@@ -1,0 +1,19 @@
+﻿{
+  "errors": [
+    {
+      "message": "Employee with NI 22600 not found.",
+      "locations": [
+        {
+          "line": 3,
+          "column": 21
+        }
+      ],
+      "path": [
+        "employeeByNi"
+      ]
+    }
+  ],
+  "data": {
+    "employeeByNi": null
+  }
+}

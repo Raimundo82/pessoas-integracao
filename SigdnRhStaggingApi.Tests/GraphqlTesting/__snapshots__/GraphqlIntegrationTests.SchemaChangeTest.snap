@@ -27,6 +27,7 @@ type Mutation {
 
 type Query {
   employees(where: EmployeeFilterInput @cost(weight: "10") order: [EmployeeSortInput!] @cost(weight: "10")): [Employee!]! @allowAnonymous @cost(weight: "10")
+  employeeByNi(ni: String!): Employee @cost(weight: "10")
 }
 
 type RemoveEmployeePayload {
