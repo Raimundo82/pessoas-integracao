@@ -1,5 +1,6 @@
 using System.Reflection;
 using HotChocolate.Types.Descriptors;
+using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Graphql;
 
@@ -12,9 +13,9 @@ public class OwnershipAuthorizationAttribute(string argumentName) : ObjectFieldD
     {
         descriptor.Use(next => async ctx =>
         {
-            var httpContextAcessor = ctx.Services.GetRequiredService<IHttpContextAccessor>();
+            var currentUserService = ctx.Services.GetRequiredService<ICurrentUserService>();
 
-            await new OwnershipAuthorizationMiddleware(next, httpContextAcessor, _argumentName).InvokeAsync(ctx);
+            await new OwnershipAuthorizationMiddleware(next, currentUserService, _argumentName).InvokeAsync(ctx);
         });
     }
 

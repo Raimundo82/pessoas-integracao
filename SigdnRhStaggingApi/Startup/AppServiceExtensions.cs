@@ -13,7 +13,9 @@ public static class AppServiceExtensions
 
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
-        return services.AddScoped<IEmployeeService, EmployeeService>();
+        return services
+            .AddScoped<ICurrentUserService, CurrentUserService>()
+            .AddScoped<IEmployeeService, EmployeeService>();
     }
 
 }

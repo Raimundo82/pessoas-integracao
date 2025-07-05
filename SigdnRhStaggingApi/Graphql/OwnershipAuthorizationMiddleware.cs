@@ -1,34 +1,30 @@
 using HotChocolate.Resolvers;
+using SigdnRhStaggingApi.Services;
 
 namespace SigdnRhStaggingApi.Graphql;
 
-public class OwnershipAuthorizationMiddleware(FieldDelegate next, IHttpContextAccessor httpContextAccessor, string argumentName)
+public class OwnershipAuthorizationMiddleware(FieldDelegate next, ICurrentUserService currentUserService, string argumentName)
 {
     private readonly FieldDelegate _next = next;
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly ICurrentUserService _currentUserService = currentUserService;
     private readonly string _argumentName = argumentName;
 
 
     public async Task InvokeAsync(IMiddlewareContext context)
     {
-        var httpContext = _httpContextAccessor.HttpContext;
+        var user = _currentUserService.User;
         var argValue = context.ArgumentValue<string>(_argumentName);
 
-        if (httpContext == null)
+        if (user == null)
         {
             context.ReportError(new UnauthorizedException($"User {argValue} is not authenticated."));
             return;
         }
-
-        var user = httpContext.User;
-        if (user.Identity != null)
+        var employeeId = _currentUserService.EmployeeId;
+        if (employeeId != null && !employeeId.Equals(argValue, StringComparison.OrdinalIgnoreCase))
         {
-            var employeeId = user.Claims.First(claim => claim.Type == "employeeId").Value;
-            if (employeeId != null && !employeeId.Equals(argValue, StringComparison.OrdinalIgnoreCase))
-            {
-                context.ReportError(new ForbiddenException($"User does not have permission to access {argValue} resouce."));
-                return;
-            }
+            context.ReportError(new ForbiddenException($"User does not have permission to access {argValue} resouce."));
+            return;
         }
 
         await _next(context);
