@@ -1,0 +1,48 @@
+﻿{
+  "errors": [
+    {
+      "message": "User does not have permission to access 11112 resouce.",
+      "locations": [
+        {
+          "line": 13,
+          "column": 21
+        }
+      ],
+      "path": [
+        "b"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN"
+      }
+    },
+    {
+      "message": "User does not have permission to access 11110 resouce.",
+      "locations": [
+        {
+          "line": 23,
+          "column": 21
+        }
+      ],
+      "path": [
+        "c"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN"
+      }
+    }
+  ],
+  "data": {
+    "a": {
+      "numsap": "30001111",
+      "ni": "11111",
+      "id": 1,
+      "biometricDetails": {
+        "bloodType": null,
+        "eyesColor": null,
+        "heightCm": null
+      }
+    },
+    "b": null,
+    "c": null
+  }
+}

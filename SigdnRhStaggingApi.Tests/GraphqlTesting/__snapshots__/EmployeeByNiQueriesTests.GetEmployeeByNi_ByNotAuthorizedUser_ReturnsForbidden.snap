@@ -1,0 +1,22 @@
+﻿{
+  "errors": [
+    {
+      "message": "User does not have permission to access 11112 resouce.",
+      "locations": [
+        {
+          "line": 3,
+          "column": 21
+        }
+      ],
+      "path": [
+        "employeeByNi"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN"
+      }
+    }
+  ],
+  "data": {
+    "employeeByNi": null
+  }
+}

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SigdnRhStaggingApi.Models;
 using Snapshooter.Xunit;
@@ -89,137 +90,196 @@ public class EmployeeByNiQueriesTests(EmployeesFixture fixture)
 {
     private readonly EmployeesFixture _fixture = fixture;
 
-    [Fact]
-    public async Task GetEmployeeByNi_ReturnsQueriedEmployee()
+    private static ClaimsPrincipal GetPrincipal(string principalUsername)
     {
-        var result = await _fixture.TestServices.ExecuteRequestAsync(
-            b => b.SetDocument(
-            @"
-                {
-                    employeeByNi(ni: ""11111"") {
+        return new(
+           new ClaimsIdentity(
+               [
+                   new Claim(ClaimTypes.Name, principalUsername),
+                   new Claim("employeeId", principalUsername[1..])
+               ],
+               authenticationType: "TestAuth"
+               )
+           );
+    }
+
+    private static string GetEmployeeByNiQuery(string ni)
+    {
+        return $@"
+                {{
+                    employeeByNi(ni: ""{ni}"") {{
                         numsap
                         ni
                         id
-                        biometricDetails {
+                        biometricDetails {{
                           bloodType
                           eyesColor
                           heightCm
-                        }
-                    }
-                }
-            ")
+                        }}
+                    }}
+                }}
+            ";
+    }
+
+
+    [Fact]
+    public async Task GetEmployeeByNi_ByAuthorizedUser_ReturnsEmployee()
+    {
+        var ni = "11111";
+        var principalUsername = "m11111";
+
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(GetEmployeeByNiQuery(ni)).AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)),
+           principalUsername
         );
 
         result.MatchSnapshot();
     }
 
     [Fact]
-    public async Task GetEmployeeByNi__NonExisting__ReturnsNullAndNotFounDByNiException()
+    public async Task GetEmployeeByNi_ByNotAuthorizedUser_ReturnsForbidden()
     {
+        var ni = "11112";
+        var principalUsername = "m11111";
+
         var result = await _fixture.TestServices.ExecuteRequestAsync(
-            b => b.SetDocument(
-            @"
-                {
-                    employeeByNi(ni: ""22600"") {
-                        numsap
-                        ni
-                        id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                }
-            ")
+            b => b.SetDocument(GetEmployeeByNiQuery(ni)).AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)),
+            principalUsername
         );
 
         result.MatchSnapshot();
     }
 
     [Fact]
-    public async Task GetEmployeeByNiWithMultipleFields__ReturnsQueriedEmployees()
+    public async Task GetEmployeeByNi_WithNoHttpContext_ReturnsNotAuthenticated()
     {
+        var ni = "11111";
+        var principalUsername = "m11111";
         var result = await _fixture.TestServices.ExecuteRequestAsync(
-            b => b.SetDocument(
-            @"
-                {
-                    a: employeeByNi(ni: ""11111"") {
-                        numsap
-                        ni
-                        id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                    b: employeeByNi(ni: ""11112"") {
-                        numsap
-                        ni
-                        id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                    c: employeeByNi(ni: ""11110"") {
-                        numsap
-                        ni
-                        id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                }
-            ")
+            b => b.SetDocument(GetEmployeeByNiQuery(ni)).AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)));
+
+        result.MatchSnapshot();
+    }
+
+
+    [Fact]
+    public async Task GetEmployeeByNi_ByNotAuthenticatedUser_ReturnsNotAuthenticated()
+    {
+        var ni = "11111";
+        ClaimsPrincipal principal = new();
+
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(GetEmployeeByNiQuery(ni)).AddGlobalState(nameof(ClaimsPrincipal), principal));
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task GetEmployeeByNi__NonExistingEmployee__ReturnsNotFoundEmployee()
+    {
+        var ni = "22600";
+        var principalUsername = "m22600";
+
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(GetEmployeeByNiQuery(ni)).AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)),
+            principalUsername
         );
 
         result.MatchSnapshot();
     }
 
     [Fact]
-    public async Task GetEmployeeByNiWithMultipleFields__NonExistingAndExisting_ReturnsNullAndNotFoundByNiExceptionAndExistingQueriedEmployees()
+    public async Task GetEmployeeByNiWithMultipleFields__OnlyOneAuthorized_ReturnsAuthorizedEmployeeOnlyAndForbiddenForNonAuthorizedEmployees()
     {
+        var ni = "11111";
+        var principalUsername = "m11111";
+
         var result = await _fixture.TestServices.ExecuteRequestAsync(
             b => b.SetDocument(
-            @"
-                {
-                    a: employeeByNi(ni: ""22600"") {
+            $@"
+                {{
+                    a: employeeByNi(ni: ""{ni}"") {{
                         numsap
                         ni
                         id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                    b: employeeByNi(ni: ""11112"") {
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                    b: employeeByNi(ni: ""11112"") {{
                         numsap
                         ni
                         id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                    c: employeeByNi(ni: ""11110"") {
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                    c: employeeByNi(ni: ""11110"")    {{
                         numsap
                         ni
                         id
-                        biometricDetails {
-                          bloodType
-                          eyesColor
-                          heightCm
-                        }
-                    }
-                }
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                }}
             ")
+            .AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)),
+            principalUsername
+        );
+
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task GetEmployeeByNiWithMultipleFields__OnlyOneAuthorizedButNotFound_ReturnsNotFoundEmployeeAndForbiddenForNonAuthorized()
+    {
+        var ni = "22600";
+        var principalUsername = "m22600";
+
+        var result = await _fixture.TestServices.ExecuteRequestAsync(
+            b => b.SetDocument(
+            $@"
+                {{
+                    a: employeeByNi(ni: ""{ni}"") {{
+                        numsap
+                        ni
+                        id
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                    b: employeeByNi(ni: ""11112"") {{
+                        numsap
+                        ni
+                        id
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                    c: employeeByNi(ni: ""11110"")    {{
+                        numsap
+                        ni
+                        id
+                        biometricDetails {{
+                            bloodType
+                            eyesColor
+                            heightCm
+                        }}
+                    }}
+                }}
+            ")
+            .AddGlobalState(nameof(ClaimsPrincipal), GetPrincipal(principalUsername)),
+            principalUsername
         );
 
         result.MatchSnapshot();

@@ -1,5 +1,6 @@
 using HotChocolate;
 using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SigdnRhStaggingApi.Data;
@@ -49,8 +50,20 @@ public class GraphqlTestServices
 
     public async Task<string> ExecuteRequestAsync(
         Action<OperationRequestBuilder> configureRequest,
+        string? userName = null,
         CancellationToken cancellationToken = default)
     {
+
+        var scope = Services.CreateAsyncScope();
+        var scopedServices = scope.ServiceProvider;
+
+        if (userName != null)
+        {
+            var httpContext = TestHttpContextFactory.CreateAuthenticatedContext(userName);
+            var httpContextAcessor = scopedServices.GetRequiredService<IHttpContextAccessor>();
+            httpContextAcessor.HttpContext = httpContext;
+        }
+
         var requestBuilder = new OperationRequestBuilder();
         requestBuilder.SetServices(Services.CreateAsyncScope().ServiceProvider);
         configureRequest(requestBuilder);

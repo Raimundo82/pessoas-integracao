@@ -14,6 +14,8 @@ public static class EmployeesQueries
     [UseReadApiKeyMiddleware]
     public static IQueryable<Employee> GetEmployees(IEmployeeService employeeService) => employeeService.GetEmployees();
 
+    [Authorize]
+    [OwnershipAuthorization("ni")]
     public static Task<Employee?> GetEmployeeByNi(string ni, IEmployeeService employeeService, CancellationToken cancellationToken) =>
         employeeService.GetEmployeeByNi(ni, cancellationToken);
 
