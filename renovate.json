@@ -22,8 +22,8 @@
       "semanticCommitType": "chore"
     },
     {
-      "extends": ["monorepo:hotchocolate"],
       "groupName": "hotchocolate monorepo",
+      "matchPackageNames": ["HotChocolate", "/^HotChocolate\\./"],
       "matchUpdateTypes": ["digest", "patch", "minor", "major"]
     },
     {
