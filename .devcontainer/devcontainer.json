@@ -12,7 +12,12 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v20.8.1/bin/node"
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v20.8.1/bin/node",
+        "sonarlint.connectedMode.project": {
+          "serverUrl": "http://devops-01.marinha.pt:9000/sonarqube",
+          "connectionId": "http-devops-01-marinha-pt-9000-sonarqube",
+          "projectKey": "sigdn-rh-stagging-api"
+        }
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
@@ -24,7 +29,8 @@
         "SonarSource.sonarlint-vscode",
         "fernandoescolar.vscode-solution-explorer",
         "me-dutour-mathieu.vscode-github-actions",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "hbenl.vscode-test-explorer"
       ]
     }
   },
