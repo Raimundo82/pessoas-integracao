@@ -6,11 +6,11 @@
     <UserSecretsId>6819e713-612e-4101-8150-729c03df8472</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HotChocolate" Version="15.1.10" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.10" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.10" />
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.10" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.1.10" />
+    <PackageReference Include="HotChocolate" Version="15.1.11" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.11" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.11" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.11" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.1.11" />
     <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.7.0" />
     <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.7.0" />
     <PackageReference Include="Keycloak.AuthServices.Common" Version="2.7.0" />
