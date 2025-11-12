@@ -35,6 +35,6 @@ jobs:
 
       - name: Release
         env:
-          DOCKER_REGISTRY_USER: m22600
+          DOCKER_REGISTRY_USER: ${{ vars.USERNAME }}
           DOCKER_REGISTRY_PASSWORD: ${{ secrets.PACKAGE_UPLOAD_TOKEN }}
         run: npx semantic-release
