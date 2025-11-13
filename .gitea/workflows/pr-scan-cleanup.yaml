@@ -1,0 +1,28 @@
+name: Clean up SonarQube PR analysis
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  test-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout cleanup action
+        uses: actions/checkout@v5
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
+          repository: marinha-si/sonarqube-pr-cleanup-action
+          github-server-url: https://devops-01.marinha.pt
+          ref: v1.0.0
+          path: 'cleanup-action'
+
+      - name: Run SonarQube cleanup action
+        uses: ./cleanup-action
+        with:
+          sonar-host-url: ${{ vars.SONAR_HOST_URL }}
+          sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          pr-number: ${{ gitea.event.number }}
