@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ssh-key: ${{ secrets.SSH_KEY }}
           ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
       - name: Executing remote SSH commands
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.3
         env:
           GITEA_REF: ${{ gitea.ref }}
         with:

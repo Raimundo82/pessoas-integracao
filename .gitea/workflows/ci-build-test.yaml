@@ -15,22 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.SSH_KEY }}
           ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
 
       - name: Install dependencies
-        run: npm clean-install
+        run: npm ci
 
       - name: Setup .NET 9.0.x
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '9.0.x'
 
