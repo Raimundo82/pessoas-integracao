@@ -8,7 +8,7 @@ GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
 2. [🛠️ Development Environment](#️-development-environment)
    - [Dev Container Specs](#-dev-container-specs)
    - [Getting Started](#-getting-started)
-3. [📐 Domain Model UML](#-domain-model-uml)
+3. [📐 Domain Model](#-domain-model)
 4. [📦 Tech Stack](#-tech-stack)
 5. [📜 License](#-license)
 
@@ -64,7 +64,7 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
   - Mount the project
   - Install tools and extensions
 
-## Domain Model UML
+## 📐 Domain Model
 
 The full domain diagram is available here:  
 ➡️ [Domain model link](docs/diagrams/domain_model.md)
