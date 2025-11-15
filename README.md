@@ -1,5 +1,17 @@
 # SIGDN RH Stagging API
 
+GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
+
+## Index
+
+1. [🌐 Production](#-production)
+2. [🛠️ Development Environment](#️-development-environment)
+   - [Dev Container Specs](#-dev-container-specs)
+   - [Getting Started](#-getting-started)
+3. [📐 Domain Model UML](#-domain-model-uml)
+4. [📦 Tech Stack](#-tech-stack)
+5. [📜 License](#-license)
+
 ## 🌐 Production
 
 The application is deployed and running in production at:
@@ -12,22 +24,9 @@ You can test GraphQL API with SSO
 
 For now, it doesn't deliver yet any relevant functionality.
 
-## 🛠️ Development Environment with Dev Containers
+## 🛠️ Development Environment
 
 This project is configured to run in a [Dev Container](https://containers.dev/) environment using Visual Studio Code and the Dev Containers extension. This setup ensures a consistent and reproducible development experience across different machines.
-
-### 📦 What's Included
-
-The development environment includes:
-
-- **.NET SDK** (latest version)
-- **PostgreSQL** database
-- **Node.js 18** with Yarn, PNPM, and node-gyp dependencies
-- Pre-installed **VS Code extensions**:
-  - C# development kit (`ms-dotnettools.csdevkit`)
-  - C# extension (`ms-dotnettools.csharp`)
-  - Prettier (`esbenp.prettier-vscode`)
-  - SQLTools and PostgreSQL driver (`mtxr.sqltools`, `mtxr.sqltools-driver-pg`)
 
 ### 📁 Dev Container Specs
 
@@ -40,16 +39,18 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 
 ### 🚀 Getting Started
 
-> **Pre-requisites**:
->
-> - [Docker](https://docs.docker.com/get-docker/)
-> - [Visual Studio Code](https://code.visualstudio.com/)
-> - [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+#### Requirements:
 
-1. **Clone the repository** (if you haven't already):
+- [Docker](https://docs.docker.com/get-docker/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+#### Steps
+
+1. **Clone the repository**
 
    ```bash
-   git clone http://devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api.git
+   git clone https://devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api.git
    cd sigdn-rh-stagging-api
    ```
 
@@ -58,7 +59,12 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 - Press F1 (or Ctrl+Shift+P) and run:
   Dev Containers: Open Folder in Container...Then choose the project folder.
 
-- VS Code will automatically:
-  - Build the dev container using docker-compose.yml
-  - Mount the project into /workspaces/sigdn-rh-stagging-api
-  - Install required dependencies and extensions
+- VS Code will automaically:
+  - Build the dev container
+  - Mount the project
+  - Install tools and extensions
+
+## Domain Model UML
+
+The full domain diagram is available here:  
+➡️ [Domain model link](docs/diagrams/domain_model.md)

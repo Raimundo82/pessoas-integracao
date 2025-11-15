@@ -30,7 +30,8 @@
         "fernandoescolar.vscode-solution-explorer",
         "me-dutour-mathieu.vscode-github-actions",
         "EditorConfig.EditorConfig",
-        "hbenl.vscode-test-explorer"
+        "hbenl.vscode-test-explorer",
+        "MermaidChart.vscode-mermaid-chart"
       ]
     }
   },
