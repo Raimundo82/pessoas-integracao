@@ -12,9 +12,5 @@
       "database": "postgres",
       "username": "postgres"
     }
-  ],
-  "sonarlint.connectedMode.project": {
-    "connectionId": "http-devops-01-marinha-pt-9000-sonarqube",
-    "projectKey": "sigdn-rh-stagging-api"
-  }
+  ]
 }

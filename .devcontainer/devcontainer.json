@@ -12,26 +12,28 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v20.8.1/bin/node",
-        "sonarlint.connectedMode.project": {
-          "serverUrl": "http://devops-01.marinha.pt:9000/sonarqube",
-          "connectionId": "http-devops-01-marinha-pt-9000-sonarqube",
-          "projectKey": "sigdn-rh-stagging-api"
-        }
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.1.0/bin/node"
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
+        // .NET Development
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.csharp",
-        "esbenp.prettier-vscode",
+        // Database
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
+        // Code Quality & Analysis
         "SonarSource.sonarlint-vscode",
-        "fernandoescolar.vscode-solution-explorer",
-        "me-dutour-mathieu.vscode-github-actions",
-        "EditorConfig.EditorConfig",
         "hbenl.vscode-test-explorer",
-        "MermaidChart.vscode-mermaid-chart"
+        // Formatting & Linting
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        // Documentation & Diagrams
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "jebbs.plantuml",
+        // Other Tools
+        "me-dutour-mathieu.vscode-github-actions"
       ]
     }
   },
@@ -51,11 +53,7 @@
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/node:1": {
-      "nodeGypDependencies": true,
-      "installYarnUsingApt": true,
-      "version": "20.8.1",
-      "pnpmVersion": "8.8.0",
-      "nvmVersion": "0.39"
+      "version": "24.1.0"
     }
   },
   "postCreateCommand": "bash .devcontainer/post-script.sh"

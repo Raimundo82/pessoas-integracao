@@ -4,13 +4,15 @@ GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
 
 ## Index
 
-1. [🌐 Production](#-production)
-2. [🛠️ Development Environment](#️-development-environment)
-   - [Dev Container Specs](#-dev-container-specs)
-   - [Getting Started](#-getting-started)
-3. [📐 Domain Model](#-domain-model)
-4. [📦 Tech Stack](#-tech-stack)
-5. [📜 License](#-license)
+- [SIGDN RH Stagging API](#sigdn-rh-stagging-api)
+  - [Index](#index)
+  - [🌐 Production](#-production)
+  - [🛠️ Development Environment](#️-development-environment)
+    - [📁 Dev Container Specs](#-dev-container-specs)
+    - [🚀 Getting Started](#-getting-started)
+      - [Requirements:](#requirements)
+      - [Steps](#steps)
+  - [📐 Domain Model](#-domain-model)
 
 ## 🌐 Production
 
@@ -55,7 +57,6 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    ```
 
 2. **Open in VS Code**:
-
    - Press F1 (or Ctrl+Shift+P) and run:
      `Dev Containers: Open Folder in Container...` Then choose the project folder.
 
@@ -77,6 +78,9 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    - `READ_API_KEY`: API key for read operations
    - `WRITE_API_KEY`: API key for write operations
    - `APP_SUB_PATH`: Application sub-path (if applicable)
+   - `SONARQUBE_CI_TOKEN`: SonarQube CI token for full scan via development environment
+   - `SONARQUBE_USER_TOKEN`: SonarQube user token for connected mode in development environment
+   - `SONAR_HOST_URL`: SonarQube server URL
 
 ## 📐 Domain Model
 
