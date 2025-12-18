@@ -56,13 +56,27 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 
 2. **Open in VS Code**:
 
-- Press F1 (or Ctrl+Shift+P) and run:
-  Dev Containers: Open Folder in Container...Then choose the project folder.
+   - Press F1 (or Ctrl+Shift+P) and run:
+     `Dev Containers: Open Folder in Container...` Then choose the project folder.
 
-- VS Code will automaically:
-  - Build the dev container
-  - Mount the project
-  - Install tools and extensions
+   - VS Code will automatically:
+     - Build the dev container
+     - Mount the project
+     - Install tools and extensions
+
+3. **Configure environment variables**:
+
+   Create a `.env` file in the `.devcontainer` folder based on `.env.example`:
+
+   ```bash
+   cp .devcontainer/.env.example .devcontainer/.env
+   ```
+
+   Fill in the required values:
+   - `DB_PASSWORD`: Database password
+   - `READ_API_KEY`: API key for read operations
+   - `WRITE_API_KEY`: API key for write operations
+   - `APP_SUB_PATH`: Application sub-path (if applicable)
 
 ## 📐 Domain Model
 
