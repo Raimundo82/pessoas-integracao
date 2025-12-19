@@ -21,6 +21,7 @@ jobs:
             echo "Branch name '$BRANCH_NAME' is valid."
           else
             echo "Branch name '$BRANCH_NAME' is invalid."
+            echo "Branch names must follow the pattern: <type>/<description-kebab-case>"
             exit 1
           fi
 
