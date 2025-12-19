@@ -1,0 +1,25 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      stage_fixed: true
+      glob: '**/*.{md,mdx,yml,yaml,json,jsonc}'
+      run: npx prettier --write --no-error-on-unmatched-pattern {staged_files}
+    dotnet-format:
+      stage_fixed: true
+      glob: '**/*.cs'
+      run: dotnet format --include {staged_files}
+format-all:
+  commands:
+    prettier:
+      glob: '**/*.{md,mdx,yml,yaml,json,jsonc}'
+      run: npx prettier --write {all_files}
+    dotnet:
+      run: dotnet format
+format-ci:
+  commands:
+    prettier:
+      glob: '**/*.{md,mdx,yml,yaml,json,jsonc}'
+      run: npx prettier --check {all_files}
+    dotnet:
+      run: dotnet format --verify-no-changes
