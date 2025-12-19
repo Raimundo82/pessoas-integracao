@@ -1,0 +1,26 @@
+name: Branch name lint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  branch-name-validation:
+    name: Validate branch name according to conventional branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: branch name lint
+        run: |
+          BRANCH_NAME="${{ gitea.head_ref }}"
+          PATTERN='^(fix|bugfix|hotfix|release|feat|feature|docs|style|refactor|perf|test|ci|chore)\/[a-z0-9]+(-[a-z0-9]+)*$'
+          if [[ "$BRANCH_NAME" =~ $PATTERN ]]; then
+            echo "Branch name '$BRANCH_NAME' is valid."
+          else
+            echo "Branch name '$BRANCH_NAME' is invalid."
+            exit 1
+          fi
+
