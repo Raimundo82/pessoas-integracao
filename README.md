@@ -13,6 +13,7 @@ GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
       - [Requirements:](#requirements)
       - [Steps](#steps)
   - [📐 Domain Model](#-domain-model)
+  - [🤝 Contributing](#-contributing)
 
 ## 🌐 Production
 
@@ -86,3 +87,7 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 
 The full domain diagram is available here:  
 ➡️ [Domain model link](docs/diagrams/domain_model.md)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines and best practices.
