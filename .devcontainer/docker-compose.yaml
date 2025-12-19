@@ -16,6 +16,8 @@ services:
       AppSettings__WriteApiKey: ${WRITE_API_KEY}
       SONARQUBE_CI_TOKEN: ${SONARQUBE_CI_TOKEN}
       SONAR_HOST_URL: ${SONAR_HOST_URL}
+      no_proxy: '.marinha.pt,localhost'
+      NO_PROXY: '.marinha.pt,localhost'
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

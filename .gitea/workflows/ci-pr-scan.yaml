@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.SSH_KEY }}
@@ -26,39 +26,41 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Install SonarQube scanner and Coverlet
+      - name: Install SonarQube scanner and dotnet-coverage
         shell: bash
         run: |
           mkdir -p .sonar/scanner
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-          dotnet tool update coverlet.console --tool-path ./.sonar/coverage
+          dotnet tool update dotnet-coverage --tool-path ./.sonar/coverage
+
+      - name: Restore tools
+        run: dotnet tool restore
 
       - name: Begin SonarQube Analysis
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin \
           /key:sigdn-rh-stagging-api \
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /n:"RH Staging" \
+          /d:sonar.token="${{ secrets.SONARQUBE_CI_TOKEN }}" \
           /d:sonar.host.url="${{ vars.SONAR_HOST_URL }}" \
-          /d:sonar.cs.opencover.reportsPaths=coverage.xml \
+          /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml \
           /d:sonar.pullrequest.key=${{ gitea.event.number }} \
           /d:sonar.pullrequest.branch=${{ gitea.head_ref }} \
           /d:sonar.pullrequest.base=${{ gitea.base_ref }} \
           /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**" \
           /d:sonar.scanner.scanAll=false
 
-      - name: Build for SonarQube (no incremental)
+      - name: Build
         run: dotnet build --no-incremental
 
       - name: Run tests with coverage for SonarQube
         run: |
-          dotnet coverlet ./SigdnRhStaggingApi.Tests/bin/Debug/net9.0/SigdnRhStaggingApi.Tests.dll \
-          --target dotnet \
-          --targetargs "test --no-build" \
-          -f=opencover \
-          -o="coverage.xml"
+          dotnet dotnet-coverage collect "dotnet test" \
+              -f xml \
+              -o coverage.xml
 
       - name: End SonarQube Analysis
-        run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{  secrets.SONAR_TOKEN }}"
+        run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{  secrets.SONARQUBE_CI_TOKEN }}"
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
@@ -67,5 +69,5 @@ jobs:
           scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
           pollingTimeoutSec: 600
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_CI_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
