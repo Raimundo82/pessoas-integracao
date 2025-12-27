@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm
+FROM mcr.microsoft.com/devcontainers/dotnet:dev-10.0-noble
+
 
 ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080
 ENV https_proxy=http://proxy-n-wcg.marinha.pt:8080
