@@ -24,4 +24,3 @@ jobs:
             echo "Branch names must follow the pattern: <type>/<description-kebab-case>"
             exit 1
           fi
-
