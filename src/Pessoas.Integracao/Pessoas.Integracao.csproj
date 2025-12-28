@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Pessoas.Integracao-63df7ea9-07b4-432f-95c0-7b0e4e843d61</UserSecretsId>
+    <UserSecretsId>dotnet-Pessoas.Integracao-0ecd968f-7109-4ac0-985f-016de73c582b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,7 +12,8 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.10.0/bin/node"
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.10.0/bin/node",
+        "dotnet.preferCSharpExtension ": false
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [

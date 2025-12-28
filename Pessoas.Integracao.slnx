@@ -4,6 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
-  <Project Path="Pessoas.Integracao/Pessoas.Integracao.csproj" />
+  <Project Path="tests/Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
+  <Project Path="src/Pessoas.Integracao/Pessoas.Integracao.csproj" />
 </Solution>
