@@ -12,6 +12,7 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
+        "plantuml.server": "https://www.plantuml.com/plantuml",
         "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.10.0/bin/node",
         "dotnet.preferCSharpExtension ": false
       },
