@@ -6,26 +6,12 @@ GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
 
 - [Plataforma de Integração de Pessoas](#plataforma-de-integração-de-pessoas)
   - [Index](#index)
-  - [🌐 Production](#-production)
   - [🛠️ Development Environment](#️-development-environment)
     - [📁 Dev Container Specs](#-dev-container-specs)
     - [🚀 Getting Started](#-getting-started)
-      - [Requirements:](#requirements)
+      - [Requirements](#requirements)
       - [Steps](#steps)
-  - [📐 Domain Model](#-domain-model)
   - [🤝 Contributing](#-contributing)
-
-## 🌐 Production
-
-The application is deployed and running in production at:
-
-**http://paas-01.marinha.pt/rh-stagging**
-
-You can test GraphQL API with SSO
-
-**http://paas-01.marinha.pt/rh-stagging/graphql**
-
-For now, it doesn't deliver yet any relevant functionality.
 
 ## 🛠️ Development Environment
 
@@ -42,7 +28,7 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 
 ### 🚀 Getting Started
 
-#### Requirements:
+#### Requirements
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Visual Studio Code](https://code.visualstudio.com/)
@@ -53,8 +39,8 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
 1. **Clone the repository**
 
    ```bash
-   git clone https://devops-01.marinha.pt/marinha-si/sigdn-rh-stagging-api.git
-   cd sigdn-rh-stagging-api
+   git clone https://devops-01.marinha.pt/marinha-si/pessoas-integracao.git
+   cd pessoas-integracao
    ```
 
 2. **Open in VS Code**:
@@ -82,11 +68,6 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    - `SONARQUBE_CI_TOKEN`: SonarQube CI token for full scan via development environment
    - `SONARQUBE_USER_TOKEN`: SonarQube user token for connected mode in development environment
    - `SONAR_HOST_URL`: SonarQube server URL
-
-## 📐 Domain Model
-
-The full domain diagram is available here:  
-➡️ [Domain model link](docs/diagrams/domain_model.md)
 
 ## 🤝 Contributing
 
