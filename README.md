@@ -1,10 +1,10 @@
-# SIGDN RH Stagging API
+# Plataforma de Integração de Pessoas
 
 GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
 
 ## Index
 
-- [SIGDN RH Stagging API](#sigdn-rh-stagging-api)
+- [Plataforma de Integração de Pessoas](#plataforma-de-integração-de-pessoas)
   - [Index](#index)
   - [🌐 Production](#-production)
   - [🛠️ Development Environment](#️-development-environment)

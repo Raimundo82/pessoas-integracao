@@ -1,12 +1,12 @@
 #!/bin/sh
 
 dotnet dotnet-sonarscanner begin \
-          /key:sigdn-rh-stagging-api \
-          /n:"RH Staging" \
+          /key:pessoas-integracao \
+          /n:"Plataforma de Integração de Pessoas" \
           /d:sonar.token=$SONARQUBE_CI_TOKEN \
           /d:sonar.host.url=$SONAR_HOST_URL \
           /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml \
-          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**" \
+          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**,**/SigdnRhStaggingApi/**" \
           /d:sonar.scanner.scanAll=false
 
 dotnet build --no-incremental
