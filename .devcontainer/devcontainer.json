@@ -20,7 +20,6 @@
       "extensions": [
         // .NET Development
         "ms-dotnettools.csdevkit",
-        "ms-dotnettools.csharp",
         // Database
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",

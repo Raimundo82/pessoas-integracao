@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application/" />
+    <Folder Include="Domain/Entities/" />
+    <Folder Include="Domain/Enums/" />
+    <Folder Include="Domain/ValueObjects/" />
+    <Folder Include="Infrastructure/" />
+    <Folder Include="Infrastructure/Data/" />
   </ItemGroup>
 </Project>

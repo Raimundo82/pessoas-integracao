@@ -3,13 +3,14 @@
   "omnisharp.enableEditorConfigSupport": true,
   "sqltools.connections": [
     {
+      "ssh": "Disabled",
       "previewLimit": 50,
       "server": "localhost",
       "port": 5432,
       "askForPassword": true,
       "driver": "PostgreSQL",
-      "name": "sigdn-rh-stagging-db",
-      "database": "postgres",
+      "name": "pessoas",
+      "database": "pessoasdb",
       "username": "postgres"
     }
   ]
