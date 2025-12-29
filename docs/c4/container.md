@@ -3,30 +3,32 @@
 ```plantuml
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-' uncomment the following line and comment the first to use locally
-' !include C4_Container.puml
 
-'LAYOUT_TOP_DOWN()
-'LAYOUT_AS_SKETCH()
 LAYOUT_WITH_LEGEND()
 
 title Container Diagram - Plataforma de Integração de Pessoas
-
 Enterprise_Boundary(marinha, "Marinha") {
+    Person(admin, "Administrador", "Operação e monitorização")
     System(consumidores, "Sistemas Consumidores", "Sistemas internos dependentes de dados de pessoas")
     System_Boundary(pessoas_integracao, "Plataforma de Integração de Pessoas") {
-        Container(core, "Core de Integração de Pessoas", ".NET", "Obtém dados externos, mapeia para o domínio e persiste")
-        Container(api, "API de Integração","GraphQL","Interface de acesso para sistemas consumidores")
+        Container(api_admin, "API de Administração", "REST", "Executa operações administrativas sobre a plataforma")
+        Container(api_consulta, "API de Consulta", "GraphQL", "Disponibiliza dados de pessoas a sistemas consumidores")
+        Container(core, "Core de Pessoas", ".NET", "Normaliza dados de pessoas e gere a persistência")
+        Container(worker, "Worker de Integração", ".NET", "Extrai e orquestra a integração de dados de pessoas")
         ContainerDb(db, "Base de Dados", "SQL", "Armazena dados de pessoas integrados")
     }
 }
+
 Enterprise_Boundary(sgmdn, "SGMDN") {
     System_Ext(sigdn_rh, "SIGDN-RH", "Sistema fonte de dados de pessoas")
 }
 
-Rel_R(consumidores, api, "Consulta dados de pessoas")
-Rel_D(api, core, "Solicita operações sobre dados de pessoas")
+Rel_D(consumidores, api_consulta, "Consulta dados de pessoas")
+Rel_R(admin, api_admin, "Executa operações administrativas")
+Rel_D(api_consulta, core, "Solicita operações sobre dados de pessoas")
+Rel_D(api_admin, core, "Solicita operações administrativas")
+Rel_R(worker, sigdn_rh, "Extrai dados de pessoas")
+Rel_L(worker, core, "Envia dados de pessoas")
 Rel_D(core, db, "Lê e escreve dados de pessoas")
-Rel_R(core, sigdn_rh, "Obtém dados de pessoas")
 @enduml
 ```
