@@ -1,6 +1,6 @@
-using Pessoas.Integracao.Domain.ValueObjects;
+using Pessoas.Integracao.Core.Domain.ValueObjects;
 
-namespace Pessoas.Integracao.Domain.Entities;
+namespace Pessoas.Integracao.Core.Domain.Entities;
 
 public class Pessoa
 {

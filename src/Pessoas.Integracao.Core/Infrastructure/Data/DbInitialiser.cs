@@ -1,4 +1,6 @@
-namespace Pessoas.Integracao.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
+
+namespace Pessoas.Integracao.Core.Infrastructure.Data;
 
 public class DbInitialiser(AppDbContext context, ILogger<DbInitialiser> logger)
 {

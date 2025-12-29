@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:dev-10.0-noble
+FROM mcr.microsoft.com/devcontainers/dotnet:10.0-noble
 
 
 ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080

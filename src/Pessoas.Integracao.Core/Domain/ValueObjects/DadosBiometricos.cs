@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Domain.ValueObjects;
+namespace Pessoas.Integracao.Core.Domain.ValueObjects;
 
 public class DadosBiometricos
 {

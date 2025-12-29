@@ -1,6 +1,6 @@
-using Pessoas.Integracao.Domain.Enums;
+using Pessoas.Integracao.Core.Domain.Enums;
 
-namespace Pessoas.Integracao.Domain.ValueObjects;
+namespace Pessoas.Integracao.Core.Domain.ValueObjects;
 
 public class TipoDeSangue
 {

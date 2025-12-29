@@ -1,6 +1,8 @@
-namespace Pessoas.Integracao.Infrastructure.Data;
+using Pessoas.Integracao.Core.Infrastructure.Data;
 
-public static class DbInitialiserExtensions
+namespace Pessoas.Integracao.Worker.Infrastructure;
+
+public static class DbInitializerExternsions
 {
     public static async Task InitialiseDatabaseAsync(this IHost host)
     {
@@ -10,5 +12,4 @@ public static class DbInitialiserExtensions
 
         await initialiser.InitialiseAsync();
     }
-
 }

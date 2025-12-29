@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Domain.Enums;
+namespace Pessoas.Integracao.Core.Domain.Enums;
 
 public enum GrupoSanguineo
 {

@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao;
+namespace Pessoas.Integracao.Worker;
 
 public class Worker(ILogger<Worker> logger) : BackgroundService
 {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using Pessoas.Integracao.Domain.Entities;
+using Pessoas.Integracao.Core.Domain.Entities;
 
-namespace Pessoas.Integracao.Infrastructure.Data;
+namespace Pessoas.Integracao.Core.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Domain.Entities;
+namespace Pessoas.Integracao.Core.Domain.Entities;
 
 public class DadosPessoais
 {
