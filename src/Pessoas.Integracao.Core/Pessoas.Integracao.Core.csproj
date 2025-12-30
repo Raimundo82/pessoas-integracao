@@ -13,11 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application/" />
+    <Folder Include="Application/Abstractions/" />
+    <Folder Include="Application/UseCases/" />
     <Folder Include="Domain/Entities/" />
     <Folder Include="Domain/Enums/" />
+    <Folder Include="Domain/Interfaces/" />
     <Folder Include="Domain/ValueObjects/" />
     <Folder Include="Infrastructure/" />
     <Folder Include="Infrastructure/Data/" />
+    <Folder Include="Infrastructure/Persistence/" />
+    <Folder Include="Infrastructure/Repositories/" />
   </ItemGroup>
 </Project>

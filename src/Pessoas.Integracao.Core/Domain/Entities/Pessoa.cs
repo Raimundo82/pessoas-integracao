@@ -6,6 +6,6 @@ public class Pessoa
 {
     public int Id { get; set; }
     public required string NII { get; init; }
-    public required DadosPessoais DadosPessoais { get; init; }
-    public required DadosBiometricos DadosBiometricos { get; init; }
+    public DadosPessoais DadosPessoais { get; init; } = new DadosPessoais();
+    public DadosBiometricos DadosBiometricos { get; init; } = new DadosBiometricos();
 }

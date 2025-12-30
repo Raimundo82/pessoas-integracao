@@ -4,5 +4,5 @@ public class DadosBiometricos
 {
     public string? CorDosOlhos { get; set; }
     public decimal? AlturaEmCm { get; set; }
-    public required TipoDeSangue TipoDeSangue { get; set; }
+    public TipoDeSangue TipoDeSangue { get; set; } = new TipoDeSangue();
 }
