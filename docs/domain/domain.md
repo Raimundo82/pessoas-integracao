@@ -41,6 +41,7 @@ enum Rhesus {
     NEGATIVO
 }
 
+Pessoa : {unique(NII)}
 Pessoa -- "1" DadosPessoais
 Pessoa -- "1" DadosBiometricos
 DadosBiometricos -- "1" TipoDeSangue
