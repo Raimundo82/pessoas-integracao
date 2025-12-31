@@ -55,6 +55,9 @@
     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "24.10.0"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true
     }
   },
   "postCreateCommand": "bash .devcontainer/post-script.sh"

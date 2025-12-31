@@ -12,7 +12,7 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public Task AddRangeAsync(IReadOnlyCollection<Pessoa> pessoas, CancellationToken ct) => _context.AddRangeAsync(pessoas, ct);
 
-    public async Task AddAsync(Pessoa pessoa, CancellationToken ct) => await _context.Pessoas.AddAsync(pessoa, ct);
+    public async Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => (await _context.Pessoas.AddAsync(pessoa, ct)).Entity;
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
 }

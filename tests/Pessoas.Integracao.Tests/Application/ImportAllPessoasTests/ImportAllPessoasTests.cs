@@ -8,7 +8,7 @@ using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Interfaces;
 
-namespace Pessoas.Integracao.Tests.Application.ImportAllPessoasTests;
+namespace Pessoas.Integracao.Core.Tests.Application.ImportAllPessoasTests;
 
 public sealed class ImportAllPessoasTests : IDisposable
 {
