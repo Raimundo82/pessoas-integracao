@@ -1,6 +1,9 @@
+using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Core.Domain.Entities;
+using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Persistence;
 using Pessoas.Integracao.Core.Infrastructure.Repositories;
@@ -29,7 +32,7 @@ public sealed class PessoaRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task AddAsync_ShouldPersistPessoaToDb()
+    public async Task AddAsync_WithRequiredFieldsOnly_ShouldPersistPessoa()
     {
         // Arrange
         var pessoa = new Pessoa { NII = "22600" };
@@ -39,11 +42,51 @@ public sealed class PessoaRepositoryTests : IDisposable
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Single(_context.Pessoas);
-        var savedPessoa = await _context.Pessoas.FindAsync(result.Id);
-        Assert.NotNull(savedPessoa);
-        Assert.Equal(pessoa.NII, savedPessoa.NII);
+        result.Should().NotBeNull();
+        result.Id.Should().BeGreaterThan(0);
+        _context.Pessoas.Should().ContainSingle();
+        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id);
+        persistedPessoa.Should().NotBeNull();
+        persistedPessoa.Should().BeEquivalentTo(pessoa, opts => opts.Excluding(p => p.Id));
+    }
+
+    [Fact]
+    public async Task AddAsync_WithAllFields_ShouldPersistCompletePessoa()
+    {
+        // Arrange
+        var pessoa = new Pessoa
+        {
+            NII = "22600",
+            DadosPessoais = new DadosPessoais
+            {
+                NomeCompleto = "João Pacheco Raimundo",
+                Apelidos = "Pacheco Raimundo",
+                Sobrenome = "Raimundo",
+                DataNascimento = new DateTime(1982, 10, 18, 0, 0, 0, DateTimeKind.Utc)
+            },
+            DadosBiometricos = new DadosBiometricos
+            {
+                AlturaEmCm = 176,
+                CorDosOlhos = "Castanhos",
+                TipoDeSangue = new TipoDeSangue
+                {
+                    GrupoSanguineo = Domain.Enums.GrupoSanguineo.O,
+                    Rhesus = Domain.Enums.Rhesus.POSITIVO
+                }
+            }
+        };
+
+        // Act
+        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
+        await _uow.CommitAsync(CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Id.Should().BeGreaterThan(0);
+        _context.Pessoas.Should().ContainSingle();
+        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id);
+        persistedPessoa.Should().NotBeNull();
+        persistedPessoa.Should().BeEquivalentTo(pessoa, opts => opts.Excluding(p => p.Id));
     }
 
     [Fact]
@@ -61,7 +104,9 @@ public sealed class PessoaRepositoryTests : IDisposable
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
-        Assert.Equal(2, await _context.Pessoas.CountAsync());
+        var persistedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        persistedPessoas.Should().HaveCount(2);
+        persistedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "22601");
     }
 
     [Fact]
@@ -91,7 +136,8 @@ public sealed class PessoaRepositoryTests : IDisposable
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
-        Assert.Empty(_context.Pessoas);
+        var remainingPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        remainingPessoas.Should().BeEmpty();
     }
 
     public void Dispose()
