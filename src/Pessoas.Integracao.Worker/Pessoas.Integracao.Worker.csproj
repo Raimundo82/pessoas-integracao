@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Infrastructure/Sigdn.Rh/Configuration/" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 
