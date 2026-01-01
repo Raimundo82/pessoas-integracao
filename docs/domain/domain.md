@@ -7,6 +7,7 @@ title Domain Model – Pessoas (mínimo)
 
 Entity Pessoa {
   NII : string
+  ExternalId : string
   dadosPessoais : DadosPessoais
   dadosBiometricos : DadosBiometricos
 }

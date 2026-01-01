@@ -57,6 +57,7 @@ public sealed class PessoaRepositoryTests : IDisposable
         var pessoa = new Pessoa
         {
             NII = "22600",
+            ExternalId = "30002697",
             DadosPessoais = new DadosPessoais
             {
                 NomeCompleto = "João Pacheco Raimundo",

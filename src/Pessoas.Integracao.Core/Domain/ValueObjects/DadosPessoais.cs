@@ -1,5 +1,8 @@
-namespace Pessoas.Integracao.Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
+namespace Pessoas.Integracao.Core.Domain.ValueObjects;
+
+[Owned]
 public class DadosPessoais
 {
     public string? NomeCompleto { get; init; }
