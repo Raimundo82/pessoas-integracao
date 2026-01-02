@@ -5,7 +5,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Infrastructure;
+namespace Pessoas.Integracao.Worker.Infrastructure.Extensions;
 
 public static class DependencyInjection
 {

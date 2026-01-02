@@ -1,6 +1,6 @@
 using Pessoas.Integracao.Core.Infrastructure.Data;
 
-namespace Pessoas.Integracao.Worker.Infrastructure;
+namespace Pessoas.Integracao.Worker.Infrastructure.Extensions;
 
 public static class DbInitializerExternsions
 {

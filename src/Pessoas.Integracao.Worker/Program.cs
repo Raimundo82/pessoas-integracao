@@ -1,14 +1,13 @@
 using Pessoas.Integracao.Core.Infrastructure;
-using Pessoas.Integracao.Worker;
-using Pessoas.Integracao.Worker.Infrastructure;
+using Pessoas.Integracao.Worker.Infrastructure.Extensions;
+using Pessoas.Integracao.Worker.Infrastructure.Scheduling;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddCoreServices(builder.Configuration)
     .AddWorkerInfrastuctureServices()
+    .AddSchedulingServices()
     .Configure<DataSourceSettings>(builder.Configuration.GetSection(DataSourceSettings.SectionName));
-
-builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();
 
