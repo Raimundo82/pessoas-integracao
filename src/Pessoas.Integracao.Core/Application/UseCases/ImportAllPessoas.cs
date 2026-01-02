@@ -4,10 +4,10 @@ using Pessoas.Integracao.Core.Domain.Interfaces;
 
 namespace Pessoas.Integracao.Core.Application.UseCases;
 
-public sealed class ImportAllPessoas(IPessoaRepository pessoaRepository, IPessoasSource pessoasSource, IUnitOfWork unitOfWork)
+public sealed class ImportAllPessoas(IPessoaRepository pessoaRepository, IPessoasProvider pessoasSource, IUnitOfWork unitOfWork)
 {
     private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
-    private readonly IPessoasSource _pessoasSource = pessoasSource;
+    private readonly IPessoasProvider _pessoasSource = pessoasSource;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task ExecuteAsync(CancellationToken ct)
     {

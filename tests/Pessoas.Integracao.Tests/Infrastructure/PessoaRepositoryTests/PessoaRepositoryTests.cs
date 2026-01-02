@@ -36,9 +36,9 @@ public sealed class PessoaRepositoryTests : IDisposable
     {
         // Arrange
         var pessoa = new Pessoa { NII = "22600" };
+        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
 
         // Act
-        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
@@ -76,9 +76,9 @@ public sealed class PessoaRepositoryTests : IDisposable
                 }
             }
         };
+        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
 
         // Act
-        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
@@ -96,12 +96,12 @@ public sealed class PessoaRepositoryTests : IDisposable
         // Arrange
         var pessoas = new[]
         {
-        new Pessoa { NII = "22600" },
-        new Pessoa { NII = "22601" }
-    };
+            new Pessoa { NII = "22600" },
+            new Pessoa { NII = "22601" }
+        };
+        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
 
         // Act
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
@@ -116,13 +116,13 @@ public sealed class PessoaRepositoryTests : IDisposable
         // Arrange
         await _context.AddAsync(new Pessoa { NII = "22600" });
         await _context.SaveChangesAsync();
+        await _repository.AddAsync(new Pessoa { NII = "22600" }, CancellationToken.None);
 
         // Act
-        await _repository.AddAsync(new Pessoa { NII = "22600" }, CancellationToken.None);
-        async Task AddAction() => await _uow.CommitAsync(CancellationToken.None);
+        Func<Task> action = async () => await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
-        await Assert.ThrowsAsync<DbUpdateException>(AddAction);
+        await action.Should().ThrowAsync<DbUpdateException>();
     }
 
     [Fact]
@@ -131,9 +131,9 @@ public sealed class PessoaRepositoryTests : IDisposable
         // Arrange
         await _context.AddRangeAsync(new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" });
         await _context.SaveChangesAsync();
+        await _repository.ClearAllAsync(CancellationToken.None);
 
         // Act
-        await _repository.ClearAllAsync(CancellationToken.None);
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert

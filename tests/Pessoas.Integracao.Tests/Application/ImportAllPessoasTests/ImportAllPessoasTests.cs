@@ -13,25 +13,18 @@ namespace Pessoas.Integracao.Core.Tests.Application.ImportAllPessoasTests;
 public sealed class ImportAllPessoasTests : IDisposable
 {
     // Test dependencies
-    private Mock<IPessoasSource> _source;
+    private Mock<IPessoasProvider> _source;
     private Mock<IPessoaRepository> _repo;
     private Mock<IUnitOfWork> _uow;
 
     public ImportAllPessoasTests()
     {
         // Setup runs before each test
-        _source = new Mock<IPessoasSource>();
+        _source = new Mock<IPessoasProvider>();
         _repo = new Mock<IPessoaRepository>();
         _uow = new Mock<IUnitOfWork>();
     }
 
-    public void Dispose()
-    {
-        _source = null!;
-        _repo = null!;
-        _uow = null!;
-        GC.SuppressFinalize(this);
-    }
     [Fact]
     public async Task ImportAllAsync_WhenCalled_ReplacesAllPessoas()
     {
@@ -151,6 +144,14 @@ public sealed class ImportAllPessoasTests : IDisposable
         _source.VerifyAll();
         _repo.VerifyAll();
         _uow.VerifyAll();
+    }
+
+    public void Dispose()
+    {
+        _source = null!;
+        _repo = null!;
+        _uow = null!;
+        GC.SuppressFinalize(this);
     }
 
 }

@@ -16,7 +16,7 @@ public class PostgresTestContainerDb : IAsyncLifetime
 
     public PostgresTestContainerDb()
     {
-        _container = new PostgreSqlBuilder()
+        _container = new PostgreSqlBuilder("postgres:17")
             .WithAutoRemove(true)
             .Build();
     }

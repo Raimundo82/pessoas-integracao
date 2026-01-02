@@ -4,7 +4,7 @@ using Pessoas.Integracao.Core.Domain.Entities;
 
 namespace Pessoas.Integracao.Core.Application.Contracts;
 
-public interface IPessoasSource
+public interface IPessoasProvider
 {
     Task<ReadOnlyCollection<Pessoa>> GetPessoasAsync(CancellationToken cancellationToken);
 }
