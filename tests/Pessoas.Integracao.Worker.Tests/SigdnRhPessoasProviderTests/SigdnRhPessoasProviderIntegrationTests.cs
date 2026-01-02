@@ -46,7 +46,7 @@ public class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
@@ -78,7 +78,7 @@ public class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
@@ -98,7 +98,7 @@ public class SigdnRhPessoasProviderIntegrationTests : IDisposable
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
@@ -125,7 +125,7 @@ public class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
 

@@ -1,10 +1,9 @@
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 
-public class SoapChannelProvider<TChannel>(string endpointUrl) : ISoapChannelProvider<TChannel>
+public class SoapChannelProvider<TChannel> : ISoapChannelProvider<TChannel>
 {
-    private readonly string _endpointUrl = endpointUrl;
-    public TChannel CreateChannel()
+    public TChannel CreateChannel(string endpointUrl)
     {
-        return SoapChannelFactory.CreateChannelFactory<TChannel>(_endpointUrl).CreateChannel();
+        return SoapChannelFactory.CreateChannelFactory<TChannel>(endpointUrl).CreateChannel();
     }
 }

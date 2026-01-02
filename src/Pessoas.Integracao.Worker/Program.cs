@@ -5,6 +5,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddCoreServices(builder.Configuration)
+    .AddWorkerInfrastuctureServices()
     .Configure<DataSourceSettings>(builder.Configuration.GetSection(DataSourceSettings.SectionName));
 
 builder.Services.AddHostedService<Worker>();

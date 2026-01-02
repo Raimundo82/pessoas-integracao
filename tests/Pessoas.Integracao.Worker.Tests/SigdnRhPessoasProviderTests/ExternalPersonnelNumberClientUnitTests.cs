@@ -45,7 +45,7 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
 
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
 
@@ -73,7 +73,7 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
 
         var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
 

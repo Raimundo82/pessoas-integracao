@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Pessoas.Integracao.Core.Application.Abstractions;
+using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Interfaces;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Persistence;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<DbInitialiser>();
         services.AddScoped<IPessoaRepository, PessoaRepository>();
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+        services.AddScoped<ImportAllPessoas>();
         return services;
     }
 

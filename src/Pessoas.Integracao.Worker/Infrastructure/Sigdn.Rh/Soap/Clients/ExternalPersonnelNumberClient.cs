@@ -16,7 +16,7 @@ public class ExternalPersonnelNumberClient(
     private readonly ISoapChannelProvider<zhr_wsChannel> _soapChannelProvider = soapChannelProvider;
     public async Task<ZhrSListapessoal[]> GetExternalPersonnelNumbersAsync(CancellationToken cancellationToken)
     {
-        var channel = _soapChannelProvider.CreateChannel();
+        var channel = _soapChannelProvider.CreateChannel(_settings.OutputUrl);
 
         var result = await channel.ZhrWsGetPernrAsync(new ZhrWsGetPernrRequest
         {

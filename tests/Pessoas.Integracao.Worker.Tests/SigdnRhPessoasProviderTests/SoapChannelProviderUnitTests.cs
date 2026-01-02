@@ -14,10 +14,10 @@ public class SoapChannelProviderUnitTests
     {
         // Arrange
         var endpoint = "http://fake/service";
-        var provider = new SoapChannelProvider<zhr_wsChannel>(endpoint);
+        var provider = new SoapChannelProvider<zhr_wsChannel>();
 
         // Act
-        var channel = provider.CreateChannel();
+        var channel = provider.CreateChannel(endpoint);
 
         // Assert
         channel.Should().NotBeNull();
