@@ -1,0 +1,31 @@
+name: Trivy Code Security Scan
+
+on:
+  pull_request:
+    branches:
+      - master
+
+env:
+  RUNNER_TOOL_CACHE: /toolcache
+
+jobs:
+  trivy-scan:
+    name: Trivy Code Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.68.2
+          trivy --version
+
+      - name: Run Trivy vulnerability scanner
+        run: |
+          trivy fs --severity CRITICAL,HIGH --exit-code 1 . || EXIT_CODE=$?
+          if [ -z "$EXIT_CODE" ] || [ "$EXIT_CODE" -eq 0 ]; then
+            echo "✅ No CRITICAL or HIGH vulnerabilities found!"
+          fi
+          exit ${EXIT_CODE:-0}
