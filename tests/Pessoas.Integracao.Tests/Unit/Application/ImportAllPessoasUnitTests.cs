@@ -8,16 +8,16 @@ using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Interfaces;
 
-namespace Pessoas.Integracao.Core.Tests.Application.ImportAllPessoasTests;
+namespace Pessoas.Integracao.Tests.Unit.Application;
 
-public sealed class ImportAllPessoasTests : IDisposable
+public sealed class ImportAllPessoasUnitTests : IDisposable
 {
     // Test dependencies
     private Mock<IPessoasProvider> _source;
     private Mock<IPessoaRepository> _repo;
     private Mock<IUnitOfWork> _uow;
 
-    public ImportAllPessoasTests()
+    public ImportAllPessoasUnitTests()
     {
         // Setup runs before each test
         _source = new Mock<IPessoasProvider>();

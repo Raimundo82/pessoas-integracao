@@ -1,5 +1,6 @@
 using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
@@ -9,10 +10,12 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Extensions;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWorkerInfrastuctureServices(this IServiceCollection services)
+    public static IServiceCollection AddExternalSoapClientServices(this IServiceCollection services, IConfiguration configuration)
     {
+
         return services.AddScoped<ISoapChannelProvider<zhr_wsChannel>, SoapChannelProvider<zhr_wsChannel>>()
             .AddScoped<IExternalPersonnelNumberClient, ExternalPersonnelNumberClient>()
-            .AddScoped<IPessoasProvider, SigdnRhPessoasProvider>();
+            .AddScoped<IPessoasProvider, SigdnRhPessoasProvider>()
+            .Configure<DataSourceSettings>(configuration.GetSection(DataSourceSettings.SectionName));
     }
 }

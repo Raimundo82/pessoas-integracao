@@ -26,9 +26,4 @@
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SoapChannelFactoryTests/" />
-    <Folder Include="SigdnRhPessoasProviderTests/" />
-  </ItemGroup>
-
 </Project>

@@ -6,7 +6,7 @@ using Pessoas.Integracao.Core.Infrastructure.Data;
 
 using Testcontainers.PostgreSql;
 
-namespace Pessoas.Integracao.Core.Tests.Infrastructure.PessoaRepositoryTests;
+namespace Pessoas.Integracao.Tests.TestInfrastructure;
 
 public class PostgresTestContainerDb : IAsyncLifetime
 {

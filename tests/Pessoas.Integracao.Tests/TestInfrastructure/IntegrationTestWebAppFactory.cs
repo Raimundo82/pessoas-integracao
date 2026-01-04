@@ -1,0 +1,46 @@
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
+
+using Moq;
+
+using Pessoas.Integracao.Core.Infrastructure.Data;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
+
+namespace Pessoas.Integracao.Tests.TestInfrastructure;
+
+public class IntegrationTestWebAppFactory(PostgresTestContainerDb dbContainer) : WebApplicationFactory<Program>
+{
+    private readonly PostgresTestContainerDb _dbContainer = dbContainer;
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureTestServices(services =>
+        {
+            var dbContextDescriptor = services
+                .SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<AppDbContext>));
+
+            if (dbContextDescriptor is not null)
+            {
+                services.Remove(dbContextDescriptor);
+            }
+
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(_dbContainer.ConnectionString));
+
+            var soapDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ISoapChannelProvider<zhr_wsChannel>));
+
+            if (soapDescriptor != null)
+            {
+                services.Remove(soapDescriptor);
+            }
+
+            var mockChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+
+            services.AddSingleton(mockChannelFactory);
+            services.AddSingleton(mockChannelFactory.Object);
+
+        });
+    }
+}

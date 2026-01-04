@@ -1,13 +1,17 @@
 using Pessoas.Integracao.Core.Infrastructure;
 using Pessoas.Integracao.Worker.Infrastructure.Extensions;
 using Pessoas.Integracao.Worker.Infrastructure.Scheduling;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddCoreServices(builder.Configuration)
-    .AddWorkerInfrastuctureServices()
-    .AddSchedulingServices()
-    .Configure<DataSourceSettings>(builder.Configuration.GetSection(DataSourceSettings.SectionName));
+
+builder.Configuration
+    .AddJsonFile("appsettings.Shared.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+builder.Services.AddPersistence(builder.Configuration)
+    .AddRepositories()
+    .AddExternalSoapClientServices(builder.Configuration)
+    .AddSchedulingServices();
 
 var host = builder.Build();
 

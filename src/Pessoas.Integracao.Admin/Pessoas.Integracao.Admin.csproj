@@ -8,6 +8,22 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="NSwag.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
+    <ProjectReference Include="../Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../appsettings.json" Link="appsettings.Shared.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

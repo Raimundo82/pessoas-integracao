@@ -26,4 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Pessoas.Integracao.Core\Pessoas.Integracao.Core.csproj" />
   </ItemGroup>
+
+    <ItemGroup>
+    <None Include="../../appsettings.json" Link="appsettings.Shared.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

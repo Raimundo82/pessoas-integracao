@@ -15,4 +15,7 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
     public async Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => (await _context.Pessoas.AddAsync(pessoa, ct)).Entity;
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
+
+    public async Task<IReadOnlyCollection<Pessoa>> GetAllAsync(CancellationToken ct) =>
+        (await _context.Pessoas.ToListAsync(ct)).AsReadOnly();
 }

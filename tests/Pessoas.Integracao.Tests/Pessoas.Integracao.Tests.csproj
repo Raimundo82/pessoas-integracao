@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Testcontainers.PostgreSql" />
@@ -22,11 +23,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application/ImportAllPessoasTests/" />
+    <ProjectReference Include="../../src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
+    <ProjectReference Include="../../src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
+    <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
+    <Folder Include="Integration/Controllers/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../appsettings.json" Link="appsettings.Shared.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
