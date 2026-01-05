@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Core.Application.DTOs;
+using Pessoas.Integracao.Core.Domain.Constants;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Tests.TestInfrastructure;
@@ -14,12 +15,12 @@ namespace Pessoas.Integracao.Tests.Integration.Controllers;
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebAppFactory>, IDisposable
 {
-    private readonly HttpClient _client;
     private readonly AppDbContext _context;
+    private readonly IntegrationTestWebAppFactory _factory;
 
     public PessoasControllerTests(PostgresTestContainerDb db, IntegrationTestWebAppFactory factory)
     {
-        _client = factory.CreateClient();
+        _factory = factory;
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
@@ -33,6 +34,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task GetAll_WhenPessoasExist_ReturnsOkWithAllPessoaDtos()
     {
         // Arrange
+        using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
         await _context.Pessoas.AddRangeAsync(
             new Pessoa { NII = "22600", ExternalId = "30002697" },
             new Pessoa { NII = "21200", ExternalId = "30002798" }
@@ -40,7 +42,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
         await _context.SaveChangesAsync();
 
         // Act
-        var response = await _client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -54,8 +56,11 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     [Fact]
     public async Task GetAll_WhenNoPessoasExist_ReturnsOkWithEmptyArray()
     {
+        // Arrange
+        using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
+
         // Act
-        var response = await _client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -68,17 +73,52 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task GetAll_WithNullExternalId_ReturnsCorrectly()
     {
         // Arrange
+        using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
         await _context.Pessoas.AddAsync(new Pessoa { NII = "22600", ExternalId = null });
         await _context.SaveChangesAsync();
 
         // Act
-        var response = await _client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
         pessoas.Should().ContainSingle();
         pessoas![0].ExternalId.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetAll_AsAdmin_ReturnsOkWithAllPessoaDtos()
+    {
+        // Arrange
+        using var adminClient = _factory.CreateAuthenticatedClient(Roles.Admin);
+
+        await _context.Pessoas.AddRangeAsync(
+            new Pessoa { NII = "11111", ExternalId = "TEST001" },
+            new Pessoa { NII = "22222", ExternalId = "TEST002" }
+        );
+        await _context.SaveChangesAsync();
+
+        // Act
+        var response = await adminClient.GetAsync("/api/pessoas");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
+        pessoas.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task GetAll_Unauthenticated_ReturnsUnauthorized()
+    {
+        // Arrange
+        using var unauthClient = _factory.CreateClient();
+
+        // Act
+        var response = await unauthClient.GetAsync("/api/pessoas");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     public void Dispose()

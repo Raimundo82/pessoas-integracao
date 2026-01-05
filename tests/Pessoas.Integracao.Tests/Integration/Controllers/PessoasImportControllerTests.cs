@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Domain.Constants;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Tests.TestInfrastructure;
@@ -19,13 +20,14 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 {
     private readonly HttpClient _client;
     private readonly AppDbContext _context;
-
     private readonly IServiceScope _scope;
-
     private readonly Mock<zhr_wsChannel> _mockSoapChannel;
+    private readonly IntegrationTestWebAppFactory _factory;
+
     public PessoasImportControllerTests(PostgresTestContainerDb db, IntegrationTestWebAppFactory factory)
     {
-        _client = factory.CreateClient();
+        _factory = factory;
+        _client = factory.CreateAuthenticatedClient(Roles.Admin);
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
@@ -157,6 +159,32 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Import_AsViewer_ReturnsForbidden()
+    {
+        // Arrange
+        using var viewerClient = _factory.CreateAuthenticatedClient(Roles.Viewer);
+
+        // Act
+        var response = await viewerClient.PostAsync("/api/pessoas/import", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task Import_Unauthenticated_ReturnsUnauthorized()
+    {
+        // Arrange
+        using var unauthClient = _factory.CreateClient();
+
+        // Act
+        var response = await unauthClient.PostAsync("/api/pessoas/import", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     public void Dispose()

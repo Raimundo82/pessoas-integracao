@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.UseCases;
+using Pessoas.Integracao.Core.Domain.Constants;
 
 namespace Pessoas.Integracao.Admin.Controllers;
 
@@ -10,6 +12,7 @@ namespace Pessoas.Integracao.Admin.Controllers;
 public class PessoasController(GetAllPessoas getAllPessoas) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Policy = Policies.CanReadPessoas)]
     public async Task<ActionResult<IEnumerable<PessoaDto>>> GetAll(CancellationToken cancellationToken)
     {
         var pessoas = await getAllPessoas.ExecuteAsync(cancellationToken);

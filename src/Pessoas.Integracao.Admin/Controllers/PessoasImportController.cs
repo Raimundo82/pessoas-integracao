@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Pessoas.Integracao.Core.Application.UseCases;
+using Pessoas.Integracao.Core.Domain.Constants;
 
 namespace Pessoas.Integracao.Admin.Controllers;
 
@@ -9,6 +11,7 @@ namespace Pessoas.Integracao.Admin.Controllers;
 public class PessoasImportController(ImportAllPessoas importAllPessoas) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Policy = Policies.CanImportPessoas)]
     public async Task<IActionResult> Import(CancellationToken cancellationToken)
     {
         await importAllPessoas.ExecuteAsync(cancellationToken);

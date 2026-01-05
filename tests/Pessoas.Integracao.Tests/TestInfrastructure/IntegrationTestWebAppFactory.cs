@@ -1,3 +1,7 @@
+using System.Security.Claims;
+using System.Text.Json;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +45,29 @@ public class IntegrationTestWebAppFactory(PostgresTestContainerDb dbContainer) :
             services.AddSingleton(mockChannelFactory);
             services.AddSingleton(mockChannelFactory.Object);
 
+            services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, _ => { });
         });
+    }
+
+    public HttpClient CreateAuthenticatedClient(params string[] roles)
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Name, "TestUser"),
+            new(ClaimTypes.NameIdentifier, "test-user-id")
+        };
+
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var claimsData = claims.Select(c => new { c.Type, c.Value }).ToList();
+        var claimsJson = JsonSerializer.Serialize(claimsData);
+
+        var client = CreateClient();
+        client.DefaultRequestHeaders.Add("X-Test-Claims", claimsJson);
+        return client;
     }
 }

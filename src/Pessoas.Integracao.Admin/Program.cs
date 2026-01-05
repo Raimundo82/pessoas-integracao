@@ -1,3 +1,9 @@
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Common;
+
+
+using Pessoas.Integracao.Admin.Authorization;
+using Pessoas.Integracao.Admin.OpenApi;
 using Pessoas.Integracao.Core.Application;
 using Pessoas.Integracao.Core.Infrastructure;
 using Pessoas.Integracao.Worker.Infrastructure.Extensions;
@@ -8,8 +14,16 @@ builder.Configuration
     .AddJsonFile("appsettings.Shared.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+var keycloakOptions = builder.Configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>() ?? new KeycloakAuthenticationOptions();
+
+builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
+builder.Services.AddApplicationAuthorization();
+
+builder.Services.AddOpenApiWithAuthentication(keycloakOptions);
+
 builder.Services.AddControllers();
-builder.Services.AddOpenApi()
+
+builder.Services
     .AddPersistence(builder.Configuration)
     .AddRepositories()
     .AddUseCases()
@@ -19,12 +33,16 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.UseSwaggerUi(options => options.DocumentPath = "/openapi/v1.json");
+    app.UseOpenApi();
+    app.UseSwaggerWithOAuth(keycloakOptions);
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
+
+await app.RunAsync();
 
 await app.RunAsync();

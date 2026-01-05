@@ -13,7 +13,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
 namespace Pessoas.Integracao.Worker.Tests.Integration.Providers;
 
-public class SigdnRhPessoasProviderIntegrationTests : IDisposable
+public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
 {
 
     private IOptions<DataSourceSettings> _settings;
