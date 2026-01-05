@@ -10,10 +10,6 @@ using Pessoas.Integracao.Worker.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration
-    .AddJsonFile("appsettings.Shared.json", optional: true, reloadOnChange: true)
-    .AddEnvironmentVariables();
-
 var keycloakOptions = builder.Configuration.GetKeycloakOptions<KeycloakAuthenticationOptions>() ?? new KeycloakAuthenticationOptions();
 
 builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
@@ -42,7 +38,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers().RequireAuthorization();
-
-await app.RunAsync();
 
 await app.RunAsync();

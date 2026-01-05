@@ -23,10 +23,11 @@
     <ProjectReference Include="../Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="../../appsettings.json" Link="appsettings.Shared.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\..\appsettings.json">
+      <Link>appsettings.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
