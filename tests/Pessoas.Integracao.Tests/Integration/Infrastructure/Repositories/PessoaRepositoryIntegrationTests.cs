@@ -65,7 +65,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
                 NomeCompleto = "João Pacheco Raimundo",
                 Apelidos = "Pacheco Raimundo",
                 Sobrenome = "Raimundo",
-                DataNascimento = new DateTime(1982, 10, 18, 0, 0, 0, DateTimeKind.Utc)
+                DataNascimento = new DateOnly(1982, 10, 18)
             },
             DadosBiometricos = new DadosBiometricos
             {

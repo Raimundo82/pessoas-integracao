@@ -47,7 +47,7 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
                     Apelidos = "Apelidos",
                     NomeCompleto = "Nome Completo",
                     Sobrenome = "Sobrenome",
-                    DataNascimento = new DateTime(1982, 10, 18, 0, 0, 0, DateTimeKind.Utc)
+                    DataNascimento = new DateOnly(1982, 10, 18),
                 },
                 DadosBiometricos = new DadosBiometricos {
                     AlturaEmCm = 176,
