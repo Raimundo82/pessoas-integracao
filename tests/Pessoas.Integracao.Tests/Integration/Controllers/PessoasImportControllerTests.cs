@@ -45,7 +45,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithMockedSoapResponse_PersistsAllPessoasToDatabase()
+    public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsAllPessoasToDatabase()
     {
         // Arrange
         var soapResponse = new[]
@@ -75,7 +75,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithEmptySoapResponse_ClearsAllPessoasFromDatabase()
+    public async Task Import_WithEmptySoapResponse_PreservesAllPessoasFromDatabase()
     {
         // Arrange
         var existingPessoas = new[]
@@ -102,11 +102,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
-        savedPessoas.Should().BeEmpty();
+        savedPessoas.Should().HaveCount(2);
+        savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
+        savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("OLD001", "OLD002");
     }
 
     [Fact]
-    public async Task Import_ReplacesExistingData_WithNewSoapResponse()
+    public async Task Import_UpdatesExistingAndAddsNew_KeepsUntouchedData()
     {
         // Arrange 
         var existingPessoas = new[]
@@ -138,10 +140,9 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
-        savedPessoas.Should().HaveCount(2);
-        savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "33333");
-        savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("NEW001", "NEW002");
-        savedPessoas.Select(p => p.NII).Should().NotContain(["22222"]);
+        savedPessoas.Should().HaveCount(3);
+        savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222", "33333");
+        savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("NEW001", "OLD002", "NEW002");
     }
 
     [Fact]

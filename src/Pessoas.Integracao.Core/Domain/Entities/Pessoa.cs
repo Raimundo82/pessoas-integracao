@@ -8,7 +8,14 @@ public class Pessoa
 {
     public int Id { get; set; }
     public required string NII { get; init; }
-    public string? ExternalId { get; init; }
-    public DadosPessoais DadosPessoais { get; init; } = new DadosPessoais();
-    public DadosBiometricos DadosBiometricos { get; init; } = new DadosBiometricos();
+    public string? ExternalId { get; set; }
+    public DadosPessoais DadosPessoais { get; set; } = new DadosPessoais();
+    public DadosBiometricos DadosBiometricos { get; set; } = new DadosBiometricos();
+
+    public void UpdateFrom(Pessoa source)
+    {
+        ExternalId = source.ExternalId;
+        DadosPessoais = source.DadosPessoais;
+        DadosBiometricos = source.DadosBiometricos;
+    }
 }

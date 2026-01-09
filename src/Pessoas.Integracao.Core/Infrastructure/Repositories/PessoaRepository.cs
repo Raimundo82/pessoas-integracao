@@ -16,6 +16,27 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
 
+    public async Task AddOrUpdateAllAsync(IReadOnlyCollection<Pessoa> pessoas, CancellationToken ct)
+    {
+
+        var niis = pessoas.Select(p => p.NII).ToList();
+        var existingPessoas = await _context.Pessoas
+            .Where(p => niis.Contains(p.NII))
+            .ToDictionaryAsync(p => p.NII, ct);
+
+        foreach (var pessoa in pessoas)
+        {
+            if (existingPessoas.TryGetValue(pessoa.NII, out var existingPessoa))
+            {
+                existingPessoa.UpdateFrom(pessoa);
+            }
+            else
+            {
+                _context.Pessoas.Add(pessoa);
+            }
+        }
+    }
+
     public async Task<IReadOnlyCollection<Pessoa>> GetAllAsync(CancellationToken ct) =>
         (await _context.Pessoas.ToListAsync(ct)).AsReadOnly();
 }
