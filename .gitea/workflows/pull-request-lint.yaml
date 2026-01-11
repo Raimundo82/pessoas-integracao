@@ -15,3 +15,5 @@ jobs:
     steps:
       - name: pull request linter
         uses: openGemini/pr-title-checker@main
+        with:
+          max_description_length: 100
