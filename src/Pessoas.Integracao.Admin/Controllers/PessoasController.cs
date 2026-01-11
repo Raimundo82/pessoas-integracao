@@ -13,7 +13,7 @@ public class PessoasController(GetAllPessoas getAllPessoas) : ControllerBase
 {
     [HttpGet]
     [Authorize(Policy = Policies.CanReadPessoas)]
-    public async Task<ActionResult<IEnumerable<PessoaDto>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyList<PessoaDto>>> GetAll(CancellationToken cancellationToken)
     {
         var pessoas = await getAllPessoas.ExecuteAsync(cancellationToken);
         return Ok(pessoas);

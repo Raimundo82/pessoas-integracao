@@ -72,7 +72,7 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeAssignableTo<IReadOnlyCollection<PessoaDto>>();
+        result.Should().BeAssignableTo<IReadOnlyList<PessoaDto>>();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo([new PessoaDto("22600", "30002697"), new PessoaDto("21200", "30002797")]);
     }
