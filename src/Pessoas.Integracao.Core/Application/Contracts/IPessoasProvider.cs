@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Core.Application.Contracts;
 
 public interface IPessoasProvider
 {
-    Task<IReadOnlyCollection<Pessoa>> GetPessoasAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Pessoa>> GetPessoasAsync(CancellationToken cancellationToken);
 }

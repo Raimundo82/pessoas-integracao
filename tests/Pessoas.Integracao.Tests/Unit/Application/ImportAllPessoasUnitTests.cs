@@ -80,7 +80,7 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(CancellationToken.None));
 
         // Assert
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyCollection<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
+        _repo.Verify(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
         _uow.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 

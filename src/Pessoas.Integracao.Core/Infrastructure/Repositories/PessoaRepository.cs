@@ -10,13 +10,13 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 {
     private readonly AppDbContext _context = context;
 
-    public Task AddRangeAsync(IReadOnlyCollection<Pessoa> pessoas, CancellationToken ct) => _context.AddRangeAsync(pessoas, ct);
+    public Task AddRangeAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => _context.AddRangeAsync(pessoas, ct);
 
     public async Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => (await _context.Pessoas.AddAsync(pessoa, ct)).Entity;
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
 
-    public async Task AddOrUpdateAllAsync(IReadOnlyCollection<Pessoa> pessoas, CancellationToken ct)
+    public async Task AddOrUpdateAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
 
         var niis = pessoas.Select(p => p.NII).ToList();
@@ -37,6 +37,6 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
         }
     }
 
-    public async Task<IReadOnlyCollection<Pessoa>> GetAllAsync(CancellationToken ct) =>
-        (await _context.Pessoas.ToListAsync(ct)).AsReadOnly();
+    public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
+        await _context.Pessoas.ToListAsync(ct);
 }
