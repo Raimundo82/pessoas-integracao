@@ -33,4 +33,26 @@ public class ExternalPersonnelNumberClient(
         });
         return result.ZhrWsGetPernrResponse.Output.FirstOrDefault()?.Pessoal ?? [];
     }
+
+    public async Task<ZhrSAtribOrgOutput[]> GetExternalPersonnelNumberByNiiAsync(string nii, CancellationToken cancellationToken)
+    {
+        var channel = _soapChannelProvider.CreateChannel(_settings.OutputUrl);
+
+        var result = await channel.ZhrWsAtribOrgAsync(new ZhrWsAtribOrgRequest
+        {
+            ZhrWsAtribOrg = new ZhrWsAtribOrg
+            {
+                Input = [
+                    new ZhrWsInputStruct
+                    {
+                        Ni = nii,
+                        Empresa = _settings.Empresa,
+                        Dtreferencia = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+                    }
+                ]
+            }
+        });
+
+        return result?.ZhrWsAtribOrgResponse?.Output ?? [];
+    }
 }
