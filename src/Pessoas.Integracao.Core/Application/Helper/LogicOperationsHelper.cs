@@ -7,11 +7,11 @@ public static class LogicOperationsHelper
     IReadOnlyCollection<T>? second,
     Func<T, TKey> keySelector)
     {
-        first ??= Array.Empty<T>();
-        second ??= Array.Empty<T>();
+        //first ??= Array.Empty<T>();
+        //second ??= Array.Empty<T>();
 
-        if (first.Count == 0) return second;
-        if (second.Count == 0) return first;
+        //if (first.Count == 0) return second;
+        //if (second.Count == 0) return first;
 
         return first
         .Concat(second)
