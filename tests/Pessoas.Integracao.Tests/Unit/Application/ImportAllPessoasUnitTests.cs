@@ -37,6 +37,9 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         _source
             .Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+
+        _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
@@ -53,9 +56,17 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     {
         // Arrange
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
+        var pessoasInDb = new ReadOnlyCollection<Pessoa>(
+        [
+            new() { Id = 1, NII = "22600"},
+            new() { Id = 2, NII = "21200" }
+        ]);
 
         _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
               .ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(It.IsAny<IReadOnlyCollection<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+
+        _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoasInDb);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
@@ -64,7 +75,9 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
 
         // Assert
         _repo.Verify(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()), Times.Once);
+        _repo.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
         _uow.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+
     }
 
     [Fact]
@@ -93,10 +106,12 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         var sequence = new MockSequence();
 
         _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
 
         _repo.InSequence(sequence)
             .Setup(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
 
         _uow.Setup(u => u.CommitAsync(It.IsAny<CancellationToken>()))
            .Returns(Task.CompletedTask);
@@ -119,8 +134,10 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
 
         _source.Setup(s => s.GetPessoasAsync(ct)).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, ct)).ReturnsAsync(pessoas);
 
         _repo.Setup(r => r.AddOrUpdateAllAsync(pessoas, ct)).Returns(Task.CompletedTask);
+        _repo.Setup(r => r.GetAllAsync(ct)).ReturnsAsync(pessoas);
 
         _uow.Setup(u => u.CommitAsync(ct)).Returns(Task.CompletedTask);
 
