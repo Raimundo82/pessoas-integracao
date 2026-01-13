@@ -1,4 +1,5 @@
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
@@ -17,37 +18,26 @@ public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client
         })];
     }
 
-    public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<ImportNiiDto> importNiis, CancellationToken cancellationToken)
     {
-        var niis = pessoas
-            .Select(p => p.NII)
-            .ToArray();
+        // TODO: Refactor Parallel execution for all necessary webservices calls
+        var results = await _client.GetExternalPersonnelNumberByImportNiisAsync(importNiis, cancellationToken);
 
-        var semaphore = new SemaphoreSlim(5);
+        return
+        [
+            .. results
+                .Where(pernr => pernr.Msgty == "S")
+                .Select(pernr => new Pessoa
+                {
+                    NII = pernr.Ni,
+                    ExternalId = pernr.Numsap
+                })
+        ];
+    }
 
-        // TODO: Refactor Parallel execution
-        var tasks = niis
-                    .Select(async nii =>
-                            {
-                                await semaphore.WaitAsync(cancellationToken);
-                                try
-                                {
-                                    return await _client.GetExternalPersonnelNumberByNiiAsync(nii, cancellationToken);
-                                }
-                                finally
-                                {
-                                    semaphore.Release();
-                                }
-                            });
-
-        var results = await Task.WhenAll(tasks);
-
-        return [.. results
-                    .SelectMany(r => r)
-                    .Select(pernr => new Pessoa
-                    {
-                        NII = pernr.Ni,
-                        ExternalId = pernr.Numsap
-                    })];
+    public async Task<IReadOnlyList<ImportNiiDto>> GetProviderImportNiisAsync(CancellationToken cancellationToken)
+    {
+        var result = await _client.GetExternalPersonnelNumbersAsync(cancellationToken);
+        return [.. result.Select(pernr => new ImportNiiDto(pernr.Ni))];
     }
 }
