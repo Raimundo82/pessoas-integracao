@@ -17,7 +17,7 @@ public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client
         })];
     }
 
-    public async Task<IReadOnlyCollection<Pessoa>> GetPessoasByNiiAsync(IReadOnlyCollection<Pessoa> pessoas, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken cancellationToken)
     {
         var niis = pessoas
             .Select(p => p.NII)

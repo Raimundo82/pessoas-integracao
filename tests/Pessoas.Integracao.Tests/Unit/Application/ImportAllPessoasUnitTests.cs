@@ -64,7 +64,7 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
 
         _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
               .ReturnsAsync(pessoas);
-        _source.Setup(s => s.GetPessoasByNiiAsync(It.IsAny<IReadOnlyCollection<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
 
         _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoasInDb);
 

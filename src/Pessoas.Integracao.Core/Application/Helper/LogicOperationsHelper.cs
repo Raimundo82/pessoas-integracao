@@ -2,9 +2,9 @@ namespace Pessoas.Integracao.Core.Application.Helper;
 
 public static class LogicOperationsHelper
 {
-    public static IReadOnlyCollection<T> UnionBy<T, TKey>(
-    IReadOnlyCollection<T> first,
-    IReadOnlyCollection<T>? second,
+    public static IReadOnlyList<T> UnionBy<T, TKey>(
+    IReadOnlyList<T> first,
+    IReadOnlyList<T>? second,
     Func<T, TKey> keySelector)
     {
         //first ??= Array.Empty<T>();
