@@ -48,10 +48,15 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsAllPessoasToDatabase()
     {
         // Arrange
-        var soapResponse = new[]
+        var soapGetPernrResponse = new[]
         {
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "21200", Numsap = "30002798", Empresa = "3000" }
+        };
+        var soapMessageResponse = new[]
+        {
+            new ZhrSLogMsg { Ni = "22600", Numsap = "30002697", Msgty = "S" },
+            new ZhrSLogMsg { Ni = "21200", Numsap = "30002798", Msgty = "S" },
         };
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
@@ -59,7 +64,17 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
             {
                 ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
                 {
-                    Output = [new ZhrSGetListapessoal { Pessoal = soapResponse }]
+                    Output = [new ZhrSGetListapessoal { Pessoal = soapGetPernrResponse }]
+                }
+            });
+
+        _mockSoapChannel
+            .Setup(c => c.ZhrWsAtribOrgAsync(It.IsAny<ZhrWsAtribOrgRequest>()))
+            .ReturnsAsync(new ZhrWsAtribOrgResponse1
+            {
+                ZhrWsAtribOrgResponse = new ZhrWsAtribOrgResponse
+                {
+                    Message = soapMessageResponse
                 }
             });
 
@@ -86,6 +101,12 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         await _context.Pessoas.AddRangeAsync(existingPessoas);
         await _context.SaveChangesAsync();
 
+        var soapMessageResponse = new[]
+        {
+            new ZhrSLogMsg { Ni = "11111", Numsap = "OLD001", Msgty = "S" },
+            new ZhrSLogMsg { Ni = "22222", Numsap = "OLD002", Msgty = "S" },
+        };
+
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
@@ -93,6 +114,15 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
                 ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
                 {
                     Output = [new ZhrSGetListapessoal { Pessoal = [] }]
+                }
+            });
+        _mockSoapChannel
+            .Setup(c => c.ZhrWsAtribOrgAsync(It.IsAny<ZhrWsAtribOrgRequest>()))
+            .ReturnsAsync(new ZhrWsAtribOrgResponse1
+            {
+                ZhrWsAtribOrgResponse = new ZhrWsAtribOrgResponse
+                {
+                    Message = soapMessageResponse
                 }
             });
 
@@ -119,10 +149,16 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         await _context.Pessoas.AddRangeAsync(existingPessoas);
         await _context.SaveChangesAsync();
 
-        var newSoapResponse = new[]
+        var soapGetPernrResponse = new[]
         {
             new ZhrSListapessoal { Ni = "11111", Numsap = "NEW001", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "33333", Numsap = "NEW002", Empresa = "3000" }
+        };
+        var soapMessageResponse = new[]
+        {
+            new ZhrSLogMsg { Ni = "11111", Numsap = "NEW001", Msgty = "S" },
+            new ZhrSLogMsg { Ni = "22222", Numsap = "OLD002", Msgty = "S" },
+            new ZhrSLogMsg { Ni = "33333", Numsap = "NEW002", Msgty = "S" }
         };
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
@@ -130,7 +166,16 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
             {
                 ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
                 {
-                    Output = [new ZhrSGetListapessoal { Pessoal = newSoapResponse }]
+                    Output = [new ZhrSGetListapessoal { Pessoal = soapGetPernrResponse }]
+                }
+            });
+        _mockSoapChannel
+            .Setup(c => c.ZhrWsAtribOrgAsync(It.IsAny<ZhrWsAtribOrgRequest>()))
+            .ReturnsAsync(new ZhrWsAtribOrgResponse1
+            {
+                ZhrWsAtribOrgResponse = new ZhrWsAtribOrgResponse
+                {
+                    Message = soapMessageResponse
                 }
             });
 
@@ -152,6 +197,9 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ThrowsAsync(new Exception("SOAP service unavailable"));
+        _mockSoapChannel
+           .Setup(c => c.ZhrWsAtribOrgAsync(It.IsAny<ZhrWsAtribOrgRequest>()))
+           .ThrowsAsync(new Exception("SOAP service unavailable"));
 
         // Act
         var response = await _client.PostAsync("/api/pessoas/import", null);
