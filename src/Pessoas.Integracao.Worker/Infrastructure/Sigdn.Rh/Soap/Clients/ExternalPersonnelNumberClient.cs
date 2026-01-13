@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
@@ -33,6 +34,31 @@ public class ExternalPersonnelNumberClient(
         });
         return result.ZhrWsGetPernrResponse.Output.FirstOrDefault()?.Pessoal ?? [];
     }
+
+
+    public async Task<ZhrSLogMsg[]> GetExternalPersonnelNumberByImportNiisAsync(IReadOnlyList<ImportNiiDto> importNiis, CancellationToken cancellationToken)
+    {
+        var channel = _soapChannelProvider.CreateChannel(_settings.OutputUrl);
+
+        //TODO: Add channels for all SOAP Webservices
+        var result = await channel.ZhrWsAtribOrgAsync(new ZhrWsAtribOrgRequest
+        {
+            ZhrWsAtribOrg = new ZhrWsAtribOrg
+            {
+                Input = importNiis
+                        .Select(dto => new ZhrWsInputStruct
+                        {
+                            Ni = dto.Nii,
+                            Empresa = _settings.Empresa,
+                            Dtreferencia = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+                        })
+                        .ToArray()
+            }
+        });
+        // TODO: Return the message structure for validation
+        return result?.ZhrWsAtribOrgResponse?.Message ?? [];
+    }
+
 
     public async Task<ZhrSAtribOrgOutput[]> GetExternalPersonnelNumberByNiiAsync(string nii, CancellationToken cancellationToken)
     {
