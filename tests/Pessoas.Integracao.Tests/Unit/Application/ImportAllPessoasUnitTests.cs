@@ -4,6 +4,7 @@ using Moq;
 
 using Pessoas.Integracao.Core.Application.Abstractions;
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Interfaces;
@@ -34,10 +35,15 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
             new() { Id = 1, NII = "22600"},
             new() { Id = 2, NII = "21200" }
         ]);
-        _source
-            .Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(pessoas);
-        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+
+        var importNiis = new ReadOnlyCollection<ImportNiiDto>(
+        [
+            new("22600"),
+            new("21200")
+        ]);
+
+        _source.Setup(s => s.GetPessoasByNiiAsync(importNiis, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetProviderImportNiisAsync(It.IsAny<CancellationToken>())).ReturnsAsync(importNiis);
 
         _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
 
@@ -61,10 +67,11 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
             new() { Id = 1, NII = "22600"},
             new() { Id = 2, NII = "21200" }
         ]);
+        var importNiis = new ReadOnlyCollection<ImportNiiDto>([]);
 
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
-              .ReturnsAsync(pessoas);
-        _source.Setup(s => s.GetPessoasByNiiAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(It.IsAny<IReadOnlyList<ImportNiiDto>>(), It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetProviderImportNiisAsync(It.IsAny<CancellationToken>())).ReturnsAsync(importNiis);
+
 
         _repo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoasInDb);
 
@@ -84,7 +91,11 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     public async Task ExecuteAsync_WhenSourceThrows_DoesNotModifyRepositoryOrCommit()
     {
         // Arrange
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
+        var importNiis = new ReadOnlyCollection<ImportNiiDto>([]);
+
+        _source.Setup(s => s.GetPessoasByNiiAsync(importNiis, It.IsAny<CancellationToken>()))
+              .ThrowsAsync(new Exception("source error"));
+        _source.Setup(s => s.GetProviderImportNiisAsync(It.IsAny<CancellationToken>()))
               .ThrowsAsync(new Exception("source error"));
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
@@ -102,11 +113,12 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     {
         // Arrange
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
-
+        var importNiis = new ReadOnlyCollection<ImportNiiDto>([]);
         var sequence = new MockSequence();
 
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
-        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(importNiis, It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetProviderImportNiisAsync(It.IsAny<CancellationToken>())).ReturnsAsync([]);
+
 
         _repo.InSequence(sequence)
             .Setup(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()))
@@ -132,9 +144,11 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
+        var importNiis = new ReadOnlyCollection<ImportNiiDto>([]);
 
-        _source.Setup(s => s.GetPessoasAsync(ct)).ReturnsAsync(pessoas);
-        _source.Setup(s => s.GetPessoasByNiiAsync(pessoas, ct)).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasByNiiAsync(importNiis, ct)).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetProviderImportNiisAsync(ct)).ReturnsAsync(importNiis);
+
 
         _repo.Setup(r => r.AddOrUpdateAllAsync(pessoas, ct)).Returns(Task.CompletedTask);
         _repo.Setup(r => r.GetAllAsync(ct)).ReturnsAsync(pessoas);
