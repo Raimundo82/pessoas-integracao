@@ -1,7 +1,8 @@
 using Pessoas.Integracao.Core.Application.Abstractions;
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.Helper;
-
+using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Interfaces;
 
 namespace Pessoas.Integracao.Core.Application.UseCases;
@@ -13,16 +14,31 @@ public sealed class ImportAllPessoas(IPessoaRepository pessoaRepository, IPessoa
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task ExecuteAsync(CancellationToken ct)
     {
-        var pessoasInDb = await _pessoaRepository.GetAllAsync(ct);
-        var pessoasInSource = await _pessoasProvider.GetPessoasAsync(ct);
-        //var pessoasNonActiveInDb = pessoasInDb
-        //                            .Where(db => !pessoasInSource.Any(src => src.NII == db.NII))
-        //                            .ToArray();
+        var distinctImportNiis = await GetDistinctImportNiisAsync(ct);
+        var pessoasImportUpdated = await _pessoasProvider.GetPessoasByNiiAsync(distinctImportNiis, ct); //Implement this
 
-        var pessoasInDbUpdated = await _pessoasProvider.GetPessoasByNiiAsync(pessoasInDb, ct);
-        var pessoas = LogicOperationsHelper.UnionBy(pessoasInSource, pessoasInDbUpdated, p => p.NII);
-
-        await _pessoaRepository.AddOrUpdateAllAsync(pessoas, ct);
+        await _pessoaRepository.AddOrUpdateAllAsync(pessoasImportUpdated, ct);
         await _unitOfWork.CommitAsync(ct);
+    }
+
+    private async Task<IReadOnlyList<ImportNiiDto>> GetDistinctImportNiisAsync(CancellationToken ct)
+    {
+        var providerImportNiis = await _pessoasProvider.GetProviderImportNiisAsync(ct);
+
+        var pessoasInRepository = await _pessoaRepository.GetAllAsync(ct);
+        var repositoryImportNiis = await GetRepositoryImportNiisAsync(pessoasInRepository);
+
+        return LogicOperationsHelper.UnionBy(providerImportNiis, repositoryImportNiis, p => p.Nii);
+    }
+
+    private static async Task<IReadOnlyList<ImportNiiDto>> GetRepositoryImportNiisAsync(IReadOnlyList<Pessoa> pessoasInRepository)
+    {
+        return pessoasInRepository
+            .Where(p => p.NII is not null)
+            .Select(p => p.NII)
+            .Distinct()
+            .Select(nii => new ImportNiiDto(nii))
+            .ToList()
+            .AsReadOnly();
     }
 }
