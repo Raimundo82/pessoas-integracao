@@ -20,7 +20,6 @@ public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client
 
     public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<ImportNiiDto> importNiis, CancellationToken cancellationToken)
     {
-        // TODO: Refactor Parallel execution for all necessary webservices calls
         var results = await _client.GetExternalPersonnelNumberByImportNiisAsync(importNiis, cancellationToken);
 
         return

@@ -39,8 +39,6 @@ public class ExternalPersonnelNumberClient(
     public async Task<ZhrSLogMsg[]> GetExternalPersonnelNumberByImportNiisAsync(IReadOnlyList<ImportNiiDto> importNiis, CancellationToken cancellationToken)
     {
         var channel = _soapChannelProvider.CreateChannel(_settings.OutputUrl);
-
-        //TODO: Add channels for all SOAP Webservices
         var result = await channel.ZhrWsAtribOrgAsync(new ZhrWsAtribOrgRequest
         {
             ZhrWsAtribOrg = new ZhrWsAtribOrg
@@ -55,7 +53,6 @@ public class ExternalPersonnelNumberClient(
                         .ToArray()
             }
         });
-        // TODO: Return the message structure for validation
         return result?.ZhrWsAtribOrgResponse?.Message ?? [];
     }
 
