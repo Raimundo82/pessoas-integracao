@@ -45,7 +45,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsAllPessoasToDatabase()
+    public async Task Import_WithEmptyDatabase_PersistsAllFromProvider()
     {
         // Arrange
         var soapGetPernrResponse = new[]
@@ -90,7 +90,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithEmptySoapResponse_PreservesAllPessoasFromDatabase()
+    public async Task Import_WithDatabaseOnlyRecords_PreservesExistingAndAddsFromProvider()
     {
         // Arrange
         var existingPessoas = new[]
@@ -138,7 +138,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_UpdatesExistingAndAddsNew_KeepsUntouchedData()
+    public async Task Import_WithMixedRecords_UpdatesExistingPreservesUntouchedAndAddsNew()
     {
         // Arrange 
         var existingPessoas = new[]
@@ -188,6 +188,20 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222", "33333");
         savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("NEW001", "OLD002", "NEW002");
+    }
+
+    [Fact]
+    public async Task Import_WithEmptyProviderResponse_DatabaseRemainsUnchanged()
+    {
+        // TODO: Implementar
+        throw new NotImplementedException("Teste por implementar");
+    }
+
+    [Fact]
+    public async Task Import_WithDatabaseContainingOnlyProviderRecords_UpdatesExistingAndAddsNew()
+    {
+        // TODO: Implementar
+        throw new NotImplementedException("Teste por implementar");
     }
 
     [Fact]
