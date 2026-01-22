@@ -34,9 +34,7 @@ public sealed class ImportAllPessoas(IPessoaRepository pessoaRepository, IPessoa
     private static async Task<IReadOnlyList<ImportNiiDto>> GetRepositoryImportNiisAsync(IReadOnlyList<Pessoa> pessoasInRepository)
     {
         return pessoasInRepository
-            .Where(p => p.NII is not null)
             .Select(p => p.NII)
-            .Distinct()
             .Select(nii => new ImportNiiDto(nii))
             .ToList()
             .AsReadOnly();
