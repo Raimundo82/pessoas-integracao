@@ -15,7 +15,7 @@ public sealed class ImportAllPessoas(IPessoaRepository pessoaRepository, IPessoa
     public async Task ExecuteAsync(CancellationToken ct)
     {
         var distinctImportNiis = await GetDistinctImportNiisAsync(ct);
-        var pessoasImportUpdated = await _pessoasProvider.GetPessoasByNiiAsync(distinctImportNiis, ct); //Implement this
+        var pessoasImportUpdated = await _pessoasProvider.GetPessoasByNiiAsync(distinctImportNiis, ct);
 
         await _pessoaRepository.AddOrUpdateAllAsync(pessoasImportUpdated, ct);
         await _unitOfWork.CommitAsync(ct);
