@@ -7,6 +7,7 @@ ENV no_proxy=".marinha.pt,localhost"
 
 COPY marinha.crt /usr/local/share/ca-certificates/marinha.crt
 RUN update-ca-certificates
+RUN rm -f /etc/apt/sources.list.d/yarn.list
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
