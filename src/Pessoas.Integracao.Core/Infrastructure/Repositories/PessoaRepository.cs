@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
+using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Domain.Entities;
-using Pessoas.Integracao.Core.Domain.Interfaces;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 
 namespace Pessoas.Integracao.Core.Infrastructure.Repositories;

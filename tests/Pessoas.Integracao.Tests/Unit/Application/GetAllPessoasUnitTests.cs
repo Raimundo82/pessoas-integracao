@@ -6,11 +6,11 @@ using FluentAssertions;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Enums;
-using Pessoas.Integracao.Core.Domain.Interfaces;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 
 public sealed class GetAllPessoasUnitTests : IDisposable

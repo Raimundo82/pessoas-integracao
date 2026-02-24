@@ -1,6 +1,6 @@
 using Pessoas.Integracao.Core.Domain.Entities;
 
-namespace Pessoas.Integracao.Core.Domain.Interfaces;
+namespace Pessoas.Integracao.Core.Application.Contracts;
 
 public interface IPessoaRepository
 {
