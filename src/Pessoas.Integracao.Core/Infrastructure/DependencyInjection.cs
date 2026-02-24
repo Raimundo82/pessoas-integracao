@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Pessoas.Integracao.Core.Application.Abstractions;
-using Pessoas.Integracao.Core.Domain.Interfaces;
+using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Persistence;
 using Pessoas.Integracao.Core.Infrastructure.Repositories;
