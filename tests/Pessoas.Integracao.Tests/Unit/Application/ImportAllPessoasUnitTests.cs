@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 
+using FluentAssertions;
+
 using Moq;
 
 using Pessoas.Integracao.Core.Application.Abstractions;
@@ -28,59 +30,60 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     public async Task ImportAllAsync_WhenCalled_AddOrUpdateAllPessoas()
     {
         // Arrange (Given)
+        var ct = new CancellationTokenSource().Token;
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
             new() { Id = 1, NII = "22600"},
             new() { Id = 2, NII = "21200" }
         ]);
-        _source
-            .Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasAsync(ct)).ReturnsAsync(pessoas);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
         // Act (When)
-        await uut.ExecuteAsync(CancellationToken.None);
+        await uut.ExecuteAsync(ct);
 
         // Assert (Then)
-        _repo.Verify(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()), Times.Once);
-        _uow.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _repo.Verify(r => r.AddOrUpdateAllAsync(pessoas, ct), Times.Once);
+        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
     }
 
     [Fact]
     public async Task ExecuteAsync_WhenSourceReturnsEmptyCollection_PreserveExistingPessoas()
     {
         // Arrange
+        var ct = new CancellationTokenSource().Token;
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
 
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
+        _source.Setup(s => s.GetPessoasAsync(ct))
               .ReturnsAsync(pessoas);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
         // Act
-        await uut.ExecuteAsync(CancellationToken.None);
+        await uut.ExecuteAsync(ct);
 
         // Assert
-        _repo.Verify(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()), Times.Once);
-        _uow.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _repo.Verify(r => r.AddOrUpdateAllAsync(pessoas, ct), Times.Once);
+        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
     }
 
     [Fact]
     public async Task ExecuteAsync_WhenSourceThrows_DoesNotModifyRepositoryOrCommit()
     {
         // Arrange
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
-              .ThrowsAsync(new Exception("source error"));
+        var ct = new CancellationTokenSource().Token;
+        _source.Setup(s => s.GetPessoasAsync(ct))
+          .ThrowsAsync(new Exception("source error"));
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
         // Act
-        await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(CancellationToken.None));
+        await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(ct));
 
         // Assert
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
-        _uow.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _repo.Verify(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), ct), Times.Never);
+        _uow.Verify(u => u.CommitAsync(ct), Times.Never);
     }
 
     [Fact]
@@ -88,22 +91,23 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     {
         // Arrange
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
+        var ct = new CancellationTokenSource().Token;
 
         var sequence = new MockSequence();
 
-        _source.Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>())).ReturnsAsync(pessoas);
+        _source.Setup(s => s.GetPessoasAsync(ct)).ReturnsAsync(pessoas);
 
         _repo.InSequence(sequence)
-            .Setup(r => r.AddOrUpdateAllAsync(pessoas, It.IsAny<CancellationToken>()))
+            .Setup(r => r.AddOrUpdateAllAsync(pessoas, ct))
             .Returns(Task.CompletedTask);
 
-        _uow.Setup(u => u.CommitAsync(It.IsAny<CancellationToken>()))
+        _uow.Setup(u => u.CommitAsync(ct))
            .Returns(Task.CompletedTask);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
         // Act
-        await uut.ExecuteAsync(CancellationToken.None);
+        await uut.ExecuteAsync(ct);
 
         // Assert
         _repo.VerifyAll();
@@ -114,14 +118,26 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
     {
         // Arrange
         var ct = new CancellationTokenSource().Token;
-
         var pessoas = new ReadOnlyCollection<Pessoa>([]);
 
-        _source.Setup(s => s.GetPessoasAsync(ct)).ReturnsAsync(pessoas);
+        CancellationToken? capturedSourceToken = null;
+        CancellationToken? capturedRepoToken = null;
+        CancellationToken? capturedUowToken = null;
 
-        _repo.Setup(r => r.AddOrUpdateAllAsync(pessoas, ct)).Returns(Task.CompletedTask);
+        _source
+            .Setup(s => s.GetPessoasAsync(It.IsAny<CancellationToken>()))
+            .Callback<CancellationToken>(token => capturedSourceToken = token)
+            .ReturnsAsync(pessoas);
 
-        _uow.Setup(u => u.CommitAsync(ct)).Returns(Task.CompletedTask);
+        _repo
+            .Setup(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()))
+            .Callback<IReadOnlyList<Pessoa>, CancellationToken>((_, token) => capturedRepoToken = token)
+            .Returns(Task.CompletedTask);
+
+        _uow
+            .Setup(u => u.CommitAsync(It.IsAny<CancellationToken>()))
+            .Callback<CancellationToken>(token => capturedUowToken = token)
+            .Returns(Task.CompletedTask);
 
         var uut = new ImportAllPessoas(_repo.Object, _source.Object, _uow.Object);
 
@@ -129,9 +145,9 @@ public sealed class ImportAllPessoasUnitTests : IDisposable
         await uut.ExecuteAsync(ct);
 
         // Assert
-        _source.VerifyAll();
-        _repo.VerifyAll();
-        _uow.VerifyAll();
+        capturedSourceToken.Should().Be(ct);
+        capturedRepoToken.Should().Be(ct);
+        capturedUowToken.Should().Be(ct);
     }
 
     public void Dispose()
