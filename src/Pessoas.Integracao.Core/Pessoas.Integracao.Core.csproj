@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Application/Abstractions/" />
     <Folder Include="Application/DTOs/" />
+    <Folder Include="Application/Models/" />
     <Folder Include="Application/UseCases/" />
     <Folder Include="Domain/Entities/" />
     <Folder Include="Domain/Enums/" />
