@@ -1,3 +1,4 @@
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
 
 namespace Pessoas.Integracao.Core.Application.Contracts;
@@ -9,4 +10,5 @@ public interface IPessoaRepository
     Task ClearAllAsync(CancellationToken ct);
     Task AddOrUpdateAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
+    Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
 }
