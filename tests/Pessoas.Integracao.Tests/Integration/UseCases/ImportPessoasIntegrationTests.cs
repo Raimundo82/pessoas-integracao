@@ -22,7 +22,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 namespace Pessoas.Integracao.Tests.Integration.UseCases;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class ImportAllPessoasIntegrationTests : IDisposable
+public sealed class ImportPessoasIntegrationTests : IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
@@ -31,7 +31,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
     private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockChannelFactory;
     private readonly IOptions<DataSourceSettings> _settings;
 
-    public ImportAllPessoasIntegrationTests(PostgresTestContainerDb db)
+    public ImportPessoasIntegrationTests(PostgresTestContainerDb db)
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
@@ -73,7 +73,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -111,7 +111,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -145,7 +145,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -179,7 +179,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -218,7 +218,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -262,7 +262,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -321,7 +321,7 @@ public sealed class ImportAllPessoasIntegrationTests : IDisposable
 
         var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
         var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportAllPessoas(_repository, provider, _uow);
+        var useCase = new ImportPessoas(_repository, provider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
