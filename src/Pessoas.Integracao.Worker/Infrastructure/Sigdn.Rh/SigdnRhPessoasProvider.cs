@@ -1,4 +1,5 @@
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
@@ -15,5 +16,15 @@ public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client
             NII = pernr.Ni,
             ExternalId = pernr.Numsap
         })];
+    }
+
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> pessoaImportKeys, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<PessoaImportKey>> GetSourceImportKeysAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
