@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
@@ -28,7 +29,76 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
 
 
     [Fact]
-    public async Task GetPessoasAsync_UsesMockedSoapChannel_ReturnsExpectedPessoas()
+    public async Task GetPessoasByImportKeysAsync_UsesMockedSoapChannel_ReturnsExpectedPessoas()
+    {
+        // Arrange
+        var importKeys = new[]
+        {
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797")
+        };
+
+        var expectedOutput = new[]
+        {
+            new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
+            new ZhrSListapessoal { Ni = "22700", Numsap = "30002797", Empresa = "3000" }
+        };
+        _soapChannel
+            .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
+            .ReturnsAsync(new ZhrWsGetPernrResponse1
+            {
+                ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
+                {
+                    Output = [new ZhrSGetListapessoal { Pessoal = expectedOutput }]
+                }
+            });
+
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var provider = new SigdnRhPessoasProvider(client);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        pessoas.Should().NotBeNull();
+        pessoas.Should().HaveCount(2);
+        pessoas.Should().BeEquivalentTo(
+        [
+            new Pessoa { NII = "22600", ExternalId = "30002697" },
+            new Pessoa { NII = "22700", ExternalId = "30002797" }
+        ], options => options.ExcludingMissingMembers());
+    }
+
+    [Fact]
+    public async Task GetPessoasByImportKeysAsync_ReturnsEmptyCollection_WhenSoapChannelReturnsEmptyOutput()
+    {
+        // Arrange
+        var expectedOutput = Array.Empty<ZhrSListapessoal>();
+        _soapChannel
+            .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
+            .ReturnsAsync(new ZhrWsGetPernrResponse1
+            {
+                ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
+                {
+                    Output = [new ZhrSGetListapessoal { Pessoal = expectedOutput }]
+                }
+            });
+
+        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var provider = new SigdnRhPessoasProvider(client);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync([], default);
+
+        // Assert
+        pessoas.Should().NotBeNull();
+        pessoas.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetSourceImportKeysAsync_UsesMockedSoapChannel_ReturnsExpectedPessoas()
     {
         // Arrange
         var expectedOutput = new[]
@@ -51,20 +121,20 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
-        var pessoas = await provider.GetPessoasAsync(default);
+        var importKeys = await provider.GetSourceImportKeysAsync(default);
 
         // Assert
-        pessoas.Should().NotBeNull();
-        pessoas.Should().HaveCount(2);
-        pessoas.Should().BeEquivalentTo(
+        importKeys.Should().NotBeNull();
+        importKeys.Should().HaveCount(2);
+        importKeys.Should().BeEquivalentTo(
         [
-            new Pessoa { NII = "22600", ExternalId = "30002697" },
-            new Pessoa { NII = "22700", ExternalId = "30002797" }
+            new PessoaImportKey("22600","30002697"),
+            new PessoaImportKey("22700","30002797")
         ], options => options.ExcludingMissingMembers());
     }
 
     [Fact]
-    public async Task GetPessoasAsync_ReturnsEmptyCollection_WhenSoapChannelReturnsEmptyOutput()
+    public async Task GetSourceImportKeysAsync_ReturnsEmptyCollection_WhenSoapChannelReturnsEmptyOutput()
     {
         // Arrange
         var expectedOutput = Array.Empty<ZhrSListapessoal>();
@@ -83,15 +153,15 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
-        var pessoas = await provider.GetPessoasAsync(default);
+        var importKeys = await provider.GetPessoasByImportKeysAsync([], default);
 
         // Assert
-        pessoas.Should().NotBeNull();
-        pessoas.Should().BeEmpty();
+        importKeys.Should().NotBeNull();
+        importKeys.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task GetPessoasAsync_ThrowsException_WhenSoapChannelThrows()
+    public async Task GetSourceImportKeysAsync_ThrowsException_WhenSoapChannelThrows()
     {
         // Arrange
         _soapChannel
@@ -103,14 +173,14 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
-        Func<Task> act = async () => await provider.GetPessoasAsync(default);
+        Func<Task> act = async () => await provider.GetSourceImportKeysAsync(default);
 
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");
     }
 
     [Fact]
-    public async Task GetPessoasAsync_PassesCorrectRequestToSoapChannel()
+    public async Task GetSourceImportKeysAsync_PassesCorrectRequestToSoapChannel()
     {
         // Arrange
         ZhrWsGetPernrRequest? receivedRequest = null;
@@ -130,7 +200,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
-        await provider.GetPessoasAsync(default);
+        await provider.GetSourceImportKeysAsync(default);
 
         // Assert
         receivedRequest.Should().NotBeNull();

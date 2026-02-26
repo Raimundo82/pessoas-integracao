@@ -2,6 +2,7 @@ using FluentAssertions;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
@@ -19,7 +20,51 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task GetPessoasAsync_ReturnsMappedPessoas_FromExternalClient()
+
+    public async Task GetPessoasByImportKeysAsync_ReturnsExpectedMappedPessoas()
+    {
+        // Arrange
+        var importKeys = new[]
+        {
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797")
+        };
+
+        var expectedPessoas = new[]
+        {
+            new Pessoa { NII = "22600", ExternalId = "30002697" },
+            new Pessoa { NII = "22700", ExternalId = "30002797" }
+        };
+
+        var provider = new SigdnRhPessoasProvider(_client.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        pessoas.Should().NotBeNull();
+        pessoas.Should().HaveCount(2);
+        pessoas.Should().BeEquivalentTo(expectedPessoas, options => options.ExcludingMissingMembers());
+    }
+
+    [Fact]
+    public async Task GetPessoasByImportKeysAsync_GivenEmptyImportKeys_ReturnsNoPessoas()
+    {
+        // Arrange
+        var importKeys = Array.Empty<PessoaImportKey>();
+
+        var provider = new SigdnRhPessoasProvider(_client.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        pessoas.Should().NotBeNull();
+        pessoas.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetSourceImportKeysAsync_ReturnsMappedPessoas_FromExternalClient()
     {
         // Arrange
         _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>())).ReturnsAsync([
@@ -30,21 +75,21 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
         var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
 
         // Act (When)
-        var result = await pessoasProvider.GetPessoasAsync(CancellationToken.None);
+        var result = await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
 
         // Assert (Then)
-        result.Should().AllBeOfType<Pessoa>();
+        result.Should().AllBeOfType<PessoaImportKey>();
         result.Should().HaveCount(3);
         result.Should().BeEquivalentTo([
-            new Pessoa { NII = "22600", ExternalId = "30002697" },
-            new Pessoa { NII = "22700", ExternalId = "30002797" },
-            new Pessoa { NII = "22800", ExternalId = "30002897" }
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797"),
+            new PessoaImportKey("22800", "30002897"),
         ], options => options.ExcludingMissingMembers());
     }
 
 
     [Fact]
-    public async Task GetPessoasAsync_ReturnsEmptyCollection_WhenExternalClientReturnsEmpty()
+    public async Task GetSourceImportKeysAsync_ReturnsEmptyCollection_WhenExternalClientReturnsEmpty()
     {
         // Arrange 
         _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>()))
@@ -53,14 +98,14 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
         var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
 
         // Act
-        var result = await pessoasProvider.GetPessoasAsync(CancellationToken.None);
+        var result = await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
 
         // Assert
         result.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task GetPessoasAsync_ThrowsException_WhenExternalClientThrows()
+    public async Task GetSourceImportKeysAsync_ThrowsException_WhenExternalClientThrows()
     {
         // Arrange
         _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>()))
@@ -68,14 +113,14 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
         var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
 
         // Act
-        Func<Task> action = async () => await pessoasProvider.GetPessoasAsync(CancellationToken.None);
+        Func<Task> action = async () => await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");
     }
 
     [Fact]
-    public async Task GetPessoasAsync_CancellationTokenIsPassedToClient()
+    public async Task GetSourceImportKeysAsync_CancellationTokenIsPassedToClient()
     {
         // Arrange
         using var tokenSource = new CancellationTokenSource();
@@ -88,7 +133,7 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
         var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
 
         // Act
-        await pessoasProvider.GetPessoasAsync(tokenSource.Token);
+        await pessoasProvider.GetSourceImportKeysAsync(tokenSource.Token);
 
         // Assert
         receivedToken.Should().Be(tokenSource.Token);

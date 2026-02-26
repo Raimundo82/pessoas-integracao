@@ -8,15 +8,6 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client) : IPessoasDataProvider, IPessoasImportKeyProvider
 {
     private readonly IExternalPersonnelNumberClient _client = client;
-    public async Task<IReadOnlyList<Pessoa>> GetPessoasAsync(CancellationToken cancellationToken)
-    {
-        var result = await _client.GetExternalPersonnelNumbersAsync(cancellationToken);
-        return [.. result.Select(pernr => new Pessoa
-        {
-            NII = pernr.Ni,
-            ExternalId = pernr.Numsap
-        })];
-    }
 
     public Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> keys, CancellationToken ct)
     {
