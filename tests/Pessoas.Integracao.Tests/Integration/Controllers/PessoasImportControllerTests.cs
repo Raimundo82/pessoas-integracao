@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Constants;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Infrastructure.Data;
@@ -22,6 +24,8 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     private readonly AppDbContext _context;
     private readonly IServiceScope _scope;
     private readonly Mock<zhr_wsChannel> _mockSoapChannel;
+
+    private readonly Mock<IPessoasDataProvider> _mockPessoasDataProvider;
     private readonly IntegrationTestWebAppFactory _factory;
 
     public PessoasImportControllerTests(PostgresTestContainerDb db, IntegrationTestWebAppFactory factory)
@@ -37,15 +41,26 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         _mockSoapChannel = new Mock<zhr_wsChannel>();
         var mockChannelFactory = _scope.ServiceProvider.GetRequiredService<Mock<ISoapChannelProvider<zhr_wsChannel>>>();
+        _mockPessoasDataProvider = _scope.ServiceProvider.GetRequiredService<Mock<IPessoasDataProvider>>();
+
 
         mockChannelFactory.Setup(f => f.CreateChannel(It.IsAny<string>()))
             .Returns(_mockSoapChannel.Object);
+
+        _mockPessoasDataProvider
+            .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken _) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]);
 
         _context.Database.EnsureCreated();
     }
 
     [Fact]
-    public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsAllPessoasToDatabase()
+    public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsProviderPessoasToDatabase()
     {
         // Arrange
         var soapResponse = new[]
@@ -62,6 +77,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
                     Output = [new ZhrSGetListapessoal { Pessoal = soapResponse }]
                 }
             });
+
 
         // Act
         var response = await _client.PostAsync("/api/pessoas/import", null);
