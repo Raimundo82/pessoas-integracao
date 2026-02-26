@@ -5,7 +5,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 
-public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client) : IPessoasProvider
+public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client) : IPessoasDataProvider, IPessoasImportKeyProvider
 {
     private readonly IExternalPersonnelNumberClient _client = client;
     public async Task<IReadOnlyList<Pessoa>> GetPessoasAsync(CancellationToken cancellationToken)
@@ -18,13 +18,20 @@ public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client
         })];
     }
 
-    public Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> pessoaImportKeys, CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> keys, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return Task
+            .FromResult((IReadOnlyList<Pessoa>)keys
+                .Select(k => new Pessoa { NII = k.Nii, ExternalId = k.ExternalId })
+                .ToList()
+                .AsReadOnly());
     }
-
-    public Task<IReadOnlyList<PessoaImportKey>> GetSourceImportKeysAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<PessoaImportKey>> GetSourceImportKeysAsync(CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var result = await _client.GetExternalPersonnelNumbersAsync(ct);
+        return result
+          .Select(pernr => new PessoaImportKey(pernr.Ni, pernr.Numsap))
+          .ToList()
+          .AsReadOnly();
     }
 }
