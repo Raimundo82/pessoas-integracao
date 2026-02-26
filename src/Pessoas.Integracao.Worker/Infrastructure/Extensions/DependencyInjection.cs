@@ -15,7 +15,8 @@ public static class DependencyInjection
 
         return services.AddScoped<ISoapChannelProvider<zhr_wsChannel>, SoapChannelProvider<zhr_wsChannel>>()
             .AddScoped<IExternalPersonnelNumberClient, ExternalPersonnelNumberClient>()
-            .AddScoped<IPessoasProvider, SigdnRhPessoasProvider>()
+            .AddScoped<IPessoasDataProvider, SigdnRhPessoasProvider>()
+            .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasProvider>()
             .Configure<DataSourceSettings>(configuration.GetSection(DataSourceSettings.SectionName));
     }
 }
