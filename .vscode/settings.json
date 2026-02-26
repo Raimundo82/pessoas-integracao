@@ -1,6 +1,5 @@
 {
   "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
-  "omnisharp.enableEditorConfigSupport": true,
   "sqltools.connections": [
     {
       "ssh": "Disabled",
