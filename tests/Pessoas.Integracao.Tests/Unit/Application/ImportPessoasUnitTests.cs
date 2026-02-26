@@ -17,14 +17,16 @@ namespace Pessoas.Integracao.Tests.Unit.Application;
 public sealed class ImportPessoasUnitTests : IDisposable
 {
     // Test dependencies
-    private Mock<IPessoasProvider> _source;
+    private Mock<IPessoasDataProvider> _dataProvider;
+    private Mock<IPessoasImportKeyProvider> _keysProvider;
     private Mock<IPessoaRepository> _repo;
     private Mock<IUnitOfWork> _uow;
 
     public ImportPessoasUnitTests()
     {
         // Setup runs before each test
-        _source = new Mock<IPessoasProvider>();
+        _dataProvider = new Mock<IPessoasDataProvider>();
+        _keysProvider = new Mock<IPessoasImportKeyProvider>();
         _repo = new Mock<IPessoaRepository>();
         _uow = new Mock<IUnitOfWork>();
     }
@@ -36,7 +38,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22600", "30001000"), new("21200", "30002000")]);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -46,17 +48,17 @@ public sealed class ImportPessoasUnitTests : IDisposable
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
         _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
+        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
+        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
             keys.Count == 4 &&
             keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
             keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001") &&
@@ -80,7 +82,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([]);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -88,17 +90,17 @@ public sealed class ImportPessoasUnitTests : IDisposable
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
         _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
+        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
+        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
             keys.Count == 2 &&
             keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
             keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
@@ -118,7 +120,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([]);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -126,17 +128,17 @@ public sealed class ImportPessoasUnitTests : IDisposable
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
         _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
+        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
+        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
             keys.Count == 2 &&
             keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
             keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
@@ -156,7 +158,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -164,17 +166,17 @@ public sealed class ImportPessoasUnitTests : IDisposable
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
         _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
+        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
+        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
             keys.Count == 2 &&
             keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
             keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
@@ -194,7 +196,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
 
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21200", "30002000")]);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -204,17 +206,17 @@ public sealed class ImportPessoasUnitTests : IDisposable
 
         ]);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
         _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _source.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
+        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
+        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
             keys.Count == 3 &&
             keys.Any(k => k.Nii == "21200" && k.ExternalId == "30002000") &&
             keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
@@ -237,12 +239,12 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var ct = new CancellationTokenSource().Token;
         var importKeys = new ReadOnlyCollection<PessoaImportKey>([]);
         _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync(importKeys);
-        _source.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync(importKeys);
+        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync(importKeys);
 
-        _source.Setup(s => s.GetPessoasByImportKeysAsync(importKeys, ct))
+        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(importKeys, ct))
           .ThrowsAsync(new Exception("source error"));
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act
         await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(ct));
@@ -266,11 +268,11 @@ public sealed class ImportPessoasUnitTests : IDisposable
             .Setup(r => r.GetExistingImportKeysAsync(ct))
             .ReturnsAsync(importKeys);
 
-        _source.InSequence(sequence)
+        _keysProvider.InSequence(sequence)
             .Setup(s => s.GetSourceImportKeysAsync(ct))
             .ReturnsAsync(importKeys);
 
-        _source.InSequence(sequence)
+        _dataProvider.InSequence(sequence)
             .Setup(s => s.GetPessoasByImportKeysAsync(importKeys, ct))
             .ReturnsAsync(pessoas);
 
@@ -282,14 +284,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
             .Setup(u => u.CommitAsync(ct))
             .Returns(Task.CompletedTask);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act
         await uut.ExecuteAsync(ct);
 
         // Assert
         _repo.VerifyAll();
-        _source.VerifyAll();
+        _dataProvider.VerifyAll();
+        _keysProvider.VerifyAll();
         _uow.VerifyAll();
     }
 
@@ -310,12 +313,12 @@ public sealed class ImportPessoasUnitTests : IDisposable
             .Callback<CancellationToken>(token => capturedRepoToken = token)
             .ReturnsAsync(importKeys);
 
-        _source
+        _keysProvider
             .Setup(s => s.GetSourceImportKeysAsync(It.IsAny<CancellationToken>()))
             .Callback<CancellationToken>(token => capturedSourceToken = token)
             .ReturnsAsync(importKeys);
 
-        _source
+        _dataProvider
             .Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .Callback<IReadOnlyList<PessoaImportKey>, CancellationToken>((_, token) => capturedSourceToken = token)
             .ReturnsAsync(pessoas);
@@ -330,7 +333,7 @@ public sealed class ImportPessoasUnitTests : IDisposable
             .Callback<CancellationToken>(token => capturedUowToken = token)
             .Returns(Task.CompletedTask);
 
-        var uut = new ImportPessoas(_repo.Object, _source.Object, _uow.Object);
+        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
 
         // Act
         await uut.ExecuteAsync(ct);
@@ -342,8 +345,9 @@ public sealed class ImportPessoasUnitTests : IDisposable
     }
     public void Dispose()
     {
-        _source = null!;
+        _dataProvider = null!;
         _repo = null!;
+        _keysProvider = null!;
         _uow = null!;
         GC.SuppressFinalize(this);
     }
