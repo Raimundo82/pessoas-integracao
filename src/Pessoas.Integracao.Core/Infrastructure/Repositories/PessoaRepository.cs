@@ -41,8 +41,10 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
         await _context.Pessoas.ToListAsync(ct);
 
-    public Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Pessoas
+            .Select(p => new PessoaImportKey(p.NII, p.ExternalId))
+            .ToListAsync(cancellationToken);
     }
 }
