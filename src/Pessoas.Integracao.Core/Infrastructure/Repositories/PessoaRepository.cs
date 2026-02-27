@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
+using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
-using Pessoas.Integracao.Core.Domain.Interfaces;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 
 namespace Pessoas.Integracao.Core.Infrastructure.Repositories;
@@ -39,4 +40,11 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
         await _context.Pessoas.ToListAsync(ct);
+
+    public async Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Pessoas
+            .Select(p => new PessoaImportKey(p.NII, p.ExternalId))
+            .ToListAsync(cancellationToken);
+    }
 }

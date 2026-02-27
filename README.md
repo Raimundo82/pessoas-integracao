@@ -43,16 +43,7 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    cd pessoas-integracao
    ```
 
-2. **Open in VS Code**:
-   - Press F1 (or Ctrl+Shift+P) and run:
-     `Dev Containers: Open Folder in Container...` Then choose the project folder.
-
-   - VS Code will automatically:
-     - Build the dev container
-     - Mount the project
-     - Install tools and extensions
-
-3. **Configure environment variables**:
+2. **Configure environment variables**:
 
    Create a `.env` file in the `.devcontainer` folder based on `.env.example`:
 
@@ -68,6 +59,15 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    - `SONARQUBE_CI_TOKEN`: SonarQube CI token for full scan via development environment
    - `SONARQUBE_USER_TOKEN`: SonarQube user token for connected mode in development environment
    - `SONAR_HOST_URL`: SonarQube server URL
+
+3. **Open in VS Code**:
+   - Press F1 (or Ctrl+Shift+P) and run:
+     `Dev Containers: Open Folder in Container...` Then choose the project folder.
+
+   - VS Code will automatically:
+     - Build the dev container
+     - Mount the project
+     - Install tools and extensions
 
 ## 🤝 Contributing
 

@@ -8,7 +8,7 @@ public static class DependecyInjections
 {
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
-        return services.AddScoped<ImportAllPessoas>()
+        return services.AddScoped<ImportPessoas>()
             .AddScoped<GetAllPessoas>();
     }
 }

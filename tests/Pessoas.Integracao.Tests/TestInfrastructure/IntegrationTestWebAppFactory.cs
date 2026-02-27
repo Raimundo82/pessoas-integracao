@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
+using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
@@ -44,6 +45,18 @@ public class IntegrationTestWebAppFactory(PostgresTestContainerDb dbContainer) :
 
             services.AddSingleton(mockChannelFactory);
             services.AddSingleton(mockChannelFactory.Object);
+
+            var pessoasDataProviderDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IPessoasDataProvider));
+
+            if (pessoasDataProviderDescriptor != null)
+            {
+                services.Remove(pessoasDataProviderDescriptor);
+            }
+
+            var mockPessoasDataProvider = new Mock<IPessoasDataProvider>();
+
+            services.AddSingleton(mockPessoasDataProvider);
+            services.AddSingleton(mockPessoasDataProvider.Object);
 
             services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, _ => { });
