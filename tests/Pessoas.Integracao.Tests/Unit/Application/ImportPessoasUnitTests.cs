@@ -11,6 +11,8 @@ using Pessoas.Integracao.Core.Application.Models;
 
 using Pessoas.Integracao.Core.Application.UseCases;
 using Pessoas.Integracao.Core.Domain.Entities;
+using Pessoas.Integracao.Core.Domain.ValueObjects;
+using Pessoas.Integracao.Tests.Unit.TestDoubles;
 
 namespace Pessoas.Integracao.Tests.Unit.Application;
 
@@ -32,95 +34,59 @@ public sealed class ImportPessoasUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenPopulatedRepoAndSource_UpsertsMergedPessoasAndCommitsAsync()
+    public async Task ShouldUpsertMergedDistinctPessoasAndCommit_WhenRepositoryAndSourceHaveDifferentKeys()
     {
         // Arrange (Given)
         var ct = new CancellationTokenSource().Token;
 
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22600", "30001000"), new("21200", "30002000")]);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
 
+        var fakeRepo = new FakePessoaRepository([new("22600", "30001000"), new("21200", "30002000")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001"), new("21201", "30002001")]);
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
-            new() { Id = 1, NII = "22600", ExternalId = "30001000" },
-            new() { Id = 2, NII = "21200", ExternalId = "30002000" },
-            new() { Id = 3, NII = "22601", ExternalId = "30001001" },
-            new() { Id = 4, NII = "21201", ExternalId = "30002001" }
+            new() { NII = "22600", ExternalId = "30001000" },
+            new() { NII = "21200", ExternalId = "30002000" },
+            new() { NII = "22601", ExternalId = "30001001" },
+            new() { NII = "21201", ExternalId = "30002001" }
         ]);
-
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
-
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
+        var uowSpy = new SpyUnitOfWork();
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
-        _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
-            keys.Count == 4 &&
-            keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
-            keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001") &&
-            keys.Any(k => k.Nii == "22600" && k.ExternalId == "30001000") &&
-            keys.Any(k => k.Nii == "21200" && k.ExternalId == "30002000")
-        ), ct), Times.Once);
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.Is<IReadOnlyList<Pessoa>>(
-            pessoas => pessoas.Count == 4 &&
-            pessoas.Any(p => p.NII == "22600" && p.ExternalId == "30001000") &&
-            pessoas.Any(p => p.NII == "21200" && p.ExternalId == "30002000") &&
-            pessoas.Any(p => p.NII == "22601" && p.ExternalId == "30001001") &&
-            pessoas.Any(p => p.NII == "21201" && p.ExternalId == "30002001")
-            ), ct), Times.Once);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(4);
+        fakeRepo.LastUpsertedPessoas.Should().Equal(pessoas);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(4);
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22600" && k.ExternalId == "30001000");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21200" && k.ExternalId == "30002000");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22601" && k.ExternalId == "30001001");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21201" && k.ExternalId == "30002001");
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenEmptyRepo_UpsertsSourcePessoasAndCommitsAsync()
+    public async Task ShouldUpsertSourcePessoasAndCommit_WhenRepositoryHasNoKey()
     {
         // Arrange (Given)
         var ct = new CancellationTokenSource().Token;
 
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([]);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        var fakeRepo = new FakePessoaRepository([]);
 
-        var pessoas = new ReadOnlyCollection<Pessoa>(
+        var sourceKeys = new ReadOnlyCollection<PessoaImportKey>(
         [
-            new() { Id = 3, NII = "22601", ExternalId = "30001001" },
-            new() { Id = 4, NII = "21201", ExternalId = "30002001" }
+            new("22601", "30001001"),
+            new("21201", "30002001")
         ]);
-
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
-
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
-
-        // Act (When)
-        await uut.ExecuteAsync(ct);
-
-        // Assert (Then)
-        _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
-            keys.Count == 2 &&
-            keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
-            keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
-        ), ct), Times.Once);
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.Is<IReadOnlyList<Pessoa>>(
-            pessoas => pessoas.Count == 2 &&
-            pessoas.Any(p => p.NII == "22601" && p.ExternalId == "30001001") &&
-            pessoas.Any(p => p.NII == "21201" && p.ExternalId == "30002001")
-            ), ct), Times.Once);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
-    }
-
-    [Fact]
-    public async Task ExecuteAsync_GivenEmptySource_UpsertsRepoPessoasAndCommitsAsync()
-    {
-        // Arrange (Given)
-        var ct = new CancellationTokenSource().Token;
-
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([]);
+        var keysProviderStub = new StubPessoasImportKeyProvider(sourceKeys);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
@@ -128,134 +94,259 @@ public sealed class ImportPessoasUnitTests : IDisposable
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
 
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        var uowSpy = new SpyUnitOfWork();
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
-        _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
-            keys.Count == 2 &&
-            keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
-            keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
-        ), ct), Times.Once);
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.Is<IReadOnlyList<Pessoa>>(
-            pessoas => pessoas.Count == 2 &&
-            pessoas.Any(p => p.NII == "22601" && p.ExternalId == "30001001") &&
-            pessoas.Any(p => p.NII == "21201" && p.ExternalId == "30002001")
-            ), ct), Times.Once);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(2);
+        fakeRepo.LastUpsertedPessoas.Should().Equal(pessoas);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(2);
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22601" && k.ExternalId == "30001001");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21201" && k.ExternalId == "30002001");
+        dataProviderStub.LastToken.Should().Be(ct);
+
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenDuplicatedKeysSourceAndRepo_UpsertsDistinctPessoasAndCommitsAsync()
+    public async Task ShouldUpsertRepositoryPessoasAndCommit_WhenSourceHasNoKeys()
     {
         // Arrange (Given)
         var ct = new CancellationTokenSource().Token;
-
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
-
+        var fakeRepo = new FakePessoaRepository([new("22601", "30001001"), new("21201", "30002001")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([]);
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
             new() { Id = 3, NII = "22601", ExternalId = "30001001" },
             new() { Id = 4, NII = "21201", ExternalId = "30002001" }
         ]);
 
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
+        var uowSpy = new SpyUnitOfWork();
 
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
-        _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
-            keys.Count == 2 &&
-            keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
-            keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
-        ), ct), Times.Once);
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.Is<IReadOnlyList<Pessoa>>(
-            pessoas => pessoas.Count == 2 &&
-            pessoas.Any(p => p.NII == "22601" && p.ExternalId == "30001001") &&
-            pessoas.Any(p => p.NII == "21201" && p.ExternalId == "30002001")
-            ), ct), Times.Once);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(2);
+        fakeRepo.LastUpsertedPessoas.Should().Equal(pessoas);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(2);
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22601" && k.ExternalId == "30001001");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21201" && k.ExternalId == "30002001");
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenSomeDuplicatedKeysInSourceAndRepo_UpsertsDistinctPessoasAndCommitsAsync()
+    public async Task ShouldRequestDistinctKeysOnly_WhenRepositoryAndSourceContainDuplicateNiis()
     {
         // Arrange (Given)
         var ct = new CancellationTokenSource().Token;
-
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21200", "30002000")]);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync([new("22601", "30001001"), new("21201", "30002001")]);
+        var fakeRepo = new FakePessoaRepository([new("22601", "30001001"), new("21201", "30002001")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001"), new("21201", "30002001")]);
 
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
-            new() { Id = 2, NII = "21200", ExternalId = "30002000" },
-            new() { Id = 3, NII = "22601", ExternalId = "30001001" },
-            new() { Id = 4, NII = "21201", ExternalId = "30002001" }
-
+            new() { NII = "22601", ExternalId = "30001001" },
+            new() { NII = "21201", ExternalId = "30002001" }
         ]);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
+        var uowSpy = new SpyUnitOfWork();
 
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), ct)).ReturnsAsync(pessoas);
-
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
         await uut.ExecuteAsync(ct);
 
         // Assert (Then)
-        _repo.Verify(r => r.GetExistingImportKeysAsync(ct), Times.Once);
-        _keysProvider.Verify(s => s.GetSourceImportKeysAsync(ct), Times.Once);
-        _dataProvider.Verify(s => s.GetPessoasByImportKeysAsync(It.Is<IReadOnlyList<PessoaImportKey>>(keys =>
-            keys.Count == 3 &&
-            keys.Any(k => k.Nii == "21200" && k.ExternalId == "30002000") &&
-            keys.Any(k => k.Nii == "22601" && k.ExternalId == "30001001") &&
-            keys.Any(k => k.Nii == "21201" && k.ExternalId == "30002001")
-        ), ct), Times.Once);
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.Is<IReadOnlyList<Pessoa>>(
-            pessoas => pessoas.Count == 3 &&
-            pessoas.Any(p => p.NII == "21200" && p.ExternalId == "30002000") &&
-            pessoas.Any(p => p.NII == "22601" && p.ExternalId == "30001001") &&
-            pessoas.Any(p => p.NII == "21201" && p.ExternalId == "30002001")
-            ), ct), Times.Once);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Once);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(2);
+        fakeRepo.LastUpsertedPessoas.Should().Equal(pessoas);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(2);
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22601" && k.ExternalId == "30001001");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21201" && k.ExternalId == "30002001");
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
     }
 
+    [Fact]
+    public async Task ShouldMergePartialOverlapWithoutDuplicates_WhenRepositoryAndSourceShareSomeNiis()
+    {
+        // Arrange (Given)
+        var ct = new CancellationTokenSource().Token;
+        var fakeRepo = new FakePessoaRepository([new("22600", "30001000"), new("21200", "30002000")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001"), new("21200", "30002000")]);
+
+        var pessoas = new ReadOnlyCollection<Pessoa>(
+        [
+            new() { NII = "21200", ExternalId = "30002000" },
+            new() { NII = "22601", ExternalId = "30001001" },
+            new() { NII = "21201", ExternalId = "30002001" }
+
+        ]);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
+        var uowSpy = new SpyUnitOfWork();
+
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
+
+        // Act (When)
+        await uut.ExecuteAsync(ct);
+
+        // Assert (Then)
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(3);
+        fakeRepo.LastUpsertedPessoas.Should().Equal(pessoas);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(3);
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22600" && k.ExternalId == "30001000");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "22601" && k.ExternalId == "30001001");
+        dataProviderStub.LastRequestedKeys.Should().Contain(k => k.Nii == "21200" && k.ExternalId == "30002000");
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
+    }
 
     [Fact]
-    public async Task ExecuteAsync_WhenSourceThrows_DoesNotModifyRepositoryOrCommit()
+    public async Task ShouldUpsertEmptyListAndCommit_WhenNoImportKeysExist()
+    {
+        // Arrange (Given)
+        var ct = new CancellationTokenSource().Token;
+        var fakeRepo = new FakePessoaRepository([]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([]);
+        var dataProviderStub = new StubPessoasDataProvider([]);
+        var uowSpy = new SpyUnitOfWork();
+
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
+
+        // Act (When)
+        await uut.ExecuteAsync(ct);
+
+        // Assert (Then)
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(0);
+        dataProviderStub.LastRequestedKeys.Should().NotBeNull();
+        dataProviderStub.LastRequestedKeys.Should().HaveCount(0);
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.CommitCalls.Should().Be(1);
+        uowSpy.LastToken.Should().Be(ct);
+    }
+
+    [Fact]
+    public async Task ShouldUpdateExistingPessoaField_WhenSourceProvidesNewValueForSameNii()
     {
         // Arrange
         var ct = new CancellationTokenSource().Token;
-        var importKeys = new ReadOnlyCollection<PessoaImportKey>([]);
-        _repo.Setup(r => r.GetExistingImportKeysAsync(ct)).ReturnsAsync(importKeys);
-        _keysProvider.Setup(s => s.GetSourceImportKeysAsync(ct)).ReturnsAsync(importKeys);
+        var fakeRepo = new FakePessoaRepository([new("22601", "30001001")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001")]);
+        var pessoas = new ReadOnlyCollection<Pessoa>(
+        [
+            new() { Id = 1, NII = "22601", ExternalId = "30001001", DadosPessoais = new DadosPessoais { NomeCompleto = "Updated Name" } }
+        ]);
+        var dataProviderStub = new StubPessoasDataProvider(pessoas);
+        var uowSpy = new SpyUnitOfWork();
 
-        _dataProvider.Setup(s => s.GetPessoasByImportKeysAsync(importKeys, ct))
-          .ThrowsAsync(new Exception("source error"));
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        // Act
+        await uut.ExecuteAsync(ct);
+
+        // Assert
+        fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
+        fakeRepo.LastUpsertedPessoas.Should().HaveCount(1);
+        fakeRepo.LastUpsertedPessoas.Should().ContainSingle(p => p.NII == "22601" && p.ExternalId == "30001001" && p.DadosPessoais.NomeCompleto == "Updated Name");
+    }
+
+    [Fact]
+    public async Task ShouldNotUpsertOrCommit_WhenDataProviderThrows()
+    {
+        // Arrange
+        var ct = new CancellationTokenSource().Token;
+        var fakeRepo = new FakePessoaRepository([]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([]);
+        var dataProviderException = new Exception("source error");
+        var dataProviderStub = new ThrowingPessoasDataProvider(dataProviderException);
+        var uowSpy = new SpyUnitOfWork();
+
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act
         await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(ct));
 
         // Assert
-        _repo.Verify(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), ct), Times.Never);
-        _uow.Verify(u => u.CommitAsync(ct), Times.Never);
+        dataProviderStub.WasCalled.Should().BeTrue();
+        fakeRepo.LastUpsertedPessoas.Should().BeNull();
+        uowSpy.CommitCalls.Should().Be(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Always_ExecutesStepsInExpectedOrderAsync()
+    public async Task ShouldNotCommit_WhenRepositoryUpsertThrows()
+    {
+        // Arrange
+        var ct = new CancellationTokenSource().Token;
+        var throwingRepo = new ThrowingFakePessoasRepository([], new Exception("repository error"));
+        var keysProviderStub = new StubPessoasImportKeyProvider([]);
+        var dataProviderStub = new StubPessoasDataProvider([]);
+        var uowSpy = new SpyUnitOfWork();
+
+        var uut = new ImportPessoas(throwingRepo, dataProviderStub, keysProviderStub, uowSpy);
+
+        // Act
+        await Assert.ThrowsAsync<Exception>(() => uut.ExecuteAsync(ct));
+
+        // Assert
+        throwingRepo.WasCalled.Should().BeTrue();
+        uowSpy.CommitCalls.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task ShouldPropagateException_WhenCommitThrows()
+    {
+        // Arrange
+        var ct = new CancellationTokenSource().Token;
+        var fakeRepo = new FakePessoaRepository([]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001")]);
+        var dataProviderStub = new StubPessoasDataProvider([new Pessoa { NII = "22601", ExternalId = "30001001" }]);
+        var throwingUow = new ThrowingUnitOfWork(new Exception("commit error"));
+
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, throwingUow);
+
+        // Act
+        var act = () => uut.ExecuteAsync(ct);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>().WithMessage("commit error");
+        throwingUow.CommitCalls.Should().Be(1);
+        throwingUow.LastToken.Should().Be(ct);
+    }
+
+
+    [Fact]
+    public async Task ShouldExecuteDependenciesInOrder_WhenUseCaseRuns()
     {
         // Arrange
         var ct = new CancellationTokenSource().Token;
@@ -297,51 +388,27 @@ public sealed class ImportPessoasUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_PropagatesCancellationToken()
+    public async Task ShouldPropagateCancellationToken_WhenExecutingUseCase()
     {
         // Arrange
         var ct = new CancellationTokenSource().Token;
-        var pessoas = new ReadOnlyCollection<Pessoa>([]);
-        var importKeys = new ReadOnlyCollection<PessoaImportKey>([]);
 
-        CancellationToken? capturedSourceToken = null;
-        CancellationToken? capturedRepoToken = null;
-        CancellationToken? capturedUowToken = null;
 
-        _repo
-            .Setup(r => r.GetExistingImportKeysAsync(It.IsAny<CancellationToken>()))
-            .Callback<CancellationToken>(token => capturedRepoToken = token)
-            .ReturnsAsync(importKeys);
+        var fakeRepo = new FakePessoaRepository([new("22601", "30001001")]);
+        var keysProviderStub = new StubPessoasImportKeyProvider([new("21201", "30002001")]);
+        var dataProviderStub = new StubPessoasDataProvider([new Pessoa { NII = "21201", ExternalId = "30002001" }]);
+        var uowSpy = new SpyUnitOfWork();
 
-        _keysProvider
-            .Setup(s => s.GetSourceImportKeysAsync(It.IsAny<CancellationToken>()))
-            .Callback<CancellationToken>(token => capturedSourceToken = token)
-            .ReturnsAsync(importKeys);
-
-        _dataProvider
-            .Setup(s => s.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .Callback<IReadOnlyList<PessoaImportKey>, CancellationToken>((_, token) => capturedSourceToken = token)
-            .ReturnsAsync(pessoas);
-
-        _repo
-            .Setup(r => r.AddOrUpdateAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()))
-            .Callback<IReadOnlyList<Pessoa>, CancellationToken>((_, token) => capturedRepoToken = token)
-            .Returns(Task.CompletedTask);
-
-        _uow
-            .Setup(u => u.CommitAsync(It.IsAny<CancellationToken>()))
-            .Callback<CancellationToken>(token => capturedUowToken = token)
-            .Returns(Task.CompletedTask);
-
-        var uut = new ImportPessoas(_repo.Object, _dataProvider.Object, _keysProvider.Object, _uow.Object);
+        var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act
         await uut.ExecuteAsync(ct);
 
         // Assert
-        capturedSourceToken.Should().Be(ct);
-        capturedRepoToken.Should().Be(ct);
-        capturedUowToken.Should().Be(ct);
+        fakeRepo.LastGetKeysToken.Should().Be(ct);
+        fakeRepo.LastUpsertToken.Should().Be(ct);
+        dataProviderStub.LastToken.Should().Be(ct);
+        uowSpy.LastToken.Should().Be(ct);
     }
     public void Dispose()
     {
