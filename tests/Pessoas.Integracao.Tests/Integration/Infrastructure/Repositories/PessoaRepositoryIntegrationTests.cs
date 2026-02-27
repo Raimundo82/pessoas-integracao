@@ -334,4 +334,65 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    [Fact]
+    public async Task GetExistingImportKeysAsync_ReturnsCorrectKeys()
+    {
+        // Arrange
+        var pessoas = new[]
+        {
+            new Pessoa { NII = "11111", ExternalId = "EXT1" },
+            new Pessoa { NII = "22222", ExternalId = "EXT2" }
+        };
+        await _context.AddRangeAsync(pessoas);
+        await _context.SaveChangesAsync();
+        _context.ChangeTracker.Clear();
+
+        // Act
+        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().ContainSingle(k => k.Nii == "11111" && k.ExternalId == "EXT1");
+        result.Should().ContainSingle(k => k.Nii == "22222" && k.ExternalId == "EXT2");
+    }
+
+    [Fact]
+    public async Task GetExistingImportKeysAsync_WithNoPessoas_ShouldReturnEmptyList()
+    {
+        // Arrange
+        _context.Pessoas.RemoveRange(_context.Pessoas);
+        await _context.SaveChangesAsync();
+        _context.ChangeTracker.Clear();
+
+        // Act
+        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetExistingImportKeysAsync_WithNullExternalIds_ShouldHandleGracefully()
+    {
+        // Arrange
+        var pessoas = new[]
+        {
+            new Pessoa { NII = "11111", ExternalId = null },
+            new Pessoa { NII = "22222", ExternalId = "EXT2" }
+        };
+        await _context.AddRangeAsync(pessoas);
+        await _context.SaveChangesAsync();
+        _context.ChangeTracker.Clear();
+
+        // Act
+        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().ContainSingle(k => k.Nii == "11111" && k.ExternalId == null);
+        result.Should().ContainSingle(k => k.Nii == "22222" && k.ExternalId == "EXT2");
+    }
 }

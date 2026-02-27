@@ -8,7 +8,7 @@ namespace Pessoas.Integracao.Admin.Controllers;
 
 [ApiController]
 [Route("api/pessoas/import")]
-public class PessoasImportController(ImportAllPessoas importAllPessoas) : ControllerBase
+public class PessoasImportController(ImportPessoas importAllPessoas) : ControllerBase
 {
     [HttpPost]
     [Authorize(Policy = Policies.CanImportPessoas)]
