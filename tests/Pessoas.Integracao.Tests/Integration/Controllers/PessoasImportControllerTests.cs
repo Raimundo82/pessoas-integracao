@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Constants;
 using Pessoas.Integracao.Core.Domain.Entities;
@@ -84,6 +85,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(2);
+        dto.TotalAdded.Should().Be(2);
+        dto.TotalUpdated.Should().Be(0);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "21200");
@@ -117,6 +125,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(2);
+        dto.TotalAdded.Should().Be(0);
+        dto.TotalUpdated.Should().Be(2);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
@@ -155,6 +170,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(3);
+        dto.TotalAdded.Should().Be(1);
+        dto.TotalUpdated.Should().Be(2);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222", "33333");
