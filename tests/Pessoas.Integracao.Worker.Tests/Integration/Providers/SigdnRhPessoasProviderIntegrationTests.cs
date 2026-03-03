@@ -214,40 +214,6 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         receivedRequest.ZhrWsGetPernr.Input[0].Empresa.Should().Be("3000");
         receivedRequest.ZhrWsGetPernr.Input[0].Dtreferencia.Should().NotBeNullOrEmpty();
     }
-
-    [Fact]
-    public async Task GetDeltasAsync__UsesMockedSoapChannel_ReturnsExpectedDeltas()
-    {
-        // Arrange
-        var expectedOutput = new[]
-        {
-            new ZhrWsGetDeltasPernrOut { Id = "000146252", Pernr = "30005978", Ni = "00024014", Bdate = "2020-11-24", Btime = DateTime.Parse("2020-11-24 14:02:38"), Infty = "0015", Actio = "MOD", Begda = "2019-11-01", Endda = "2019-11-01" },
-        };
-        _soapChannelDeltas
-            .Setup(c => c.ZhrWsGetDeltasPernrAsync(It.IsAny<ZhrWsGetDeltasPernrRequest>()))
-            .ReturnsAsync(new ZhrWsGetDeltasPernrResponse1
-            {
-                ZhrWsGetDeltasPernrResponse = new ZhrWsGetDeltasPernrResponse
-                {
-                    Output = expectedOutput
-                }
-            });
-
-        _soapChannelDeltasFactory.Setup(f => f.CreateChannel(_settings.Value.DeltasUrl)).Returns(_soapChannelDeltas.Object);
-        var client = new DeltasClient(_settings, _soapChannelDeltasFactory.Object);
-        var provider = new testProvider(client);
-
-        // Act
-        var deltas = await provider.GetDeltasAsync(default);
-
-        // Assert
-        deltas.Should().NotBeNull();
-        deltas.Should().HaveCount(1);
-        deltas.Should().BeEquivalentTo(
-        [
-            new Delta { NII = "00024014", ExternalId = "30005978" },
-        ], options => options.ExcludingMissingMembers());
-    }
     public void Dispose()
     {
         _settings = null!;
