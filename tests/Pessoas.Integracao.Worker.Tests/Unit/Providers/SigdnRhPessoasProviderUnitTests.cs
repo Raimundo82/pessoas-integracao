@@ -8,7 +8,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Tests.SigdnRhPessoasProviderTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 
 public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
 {

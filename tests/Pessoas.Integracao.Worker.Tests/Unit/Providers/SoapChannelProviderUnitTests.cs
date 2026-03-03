@@ -5,7 +5,7 @@ using FluentAssertions;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Tests.SigdnRhPessoasProviderTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 
 public class SoapChannelProviderUnitTests
 {
