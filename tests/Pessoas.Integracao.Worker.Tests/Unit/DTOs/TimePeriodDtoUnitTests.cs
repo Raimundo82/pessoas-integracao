@@ -2,6 +2,8 @@ using System.Globalization;
 
 using FluentAssertions;
 
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.DTOs;
+
 namespace Pessoas.Integracao.Worker.Tests.Unit
 {
     public sealed class TimePeriodDtoTests

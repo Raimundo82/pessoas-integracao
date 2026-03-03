@@ -1,3 +1,5 @@
+namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.DTOs;
+
 public sealed class TimePeriodDto
 {
     public DateTime Start { get; init; }

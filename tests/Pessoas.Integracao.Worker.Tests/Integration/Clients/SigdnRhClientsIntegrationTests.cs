@@ -9,6 +9,7 @@ using Moq;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.DTOs;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 
 namespace Pessoas.Integracao.Worker.Tests.Integration.Providers;
@@ -118,20 +119,6 @@ public sealed class SigdnRhClientsIntegrationTests : IDisposable
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>()
             .WithMessage("SOAP error");
-    }
-
-    [Fact]
-    public void TimePeriodDto_Throws_WhenEndIsBeforeStart()
-    {
-        // Act
-        Action act = () => new TimePeriodDto(
-            DateTime.Parse("2020-11-25 10:00:00", CultureInfo.InvariantCulture),
-            DateTime.Parse("2020-11-24 10:00:00", CultureInfo.InvariantCulture)
-        );
-
-        // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("*End timestamp cannot be earlier than start timestamp*");
     }
 
     public void Dispose()

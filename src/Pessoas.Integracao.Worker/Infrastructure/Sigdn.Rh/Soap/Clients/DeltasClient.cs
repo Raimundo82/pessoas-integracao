@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.DTOs;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
@@ -26,7 +27,6 @@ public class DeltasClient(
                 {
                     Bukrs = _settings.Empresa,
                     Begda = timeperiod.StartAsSapString(),
-                    //Begda = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd"),
                     Endda = timeperiod.EndAsSapString()
                 }
             }

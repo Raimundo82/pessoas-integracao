@@ -1,3 +1,4 @@
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.DTOs;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
