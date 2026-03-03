@@ -26,4 +26,8 @@
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Unit\Clients\" />
+  </ItemGroup>
+
 </Project>
