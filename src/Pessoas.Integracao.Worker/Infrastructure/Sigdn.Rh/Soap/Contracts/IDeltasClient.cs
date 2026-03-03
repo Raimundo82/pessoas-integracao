@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
 public interface IDeltasClient
 {
-    Task<ZhrWsGetDeltasPernrOut[]> GetDeltasAsync(CancellationToken cancellationToken);
+    Task<ZhrWsGetDeltasPernrOut[]> GetDeltasAsync(TimePeriodDto timeperiod, CancellationToken cancellationToken);
 }

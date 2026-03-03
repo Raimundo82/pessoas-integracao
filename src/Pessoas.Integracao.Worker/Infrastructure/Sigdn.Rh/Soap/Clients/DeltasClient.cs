@@ -14,7 +14,7 @@ public class DeltasClient(
 {
     private readonly DataSourceSettings _settings = dataSourceSettings.Value;
     private readonly ISoapChannelProvider<ZHR_WS_DELTASChannel> _soapChannelProvider = soapChannelProvider;
-    public async Task<ZhrWsGetDeltasPernrOut[]> GetDeltasAsync(CancellationToken cancellationToken)
+    public async Task<ZhrWsGetDeltasPernrOut[]> GetDeltasAsync(TimePeriodDto timeperiod, CancellationToken cancellationToken)
     {
         var channel = _soapChannelProvider.CreateChannel(_settings.DeltasUrl);
 
@@ -25,7 +25,9 @@ public class DeltasClient(
                 Input = new ZhrWsGetDeltasPernrIn
                 {
                     Bukrs = _settings.Empresa,
-                    Begda = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+                    Begda = timeperiod.StartAsSapString(),
+                    //Begda = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd"),
+                    Endda = timeperiod.EndAsSapString()
                 }
             }
         });
