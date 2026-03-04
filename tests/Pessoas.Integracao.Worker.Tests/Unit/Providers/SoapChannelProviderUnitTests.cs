@@ -10,14 +10,14 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 public class SoapChannelProviderUnitTests
 {
     [Fact]
-    public void CreateChannel_ReturnsChannelInstance()
+    public void ShouldReturnChannelOfExpectedType_WhenCreateChannelIsCalled()
     {
         // Arrange
-        var endpoint = "http://fake/service";
-        var provider = new SoapChannelProvider<zhr_wsChannel>();
+        var factory = new ChannelFactory<zhr_wsChannel>(new BasicHttpBinding(), new EndpointAddress("http://fake/service"));
+        var provider = new SoapChannelProvider<zhr_wsChannel>(factory);
 
         // Act
-        var channel = provider.CreateChannel(endpoint);
+        var channel = provider.CreateChannel();
 
         // Assert
         channel.Should().NotBeNull();

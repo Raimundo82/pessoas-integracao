@@ -17,7 +17,7 @@ public class DeltasClient(
     private readonly ISoapChannelProvider<ZHR_WS_DELTASChannel> _soapChannelProvider = soapChannelProvider;
     public async Task<ZhrWsGetDeltasPernrOut[]> GetDeltasAsync(TimePeriodDto timeperiod, CancellationToken cancellationToken)
     {
-        var channel = _soapChannelProvider.CreateChannel(_settings.DeltasUrl);
+        var channel = _soapChannelProvider.CreateChannel();
 
         var result = await channel.ZhrWsGetDeltasPernrAsync(new ZhrWsGetDeltasPernrRequest
         {

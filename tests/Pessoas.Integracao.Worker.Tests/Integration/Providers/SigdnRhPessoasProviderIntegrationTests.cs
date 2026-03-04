@@ -19,17 +19,17 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
 {
 
     private IOptions<DataSourceSettings> _settings;
-    private Mock<zhr_wsChannel> _soapChannel;
-    private readonly Mock<ZHR_WS_DELTASChannel> _soapChannelDeltas;
-    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelFactory;
-    private readonly Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>> _soapChannelDeltasFactory;
+    private Mock<zhr_wsChannel> _outputChannel;
+    private readonly Mock<ZHR_WS_DELTASChannel> _deltasChannel;
+    private Mock<ISoapChannelProvider<zhr_wsChannel>> _outputChannelProvider;
+    private readonly Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>> _deltasChannelProvider;
     public SigdnRhPessoasProviderIntegrationTests()
     {
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
-        _soapChannel = new Mock<zhr_wsChannel>();
-        _soapChannelDeltas = new Mock<ZHR_WS_DELTASChannel>();
-        _soapChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
-        _soapChannelDeltasFactory = new Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>>();
+        _outputChannel = new Mock<zhr_wsChannel>();
+        _deltasChannel = new Mock<ZHR_WS_DELTASChannel>();
+        _outputChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _deltasChannelProvider = new Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>>();
     }
 
 
@@ -48,7 +48,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "22700", Numsap = "30002797", Empresa = "3000" }
         };
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -58,8 +58,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -80,7 +80,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
     {
         // Arrange
         var expectedOutput = Array.Empty<ZhrSListapessoal>();
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -90,8 +90,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -111,7 +111,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "22700", Numsap = "30002797", Empresa = "3000" }
         };
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -121,8 +121,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -143,7 +143,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
     {
         // Arrange
         var expectedOutput = Array.Empty<ZhrSListapessoal>();
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -153,8 +153,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -169,12 +169,12 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
     public async Task GetSourceImportKeysAsync_ThrowsException_WhenSoapChannelThrows()
     {
         // Arrange
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -189,7 +189,7 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
     {
         // Arrange
         ZhrWsGetPernrRequest? receivedRequest = null;
-        _soapChannel
+        _outputChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .Callback<ZhrWsGetPernrRequest>(req => receivedRequest = req)
             .ReturnsAsync(new ZhrWsGetPernrResponse1
@@ -200,8 +200,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        _outputChannelProvider.Setup(f => f.CreateChannel()).Returns(_outputChannel.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _outputChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
 
         // Act
@@ -217,8 +217,8 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
     public void Dispose()
     {
         _settings = null!;
-        _soapChannel = null!;
-        _soapChannelFactory = null!;
+        _outputChannel = null!;
+        _outputChannelProvider = null!;
         GC.SuppressFinalize(this);
     }
 }

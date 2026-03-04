@@ -30,7 +30,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     private readonly PessoaRepository _repository;
     private readonly EfUnitOfWork _uow;
     private readonly Mock<zhr_wsChannel> _providerResponse;
-    private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockChannelFactory;
+    private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockChannelProvider;
     private readonly Mock<IPessoasDataProvider> _mockDataProvider;
     private readonly IOptions<DataSourceSettings> _settings;
 
@@ -45,11 +45,11 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         _uow = new EfUnitOfWork(_context);
 
         _providerResponse = new Mock<zhr_wsChannel>();
-        _mockChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _mockChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
 
-        _mockChannelFactory
-            .Setup(f => f.CreateChannel(_settings.Value.OutputUrl))
+        _mockChannelProvider
+            .Setup(f => f.CreateChannel())
             .Returns(_providerResponse.Object);
 
         _mockDataProvider = new Mock<IPessoasDataProvider>();
@@ -76,7 +76,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var keysProvider = new SigdnRhPessoasProvider(client);
 
         _mockDataProvider
@@ -124,7 +124,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var keysProvider = new SigdnRhPessoasProvider(client);
 
         _mockDataProvider
@@ -169,7 +169,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var keysProvider = new SigdnRhPessoasProvider(client);
 
         _mockDataProvider
@@ -217,7 +217,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var keysProvider = new SigdnRhPessoasProvider(client);
 
         _mockDataProvider
@@ -265,7 +265,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var keysProvider = new SigdnRhPessoasProvider(client);
 
         _mockDataProvider
@@ -312,7 +312,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         _mockDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
@@ -353,7 +353,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         _mockDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
@@ -389,7 +389,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                     Output = [new ZhrSGetListapessoal { Pessoal = soapResponse }]
                 }
             });
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         _mockDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
@@ -435,7 +435,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         _mockDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
@@ -494,7 +494,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
 
@@ -561,7 +561,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
         var provider = new SigdnRhPessoasProvider(client);
         var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
 

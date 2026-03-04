@@ -45,7 +45,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         _mockPessoasDataProvider = _scope.ServiceProvider.GetRequiredService<Mock<IPessoasDataProvider>>();
 
 
-        mockChannelFactory.Setup(f => f.CreateChannel(It.IsAny<string>()))
+        mockChannelFactory.Setup(f => f.CreateChannel())
             .Returns(_mockSoapChannel.Object);
 
         _mockPessoasDataProvider

@@ -19,12 +19,12 @@ public sealed class SigdnRhClientsIntegrationTests : IDisposable
 
     private IOptions<DataSourceSettings> _settings;
     private readonly Mock<ZHR_WS_DELTASChannel> _soapChannelDeltas;
-    private readonly Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>> _soapChannelDeltasFactory;
+    private readonly Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>> _soapChannelDeltasProvider;
     public SigdnRhClientsIntegrationTests()
     {
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
         _soapChannelDeltas = new Mock<ZHR_WS_DELTASChannel>();
-        _soapChannelDeltasFactory = new Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>>();
+        _soapChannelDeltasProvider = new Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>>();
     }
 
     [Fact]
@@ -45,8 +45,8 @@ public sealed class SigdnRhClientsIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelDeltasFactory.Setup(f => f.CreateChannel(_settings.Value.DeltasUrl)).Returns(_soapChannelDeltas.Object);
-        var client = new DeltasClient(_settings, _soapChannelDeltasFactory.Object);
+        _soapChannelDeltasProvider.Setup(f => f.CreateChannel()).Returns(_soapChannelDeltas.Object);
+        var client = new DeltasClient(_settings, _soapChannelDeltasProvider.Object);
 
         var startTimestamp = DateTime.ParseExact("2020-11-24 14:00:00", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         var endTimestamp = DateTime.ParseExact("2020-11-24 15:00:00", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -78,10 +78,10 @@ public sealed class SigdnRhClientsIntegrationTests : IDisposable
                 }
             });
 
-        _soapChannelDeltasFactory.Setup(f => f.CreateChannel(_settings.Value.DeltasUrl))
+        _soapChannelDeltasProvider.Setup(f => f.CreateChannel())
             .Returns(_soapChannelDeltas.Object);
 
-        var client = new DeltasClient(_settings, _soapChannelDeltasFactory.Object);
+        var client = new DeltasClient(_settings, _soapChannelDeltasProvider.Object);
 
         var timePeriod = new TimePeriodDto(
             DateTime.Parse("2020-11-24 14:00:00", CultureInfo.InvariantCulture),
@@ -103,10 +103,10 @@ public sealed class SigdnRhClientsIntegrationTests : IDisposable
             .Setup(c => c.ZhrWsGetDeltasPernrAsync(It.IsAny<ZhrWsGetDeltasPernrRequest>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
 
-        _soapChannelDeltasFactory.Setup(f => f.CreateChannel(_settings.Value.DeltasUrl))
+        _soapChannelDeltasProvider.Setup(f => f.CreateChannel())
             .Returns(_soapChannelDeltas.Object);
 
-        var client = new DeltasClient(_settings, _soapChannelDeltasFactory.Object);
+        var client = new DeltasClient(_settings, _soapChannelDeltasProvider.Object);
 
         var timePeriod = new TimePeriodDto(
             DateTime.Parse("2020-11-24 14:00:00", CultureInfo.InvariantCulture),
