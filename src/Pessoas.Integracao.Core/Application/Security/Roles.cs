@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Core.Domain.Constants;
+namespace Pessoas.Integracao.Core.Application.Security;
 
 public static class Roles
 {

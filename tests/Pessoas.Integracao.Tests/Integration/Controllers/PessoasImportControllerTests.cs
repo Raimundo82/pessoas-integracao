@@ -9,7 +9,7 @@ using Moq;
 using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.Models;
-using Pessoas.Integracao.Core.Domain.Constants;
+using Pessoas.Integracao.Core.Application.Security;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Tests.TestInfrastructure;
