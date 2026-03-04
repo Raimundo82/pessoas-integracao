@@ -209,7 +209,6 @@ public sealed class SigdnRhPessoasProviderIntegrationTests : IDisposable
         receivedRequest.ZhrWsGetPernr.Input[0].Empresa.Should().Be("3000");
         receivedRequest.ZhrWsGetPernr.Input[0].Dtreferencia.Should().NotBeNullOrEmpty();
     }
-
     public void Dispose()
     {
         _settings = null!;
