@@ -15,13 +15,13 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
 {
     private IOptions<DataSourceSettings> _settings;
     private Mock<zhr_wsChannel> _soapChannel;
-    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelFactory;
+    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
 
     public ExternalPersonnelNumberClientUnitTests()
     {
         _settings = Options.Create(new DataSourceSettings { });
         _soapChannel = new Mock<zhr_wsChannel>();
-        _soapChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _soapChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
     }
 
     [Fact]
@@ -45,9 +45,9 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
@@ -73,9 +73,9 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
@@ -88,7 +88,7 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
     {
         _settings = null!;
         _soapChannel = null!;
-        _soapChannelFactory = null!;
+        _soapChannelProvider = null!;
         GC.SuppressFinalize(this);
     }
 }

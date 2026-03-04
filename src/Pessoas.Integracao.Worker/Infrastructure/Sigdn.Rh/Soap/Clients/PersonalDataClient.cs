@@ -17,7 +17,7 @@ public class PersonalDataClient(
     private readonly ISoapChannelProvider<zhr_wsChannel> _soapChannelProvider = soapChannelProvider;
     public async Task<ZhrSPessoaisOutput[]> GetPersonalDataAsync(PessoaImportKey[] importKey, CancellationToken cancellationToken)
     {
-        var channel = _soapChannelProvider.CreateChannel(_settings.OutputUrl);
+        var channel = _soapChannelProvider.CreateChannel();
         var input = importKey.Select(k => new ZhrWsInputStruct { Empresa = _settings.Empresa, Numsap = k.ExternalId, Ni = k.Nii });
 
         var response = await channel.ZhrWsPersonalDataAsync(new ZhrWsPersonalDataRequest

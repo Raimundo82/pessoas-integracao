@@ -1,9 +1,12 @@
+using System.ServiceModel;
+
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 
-public class SoapChannelProvider<TChannel> : ISoapChannelProvider<TChannel>
+public class SoapChannelProvider<TChannel>(ChannelFactory<TChannel> channelFactory) : ISoapChannelProvider<TChannel>
 {
-    public TChannel CreateChannel(string endpointUrl)
+    private readonly ChannelFactory<TChannel> _channelFactory = channelFactory;
+    public TChannel CreateChannel()
     {
-        return SoapChannelFactory.CreateChannelFactory<TChannel>(endpointUrl).CreateChannel();
+        return _channelFactory.CreateChannel();
     }
 }

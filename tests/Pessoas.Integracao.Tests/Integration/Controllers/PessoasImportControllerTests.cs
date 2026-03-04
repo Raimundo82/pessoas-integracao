@@ -41,11 +41,11 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         _scope = factory.Services.CreateScope();
 
         _mockSoapChannel = new Mock<zhr_wsChannel>();
-        var mockChannelFactory = _scope.ServiceProvider.GetRequiredService<Mock<ISoapChannelProvider<zhr_wsChannel>>>();
+        var mockSoapChannelProvider = _scope.ServiceProvider.GetRequiredService<Mock<ISoapChannelProvider<zhr_wsChannel>>>();
         _mockPessoasDataProvider = _scope.ServiceProvider.GetRequiredService<Mock<IPessoasDataProvider>>();
 
 
-        mockChannelFactory.Setup(f => f.CreateChannel(It.IsAny<string>()))
+        mockSoapChannelProvider.Setup(f => f.CreateChannel())
             .Returns(_mockSoapChannel.Object);
 
         _mockPessoasDataProvider

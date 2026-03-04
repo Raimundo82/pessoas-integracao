@@ -16,13 +16,13 @@ public sealed class PersonalDataClientUnitTests : IDisposable
 {
     private IOptions<DataSourceSettings> _settings;
     private Mock<zhr_wsChannel> _soapChannel;
-    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelFactory;
+    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
 
     public PersonalDataClientUnitTests()
     {
         _settings = Options.Create(new DataSourceSettings { });
         _soapChannel = new Mock<zhr_wsChannel>();
-        _soapChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _soapChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
     }
 
     [Fact]
@@ -42,9 +42,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
@@ -74,9 +74,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
@@ -109,9 +109,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
@@ -136,9 +136,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
@@ -157,9 +157,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
             .Setup(c => c.ZhrWsPersonalDataAsync(It.IsAny<ZhrWsPersonalDataRequest>()))
             .ThrowsAsync(new Exception("SOAP client error"));
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, CancellationToken.None));
@@ -171,9 +171,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Throws(new Exception("Channel creation error"));
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Throws(new Exception("Channel creation error"));
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, CancellationToken.None));
@@ -203,9 +203,9 @@ public sealed class PersonalDataClientUnitTests : IDisposable
                 };
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonalDataClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var getPersonalDataTask = client.GetPersonalDataAsync(personImportKeys, cancellationTokenSource.Token);
@@ -220,7 +220,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
     {
         _settings = null!;
         _soapChannel = null!;
-        _soapChannelFactory = null!;
+        _soapChannelProvider = null!;
         GC.SuppressFinalize(this);
     }
 }
