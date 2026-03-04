@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Unit/Extensions/" />
-    <Folder Include="Unit\Clients\" />
+    <Folder Include="Unit/Clients/" />
   </ItemGroup>
 
 </Project>
