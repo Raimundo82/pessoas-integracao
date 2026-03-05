@@ -19,8 +19,8 @@ public static class DependencyInjection
             .AddSoapChannelFactorySingleton<ZHR_WS_DELTASChannel>(settings => settings.DeltasUrl)
             .AddScoped<ISoapChannelProvider<zhr_wsChannel>, SoapChannelProvider<zhr_wsChannel>>()
             .AddScoped<ISoapChannelProvider<ZHR_WS_DELTASChannel>, SoapChannelProvider<ZHR_WS_DELTASChannel>>()
-            .AddScoped<IExternalPersonnelNumberClient, ExternalPersonnelNumberClient>()
+            .AddScoped<IPersonnelNumbersClient, PersonnelNumberClient>()
             .AddScoped<IPessoasDataProvider, SigdnRhPessoasProvider>()
-            .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasProvider>();
+            .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasImportKeysProvider>();
     }
 }

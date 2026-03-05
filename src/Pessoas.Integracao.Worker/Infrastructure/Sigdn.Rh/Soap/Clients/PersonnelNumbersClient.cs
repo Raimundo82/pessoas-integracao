@@ -7,14 +7,14 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 
-public class ExternalPersonnelNumberClient(
+public class PersonnelNumberClient(
         IOptions<DataSourceSettings> dataSourceSettings,
         ISoapChannelProvider<zhr_wsChannel> soapChannelProvider)
-        : IExternalPersonnelNumberClient
+        : IPersonnelNumbersClient
 {
     private readonly DataSourceSettings _settings = dataSourceSettings.Value;
     private readonly ISoapChannelProvider<zhr_wsChannel> _soapChannelProvider = soapChannelProvider;
-    public async Task<ZhrSListapessoal[]> GetExternalPersonnelNumbersAsync(CancellationToken cancellationToken)
+    public async Task<ZhrSListapessoal[]> GetPersonnelNumbersAsync(CancellationToken cancellationToken)
     {
         var channel = _soapChannelProvider.CreateChannel();
 

@@ -29,9 +29,9 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly EfUnitOfWork _uow;
-    private readonly Mock<zhr_wsChannel> _providerResponse;
-    private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockChannelProvider;
-    private readonly Mock<IPessoasDataProvider> _mockDataProvider;
+    private readonly Mock<zhr_wsChannel> _soapChannel;
+    private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockSoapChannelProvider;
+    private readonly Mock<IPessoasDataProvider> _mockPessoasDataProvider;
     private readonly IOptions<DataSourceSettings> _settings;
 
     public ImportPessoasIntegrationTests(PostgresTestContainerDb db)
@@ -44,50 +44,51 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         _repository = new PessoaRepository(_context);
         _uow = new EfUnitOfWork(_context);
 
-        _providerResponse = new Mock<zhr_wsChannel>();
-        _mockChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _soapChannel = new Mock<zhr_wsChannel>();
+        _mockSoapChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _mockSoapChannelProvider
+            .Setup(f => f.CreateChannel())
+            .Returns(_soapChannel.Object);
+
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
 
-        _mockChannelProvider
-            .Setup(f => f.CreateChannel())
-            .Returns(_providerResponse.Object);
-
-        _mockDataProvider = new Mock<IPessoasDataProvider>();
+        _mockPessoasDataProvider = new Mock<IPessoasDataProvider>();
 
         _context.Database.EnsureCreated();
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenEmptyDatabase_PersistsAllPessoasFromProvider()
+    public async Task ShouldPersistAllPessoas_WhenDatabaseIsEmpty()
     {
         // Arrange
-        var providerKeysResponse = new[]
+        var importKeysProviderResponse = new[]
         {
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "21200", Numsap = "30002798", Empresa = "3000" }
         };
-        _providerResponse
+
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
                 ZhrWsGetPernrResponse = new ZhrWsGetPernrResponse
                 {
-                    Output = [new ZhrSGetListapessoal { Pessoal = providerKeysResponse }]
+                    Output = [new ZhrSGetListapessoal { Pessoal = importKeysProviderResponse }]
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var keysProvider = new SigdnRhPessoasProvider(client);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
+            .ReturnsAsync([.. importKeysProviderResponse.Select(k => new Pessoa
             {
                 NII = k.Ni,
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, keysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -100,7 +101,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenPopulatedDatabaseAndProviderResponse_PersistsDistinctPessoas()
+    public async Task ShouldPersistDistinctPessoas_WhenDatabaseHasDataAndProviderReturnsNewPessoas()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -114,7 +115,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
             new ZhrSListapessoal { Ni = "22601", Numsap = "30001001", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "21201", Numsap = "30002001", Empresa = "3000" }
         };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -124,10 +125,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var keysProvider = new SigdnRhPessoasProvider(client);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
             {
@@ -135,7 +136,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, keysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -147,8 +148,9 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("30001000", "30002000", "30001001", "30002001");
     }
 
+
     [Fact]
-    public async Task ExecuteAsync_GivenEmptyProviderResponse_MaintainsDatabasePessoas()
+    public async Task ShouldMaintainDatabasePessoas_WhenProviderReturnsEmptyResponse()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -159,7 +161,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         var providerKeysResponse = Array.Empty<ZhrSListapessoal>();
 
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -169,10 +171,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var keysProvider = new SigdnRhPessoasProvider(client);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
             {
@@ -180,7 +182,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, keysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -193,7 +195,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenDuplicatedKeysInDbAndProviderResponse_PersistsDistinctPessoas()
+    public async Task ShouldPersistDistinctPessoas_WhenDatabaseAndProviderContainDuplicatedKeys()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -207,7 +209,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
             new ZhrSListapessoal { Ni = "22600", Numsap = "30001000", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "21200", Numsap = "30002001", Empresa = "3000" }
         };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -217,10 +219,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var keysProvider = new SigdnRhPessoasProvider(client);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
             {
@@ -228,7 +230,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, keysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -241,7 +243,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_GivenSomeDuplicatedKeysInDbAndProviderResponse_PersistsDistinctPessoas()
+    public async Task ShouldPersistDistinctPessoas_WhenDatabaseAndProviderContainSomeDuplicatedKeys()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -255,7 +257,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
             new ZhrSListapessoal { Ni = "22600", Numsap = "30001000", Empresa = "3000" },
             new ZhrSListapessoal { Ni = "21201", Numsap = "30002001", Empresa = "3000" }
         };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -265,10 +267,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var keysProvider = new SigdnRhPessoasProvider(client);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
             {
@@ -276,7 +278,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, keysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -289,7 +291,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_UpdatesExistingPessoa_AndKeepsUnrelatedData()
+    public async Task ShouldUpdateExistingPessoaAndKeepUnrelatedData_WhenMatchingPessoaExists()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -302,7 +304,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         {
              new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" }
          };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -312,16 +314,17 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        _mockDataProvider
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
             {
                 NII = k.Ni,
                 ExternalId = k.Numsap
             })]);
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -334,7 +337,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_WhenProviderReturnsEmpty_KeepsExistingData()
+    public async Task ShouldKeepExistingData_WhenProviderReturnsEmpty()
     {
         // Arrange 
         await _context.Pessoas.AddRangeAsync(
@@ -343,7 +346,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         );
         await _context.SaveChangesAsync();
 
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -353,13 +356,14 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        _mockDataProvider
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<Pessoa>());
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -371,7 +375,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_KeepsExistingData_AndAddsNewDataFromProvider()
+    public async Task ShouldKeepExistingDataAndAddNewData_WhenProviderReturnsNewPessoas()
     {
         // Arrange
         await _context.Pessoas.AddAsync(new Pessoa { NII = "12345" });
@@ -380,7 +384,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     {
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" }
         };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -388,10 +392,13 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 {
                     Output = [new ZhrSGetListapessoal { Pessoal = soapResponse }]
                 }
+
             });
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        _mockDataProvider
+
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
             {
@@ -399,7 +406,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -410,7 +417,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "12345");
     }
     [Fact]
-    public async Task ExecuteAsync_MixOfUpdatesAndInserts_HandlesAllCorrectly()
+    public async Task ShouldHandleMixOfUpdatesAndInserts_WhenProviderReturnsNewAndExistingPessoas()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -425,7 +432,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
              new ZhrSListapessoal { Ni = "33333", Numsap = "NEW3", Empresa = "3000" },
              new ZhrSListapessoal { Ni = "44444", Numsap = "NEW4", Empresa = "3000" }
          };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -435,16 +442,17 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        _mockDataProvider
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
             {
                 NII = k.Ni,
                 ExternalId = k.Numsap
             })]);
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -460,7 +468,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_UpdatesMultiplePessoas_Simultaneously()
+    public async Task ShouldUpdateMultiplePessoas_WhenProviderReturnsMatchingPessoas()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -476,7 +484,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
              new ZhrSListapessoal { Ni = "10002", Numsap = "UPDATED2", Empresa = "3000" },
              new ZhrSListapessoal { Ni = "10003", Numsap = "UPDATED3", Empresa = "3000" }
          };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -486,7 +494,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerResponse.Select(k => new Pessoa
             {
@@ -494,9 +502,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -510,7 +519,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_UpdatesOnlyExternalId_PreservesDadosPessoaisAndBiometricos()
+    public async Task ShouldUpdateOnlyExternalId_WhenPessoaHasDadosPessoaisAndDadosBiometricos()
     {
         // Arrange
         Pessoa existingPessoa = new()
@@ -543,7 +552,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         {
             new ZhrSListapessoal { Ni = "22600", Numsap = "NEW_ID", Empresa = "3000" }
         };
-        _providerResponse
+        _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
             {
@@ -553,7 +562,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 }
             });
 
-        _mockDataProvider
+        _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
             {
@@ -561,9 +570,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _mockChannelProvider.Object);
-        var provider = new SigdnRhPessoasProvider(client);
-        var useCase = new ImportPessoas(_repository, _mockDataProvider.Object, provider, _uow);
+        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
+
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);

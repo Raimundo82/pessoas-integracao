@@ -34,9 +34,9 @@ public sealed class DependencyInjectionUnitTests
         // Assert
         services.Should().ContainSingle(d => d.ServiceType == typeof(ISoapChannelProvider<zhr_wsChannel>) && d.Lifetime == ServiceLifetime.Scoped);
         services.Should().ContainSingle(d => d.ServiceType == typeof(ISoapChannelProvider<ZHR_WS_DELTASChannel>) && d.Lifetime == ServiceLifetime.Scoped);
-        services.Should().ContainSingle(d => d.ServiceType == typeof(IExternalPersonnelNumberClient) && d.ImplementationType == typeof(ExternalPersonnelNumberClient));
+        services.Should().ContainSingle(d => d.ServiceType == typeof(IPersonnelNumbersClient) && d.ImplementationType == typeof(PersonnelNumberClient));
         services.Should().ContainSingle(d => d.ServiceType == typeof(IPessoasDataProvider) && d.ImplementationType == typeof(SigdnRhPessoasProvider));
-        services.Should().ContainSingle(d => d.ServiceType == typeof(IPessoasImportKeyProvider) && d.ImplementationType == typeof(SigdnRhPessoasProvider));
+        services.Should().ContainSingle(d => d.ServiceType == typeof(IPessoasImportKeyProvider) && d.ImplementationType == typeof(SigdnRhPessoasImportKeysProvider));
     }
 
     [Fact]

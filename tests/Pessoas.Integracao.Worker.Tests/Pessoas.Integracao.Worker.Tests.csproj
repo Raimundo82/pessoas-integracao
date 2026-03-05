@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Integration/Providers/" />
     <Folder Include="Unit/Extensions/" />
-    <Folder Include="Unit/Clients/" />
   </ItemGroup>
 
 </Project>

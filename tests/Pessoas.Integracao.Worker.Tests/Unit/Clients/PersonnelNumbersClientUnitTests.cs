@@ -9,15 +9,15 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Clients;
 
-public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
+public sealed class PersonnelNumbersClientUnitTests : IDisposable
 {
     private IOptions<DataSourceSettings> _settings;
     private Mock<zhr_wsChannel> _soapChannel;
     private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
 
-    public ExternalPersonnelNumberClientUnitTests()
+    public PersonnelNumbersClientUnitTests()
     {
         _settings = Options.Create(new DataSourceSettings { });
         _soapChannel = new Mock<zhr_wsChannel>();
@@ -47,10 +47,10 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelProvider.Object);
+        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);
@@ -75,10 +75,10 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelProvider.Object);
+        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);
