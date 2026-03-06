@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
 public interface IPersonalDataClient
 {
-    Task<ZhrSPessoaisOutput[]> GetPersonalDataAsync(PessoaImportKey[] importKey, CancellationToken cancellationToken);
+    Task<Dictionary<string, ZhrSPessoaisOutput?>> GetPersonalDataAsync(PessoaImportKey[] importKeys, CancellationToken cancellationToken);
 }

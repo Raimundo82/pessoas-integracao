@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure/Jobs/" />
     <Folder Include="Infrastructure/Sigdn.Rh/Configuration/" />
+    <Folder Include="Infrastructure/Sigdn.Rh/Soap/Correlation/" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 

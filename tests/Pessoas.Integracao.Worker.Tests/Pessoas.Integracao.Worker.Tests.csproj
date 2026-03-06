@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Integration/Providers/" />
+    <Folder Include="Unit/Correlator/" />
     <Folder Include="Unit/Extensions/" />
   </ItemGroup>
 
