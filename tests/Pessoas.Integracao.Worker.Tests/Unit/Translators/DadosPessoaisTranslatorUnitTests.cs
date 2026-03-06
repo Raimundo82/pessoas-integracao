@@ -1,5 +1,6 @@
 using FluentAssertions;
 
+using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
@@ -88,6 +89,19 @@ public sealed class DadosPessoaisTranslatorUnitTests
     }
 
     [Fact]
+    public void ShouldReturnNullDataNascimento_WhenDtNasciIsNotValidOrInconsistent()
+    {
+        // Arrange
+        var output = OutputWithPessoais(new ZhrSPessoais { DtNasci = "some invalid date" });
+
+        // Act
+        var result = _sut.Translate(output);
+
+        // Assert
+        result!.DataNascimento.Should().BeNull();
+    }
+
+    [Fact]
     public void ShouldReturnNull_WhenPessoaisIsNull()
     {
         // Arrange
@@ -111,6 +125,40 @@ public sealed class DadosPessoaisTranslatorUnitTests
 
         // Assert
         result.Should().BeNull();
+    }
+
+    [Fact]
+    public void ShouldReturnTheSingleElement_WhenPessoaisContainsSingleElement()
+    {
+        // Arrange
+        var output = new ZhrSPessoaisOutput { Pessoais = [new ZhrSPessoais { Nome = "Ernesto" }] };
+
+        // Act
+        var result = _sut.Translate(output);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().Match<DadosPessoais>(dados => dados.NomeCompleto == "Ernesto");
+    }
+
+    [Fact]
+    public void ShouldReturnLastElement_WhenPessoaisContainsMultipleElements()
+    {
+        // Arrange
+        var output = new ZhrSPessoaisOutput
+        {
+            Pessoais = [
+                new ZhrSPessoais { Nome = "Ernesto" },
+                new ZhrSPessoais { Nome = "Ernestina" },
+            ]
+        };
+
+        // Act
+        var result = _sut.Translate(output);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().Match<DadosPessoais>(dados => dados.NomeCompleto == "Ernestina");
     }
 
     private static ZhrSPessoaisOutput OutputWithPessoais(ZhrSPessoais pessoais) =>

@@ -12,16 +12,17 @@ public class DadosPessoaisTranslator : IDadosPessoaisTranslator
         if (output.Pessoais is not { Length: > 0 })
             return null;
 
-        var pessoais = output.Pessoais[0];
+        var pessoais = output.Pessoais[^1];
 
         return new DadosPessoais
         {
             NomeCompleto = pessoais.Nome,
             Sobrenome = pessoais.Apelido,
             Apelidos = pessoais.Rufnm,
-            DataNascimento = string.IsNullOrEmpty(pessoais.DtNasci)
-                ? null
-                : DateOnly.Parse(pessoais.DtNasci, new CultureInfo("pt-PT"))
+            DataNascimento =
+                DateOnly.TryParse(pessoais.DtNasci, new CultureInfo("pt-PT"), out var dataNasc)
+                ? dataNasc
+                : null
         };
     }
 }
