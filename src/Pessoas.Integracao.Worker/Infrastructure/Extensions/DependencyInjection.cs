@@ -5,6 +5,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Correlation;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
@@ -26,6 +27,7 @@ public static class DependencyInjection
             .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasImportKeysProvider>()
             .AddScoped<IPessoaCoreDataProvider, PessoaCoreDataProvider>()
             .AddScoped<IDadosPessoaisTranslator, DadosPessoaisTranslator>()
-            .AddScoped<IPersonalDataClient, PersonalDataClient>();
+            .AddScoped<IPersonalDataClient, PersonalDataClient>()
+            .AddScoped<ISoapResultCorrelator, SoapResultCorrelator>();
     }
 }
