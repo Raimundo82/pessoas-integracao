@@ -7,10 +7,10 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
 public class DadosPessoaisTranslator : IDadosPessoaisTranslator
 {
-    public DadosPessoais? Translate(ZhrSPessoaisOutput output)
+    public DadosPessoais Translate(ZhrSPessoaisOutput? output)
     {
-        if (output.Pessoais is not { Length: > 0 })
-            return null;
+        if (output?.Pessoais is not { Length: > 0 })
+            return new DadosPessoais();
 
         var pessoais = output.Pessoais[^1];
 

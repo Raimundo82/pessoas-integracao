@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
 public interface IDadosPessoaisTranslator
 {
-    public DadosPessoais? Translate(ZhrSPessoaisOutput output);
+    public DadosPessoais Translate(ZhrSPessoaisOutput? output);
 }

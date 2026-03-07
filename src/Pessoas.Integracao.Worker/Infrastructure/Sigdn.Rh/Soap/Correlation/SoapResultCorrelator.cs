@@ -4,8 +4,8 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Correlation;
 
 public class SoapResultCorrelator : ISoapResultCorrelator
 {
-    public Dictionary<string, TOutput?> CorrelateByKey<TOutput>(
-            PessoaImportKey[] keys,
+    public Dictionary<PessoaImportKey, TOutput?> CorrelateByKey<TOutput>(
+            IReadOnlyList<PessoaImportKey> keys,
             IEnumerable<TOutput>? output,
             Func<TOutput, string?> niiSelector)
             where TOutput : class
@@ -17,10 +17,9 @@ public class SoapResultCorrelator : ISoapResultCorrelator
             .ToDictionary(group => group.Key, group => group.First().Item);
 
         return keys
-            .Select(k => k.Nii)
             .ToDictionary(
-                nii => nii,
-                nii => outputMap.TryGetValue(nii, out var item) ? item : null
+                key => key,
+                key => outputMap.TryGetValue(key.Nii, out var item) ? item : null
             );
     }
 }
