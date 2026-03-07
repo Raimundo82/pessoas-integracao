@@ -102,7 +102,7 @@ public sealed class DadosPessoaisTranslatorUnitTests
     }
 
     [Fact]
-    public void ShouldReturnNull_WhenPessoaisIsNull()
+    public void ShouldReturnEmptyDadosPessoais_WhenPessoaisIsNull()
     {
         // Arrange
         var output = new ZhrSPessoaisOutput { Pessoais = null };
@@ -111,11 +111,11 @@ public sealed class DadosPessoaisTranslatorUnitTests
         var result = _sut.Translate(output);
 
         // Assert
-        result.Should().BeNull();
+        result.Should().BeEquivalentTo(new DadosPessoais());
     }
 
     [Fact]
-    public void ShouldReturnNull_WhenPessoaisIsEmpty()
+    public void ShouldReturnEmptyDadosPessoais_WhenPessoaisIsEmpty()
     {
         // Arrange
         var output = new ZhrSPessoaisOutput { Pessoais = [] };
@@ -124,7 +124,7 @@ public sealed class DadosPessoaisTranslatorUnitTests
         var result = _sut.Translate(output);
 
         // Assert
-        result.Should().BeNull();
+        result.Should().BeEquivalentTo(new DadosPessoais());
     }
 
     [Fact]
