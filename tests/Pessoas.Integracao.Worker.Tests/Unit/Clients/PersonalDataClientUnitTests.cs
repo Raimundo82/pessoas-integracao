@@ -62,7 +62,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
             new ZhrSPessoaisOutput { Ni = "22600", Numsap = "30002696" }
         };
 
-        var correlatedOutput = new Dictionary<string, ZhrSPessoaisOutput?> { { "22600", soapOutput[0] } };
+        var correlatedOutput = new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?> { { personImportKeys[0], soapOutput[0] } };
 
         _soapChannel
             .Setup(c => c.ZhrWsPersonalDataAsync(It.IsAny<ZhrWsPersonalDataRequest>()))
@@ -103,10 +103,10 @@ public sealed class PersonalDataClientUnitTests : IDisposable
             new ZhrSPessoaisOutput { Ni = "22700", Numsap = "30002697" }
         };
 
-        var correlatedOutput = new Dictionary<string, ZhrSPessoaisOutput?>
+        var correlatedOutput = new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>
         {
-            { "22600", soapOutput[0] },
-            { "22700", soapOutput[1] }
+            { personImportKeys[0], soapOutput[0] },
+            { personImportKeys[1], soapOutput[1] }
         };
 
         _soapChannel

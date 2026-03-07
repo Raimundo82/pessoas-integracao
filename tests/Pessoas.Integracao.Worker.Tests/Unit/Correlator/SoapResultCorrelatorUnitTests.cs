@@ -36,8 +36,9 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(1);
-        result["A"].Should().BeSameAs(expected);
+        result[Key("A")].Should().BeSameAs(expected);
     }
+
 
     [Fact]
     public void ShouldReturnMultipleKeysWithMatches_WhenAllKeysHaveMatches()
@@ -53,8 +54,8 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(2);
-        result["A"].Should().BeSameAs(first);
-        result["B"].Should().BeSameAs(second);
+        result[Key("A")].Should().BeSameAs(first);
+        result[Key("B")].Should().BeSameAs(second);
     }
 
     [Fact]
@@ -69,7 +70,7 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(1);
-        result["A"].Should().BeNull();
+        result[Key("A")].Should().BeNull();
     }
 
     [Fact]
@@ -83,8 +84,8 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(2);
-        result["A"].Should().BeNull();
-        result["B"].Should().BeNull();
+        result[Key("A")].Should().BeNull();
+        result[Key("B")].Should().BeNull();
     }
 
     [Fact]
@@ -98,8 +99,8 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(2);
-        result["A"].Should().BeNull();
-        result["B"].Should().BeNull();
+        result[Key("A")].Should().BeNull();
+        result[Key("B")].Should().BeNull();
     }
 
     [Fact]
@@ -116,9 +117,9 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(3);
-        result["A"].Should().BeSameAs(first);
-        result["B"].Should().BeNull();
-        result["C"].Should().BeSameAs(third);
+        result[Key("A")].Should().BeSameAs(first);
+        result[Key("B")].Should().BeNull();
+        result[Key("C")].Should().BeSameAs(third);
     }
 
     [Fact]
@@ -138,7 +139,7 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(1);
-        result["A"]!.Value.Should().Be("valid");
+        result[Key("A")]!.Value.Should().Be("valid");
     }
 
     [Fact]
@@ -155,7 +156,7 @@ public sealed class SoapResultCorrelatorUnitTests
 
         // Assert
         result.Should().HaveCount(1);
-        result["A"].Should().BeSameAs(first);
+        result[Key("A")].Should().BeSameAs(first);
     }
 
     private static PessoaImportKey Key(string nii)
