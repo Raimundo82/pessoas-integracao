@@ -1,6 +1,4 @@
-# Plataforma de Integração de Pessoas
-
-GraphQL API for RH Stagging (Marinha Portuguesa), running in production with SSO
+# Plataforma de Integração de Informação das Pessoas
 
 ## Index
 
