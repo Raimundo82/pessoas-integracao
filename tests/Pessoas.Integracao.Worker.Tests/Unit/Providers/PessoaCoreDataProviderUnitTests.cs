@@ -6,6 +6,7 @@ using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
@@ -15,18 +16,23 @@ public sealed class PessoaCoreDataProviderUnitTests
 {
     private readonly Mock<IPersonalDataClient> _personalDataClient = new();
     private readonly Mock<IDadosPessoaisTranslator> _dadosPessoaisTranslator = new();
+    private readonly Mock<IExamesMedClient> _examesMedClient = new();
+    private readonly Mock<IDadosBiometricosTranslator> _dadosBiometricosTranslator = new();
 
     private PessoaCoreDataProvider CreateSut() =>
-        new(_personalDataClient.Object, _dadosPessoaisTranslator.Object);
+        new(_personalDataClient.Object, _dadosPessoaisTranslator.Object, _examesMedClient.Object, _dadosBiometricosTranslator.Object);
 
     [Fact]
-    public async Task ShouldCallPersonalDataClientWithSameImportKeys_WhenGettingCoreData()
+    public async Task ShouldCallClientsWithSameImportKeys_WhenGettingCoreData()
     {
         // Arrange
         var importKeys = new[] { new PessoaImportKey("22600", "30002697"), new PessoaImportKey("22700", "30002797") };
 
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(importKeys, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>());
+            .ReturnsAsync(importKeys.ToDictionary(k => k, _ => (ZhrSPessoaisOutput?)null));
+
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(importKeys.ToDictionary(k => k, _ => (ZhrSExamesMedOutput?)null));
 
         var sut = CreateSut();
 
@@ -40,15 +46,20 @@ public sealed class PessoaCoreDataProviderUnitTests
     }
 
     [Fact]
-    public async Task ShouldForwardCancellationToken_WhenGettingCoreData()
+    public async Task ShouldForwardCancellationTokenToBothClients_WhenGettingCoreData()
     {
         // Arrange
         using var tokenSource = new CancellationTokenSource();
-        CancellationToken? receivedToken = null;
+        CancellationToken? personalToken = null;
+        CancellationToken? biometricToken = null;
 
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .Callback<IReadOnlyList<PessoaImportKey>, CancellationToken>((_, ct) => receivedToken = ct)
+            .Callback<IReadOnlyList<PessoaImportKey>, CancellationToken>((_, ct) => personalToken = ct)
             .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>());
+
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
+            .Callback<IReadOnlyList<PessoaImportKey>, CancellationToken>((_, ct) => biometricToken = ct)
+            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSExamesMedOutput?>());
 
         var sut = CreateSut();
 
@@ -56,26 +67,36 @@ public sealed class PessoaCoreDataProviderUnitTests
         await sut.GetPessoaCoreDataAsync([], tokenSource.Token);
 
         // Assert
-        receivedToken.Should().Be(tokenSource.Token);
+        personalToken.Should().Be(tokenSource.Token);
+        biometricToken.Should().Be(tokenSource.Token);
     }
 
     [Fact]
-    public async Task ShouldCallTranslatorForEachEntry_WhenClientReturnsMultipleResults()
+    public async Task ShouldCallTranslatorsForEachEntry_WhenClientsReturnMultipleResults()
     {
         // Arrange
-        var importKeys = new[] { new PessoaImportKey("22600", "30002697"), new PessoaImportKey("22700", "30002797") };
-        var output1 = new ZhrSPessoaisOutput();
-        var output2 = new ZhrSPessoaisOutput();
+        var importKeys = new[]
+        {
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797")
+        };
+
+        var outputPessoais1 = new ZhrSPessoaisOutput();
+        var outputPessoais2 = new ZhrSPessoaisOutput();
+        var outputBiometricos1 = new ZhrSExamesMedOutput();
+        var outputBiometricos2 = new ZhrSExamesMedOutput();
 
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(importKeys, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>
-            {
-                [importKeys[0]] = output1,
-                [importKeys[1]] = output2
-            });
+            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?> { [importKeys[0]] = outputPessoais1, [importKeys[1]] = outputPessoais2 });
+
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSExamesMedOutput?> { [importKeys[0]] = outputBiometricos1, [importKeys[1]] = outputBiometricos2 });
 
         _dadosPessoaisTranslator.Setup(t => t.Translate(It.IsAny<ZhrSPessoaisOutput?>()))
             .Returns(new DadosPessoais());
+
+        _dadosBiometricosTranslator.Setup(t => t.Translate(It.IsAny<ZhrSExamesMedOutput?>()))
+            .Returns(new DadosBiometricos());
 
         var sut = CreateSut();
 
@@ -83,25 +104,35 @@ public sealed class PessoaCoreDataProviderUnitTests
         await sut.GetPessoaCoreDataAsync(importKeys, default);
 
         // Assert
-        _dadosPessoaisTranslator.Verify(t => t.Translate(output1), Times.Once);
-        _dadosPessoaisTranslator.Verify(t => t.Translate(output2), Times.Once);
+        _dadosPessoaisTranslator.Verify(t => t.Translate(outputPessoais1), Times.Once);
+        _dadosPessoaisTranslator.Verify(t => t.Translate(outputPessoais2), Times.Once);
+
+        _dadosBiometricosTranslator.Verify(t => t.Translate(outputBiometricos1), Times.Once);
+        _dadosBiometricosTranslator.Verify(t => t.Translate(outputBiometricos2), Times.Once);
     }
 
+
     [Fact]
-    public async Task ShouldReturnDictionaryWithSameKeys_WhenClientReturnsResults()
+    public async Task ShouldReturnDictionaryWithSameKeys_WhenClientsReturnResults()
     {
         // Arrange
-        var importKeys = new[] { new PessoaImportKey("22600", "30002697"), new PessoaImportKey("22700", "30002797") };
+        var importKeys = new[]
+        {
+        new PessoaImportKey("22600", "30002697"),
+        new PessoaImportKey("22700", "30002797")
+    };
 
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(importKeys, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>
-            {
-                [importKeys[0]] = new ZhrSPessoaisOutput(),
-                [importKeys[1]] = new ZhrSPessoaisOutput()
-            });
+            .ReturnsAsync(importKeys.ToDictionary(k => k, _ => (ZhrSPessoaisOutput?)null));
+
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(importKeys.ToDictionary(k => k, _ => (ZhrSExamesMedOutput?)null));
 
         _dadosPessoaisTranslator.Setup(t => t.Translate(It.IsAny<ZhrSPessoaisOutput?>()))
             .Returns(new DadosPessoais());
+
+        _dadosBiometricosTranslator.Setup(t => t.Translate(It.IsAny<ZhrSExamesMedOutput?>()))
+            .Returns(new DadosBiometricos());
 
         var sut = CreateSut();
 
@@ -126,8 +157,17 @@ public sealed class PessoaCoreDataProviderUnitTests
                 [importKey] = new ZhrSPessoaisOutput()
             });
 
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSExamesMedOutput?>
+            {
+                [importKey] = null
+            });
+
         _dadosPessoaisTranslator.Setup(t => t.Translate(It.IsAny<ZhrSPessoaisOutput?>()))
             .Returns(expectedDadosPessoais);
+
+        _dadosBiometricosTranslator.Setup(t => t.Translate(It.IsAny<ZhrSExamesMedOutput?>()))
+            .Returns(new DadosBiometricos());
 
         var sut = CreateSut();
 
@@ -139,12 +179,16 @@ public sealed class PessoaCoreDataProviderUnitTests
         result[importKey].DadosPessoais.Should().BeSameAs(expectedDadosPessoais);
     }
 
+
     [Fact]
-    public async Task ShouldReturnEmptyDictionary_WhenClientReturnsEmptyDictionary()
+    public async Task ShouldReturnEmptyDictionary_WhenClientsReturnEmpty()
     {
         // Arrange
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSPessoaisOutput?>());
+
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, ZhrSExamesMedOutput?>());
 
         var sut = CreateSut();
 
@@ -155,13 +199,31 @@ public sealed class PessoaCoreDataProviderUnitTests
         result.Should().NotBeNull();
         result.Should().BeEmpty();
         _dadosPessoaisTranslator.Verify(t => t.Translate(It.IsAny<ZhrSPessoaisOutput?>()), Times.Never);
+        _dadosBiometricosTranslator.Verify(t => t.Translate(It.IsAny<ZhrSExamesMedOutput?>()), Times.Never);
     }
+
 
     [Fact]
     public async Task ShouldThrowException_WhenPersonalDataClientThrows()
     {
         // Arrange
         _personalDataClient.Setup(c => c.GetPersonalDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("SOAP error"));
+
+        var sut = CreateSut();
+
+        // Act
+        Func<Task> action = async () => await sut.GetPessoaCoreDataAsync([], default);
+
+        // Assert
+        await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");
+    }
+
+    [Fact]
+    public async Task ShouldThrowException_WhenBiometricallDataClientThrows()
+    {
+        // Arrange
+        _examesMedClient.Setup(c => c.GetExamesMedAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
 
         var sut = CreateSut();
