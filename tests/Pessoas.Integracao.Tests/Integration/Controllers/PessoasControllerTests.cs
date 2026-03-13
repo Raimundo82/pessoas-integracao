@@ -4,6 +4,7 @@ using System.Text.Json;
 
 using FluentAssertions;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +38,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     }
 
     [Fact]
-    public async Task GetAll_WhenPessoasExist_ReturnsOkWithAllPessoaDtos()
+    public async Task ShouldReturnOkWithAllPessoaDtos_WhenGetAllAndPessoasExist()
     {
         // Arrange
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
@@ -60,7 +61,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     }
 
     [Fact]
-    public async Task GetAll_WhenNoPessoasExist_ReturnsOkWithEmptyArray()
+    public async Task ShouldReturnOkWithEmptyArray_WhenGetAllAndNoPessoasExist()
     {
         // Arrange
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
@@ -76,7 +77,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     }
 
     [Fact]
-    public async Task GetAll_WithNullExternalId_ReturnsCorrectly()
+    public async Task ShouldReturnPessoaDtoWithNullExternalId_WhenGetAllAndPessoaHasNullExternalId()
     {
         // Arrange
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
@@ -94,7 +95,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     }
 
     [Fact]
-    public async Task GetAll_AsAdmin_ReturnsOkWithAllPessoaDtos()
+    public async Task ShouldReturnOkWithAllPessoaDtos_WhenGetAllAsAdmin()
     {
         // Arrange
         using var adminClient = _factory.CreateAuthenticatedClient(Roles.Admin);
@@ -115,20 +116,17 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     }
 
     [Fact]
-    public async Task GetAll_WhenRepositoryThrowsException_ReturnsInternalServerError()
+    public async Task ShouldReturnInternalServerError_WhenGetAllAndRepositoryThrowsException()
     {
         // Arrange
         var mockRepo = new Mock<IPessoaRepository>();
         mockRepo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Database failure"));
 
-        using var errorFactory = _factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureTestServices(services =>
-            {
-                services.AddSingleton(mockRepo.Object);
-            });
-        });
+        using var errorFactory = _factory
+            .WithWebHostBuilder(builder => builder
+                .ConfigureTestServices(services => services
+                    .AddSingleton(mockRepo.Object)));
 
         var claims = new[]
         {
@@ -144,10 +142,17 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
+        problemDetails.Should().NotBeNull();
+        problemDetails.Status.Should().Be(StatusCodes.Status500InternalServerError);
+        problemDetails.Title.Should().NotBeNullOrWhiteSpace();
+        problemDetails.Type.Should().Be("Exception");
+
     }
 
     [Fact]
-    public async Task GetAll_Unauthenticated_ReturnsUnauthorized()
+    public async Task ShouldReturnUnauthorized_WhenGetAllUnauthenticated()
     {
         // Arrange
         using var unauthClient = _factory.CreateClient();
