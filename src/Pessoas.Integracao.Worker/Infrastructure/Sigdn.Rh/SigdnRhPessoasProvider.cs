@@ -1,28 +1,29 @@
 using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 
-public sealed class SigdnRhPessoasProvider(IExternalPersonnelNumberClient client) : IPessoasDataProvider, IPessoasImportKeyProvider
+public sealed class SigdnRhPessoasProvider(IPessoaCoreDataProvider pessoaCoreDataProvider) : IPessoasDataProvider
 {
-    private readonly IExternalPersonnelNumberClient _client = client;
 
-    public Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> keys, CancellationToken ct)
+    private readonly IPessoaCoreDataProvider _pessoaCoreDataProvider = pessoaCoreDataProvider;
+
+    public async Task<IReadOnlyList<Pessoa>> GetPessoasByImportKeysAsync(IReadOnlyList<PessoaImportKey> keys, CancellationToken ct)
     {
-        return Task
-            .FromResult((IReadOnlyList<Pessoa>)keys
-                .Select(k => new Pessoa { NII = k.Nii, ExternalId = k.ExternalId })
-                .ToList()
-                .AsReadOnly());
-    }
-    public async Task<IReadOnlyList<PessoaImportKey>> GetSourceImportKeysAsync(CancellationToken ct)
-    {
-        var result = await _client.GetExternalPersonnelNumbersAsync(ct);
-        return result
-          .Select(pernr => new PessoaImportKey(pernr.Ni, pernr.Numsap))
-          .ToList()
-          .AsReadOnly();
+        if (keys.Count == 0) return new List<Pessoa>().AsReadOnly();
+
+        var coreDataFrags = await _pessoaCoreDataProvider.GetPessoaCoreDataAsync(keys, ct);
+        return keys
+            .Select(k => new Pessoa
+            {
+                NII = k.Nii,
+                ExternalId = k.ExternalId,
+                DadosPessoais = coreDataFrags[k].DadosPessoais,
+                DadosBiometricos = coreDataFrags[k].DadosBiometricos
+            })
+            .ToList()
+            .AsReadOnly();
     }
 }

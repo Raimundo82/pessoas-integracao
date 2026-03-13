@@ -6,7 +6,7 @@ using Keycloak.AuthServices.Common;
 
 using Microsoft.AspNetCore.Authentication;
 
-using Pessoas.Integracao.Core.Domain.Constants;
+using Pessoas.Integracao.Core.Application.Security;
 
 namespace Pessoas.Integracao.Admin.Authorization;
 

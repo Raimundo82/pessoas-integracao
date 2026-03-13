@@ -21,11 +21,11 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
         return Task.FromResult(_existingKeys);
     }
 
-    public Task AddOrUpdateAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    public Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         LastUpsertedPessoas = pessoas;
         LastUpsertToken = ct;
-        return Task.CompletedTask;
+        return Task.FromResult(new UpsertPessoasResult(pessoas.Count, 0));
     }
 
     public Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => throw new NotSupportedException();

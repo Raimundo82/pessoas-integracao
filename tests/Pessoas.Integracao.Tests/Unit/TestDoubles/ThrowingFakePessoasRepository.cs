@@ -15,10 +15,10 @@ public sealed class ThrowingFakePessoasRepository(IReadOnlyList<PessoaImportKey>
 
     public Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => throw new NotSupportedException();
 
-    public Task AddOrUpdateAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    public Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         WasCalled = true;
-        return Task.FromException(_exceptionToThrow);
+        return Task.FromException<UpsertPessoasResult>(_exceptionToThrow);
     }
 
     public Task AddRangeAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => throw new NotSupportedException();

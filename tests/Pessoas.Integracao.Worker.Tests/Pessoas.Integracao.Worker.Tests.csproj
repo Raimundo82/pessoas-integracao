@@ -26,4 +26,10 @@
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration/Providers/" />
+    <Folder Include="Unit/Correlator/" />
+    <Folder Include="Unit/Extensions/" />
+  </ItemGroup>
+
 </Project>

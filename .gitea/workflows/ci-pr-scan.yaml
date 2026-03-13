@@ -21,10 +21,10 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
           ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
-      - name: Setup .NET 10.0.x
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          global-json-file: global.json
 
       - name: Install SonarQube scanner and dotnet-coverage
         shell: bash

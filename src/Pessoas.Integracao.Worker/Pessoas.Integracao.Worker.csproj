@@ -17,10 +17,9 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure/Jobs/" />
-    <Folder Include="Infrastructure/Sigdn.Rh/Configuration/" />
-    <Folder Include="Infrastructure/Sigdn.Rh/Soap/Clients/" />
-    <Folder Include="Infrastructure/Sigdn.Rh/Soap/Contracts/" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Infrastructure/Sigdn.Rh/Soap/Correlation/" />
+    <Folder Include="Infrastructure\Sigdn.Rh\Fragments\" />
+    <Folder Include="Infrastructure\Sigdn.Rh\FragmentProviders\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,19 +9,19 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Tests.SigdnRhPessoasProviderTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Clients;
 
-public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
+public sealed class PersonnelNumbersClientUnitTests : IDisposable
 {
     private IOptions<DataSourceSettings> _settings;
     private Mock<zhr_wsChannel> _soapChannel;
-    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelFactory;
+    private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
 
-    public ExternalPersonnelNumberClientUnitTests()
+    public PersonnelNumbersClientUnitTests()
     {
         _settings = Options.Create(new DataSourceSettings { });
         _soapChannel = new Mock<zhr_wsChannel>();
-        _soapChannelFactory = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
+        _soapChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
     }
 
     [Fact]
@@ -45,12 +45,12 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);
@@ -73,12 +73,12 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
                 }
             });
 
-        _soapChannelFactory.Setup(f => f.CreateChannel(_settings.Value.OutputUrl)).Returns(_soapChannel.Object);
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new ExternalPersonnelNumberClient(_settings, _soapChannelFactory.Object);
+        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetExternalPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);
@@ -88,7 +88,7 @@ public sealed class ExternalPersonnelNumberClientUnitTests : IDisposable
     {
         _settings = null!;
         _soapChannel = null!;
-        _soapChannelFactory = null!;
+        _soapChannelProvider = null!;
         GC.SuppressFinalize(this);
     }
 }

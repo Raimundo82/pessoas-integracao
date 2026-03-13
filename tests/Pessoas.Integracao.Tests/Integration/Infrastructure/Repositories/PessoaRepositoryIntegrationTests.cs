@@ -177,7 +177,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task AddOrUpdateAllAsync_WithNewPessoas_ShouldInsertAll()
+    public async Task UpsertAllAsync_WithNewPessoas_ShouldInsertAll()
     {
         // Arrange
         var pessoas = new[]
@@ -185,12 +185,17 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
             new Pessoa { NII = "11111", ExternalId = "EXT1" },
             new Pessoa { NII = "22222", ExternalId = "EXT2" }
         };
-        await _repository.AddOrUpdateAllAsync(pessoas, CancellationToken.None);
+
+        var result = await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
 
         // Act
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
+        result.Should().NotBeNull();
+        result.TotalAdded.Should().Be(2);
+        result.TotalUpdated.Should().Be(0);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
@@ -199,7 +204,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task AddOrUpdateAllAsync_WithExistingPessoas_ShouldUpdateAll()
+    public async Task UpsertAllAsync_WithExistingPessoas_ShouldUpdateAll()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -214,12 +219,17 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
             new Pessoa { NII = "11111", ExternalId = "NEW1" },
             new Pessoa { NII = "22222", ExternalId = "NEW2" }
         };
-        await _repository.AddOrUpdateAllAsync(updatedPessoas, CancellationToken.None);
+
+        var result = await _repository.UpsertAllAsync(updatedPessoas, CancellationToken.None);
 
         // Act
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
+        result.Should().NotBeNull();
+        result.TotalAdded.Should().Be(0);
+        result.TotalUpdated.Should().Be(2);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("NEW1");
@@ -227,7 +237,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task AddOrUpdateAllAsync_WithMixOfNewAndExisting_ShouldHandleBoth()
+    public async Task UpsertAllAsync_WithMixOfNewAndExisting_ShouldHandleBoth()
     {
         // Arrange
         await _context.Pessoas.AddAsync(new Pessoa { NII = "11111", ExternalId = "OLD1" });
@@ -240,12 +250,16 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
             new Pessoa { NII = "22222", ExternalId = "NEW2" },
             new Pessoa { NII = "33333", ExternalId = "NEW3" }
         };
-        await _repository.AddOrUpdateAllAsync(pessoas, CancellationToken.None);
+        var result = await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
 
         // Act
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
+        result.Should().NotBeNull();
+        result.TotalAdded.Should().Be(2);
+        result.TotalUpdated.Should().Be(1);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
@@ -254,7 +268,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task AddOrUpdateAllAsync_UpdatesValueObjects_PreservesId()
+    public async Task UpsertAllAsync_UpdatesValueObjects_PreservesId()
     {
         // Arrange
         var originalPessoa = new Pessoa
@@ -294,12 +308,17 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
                 AlturaEmCm = 175
             }
         };
-        await _repository.AddOrUpdateAllAsync([updatedPessoa], CancellationToken.None);
+
+        var result = await _repository.UpsertAllAsync([updatedPessoa], CancellationToken.None);
 
         // Act
         await _uow.CommitAsync(CancellationToken.None);
 
         // Assert
+        result.Should().NotBeNull();
+        result.TotalAdded.Should().Be(0);
+        result.TotalUpdated.Should().Be(1);
+
         var savedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.NII == "55555");
         savedPessoa.Id.Should().Be(originalId);
         savedPessoa.ExternalId.Should().Be(updatedPessoa.ExternalId);
@@ -311,13 +330,13 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task AddOrUpdateAllAsync_WithEmptyList_ShouldNotThrow()
+    public async Task UpsertAllAsync_WithEmptyList_ShouldNotThrow()
     {
         // Arrange
         await _context.Pessoas.AddAsync(new Pessoa { NII = "11111" });
         await _context.SaveChangesAsync();
         _context.ChangeTracker.Clear();
-        await _repository.AddOrUpdateAllAsync([], CancellationToken.None);
+        await _repository.UpsertAllAsync([], CancellationToken.None);
 
         // Act
         await _uow.CommitAsync(CancellationToken.None);

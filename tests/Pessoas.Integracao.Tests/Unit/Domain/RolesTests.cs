@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-using Pessoas.Integracao.Core.Domain.Constants;
+using Pessoas.Integracao.Core.Application.Security;
 
 namespace Pessoas.Integracao.Tests.Unit.Domain;
 

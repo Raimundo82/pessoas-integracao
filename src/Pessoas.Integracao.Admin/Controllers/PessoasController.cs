@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Pessoas.Integracao.Core.Application.DTOs;
+using Pessoas.Integracao.Core.Application.Security;
 using Pessoas.Integracao.Core.Application.UseCases;
-using Pessoas.Integracao.Core.Domain.Constants;
 
 namespace Pessoas.Integracao.Admin.Controllers;
 

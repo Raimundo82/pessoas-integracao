@@ -4,24 +4,19 @@ using Moq;
 
 using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
+using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Fragments;
 
-namespace Pessoas.Integracao.Worker.Tests.SigdnRhPessoasProviderTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 
-public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
+public sealed class SigdnRhPessoasProviderUnitTests
 {
-    private Mock<IExternalPersonnelNumberClient> _client;
-
-    public SigdnRhPessoasProviderUnitTests()
-    {
-        _client = new Mock<IExternalPersonnelNumberClient>();
-    }
+    private readonly Mock<IPessoaCoreDataProvider> _coreDataProvider = new();
 
     [Fact]
-
-    public async Task GetPessoasByImportKeysAsync_ReturnsExpectedMappedPessoas()
+    public async Task ShouldCallCoreDataProviderWithSameImportKeys_WhenFetchingPessoas()
     {
         // Arrange
         var importKeys = new[]
@@ -30,30 +25,123 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
             new PessoaImportKey("22700", "30002797")
         };
 
-        var expectedPessoas = new[]
-        {
-            new Pessoa { NII = "22600", ExternalId = "30002697" },
-            new Pessoa { NII = "22700", ExternalId = "30002797" }
-        };
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos()),
+                [importKeys[1]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
+            });
 
-        var provider = new SigdnRhPessoasProvider(_client.Object);
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+
+        // Act
+        await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        _coreDataProvider.Verify(
+            p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldMapNiiAndExternalIdFromImportKeys_WhenBuildingPessoa()
+    {
+        // Arrange
+        var importKeys = new[] { new PessoaImportKey("22600", "30002697") };
+
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
         var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
 
         // Assert
-        pessoas.Should().NotBeNull();
-        pessoas.Should().HaveCount(2);
-        pessoas.Should().BeEquivalentTo(expectedPessoas, options => options.ExcludingMissingMembers());
+        pessoas.Should().ContainSingle();
+        pessoas[0].NII.Should().Be("22600");
+        pessoas[0].ExternalId.Should().Be("30002697");
     }
 
     [Fact]
-    public async Task GetPessoasByImportKeysAsync_GivenEmptyImportKeys_ReturnsNoPessoas()
+    public async Task ShouldMapDadosPessoaisFromCoreDataFragment_WhenBuildingPessoa()
+    {
+        // Arrange
+        var importKeys = new[] { new PessoaImportKey("22600", "30002697") };
+        var expectedDadosPessoais = new DadosPessoais { NomeCompleto = "Nome Completo 1" };
+
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(expectedDadosPessoais, new DadosBiometricos())
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        pessoas.Should().ContainSingle();
+        pessoas[0].DadosPessoais.Should().BeSameAs(expectedDadosPessoais);
+    }
+
+    [Fact]
+    public async Task ShouldMapDadosBiometricosFromCoreDataFragment_WhenBuildingPessoa()
+    {
+        // Arrange
+        var importKeys = new[] { new PessoaImportKey("22600", "30002697") };
+        var expectedDadosBiometricos = new DadosBiometricos { AlturaEmCm = 180 };
+
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), expectedDadosBiometricos)
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        pessoas.Should().ContainSingle();
+        pessoas[0].DadosBiometricos.Should().BeSameAs(expectedDadosBiometricos);
+    }
+
+    [Fact]
+    public async Task ShouldReturnReadOnlyList_WhenPessoasAreMapped()
+    {
+        // Arrange
+        var importKeys = new[] { new PessoaImportKey("22600", "30002697") };
+
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+
+        // Assert
+        var mutableListView = (IList<Pessoa>)pessoas;
+        Action addPessoa = () => mutableListView.Add(new Pessoa { NII = "1", ExternalId = "1" });
+        addPessoa.Should().Throw<NotSupportedException>();
+    }
+
+    [Fact]
+    public async Task ShouldReturnEmptyCollectionAndDoNotCallCoreDataProvider_WhenImportKeysCollectionIsEmpty()
     {
         // Arrange
         var importKeys = Array.Empty<PessoaImportKey>();
 
-        var provider = new SigdnRhPessoasProvider(_client.Object);
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
         var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
@@ -61,87 +149,6 @@ public sealed class SigdnRhPessoasProviderUnitTests : IDisposable
         // Assert
         pessoas.Should().NotBeNull();
         pessoas.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task GetSourceImportKeysAsync_ReturnsMappedPessoas_FromExternalClient()
-    {
-        // Arrange
-        _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>())).ReturnsAsync([
-            new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
-            new ZhrSListapessoal { Ni = "22700", Numsap = "30002797", Empresa = "3000" },
-            new ZhrSListapessoal { Ni = "22800", Numsap = "30002897", Empresa = "3000" },
-        ]);
-        var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
-
-        // Act (When)
-        var result = await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
-
-        // Assert (Then)
-        result.Should().AllBeOfType<PessoaImportKey>();
-        result.Should().HaveCount(3);
-        result.Should().BeEquivalentTo([
-            new PessoaImportKey("22600", "30002697"),
-            new PessoaImportKey("22700", "30002797"),
-            new PessoaImportKey("22800", "30002897"),
-        ], options => options.ExcludingMissingMembers());
-    }
-
-
-    [Fact]
-    public async Task GetSourceImportKeysAsync_ReturnsEmptyCollection_WhenExternalClientReturnsEmpty()
-    {
-        // Arrange 
-        _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync([]);
-
-        var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
-
-        // Act
-        var result = await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
-
-        // Assert
-        result.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task GetSourceImportKeysAsync_ThrowsException_WhenExternalClientThrows()
-    {
-        // Arrange
-        _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new InvalidOperationException("SOAP error"));
-        var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
-
-        // Act
-        Func<Task> action = async () => await pessoasProvider.GetSourceImportKeysAsync(CancellationToken.None);
-
-        // Assert
-        await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");
-    }
-
-    [Fact]
-    public async Task GetSourceImportKeysAsync_CancellationTokenIsPassedToClient()
-    {
-        // Arrange
-        using var tokenSource = new CancellationTokenSource();
-        CancellationToken? receivedToken = null;
-
-        _client.Setup(c => c.GetExternalPersonnelNumbersAsync(It.IsAny<CancellationToken>()))
-            .Callback<CancellationToken>(ct => receivedToken = ct)
-            .ReturnsAsync([]);
-
-        var pessoasProvider = new SigdnRhPessoasProvider(_client.Object);
-
-        // Act
-        await pessoasProvider.GetSourceImportKeysAsync(tokenSource.Token);
-
-        // Assert
-        receivedToken.Should().Be(tokenSource.Token);
-    }
-
-    public void Dispose()
-    {
-        _client = null!;
-        GC.SuppressFinalize(this);
+        _coreDataProvider.Verify(p => p.GetPessoaCoreDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

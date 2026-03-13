@@ -5,19 +5,19 @@ using FluentAssertions;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Tests.SigdnRhPessoasProviderTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 
-public class SoapChannelProviderUnitTests
+public sealed class SoapChannelProviderUnitTests
 {
     [Fact]
     public void CreateChannel_ReturnsChannelInstance()
     {
         // Arrange
-        var endpoint = "http://fake/service";
-        var provider = new SoapChannelProvider<zhr_wsChannel>();
+        var factory = SoapChannelFactory.CreateChannelFactory<zhr_wsChannel>("http://fake/service");
+        var provider = new SoapChannelProvider<zhr_wsChannel>(factory);
 
         // Act
-        var channel = provider.CreateChannel(endpoint);
+        var channel = provider.CreateChannel();
 
         // Assert
         channel.Should().NotBeNull();

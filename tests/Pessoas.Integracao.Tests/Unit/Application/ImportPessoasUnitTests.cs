@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 
 using FluentAssertions;
 
-
 using Moq;
 
 using Pessoas.Integracao.Core.Application.Abstractions;
@@ -54,9 +53,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert (Then)
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(4);
+        result.TotalAdded.Should().Be(4);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastGetKeysToken.Should().Be(ct);
         fakeRepo.LastUpsertToken.Should().Be(ct);
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
@@ -100,9 +105,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert (Then)
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(2);
+        result.TotalAdded.Should().Be(2);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastGetKeysToken.Should().Be(ct);
         fakeRepo.LastUpsertToken.Should().Be(ct);
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
@@ -137,7 +148,12 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(2);
+        result.TotalAdded.Should().Be(2);
+        result.TotalUpdated.Should().Be(0);
 
         // Assert (Then)
         fakeRepo.LastGetKeysToken.Should().Be(ct);
@@ -173,9 +189,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert (Then)
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(2);
+        result.TotalAdded.Should().Be(2);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastUpsertToken.Should().Be(ct);
         fakeRepo.LastGetKeysToken.Should().Be(ct);
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
@@ -211,9 +233,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert (Then)
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(3);
+        result.TotalAdded.Should().Be(3);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastGetKeysToken.Should().Be(ct);
         fakeRepo.LastUpsertToken.Should().Be(ct);
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
@@ -242,9 +270,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act (When)
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert (Then)
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(0);
+        result.TotalAdded.Should().Be(0);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastGetKeysToken.Should().Be(ct);
         fakeRepo.LastUpsertToken.Should().Be(ct);
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
@@ -273,9 +307,15 @@ public sealed class ImportPessoasUnitTests : IDisposable
         var uut = new ImportPessoas(fakeRepo, dataProviderStub, keysProviderStub, uowSpy);
 
         // Act
-        await uut.ExecuteAsync(ct);
+        var result = await uut.ExecuteAsync(ct);
 
         // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<ImportPessoasResult>();
+        result.TotalProcessed.Should().Be(1);
+        result.TotalAdded.Should().Be(1);
+        result.TotalUpdated.Should().Be(0);
+
         fakeRepo.LastUpsertedPessoas.Should().NotBeNull();
         fakeRepo.LastUpsertedPessoas.Should().HaveCount(1);
         fakeRepo.LastUpsertedPessoas.Should().ContainSingle(p => p.NII == "22601" && p.ExternalId == "30001001" && p.DadosPessoais.NomeCompleto == "Updated Name");
@@ -368,8 +408,8 @@ public sealed class ImportPessoasUnitTests : IDisposable
             .ReturnsAsync(pessoas);
 
         _repo.InSequence(sequence)
-            .Setup(r => r.AddOrUpdateAllAsync(pessoas, ct))
-            .Returns(Task.CompletedTask);
+            .Setup(r => r.UpsertAllAsync(pessoas, ct))
+            .Returns(Task.FromResult(new UpsertPessoasResult(0, 0)));
 
         _uow.InSequence(sequence)
             .Setup(u => u.CommitAsync(ct))

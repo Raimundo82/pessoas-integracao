@@ -8,7 +8,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
 
-namespace Pessoas.Integracao.Worker.Tests.SoapChannelFactoryTests;
+namespace Pessoas.Integracao.Worker.Tests.Unit;
 
 public sealed class SoapChannelFactoryTests
 {

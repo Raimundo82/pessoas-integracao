@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Pessoas.Integracao.Core.Application.DTOs;
+using Pessoas.Integracao.Core.Application.Security;
 using Pessoas.Integracao.Core.Application.UseCases;
-using Pessoas.Integracao.Core.Domain.Constants;
 
 namespace Pessoas.Integracao.Admin.Controllers;
 
@@ -14,7 +15,14 @@ public class PessoasImportController(ImportPessoas importAllPessoas) : Controlle
     [Authorize(Policy = Policies.CanImportPessoas)]
     public async Task<IActionResult> Import(CancellationToken cancellationToken)
     {
-        await importAllPessoas.ExecuteAsync(cancellationToken);
-        return Accepted();
+        var result = await importAllPessoas.ExecuteAsync(cancellationToken);
+
+        var pessoasResult = new ImportPessoasResultDto(
+            TotalProcessed: result.TotalProcessed,
+            TotalAdded: result.TotalAdded,
+            TotalUpdated: result.TotalUpdated
+        );
+
+        return Accepted(pessoasResult);
     }
 }

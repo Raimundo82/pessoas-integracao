@@ -6,7 +6,7 @@ This project follows [**GitHub Flow**](https://docs.github.com/en/get-started/us
 
 ## 📂 Branching Strategy
 
-- **`master`** → always deployable, production‑ready code  
+- **`master`** → always deployable, production‑ready code
 - **Feature branches** → created from `master` for new work
 
 ### Rules

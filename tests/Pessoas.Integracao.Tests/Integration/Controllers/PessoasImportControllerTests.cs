@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 
 using Pessoas.Integracao.Core.Application.Contracts;
+using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Application.Models;
-using Pessoas.Integracao.Core.Domain.Constants;
+using Pessoas.Integracao.Core.Application.Security;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Tests.TestInfrastructure;
@@ -40,11 +41,11 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         _scope = factory.Services.CreateScope();
 
         _mockSoapChannel = new Mock<zhr_wsChannel>();
-        var mockChannelFactory = _scope.ServiceProvider.GetRequiredService<Mock<ISoapChannelProvider<zhr_wsChannel>>>();
+        var mockSoapChannelProvider = _scope.ServiceProvider.GetRequiredService<Mock<ISoapChannelProvider<zhr_wsChannel>>>();
         _mockPessoasDataProvider = _scope.ServiceProvider.GetRequiredService<Mock<IPessoasDataProvider>>();
 
 
-        mockChannelFactory.Setup(f => f.CreateChannel(It.IsAny<string>()))
+        mockSoapChannelProvider.Setup(f => f.CreateChannel())
             .Returns(_mockSoapChannel.Object);
 
         _mockPessoasDataProvider
@@ -84,6 +85,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(2);
+        dto.TotalAdded.Should().Be(2);
+        dto.TotalUpdated.Should().Be(0);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "21200");
@@ -117,6 +125,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(2);
+        dto.TotalAdded.Should().Be(0);
+        dto.TotalUpdated.Should().Be(2);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
@@ -155,6 +170,13 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        dto.Should().NotBeNull();
+        dto.TotalProcessed.Should().Be(3);
+        dto.TotalAdded.Should().Be(1);
+        dto.TotalUpdated.Should().Be(2);
+
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222", "33333");
