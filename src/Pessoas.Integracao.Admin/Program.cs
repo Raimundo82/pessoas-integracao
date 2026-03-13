@@ -3,6 +3,7 @@ using Keycloak.AuthServices.Common;
 
 
 using Pessoas.Integracao.Admin.Authorization;
+using Pessoas.Integracao.Admin.Middleware;
 using Pessoas.Integracao.Admin.OpenApi;
 using Pessoas.Integracao.Core.Application;
 using Pessoas.Integracao.Core.Infrastructure;
@@ -34,6 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseGlobalExceptionHandling();
 app.UseAuthentication();
 app.UseAuthorization();
 

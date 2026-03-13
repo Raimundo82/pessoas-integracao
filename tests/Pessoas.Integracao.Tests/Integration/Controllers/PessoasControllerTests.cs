@@ -1,9 +1,15 @@
 using System.Net;
+using System.Security.Claims;
+using System.Text.Json;
 
 using FluentAssertions;
 
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 
+using Moq;
+
+using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.DTOs;
 using Pessoas.Integracao.Core.Domain.Constants;
 using Pessoas.Integracao.Core.Domain.Entities;
@@ -106,6 +112,38 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
         pessoas.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task GetAll_WhenRepositoryThrowsException_ReturnsInternalServerError()
+    {
+        // Arrange
+        var mockRepo = new Mock<IPessoaRepository>();
+        mockRepo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Database failure"));
+
+        using var errorFactory = _factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.AddSingleton(mockRepo.Object);
+            });
+        });
+
+        var claims = new[]
+        {
+            new { Type = ClaimTypes.Name, Value = "TestUser" },
+            new { Type = ClaimTypes.NameIdentifier, Value = "test-user-id" },
+            new { Type = ClaimTypes.Role, Value = Roles.Viewer }
+        };
+        using var client = errorFactory.CreateClient();
+        client.DefaultRequestHeaders.Add("X-Test-Claims", JsonSerializer.Serialize(claims));
+
+        // Act
+        var response = await client.GetAsync("/api/pessoas");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Fact]
