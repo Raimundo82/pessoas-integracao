@@ -1,26 +1,15 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Pessoas.Integracao.Admin.Middleware;
 
-public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger)
+public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
-    public async Task InvokeAsync(HttpContext context)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        try
-        {
-            await next(context);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An unhandled exception occurred while processing the request: {Path}", context.Request.Path);
-            await HandleExceptionAsync(context);
-        }
-    }
+        logger.LogError(exception, "An unhandled exception occurred while processing the request: {Path}", httpContext.Request.Path);
 
-    private static Task HandleExceptionAsync(HttpContext context)
-    {
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/problem+json";
+        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
         var problem = new ProblemDetails
         {
@@ -29,6 +18,7 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
             Detail = "An unexpected error occurred. Please try again later."
         };
 
-        return context.Response.WriteAsJsonAsync(problem);
+        await httpContext.Response.WriteAsJsonAsync(problem, cancellationToken);
+        return true;
     }
 }

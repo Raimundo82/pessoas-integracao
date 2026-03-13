@@ -21,6 +21,7 @@ builder.Services.AddOpenApiWithAuthentication(keycloakOptions);
 builder.Services.AddControllers();
 
 builder.Services
+    .AddGlobalExceptionHandling()
     .AddPersistence(builder.Configuration)
     .AddRepositories()
     .AddUseCases()
@@ -35,7 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseGlobalExceptionHandling();
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 

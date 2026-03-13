@@ -1,9 +1,11 @@
 namespace Pessoas.Integracao.Admin.Middleware;
 
-public static class GlobalExceptionHandlingMiddlewareExtensions
+public static class GlobalExceptionHandlerExtensions
 {
-    public static IApplicationBuilder UseGlobalExceptionHandling(this IApplicationBuilder builder)
+    public static IServiceCollection AddGlobalExceptionHandling(this IServiceCollection services)
     {
-        return builder.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+        services.AddProblemDetails();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        return services;
     }
 }
