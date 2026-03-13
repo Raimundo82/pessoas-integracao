@@ -4,8 +4,8 @@ public static class GlobalExceptionHandlerExtensions
 {
     public static IServiceCollection AddGlobalExceptionHandling(this IServiceCollection services)
     {
-        services.AddProblemDetails();
         services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
         return services;
     }
 }
