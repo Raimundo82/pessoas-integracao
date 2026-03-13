@@ -2,6 +2,7 @@ using System.Net;
 
 using FluentAssertions;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using Moq;
@@ -61,7 +62,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithMockedSoapResponse_AndEmptyDB_PersistsProviderPessoasToDatabase()
+    public async Task ShouldPersistProviderPessoasToDatabase_WhenImportWithMockedSoapResponseAndEmptyDb()
     {
         // Arrange
         var soapResponse = new[]
@@ -99,7 +100,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WithEmptySoapResponse_PreservesAllPessoasFromDatabase()
+    public async Task ShouldPreserveAllPessoasFromDatabase_WhenImportWithEmptySoapResponse()
     {
         // Arrange
         var existingPessoas = new[]
@@ -139,7 +140,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_UpdatesExistingAndAddsNew_KeepsUntouchedData()
+    public async Task ShouldKeepUntouchedData_WhenImportUpdatesExistingAndAddsNew()
     {
         // Arrange 
         var existingPessoas = new[]
@@ -184,7 +185,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_WhenSoapServiceThrowsException_ReturnsInternalServerError()
+    public async Task ShouldReturnInternalServerError_WhenSoapServiceThrowsException()
     {
         // Arrange
         _mockSoapChannel
@@ -198,10 +199,17 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().BeEmpty();
+
+        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
+        problemDetails.Should().NotBeNull();
+        problemDetails.Status.Should().Be(StatusCodes.Status500InternalServerError);
+        problemDetails.Title.Should().NotBeNullOrWhiteSpace();
+        problemDetails.Type.Should().Be("Exception");
     }
 
     [Fact]
-    public async Task Import_AsViewer_ReturnsForbidden()
+    public async Task ShouldReturnForbidden_WhenImportAsViewer()
     {
         // Arrange
         using var viewerClient = _factory.CreateAuthenticatedClient(Roles.Viewer);
@@ -214,7 +222,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     }
 
     [Fact]
-    public async Task Import_Unauthenticated_ReturnsUnauthorized()
+    public async Task ShouldReturnUnauthorized_WhenImportUnauthenticated()
     {
         // Arrange
         using var unauthClient = _factory.CreateClient();
