@@ -16,7 +16,13 @@ public sealed class SigdnRhPessoasProvider(IPessoaCoreDataProvider pessoaCoreDat
 
         var coreDataFrags = await _pessoaCoreDataProvider.GetPessoaCoreDataAsync(keys, ct);
         return keys
-            .Select(k => new Pessoa { NII = k.Nii, ExternalId = k.ExternalId, DadosPessoais = coreDataFrags[k].DadosPessoais, })
+            .Select(k => new Pessoa
+            {
+                NII = k.Nii,
+                ExternalId = k.ExternalId,
+                DadosPessoais = coreDataFrags[k].DadosPessoais,
+                DadosBiometricos = coreDataFrags[k].DadosBiometricos
+            })
             .ToList()
             .AsReadOnly();
     }

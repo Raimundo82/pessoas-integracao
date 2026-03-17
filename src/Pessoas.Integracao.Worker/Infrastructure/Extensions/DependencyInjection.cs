@@ -18,6 +18,7 @@ public static class DependencyInjection
     {
         return services
             .Configure<DataSourceSettings>(configuration.GetSection(DataSourceSettings.SectionName))
+            .Configure<SigdnRhExamesMedConfig>(configuration.GetSection(SigdnRhExamesMedConfig.SectionName))
             .AddSoapChannelFactorySingleton<zhr_wsChannel>(settings => settings.OutputUrl)
             .AddSoapChannelFactorySingleton<ZHR_WS_DELTASChannel>(settings => settings.DeltasUrl)
             .AddScoped<ISoapChannelProvider<zhr_wsChannel>, SoapChannelProvider<zhr_wsChannel>>()
@@ -27,6 +28,8 @@ public static class DependencyInjection
             .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasImportKeysProvider>()
             .AddScoped<IPessoaCoreDataProvider, PessoaCoreDataProvider>()
             .AddScoped<IDadosPessoaisTranslator, DadosPessoaisTranslator>()
+            .AddScoped<IDadosBiometricosTranslator, DadosBiometricosTranslator>()
+            .AddScoped<IExamesMedClient, ExamesMedClient>()
             .AddScoped<IPersonalDataClient, PersonalDataClient>()
             .AddScoped<ISoapResultCorrelator, SoapResultCorrelator>();
     }
