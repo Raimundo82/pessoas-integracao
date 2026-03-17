@@ -26,11 +26,11 @@ Enterprise_Boundary(marinha, "Marinha") {
 
         Container(worker, "Worker de Integração", ".NET", "Extrai e prepara informação das pessoas a partir dos sistemas fonte")
 
-        Container(publisher, "Serviço de Publicação de Eventos Organizacionais", ".NET Worker", "Publica informação com impacto organizacional pendente na plataforma de integração assíncrona")
+        Container(publisher, "Serviço de Publicação de Eventos Organizacionais", ".NET Worker", "Publica alterações pendentes na plataforma de integração assíncrona")
 
         ContainerDb(db, "Base de Dados Operacional", "SQL", "Armazena a informação integrada das pessoas")
 
-        ContainerDb(outbox, "Outbox de Eventos Organizacionais", "SQL", "Armazena informação organizacional pendente de publicação")
+        ContainerDb(outbox, "Outbox de Eventos Organizacionais", "SQL", "Armazena alterações organizacionais pendentes para publicação")
     }
 }
 
@@ -52,7 +52,7 @@ Rel_L(worker, core, "Envia informação preparada")
 
 Rel_D(core, db, "Lê e escreve informação")
 
-Rel_D(core, outbox, "Regista informação organizacional")
+Rel_D(core, outbox, "Persiste alterações com impacto organizacional")
 
 Rel_R(publisher, outbox, "Lê informação pendente")
 
