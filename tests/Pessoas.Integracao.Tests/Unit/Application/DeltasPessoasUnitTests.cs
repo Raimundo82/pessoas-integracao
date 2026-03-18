@@ -16,6 +16,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
     private Mock<IPessoasDataProvider> _dataProvider;
     private readonly Mock<IPessoasDeltasKeyProvider> _deltaKeysProvider;
     private Mock<IPessoaRepository> _repo;
+    private readonly Mock<IPessoasDeltaDetector> _deltaDetector;
     private Mock<IUnitOfWork> _uow;
 
     public DeltasPessoasUnitTests()
@@ -23,6 +24,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         _dataProvider = new Mock<IPessoasDataProvider>();
         _deltaKeysProvider = new Mock<IPessoasDeltasKeyProvider>();
         _repo = new Mock<IPessoaRepository>();
+        _deltaDetector = new Mock<IPessoasDeltaDetector>();
         _uow = new Mock<IUnitOfWork>();
     }
     [Fact]
@@ -57,7 +59,11 @@ public sealed class DeltasPessoasUnitTests : IDisposable
             .Setup(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(upsertResult);
 
-        var sut = new DeltasPessoas(_repo.Object, _dataProvider.Object, _deltaKeysProvider.Object, _uow.Object);
+        _deltaDetector
+            .Setup(d => d.IsPessoaChangedAsync(It.IsAny<Pessoa>(), It.IsAny<Pessoa>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+
+        var sut = new DeltasPessoas(_repo.Object, _dataProvider.Object, _deltaKeysProvider.Object, _deltaDetector.Object, _uow.Object);
 
         // Act
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
