@@ -16,6 +16,10 @@ public class ImportPessoasByImportKey(
     public async Task<ImportPessoasResult> ExecuteAsync(IReadOnlyList<PessoaImportKey> keys, CancellationToken ct)
     {
         var pessoas = await _pessoasDataProvider.GetPessoasByImportKeysAsync(keys, ct);
+        if (pessoas.Count == 0)
+        {
+            return new ImportPessoasResult(0, 0, 0);
+        }
         var upsertResult = await _pessoaRepository.UpsertAllAsync(pessoas, ct);
         await _unitOfWork.CommitAsync(ct);
         return new ImportPessoasResult(pessoas.Count, upsertResult.TotalAdded, upsertResult.TotalUpdated);

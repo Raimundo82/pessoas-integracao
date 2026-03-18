@@ -38,7 +38,6 @@ public sealed class ImportPessoasUnitTests : IDisposable
         // Arrange (Given)
         var ct = new CancellationTokenSource().Token;
 
-
         var fakeRepo = new FakePessoaRepository([new("22600", "30001000"), new("21200", "30002000")]);
         var keysProviderStub = new StubPessoasImportKeyProvider([new("22601", "30001001"), new("21201", "30002001")]);
         var pessoas = new ReadOnlyCollection<Pessoa>(
