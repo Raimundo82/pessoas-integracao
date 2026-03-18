@@ -54,4 +54,13 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
             .Select(p => new PessoaImportKey(p.NII, p.ExternalId))
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(PessoaImportKey pessoaImportKey, CancellationToken ct)
+    {
+        return await _context.Pessoas
+            .Where(p =>
+                p.NII == pessoaImportKey.Nii &&
+                p.ExternalId == pessoaImportKey.ExternalId)
+            .ToListAsync(ct);
+    }
 }

@@ -11,4 +11,5 @@ public interface IPessoaRepository
     Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
     Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(PessoaImportKey pessoaImportKey, CancellationToken ct);
 }
