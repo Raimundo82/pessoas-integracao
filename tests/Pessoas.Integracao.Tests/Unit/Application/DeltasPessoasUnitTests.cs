@@ -106,7 +106,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
 
         // Assert
-        result.Should().BeEquivalentTo(new DeltaPessoasResult(1, 1));
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(1));
         _repo.Verify(r => r.UpsertAllAsync(It.Is<IReadOnlyList<Pessoa>>(list => list.Count == 1 && list[0].NII == "123456789"), It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -142,7 +142,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
 
         // Assert
-        result.Should().BeEquivalentTo(new DeltaPessoasResult(2, 2));
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(2));
         _repo.Verify(r => r.UpsertAllAsync(
             It.Is<IReadOnlyList<Pessoa>>(list => list.Count == 2),
             It.IsAny<CancellationToken>()),
@@ -174,7 +174,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
 
         // Assert
-        result.Should().BeEquivalentTo(new DeltaPessoasResult(0, 0));
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(0));
         _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -194,7 +194,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
 
         // Assert
-        result.Should().BeEquivalentTo(new DeltaPessoasResult(0, 0));
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(0));
         _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -239,7 +239,7 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
 
         // Assert
-        result.Should().BeEquivalentTo(new DeltaPessoasResult(0, 0));
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(0));
     }
 
 
