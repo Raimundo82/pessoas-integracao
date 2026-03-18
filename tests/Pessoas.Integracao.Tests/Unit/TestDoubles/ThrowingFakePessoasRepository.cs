@@ -33,4 +33,11 @@ public sealed class ThrowingFakePessoasRepository(IReadOnlyList<PessoaImportKey>
         LastGetKeysToken = cancellationToken;
         return Task.FromResult(_existingKeys);
     }
+    public Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(
+       PessoaImportKey pessoaImportKey,
+       CancellationToken ct)
+    {
+        WasCalled = true;
+        return Task.FromException<IReadOnlyList<Pessoa>>(_exceptionToThrow);
+    }
 }

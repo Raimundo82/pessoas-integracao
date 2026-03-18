@@ -1,4 +1,3 @@
-// tests/Pessoas.Integracao.Tests/Unit/TestDoubles/FakePessoaRepository.cs
 using System.Collections.ObjectModel;
 
 
@@ -33,5 +32,7 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
     public Task AddRangeAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => throw new NotSupportedException();
     public Task ClearAllAsync(CancellationToken ct) => throw new NotSupportedException();
     public Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
+        Task.FromResult<IReadOnlyList<Pessoa>>(new ReadOnlyCollection<Pessoa>([]));
+    public Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(PessoaImportKey pessoaImportKey, CancellationToken ct) =>
         Task.FromResult<IReadOnlyList<Pessoa>>(new ReadOnlyCollection<Pessoa>([]));
 }
