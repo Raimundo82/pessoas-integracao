@@ -15,6 +15,5 @@ public class SigdnRhPessoasImportKeysProvider(IPersonnelNumbersClient personnelN
             .Select(pernr => new PessoaImportKey(pernr.Ni, pernr.Numsap))
             .ToList()
             .AsReadOnly();
-
     }
 }
