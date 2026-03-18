@@ -16,18 +16,21 @@ public class DeltasPessoas(IPessoaRepository pessoaRepository, IPessoasDataProvi
     {
         var timePeriod = new TimePeriod(startTimestamp, endTimestamp);
         var pessoasDeltasKeys = await _pessoasDeltasKeyProvider.GetPessoasDeltasKeysAsync(timePeriod, ct);
+        if (pessoasDeltasKeys.Count == 0)
+            return new DeltaPessoasResult(0, 0);
 
         var pessoasImportKeys = pessoasDeltasKeys
                                 .Select(k => new PessoaImportKey(k.Nii, k.ExternalId))
                                 .ToList();
         var pessoasFromProvider = await _pessoasDataProvider.GetPessoasByImportKeysAsync(pessoasImportKeys, ct);
+        if (pessoasFromProvider is null || pessoasFromProvider.Count == 0)
+            return new DeltaPessoasResult(0, 0);
 
         var pessoasToUpsert = new List<Pessoa>();
-
         foreach (var pessoa in pessoasFromProvider)
         {
             var pessoaInRepoList = await _pessoaRepository.GetPessoaByImportKeyAsync(new PessoaImportKey(pessoa.NII, pessoa.ExternalId), ct);
-            var pessoaInRepo = pessoaInRepoList.FirstOrDefault();
+            var pessoaInRepo = pessoaInRepoList.Count > 0 ? pessoaInRepoList[0] : null;
 
             if (pessoaInRepo is not null && await _pessoasDeltaDetector.IsPessoaChangedAsync(pessoa, pessoaInRepo, ct))
                 pessoasToUpsert.Add(pessoa);
@@ -39,9 +42,6 @@ public class DeltasPessoas(IPessoaRepository pessoaRepository, IPessoasDataProvi
             await _unitOfWork.CommitAsync(ct);
         }
 
-        return new DeltaPessoasResult(
-            pessoasToUpsert.Count,
-            pessoasDeltasKeys.Count
-        );
+        return new DeltaPessoasResult(pessoasToUpsert.Count, pessoasToUpsert.Count); //to change
     }
 }
