@@ -185,6 +185,28 @@ public sealed class DeltasPessoasUnitTests : IDisposable
         // Arrange
         var startTimestamp = DateTime.Now.AddDays(-1);
         var endTimestamp = DateTime.Now;
+        var importKey = new PessoaImportKey("123", "EXT");
+        var deltaKey = new PessoaDeltasKey("123", "EXT", "UPDATE");
+
+        SetupDeltaKeys([deltaKey]);
+        SetupNonExistingPessoa(importKey);
+
+        var sut = CreateSut();
+
+        // Act
+        var result = await sut.ExecuteAsync(startTimestamp, endTimestamp, CancellationToken.None);
+
+        // Assert
+        result.Should().BeEquivalentTo(new DeltaPessoasResult(0));
+        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Should_ReturnEmptyResult_When_ExecuteAsyncWithEmptyPessoasFromProvider()
+    {
+        // Arrange
+        var startTimestamp = DateTime.Now.AddDays(-1);
+        var endTimestamp = DateTime.Now;
 
         SetupDeltaKeys([]); // <— no delta keys
 
