@@ -48,6 +48,11 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
         await _context.Pessoas.ToListAsync(ct);
 
+    public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
+    {
+        return await _context.Pessoas.Where(p => niis.Contains(p.NII)).ToListAsync(ct);
+    }
+
     public async Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken)
     {
         return await _context.Pessoas
