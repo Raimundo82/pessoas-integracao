@@ -9,7 +9,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 
 namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 
-public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
+public sealed class SigdnRhDeltasProviderUnitTests
 {
     private readonly Mock<IDeltasClient> _client = new();
 
@@ -24,11 +24,11 @@ public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
                 new ZhrWsGetDeltasPernrOut { Ni = "22800", Pernr = "30002897", Actio = "DELETE" },
             ]);
 
-        var provider = new SigdnRhPessoasDeltasKeysProvider(_client.Object);
+        var provider = new SigdnRhDeltasProvider(_client.Object);
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetPessoasDeltasKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
 
         // Assert
         result.Should().AllBeOfType<PessoaDeltasKey>();
@@ -49,11 +49,11 @@ public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
                 new ZhrWsGetDeltasPernrOut { Ni = "22600", Pernr = "30002697", Actio = "UPDATE" }
             ]);
 
-        var provider = new SigdnRhPessoasDeltasKeysProvider(_client.Object);
+        var provider = new SigdnRhDeltasProvider(_client.Object);
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetPessoasDeltasKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
 
         // Assert
         result.Should().HaveCount(1);
@@ -69,11 +69,11 @@ public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
         _client.Setup(c => c.GetDeltasAsync(It.IsAny<TimePeriod>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
 
-        var provider = new SigdnRhPessoasDeltasKeysProvider(_client.Object);
+        var provider = new SigdnRhDeltasProvider(_client.Object);
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetPessoasDeltasKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -87,12 +87,12 @@ public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
         _client.Setup(c => c.GetDeltasAsync(It.IsAny<TimePeriod>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
 
-        var provider = new SigdnRhPessoasDeltasKeysProvider(_client.Object);
+        var provider = new SigdnRhDeltasProvider(_client.Object);
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
         Func<Task> action = async () =>
-            await provider.GetPessoasDeltasKeysAsync(period, CancellationToken.None);
+            await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>()
@@ -110,11 +110,11 @@ public sealed class SigdnRhPessoasDeltasKeysProviderUnitTests
             .Callback<TimePeriod, CancellationToken>((_, ct) => receivedToken = ct)
             .ReturnsAsync([]);
 
-        var provider = new SigdnRhPessoasDeltasKeysProvider(_client.Object);
+        var provider = new SigdnRhDeltasProvider(_client.Object);
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        await provider.GetPessoasDeltasKeysAsync(period, tokenSource.Token);
+        await provider.GetChangedImportKeysAsync(period, tokenSource.Token);
 
         // Assert
         receivedToken.Should().Be(tokenSource.Token);

@@ -35,4 +35,6 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
         Task.FromResult<IReadOnlyList<Pessoa>>(new ReadOnlyCollection<Pessoa>([]));
     public Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(PessoaImportKey pessoaImportKey, CancellationToken ct) =>
         Task.FromResult<IReadOnlyList<Pessoa>>(new ReadOnlyCollection<Pessoa>([]));
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
+        => throw new NotSupportedException();
 }
