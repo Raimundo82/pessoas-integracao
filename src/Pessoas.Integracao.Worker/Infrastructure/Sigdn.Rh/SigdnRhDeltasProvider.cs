@@ -4,16 +4,16 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 
-public class SigdnRhPessoasDeltasKeysProvider(IDeltasClient deltasClient) : IPessoasDeltasKeyProvider
+public class SigdnRhDeltasProvider(IDeltasClient deltasClient) : IPessoasChangedImportKeyProvider
 {
     private readonly IDeltasClient _deltasClient = deltasClient;
 
-    public async Task<IReadOnlyList<PessoaDeltasKey>> GetPessoasDeltasKeysAsync(TimePeriod timePeriod, CancellationToken ct)
+    public async Task<IReadOnlyList<PessoaImportKey>> GetChangedImportKeysAsync(TimePeriod timePeriod, CancellationToken ct)
     {
         var personnelNumbers = await _deltasClient.GetDeltasAsync(timePeriod, ct);
         return personnelNumbers
-            .Select(pernr => new PessoaDeltasKey(pernr.Ni, pernr.Pernr, pernr.Actio))
-            .ToList()
-            .AsReadOnly();
+            .Select(pernr => new PessoaImportKey(pernr.Ni, pernr.Pernr))
+            .DistinctBy(k => k.Nii)
+            .ToList();
     }
 }
