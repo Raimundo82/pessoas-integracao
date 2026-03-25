@@ -10,6 +10,7 @@ public interface IPessoaRepository
     Task ClearAllAsync(CancellationToken ct);
     Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
+    Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct);
     Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
     Task<IReadOnlyList<Pessoa>> GetPessoaByImportKeyAsync(PessoaImportKey pessoaImportKey, CancellationToken ct);
 }
