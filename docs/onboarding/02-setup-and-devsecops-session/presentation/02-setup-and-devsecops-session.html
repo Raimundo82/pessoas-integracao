@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 02 — Project Setup & DevSecOps Pipeline</title>
+<style>
+:root{--navy:#1B2A4A;--blue:#2166A8;--teal:#0D9488;--ice:#CBE4F5;--off:#F5F7FA;--muted:#64748B;--dark:#1E293B;--accent:#F59E0B;--green:#16A34A;--red:#DC2626;--purple:#8B5CF6;--term:#1E2D3D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Calibri','Segoe UI',sans-serif;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:0}
+.deck{width:940px}
+.slide{display:none;width:940px;min-height:530px;position:relative;background:var(--off);border-radius:10px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.slide.active{display:flex;flex-direction:column}
+.slide.dark{background:var(--navy)}
+
+/* title */
+.title-slide{background:var(--navy)!important}
+.title-slide .bar{position:absolute;left:0;top:0;width:18px;height:100%;background:var(--teal)}
+.title-slide .badge{position:absolute;top:30px;left:36px;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:5px 18px;border-radius:4px;letter-spacing:2px}
+.title-slide h1{position:absolute;top:86px;left:36px;right:36px;font-family:'Trebuchet MS',sans-serif;font-size:42px;font-weight:700;color:#fff;line-height:1.15}
+.title-slide .sub{position:absolute;top:225px;left:36px;right:36px;font-size:15px;color:var(--ice)}
+.title-slide .rings{position:absolute;top:268px;left:36px;right:36px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ring{background:#243554;border:1px solid #334155;border-radius:6px;padding:12px 14px}
+.ring h4{font-family:'Trebuchet MS',sans-serif;font-size:12px;font-weight:700;margin-bottom:8px}
+.ring ul{padding-left:14px;font-size:11px;line-height:1.9;color:var(--ice)}
+.ring.local h4{color:var(--teal)}.ring.ci h4{color:var(--accent)}
+.title-slide footer{position:absolute;bottom:0;left:0;right:0;height:36px;background:#162236;display:flex;align-items:center;padding:0 28px;font-size:10px;color:var(--muted)}
+
+/* header */
+.sh{border-top:6px solid var(--teal);background:#fff;padding:10px 28px;display:flex;align-items:center;gap:12px}
+.slide.dark .sh{background:#243554}
+.sh .badge{width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sh h2{font-family:'Trebuchet MS',sans-serif;font-size:20px;color:var(--navy);flex:1}
+.slide.dark .sh h2{color:#fff}
+.sh .lbl{padding:3px 12px;border-radius:12px;font-size:10px;font-weight:700;flex-shrink:0}
+.lbl-c{background:var(--blue);color:#fff}.lbl-t{background:var(--accent);color:var(--navy)}
+.sb{flex:1;padding:16px 28px;display:flex;flex-direction:column;gap:10px}
+footer.f{background:#e2eaf2;padding:6px 28px;font-size:10px;color:var(--muted)}
+.slide.dark footer.f{background:#162236}
+
+/* cards */
+.cards{display:grid;gap:11px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}
+.card{background:#fff;border-radius:6px;padding:12px 12px 12px 16px;border-left:5px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card h3{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.card p,.card li{font-size:11px;color:var(--dark);line-height:1.65}
+.card ul{padding-left:15px}
+.card.t{border-color:var(--teal)}.card.g{border-color:var(--green)}.card.r{border-color:var(--red)}.card.a{border-color:var(--accent)}.card.m{border-color:var(--muted)}.card.n{border-color:var(--navy)}.card.p{border-color:var(--purple)}
+
+/* terminal */
+.term{background:var(--term);border-radius:8px;padding:12px 14px;font-family:'Consolas',monospace;font-size:11px;color:var(--ice);line-height:1.75;white-space:pre;overflow-x:auto;border:1px solid #334155;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.td{display:flex;gap:6px;margin-bottom:8px}
+.td span{width:12px;height:12px;border-radius:50%;display:inline-block}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:11px;background:#fff;border-radius:6px;padding:8px 13px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.step-n{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0;margin-top:2px}
+.step-cmd{font-family:'Consolas',monospace;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.step-desc{font-size:11px;color:var(--muted)}
+
+/* yt banner */
+.yt{background:var(--accent);border-radius:6px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--navy)}
+
+/* rows */
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{background:#fff;border-radius:4px;padding:8px 12px 8px 14px;border-left:5px solid var(--blue);display:flex;gap:10px;align-items:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.row .tag{font-family:'Consolas',monospace;font-size:11px;font-weight:700;color:var(--navy);min-width:175px;flex-shrink:0}
+.row .info{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* flow */
+.flow-v{display:flex;flex-direction:column;gap:0}
+.fv-row{display:flex;gap:10px;align-items:stretch}
+.fv-num{width:28px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.fv-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.fv-line{flex:1;width:2px;background:#e2e8f0;margin:2px auto}
+.fv-body{flex:1;background:#fff;border-radius:4px;padding:6px 12px;margin-bottom:4px;border-left:4px solid var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.fv-cmd{font-family:'Consolas',monospace;font-size:11px;font-weight:700;color:var(--navy)}
+.fv-desc{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* alert */
+.alert{border-radius:4px;padding:9px 14px;font-size:12px;font-weight:700}
+.alert.warn{background:var(--accent);color:var(--navy)}.alert.info{background:var(--blue);color:#fff}
+.alert.navy{background:var(--navy);color:var(--ice)}.alert.teal{background:var(--teal);color:#fff}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+
+/* code compare */
+.code-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.code-label{font-size:11px;font-weight:700;margin-bottom:5px}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;color:#94a3b8;font-size:13px;width:940px;flex-shrink:0}
+.nav button{background:#1e293b;color:#e2e8f0;border:none;border-radius:6px;padding:9px 22px;font-size:13px;cursor:pointer;transition:background .2s}
+.nav button:hover{background:var(--blue)}.nav button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px;flex-wrap:wrap;max-width:500px;justify-content:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#334155;cursor:pointer;transition:background .2s}
+.dot.active{background:var(--teal)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══ 1: TITLE ═══ -->
+<div class="slide title-slide active">
+  <div class="bar"></div>
+  <div class="badge">MODULE 02</div>
+  <h1>Project Setup &amp;<br>DevSecOps Pipeline</h1>
+  <div class="sub">Docker · Dev Container · Git Hooks · Linter · CI · SonarQube</div>
+  <div class="rings">
+    <div class="ring local">
+      <h4>Your machine (local ring)</h4>
+      <ul>
+        <li>Dev container — same env as CI</li>
+        <li>Git hooks (Lefthook pre-commit)</li>
+        <li>&nbsp;&nbsp;→ format on every commit</li>
+        <li>SonarLint inline feedback</li>
+      </ul>
+    </div>
+    <div class="ring ci">
+      <h4>Gitea pipeline (CI ring)</h4>
+      <ul>
+        <li>ci-build-test on every PR</li>
+        <li>&nbsp;&nbsp;→ format · build · vuln · tests</li>
+        <li>ci-pr-scan on every PR</li>
+        <li>&nbsp;&nbsp;→ SonarQube + Quality Gate</li>
+      </ul>
+    </div>
+  </div>
+  <footer>Pessoas Integração  |  SIGDN-RH Staging API  |  Demo → You try it</footer>
+</div>
+
+<!-- ═══ 2: PROJECT SETUP CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="badge">1</div><h2>Project Setup — Docker Desktop &amp; Dev Container</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">What runs inside Docker</p>
+        <div class="term"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>Your laptop
+└── Docker Desktop
+    └── Dev Container
+        ├── app service
+        │   ├── .NET SDK 10.0.201
+        │   ├── Node.js 24.10.0
+        │   └── your code
+        └── db service
+            └── PostgreSQL 17</div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">What the container gives you</p>
+        <div class="rows">
+          <div class="row"><span class="tag" style="color:var(--blue)">.NET 10.0.201</span><span class="info">Pinned via global.json — same version as CI</span></div>
+          <div class="row" style="border-color:var(--teal)"><span class="tag" style="color:var(--teal)">Node.js 24.10.x</span><span class="info">For npm ci, Lefthook, Prettier</span></div>
+          <div class="row" style="border-color:var(--green)"><span class="tag" style="color:var(--green)">PostgreSQL 17</span><span class="info">Runs as the db service in docker-compose</span></div>
+          <div class="row" style="border-color:var(--purple)"><span class="tag" style="color:var(--purple)">VS Code extensions</span><span class="info">SonarLint, C# Dev Kit, Prettier, EditorConfig…</span></div>
+          <div class="row" style="border-color:var(--muted)"><span class="tag" style="color:var(--muted)">Proxy + CA cert</span><span class="info">Marinha proxy and certificate pre-configured</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="alert warn">⚠️  .env is in .gitignore — never commit it. Ask a teammate for DB_PASSWORD · READ_API_KEY · WRITE_API_KEY · SONARQUBE_CI_TOKEN · SONAR_HOST_URL</div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 3: PROJECT SETUP YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="badge">1</div><h2>Project Setup</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻  YOUR TURN — Install Docker Desktop, set up .env, open in dev container</div>
+    <div class="steps">
+      <div class="step"><div class="step-n" style="background:var(--blue)">1</div><div><div class="step-cmd">Install Docker Desktop</div><div class="step-desc">docker.com/products/docker-desktop → start it → confirm with docker --version</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--blue)">2</div><div><div class="step-cmd">Install VS Code Dev Containers extension</div><div class="step-desc">Search: ms-vscode-remote.remote-containers</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">3</div><div><div class="step-cmd">git clone git@devops-01.marinha.pt:marinha-si/pessoas-integracao.git</div><div class="step-desc">Clone the repo if not already done</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--accent)">4</div><div><div class="step-cmd">cp .devcontainer/.env.example .devcontainer/.env</div><div class="step-desc">Fill in the values — ask a teammate</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--blue)">5</div><div><div class="step-cmd">F1 → Dev Containers: Open Folder in Container…</div><div class="step-desc">VS Code builds the image and starts containers (~5 min first time)</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">6</div><div><div class="step-cmd">dotnet build  &&  dotnet test</div><div class="step-desc">Verify everything works inside the container</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 4: GIT HOOKS CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="badge">2</div><h2>Git Hooks — Lefthook</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;font-style:italic;color:var(--dark)">Hooks run automatically at specific Git events — before code ever reaches Gitea.</p>
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">lefthook.yml — pre-commit hook</p>
+        <div class="term"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      stage_fixed: true
+      glob: '**/*.{md,yml,yaml,json,jsonc}'
+      run: npx prettier --write {staged_files}
+    dotnet-format:
+      stage_fixed: true
+      glob: '**/*.cs'
+      run: dotnet format --include {staged_files}</div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">What happens on git commit</p>
+        <div class="flow-v">
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--navy)">⌨</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">git commit -m "..."</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--teal)">⚡</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">Lefthook: pre-commit</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue)">✎</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">prettier → fix .md/.yml/.json → re-stage</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue)">✎</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">dotnet format → fix .cs → re-stage</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--green)">✓</div></div><div class="fv-body"><div class="fv-cmd" style="color:var(--green)">Commit created (already formatted)</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="alert teal">stage_fixed: true — Lefthook re-stages the fixed file automatically. You never get an "unstaged fixes" situation.</div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 5: GIT HOOKS YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="badge">2</div><h2>Git Hooks — Lefthook</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻  YOUR TURN — Trigger the pre-commit hook and watch it fix your code</div>
+    <div class="steps">
+      <div class="step"><div class="step-n" style="background:var(--muted)">1</div><div><div class="step-cmd">cat .git/hooks/pre-commit</div><div class="step-desc">Verify Lefthook is installed. If missing: npm ci && lefthook install</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--accent)">2</div><div><div class="step-cmd">Open Employee.cs — break indentation (add extra spaces)</div><div class="step-desc">Save the file — introduce a formatting violation</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">3</div><div><div class="step-cmd">git add SigdnRhStaggingApi/Models/Employee.cs</div><div class="step-desc">Stage the broken file</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--blue)">4</div><div><div class="step-cmd">git commit -m "test: trigger formatting hook"</div><div class="step-desc">Watch Lefthook: dotnet format → fix → re-stage → commit succeeds</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">5</div><div><div class="step-cmd">git show HEAD -- ...Employee.cs | head -15</div><div class="step-desc">Committed version is clean — even though your edit was broken</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--muted)">6</div><div><div class="step-cmd">git reset HEAD~1  &&  git checkout Employee.cs</div><div class="step-desc">Clean up the test commit</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 6: LINTER CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="badge">3</div><h2>The Linter — dotnet format &amp; Prettier</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <div class="cards c2" style="margin-bottom:10px">
+      <div class="card">
+        <h3>dotnet format — C# files</h3>
+        <p>Reads rules from <code>.editorconfig</code> — indent size, spacing, blank lines, Roslyn analyser settings.</p>
+        <div class="term" style="margin-top:8px;font-size:10px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div># Fix all violations
+dotnet format
+
+# Verify only (what CI runs)
+dotnet format --verify-no-changes
+
+# Single file (what the hook does)
+dotnet format --include path/to/File.cs</div>
+      </div>
+      <div class="card t">
+        <h3>Prettier — md / yml / json</h3>
+        <p>Enforces consistent formatting for non-C# files. Config in <code>.prettierrc</code>. Strict — it rewrites to its own opinion.</p>
+        <div class="term" style="margin-top:8px;font-size:10px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div># Fix all files
+npx prettier --write .
+
+# Check only (CI mode)
+npx prettier --check .
+
+# Single file
+npx prettier --check file.yaml</div>
+      </div>
+    </div>
+    <div class="cards c2">
+      <div class="card g"><h3>✅ Fix mode — use locally</h3><p><code>dotnet format</code> — rewrites files to match <code>.editorconfig</code>. Run before committing, or let the hook do it.</p></div>
+      <div class="card a"><h3>⚠️ Verify mode — what CI runs</h3><p><code>dotnet format --verify-no-changes</code> — exit code 1 if anything would change. No files are modified. If this fails, CI fails.</p></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 7: LINTER YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="badge">3</div><h2>The Linter</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻  YOUR TURN — Break and fix formatting — see what CI sees</div>
+    <div class="steps">
+      <div class="step"><div class="step-n" style="background:var(--accent)">1</div><div><div class="step-cmd">Open Employee.cs — add: public int Id{get;set;}</div><div class="step-desc">Remove spaces around braces — a formatting violation</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--red)">2</div><div><div class="step-cmd">dotnet format --verify-no-changes</div><div class="step-desc">See the error CI would report — exit code 1, shows what would change</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">3</div><div><div class="step-cmd">dotnet format</div><div class="step-desc">Fix all violations automatically</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">4</div><div><div class="step-cmd">dotnet format --verify-no-changes</div><div class="step-desc">Should now exit 0 with no output ✅</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">5</div><div><div class="step-cmd">npx prettier --check .gitea/workflows/ci-build-test.yaml</div><div class="step-desc">Break a YAML indent first, then check — see Prettier's error output</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--muted)">6</div><div><div class="step-cmd">git checkout .</div><div class="step-desc">Revert all changes</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 8: CI PHASES CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="badge">4</div><h2>CI Phases — ci-build-test</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;font-style:italic;color:var(--dark)">Runs on every PR — all phases must pass before a PR can be merged.</p>
+    <div class="two">
+      <div class="flow-v">
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--muted)">①</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--muted)"><div class="fv-cmd">Checkout  (fetch-depth: 0)</div><div class="fv-desc">Full Git history — needed by SonarQube and semantic-release</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--muted)">②</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--muted)"><div class="fv-cmd">Setup Node.js 24.10.x + npm ci</div><div class="fv-desc">Installs Lefthook, Prettier, semantic-release</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue)">③</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--blue)"><div class="fv-cmd">Setup .NET SDK  (from global.json)</div><div class="fv-desc">Pins to 10.0.201 — same as dev container</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--red)">④</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--red)"><div class="fv-cmd">dotnet format --verify-no-changes</div><div class="fv-desc">FAILS FAST — no compile needed. Catches unformatted code in seconds.</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue)">⑤</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--blue)"><div class="fv-cmd">dotnet build --no-incremental</div><div class="fv-desc">Clean build — no cached artifacts, catches compile errors</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--accent)">⑥</div><div class="fv-line"></div></div><div class="fv-body" style="border-color:var(--accent)"><div class="fv-cmd">dotnet list package --vulnerable</div><div class="fv-desc">NuGet CVE check — reads package lock, no network call</div></div></div>
+        <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--green)">⑦</div></div><div class="fv-body" style="border-color:var(--green)"><div class="fv-cmd">dotnet test --no-build</div><div class="fv-desc">Runs all tests — --no-build skips recompile (already done in ⑤)</div></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="card g"><h3>Why this order?</h3><p>Cheapest to most expensive. Format fails in 5s — you never wait 2min for tests to tell you what a linter could. Each phase only runs if the previous one passed.</p></div>
+        <div class="card"><h3>global.json pins the SDK</h3><p><code>{ "sdk": { "version": "10.0.201" } }</code><br>setup-dotnet reads this — same version in CI and dev container. No "works locally but not in CI".</p></div>
+        <div class="card t"><h3>Run CI locally before pushing</h3><p><code>dotnet format --verify-no-changes</code><br><code>dotnet build --no-incremental</code><br><code>dotnet list package --vulnerable</code><br><code>dotnet test --no-build</code></p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 9: CI PHASES YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="badge">4</div><h2>CI Phases</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻  YOUR TURN — Read your PR's CI output and run all phases locally</div>
+    <div class="steps">
+      <div class="step"><div class="step-n" style="background:var(--blue)">1</div><div><div class="step-cmd">Open your PR on Gitea → Checks tab</div><div class="step-desc">Find "Lint, Build and Test" — open the workflow run</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">2</div><div><div class="step-cmd">Expand each of the 7 steps — read the output</div><div class="step-desc">Look for: build warnings, test count, any flagged packages</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">3</div><div><div class="step-cmd">dotnet format --verify-no-changes</div><div class="step-desc">Phase ④ locally — should exit 0</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">4</div><div><div class="step-cmd">dotnet build --no-incremental</div><div class="step-desc">Phase ⑤ locally — Build succeeded</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--accent)">5</div><div><div class="step-cmd">dotnet list package --vulnerable --include-transitive --no-restore</div><div class="step-desc">Phase ⑥ locally — any CVEs?</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">6</div><div><div class="step-cmd">dotnet test --no-build</div><div class="step-desc">Phase ⑦ locally — all tests should pass</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 10: SONARQUBE CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="badge">5</div><h2>SonarQube Scan</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;font-style:italic;color:var(--dark)">Static analysis — catches bugs, code smells and security issues that the compiler misses.</p>
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">Two workflows, two purposes</p>
+        <div class="rows" style="margin-bottom:10px">
+          <div class="row"><span class="tag" style="color:var(--blue)">ci-pr-scan</span><span class="info">Every PR — analyses only NEW code. Result decorated on the PR itself.</span></div>
+          <div class="row" style="border-color:var(--teal)"><span class="tag" style="color:var(--teal)">post-merge-scan</span><span class="info">Push to master — full analysis of the entire codebase.</span></div>
+        </div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">PR scan — what happens</p>
+        <div class="flow-v">
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue);font-size:10px">1</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">dotnet-sonarscanner begin</div><div class="fv-desc">Opens a SonarQube analysis session</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue);font-size:10px">2</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">dotnet build</div><div class="fv-desc">Compiles with Sonar instrumentation</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue);font-size:10px">3</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">dotnet-coverage collect "dotnet test"</div><div class="fv-desc">Runs tests, captures coverage.xml</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--blue);font-size:10px">4</div><div class="fv-line"></div></div><div class="fv-body"><div class="fv-cmd">dotnet-sonarscanner end</div><div class="fv-desc">Uploads results to the SonarQube server</div></div></div>
+          <div class="fv-row"><div class="fv-num"><div class="fv-circle" style="background:var(--accent);font-size:10px">5</div></div><div class="fv-body" style="border-color:var(--accent)"><div class="fv-cmd" style="color:var(--accent)">Quality Gate check</div><div class="fv-desc">Polls SonarQube — PR cannot merge if gate not met</div></div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="card a"><h3>Quality Gate</h3><p>Conditions set on the server: coverage on new code ≥ X% · no new bugs · no unreviewed security hotspots. <strong>PR cannot be merged if the Quality Gate fails.</strong></p></div>
+        <div class="card"><h3>What SonarQube analyses</h3><ul><li>Bugs — null dereferences, resource leaks</li><li>Code smells — long methods, dead code</li><li>Security hotspots — hardcoded credentials, SQL injection risk</li><li>Coverage — which lines are tested</li></ul></div>
+        <div class="card n"><h3>Excluded from scan</h3><p><code>Migrations/ · bin/ · obj/ · Generated/ · .devcontainer/</code><br>EF Core migrations are auto-generated — no benefit from static analysis.</p></div>
+        <div class="card t"><h3>SonarLint in VS Code</h3><p>Same rules as the CI scan — inline feedback as you type. Connect to the server with your <code>SONARQUBE_USER_TOKEN</code> for connected mode.</p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 11: SONARQUBE YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="badge">5</div><h2>SonarQube Scan</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻  YOUR TURN — Explore the SonarQube dashboard and find your PR decoration</div>
+    <div class="steps">
+      <div class="step"><div class="step-n" style="background:var(--blue)">1</div><div><div class="step-cmd">Open SONAR_HOST_URL in your browser</div><div class="step-desc">Log in with your credentials (ask a teammate for the URL)</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">2</div><div><div class="step-cmd">Search for 'pessoas-integracao' → open the project</div><div class="step-desc">Explore: Reliability · Security · Maintainability · Coverage %</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--blue)">3</div><div><div class="step-cmd">Issues tab → filter by Type: Bug + Status: Open</div><div class="step-desc">Read a few issues — understand what SonarQube flags and why</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--accent)">4</div><div><div class="step-cmd">Go back to Gitea → open your PR</div><div class="step-desc">Find the SonarQube comment — click the Quality Gate link</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--teal)">5</div><div><div class="step-cmd">Compare: PR scan shows only new code</div><div class="step-desc">The post-merge scan on master shows the full picture</div></div></div>
+      <div class="step"><div class="step-n" style="background:var(--green)">6</div><div><div class="step-cmd">VS Code: connect SonarLint (optional)</div><div class="step-desc">Settings → SonarLint → add SONAR_HOST_URL + SONARQUBE_USER_TOKEN</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ 12: WRAP-UP ═══ -->
+<div class="slide dark">
+  <div class="sh"><h2>Session Complete 🎉</h2></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--ice);margin-bottom:8px">Your machine — local ring</p>
+        <div class="term"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>Dev container (Docker)
+  .NET 10 · Node 24 · Postgres 17
+  Same env as CI — no surprises
+
+Git hooks (Lefthook pre-commit)
+  prettier → md/yml/json
+  dotnet format → .cs
+  stage_fixed: auto re-stage
+
+SonarLint
+  inline feedback · connected mode</div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--ice);margin-bottom:8px">Gitea pipeline — CI ring</p>
+        <div class="term"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>ci-build-test (every PR)
+  ① checkout (fetch-depth: 0)
+  ② npm ci (Lefthook, Prettier)
+  ③ .NET SDK from global.json
+  ④ dotnet format --verify-no-changes
+  ⑤ dotnet build --no-incremental
+  ⑥ dotnet list package --vulnerable
+  ⑦ dotnet test --no-build
+
+ci-pr-scan (every PR)
+  SonarQube analysis + Quality Gate</div>
+      </div>
+    </div>
+    <div class="alert info" style="margin-top:8px">If all CI phases pass locally before you push — CI will pass on Gitea. The local ring exists to make that a habit, not a surprise.</div>
+  </div>
+  <footer class="f">Module 02 — Project Setup & DevSecOps Pipeline  |  Pessoas Integração</footer>
+</div>
+
+</div>
+
+<div class="nav">
+  <button id="prev" onclick="change(-1)" disabled>← Prev</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter" style="min-width:60px;text-align:right;font-size:12px;color:#64748b">1 / 12</span>
+  <button id="next" onclick="change(1)">Next →</button>
+</div>
+<script>
+const slides=document.querySelectorAll('.slide');let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>go(i);dotsEl.appendChild(d);});
+function go(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('active');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('active');document.getElementById('counter').textContent=`${cur+1} / ${slides.length}`;document.getElementById('prev').disabled=cur===0;document.getElementById('next').disabled=cur===slides.length-1;}
+function change(d){go(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')change(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')change(-1);});
+</script>
+</body>
+</html>

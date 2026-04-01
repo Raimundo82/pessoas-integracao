@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 03 — Test Driven Development</title>
+<style>
+:root{--navy:#1B2A4A;--blue:#2166A8;--teal:#0D9488;--ice:#CBE4F5;--off:#F5F7FA;--muted:#64748B;--dark:#1E293B;--accent:#F59E0B;--green:#16A34A;--red:#DC2626;--purple:#8B5CF6;--term:#1E2D3D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Calibri','Segoe UI',sans-serif;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
+.deck{width:940px}
+.slide{display:none;width:940px;min-height:530px;position:relative;background:var(--off);border-radius:10px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.slide.active{display:flex;flex-direction:column}
+.slide.dark{background:var(--navy)}
+.title-slide{background:var(--navy)!important}
+.title-slide .bar{position:absolute;left:0;top:0;width:18px;height:100%;background:var(--teal)}
+.title-slide .badge{position:absolute;top:30px;left:36px;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:5px 18px;border-radius:4px;letter-spacing:2px}
+.title-slide h1{position:absolute;top:82px;left:36px;right:36px;font-family:'Trebuchet MS',sans-serif;font-size:44px;font-weight:700;color:#fff;line-height:1.15}
+.title-slide .sub{position:absolute;top:228px;left:36px;right:36px;font-size:14px;color:var(--ice)}
+.title-slide .pills{position:absolute;top:268px;left:36px;display:flex;gap:8px;flex-wrap:wrap}
+.pill{padding:5px 14px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+.title-slide footer{position:absolute;bottom:0;left:0;right:0;height:36px;background:#162236;display:flex;align-items:center;padding:0 28px;font-size:10px;color:var(--muted)}
+.sh{border-top:6px solid var(--teal);background:#fff;padding:10px 28px;display:flex;align-items:center;gap:12px}
+.slide.dark .sh{background:#243554}
+.sh .num{width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sh h2{font-family:'Trebuchet MS',sans-serif;font-size:19px;color:var(--navy);flex:1}
+.slide.dark .sh h2{color:#fff}
+.sh .lbl{padding:3px 12px;border-radius:12px;font-size:10px;font-weight:700;flex-shrink:0}
+.lbl-c{background:var(--blue);color:#fff}.lbl-t{background:var(--accent);color:var(--navy)}
+.sb{flex:1;padding:16px 28px;display:flex;flex-direction:column;gap:10px}
+footer.f{background:#e2eaf2;padding:6px 28px;font-size:10px;color:var(--muted)}
+.slide.dark footer.f{background:#162236}
+.cards{display:grid;gap:10px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}
+.card{background:#fff;border-radius:6px;padding:12px 12px 12px 16px;border-left:5px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card h3{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.card p,.card li{font-size:11px;color:var(--dark);line-height:1.65}
+.card ul{padding-left:15px}
+.card.t{border-color:var(--teal)}.card.g{border-color:var(--green)}.card.r{border-color:var(--red)}.card.a{border-color:var(--accent)}.card.p{border-color:var(--purple)}.card.m{border-color:var(--muted)}.card.n{border-color:var(--navy)}
+.term{background:var(--term);border-radius:8px;padding:12px 14px;font-family:'Consolas',monospace;font-size:10.5px;color:var(--ice);line-height:1.75;white-space:pre;overflow-x:auto;border:1px solid #334155}
+.td{display:flex;gap:6px;margin-bottom:8px}
+.td span{width:12px;height:12px;border-radius:50%;display:inline-block}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:11px;background:#fff;border-radius:6px;padding:8px 13px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.sn{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0;margin-top:2px}
+.sc{font-family:'Consolas',monospace;font-size:10px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.sd{font-size:11px;color:var(--muted)}
+.yt{background:var(--accent);border-radius:6px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--navy)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.cycle{display:flex;gap:0;align-items:flex-start;margin-top:4px}
+.ph{flex:1;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.phh{padding:10px 12px;font-family:'Trebuchet MS',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.phb{background:#fff;padding:10px 12px;font-size:11px;color:var(--dark);line-height:1.7;min-height:80px}
+.ca{font-size:22px;color:var(--muted);padding:0 6px;margin-top:18px}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{background:#fff;border-radius:4px;padding:7px 12px 7px 14px;border-left:5px solid var(--blue);display:flex;gap:8px;align-items:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.row .tag{font-family:'Consolas',monospace;font-size:9px;font-weight:700;color:#fff;background:var(--blue);padding:2px 8px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.row .info{font-size:11px;color:var(--muted);line-height:1.5}
+.alert{border-radius:4px;padding:9px 14px;font-size:12px;font-weight:700}
+.alert.teal{background:var(--teal);color:#fff}.alert.navy{background:var(--navy);color:var(--ice)}
+.vi{display:flex;flex-direction:column;gap:4px}
+.vi-row{display:flex;gap:10px;align-items:center;padding:5px 10px;border-radius:4px;border:1px solid #e2e8f0}
+.vi-row.ok{background:#f0fdf4}.vi-row.bad{background:#fef2f2}
+.vi-name{font-family:'Consolas',monospace;font-size:9.5px;color:var(--dark);flex:1}
+.vi-v{font-size:11px;font-weight:700}
+.vi-row.ok .vi-v{color:var(--green)}.vi-row.bad .vi-v{color:var(--red)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;color:#94a3b8;font-size:13px;width:940px;flex-shrink:0}
+.nav button{background:#1e293b;color:#e2e8f0;border:none;border-radius:6px;padding:9px 22px;font-size:13px;cursor:pointer;transition:background .2s}
+.nav button:hover{background:var(--blue)}.nav button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px;flex-wrap:wrap;max-width:500px;justify-content:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#334155;cursor:pointer;transition:background .2s}
+.dot.active{background:var(--teal)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<div class="slide title-slide active">
+  <div class="bar"></div>
+  <div class="badge">MODULE 03</div>
+  <h1>Test Driven<br>Development</h1>
+  <div class="sub">Red → Green → Refactor · Unit vs Integration · Test Doubles · Tutorial</div>
+  <div class="pills">
+    <span class="pill" style="background:var(--red)">1. TDD Cycle</span>
+    <span class="pill" style="background:var(--blue)">2. Unit vs Integration</span>
+    <span class="pill" style="background:var(--teal)">3. Test Doubles</span>
+    <span class="pill" style="background:var(--green)">4. Writing Tests</span>
+    <span class="pill" style="background:var(--accent);color:var(--navy)">5. Tutorial</span>
+  </div>
+  <div style="position:absolute;top:328px;left:36px;right:36px">
+    <div class="term" style="font-size:10px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>tests/Pessoas.Integracao.Tests/
+├── Unit/
+│   ├── Application/      ← ImportPessoas, GetAllPessoas (Fake/Stub/Spy)
+│   ├── Domain/           ← Roles.FromExternalProvider
+│   ├── Models/           ← TimePeriod value object  ← tutorial target
+│   └── TestDoubles/      ← FakePessoaRepository, SpyUnitOfWork, Stubs
+└── Integration/
+    ├── Controllers/      ← HTTP (WebApplicationFactory + real Postgres)
+    └── UseCases/         ← full use case + Testcontainers PostgreSQL</div>
+  </div>
+  <footer>Pessoas Integração | SIGDN-RH Staging API | Demo → You try it</footer>
+</div>
+
+<div class="slide">
+  <div class="sh"><div class="num">1</div><h2>TDD — Red → Green → Refactor</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <div class="cycle">
+      <div class="ph"><div class="phh" style="background:var(--red)">🔴 RED</div><div class="phb">Write a failing test first. The test defines the behaviour you want. Run it — if it passes, the test is wrong.</div></div>
+      <div class="ca">→</div>
+      <div class="ph"><div class="phh" style="background:var(--green)">🟢 GREEN</div><div class="phb">Write the minimum code to make the test pass. Nothing more. Resist the urge to be clever yet.</div></div>
+      <div class="ca">→</div>
+      <div class="ph"><div class="phh" style="background:var(--blue)">🔵 REFACTOR</div><div class="phb">Clean up — extract, rename, simplify. Tests keep you safe: if they still pass, you haven't broken anything.</div></div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);text-align:center">↺  back to RED for the next behaviour</p>
+    <div class="cards c2">
+      <div class="card r"><h3>Tests written after</h3><ul><li>Confirm existing code</li><li>Easy to miss edge cases</li><li>Refactoring feels risky</li><li>Tests mirror the implementation</li></ul></div>
+      <div class="card g"><h3>Tests written first ✅</h3><ul><li>Define requirements</li><li>Edge cases become explicit</li><li>Refactoring is safe</li><li>Tests mirror the requirements</li></ul></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">1</div><h2>TDD Cycle — TimePeriod Walkthrough</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 YOUR TURN — Read TimePeriodUnitTests.cs and trace it back to TimePeriod.cs</div>
+    <div class="steps">
+      <div class="step"><div class="sn" style="background:var(--teal)">1</div><div><div class="sc">Open Unit/Models/TimePeriodUnitTests.cs</div><div class="sd">Read all 6 tests. For each: what behaviour does it define?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--blue)">2</div><div><div class="sc">Open Application/Models/TimePeriod.cs</div><div class="sd">Does each line map to a test? Find the 1-to-1 correspondence.</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--accent)">3</div><div><div class="sc">Find ShouldThrow_WhenEndIsBeforeStart</div><div class="sd">Which line of TimePeriod did this test drive? Could you have written it without TDD?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--teal)">4</div><div><div class="sc">Find ShouldKeepFormatting_WhenAsStringMethodsAreCultureIndependent</div><div class="sd">Why does this test exist? What subtle bug could it catch on a different machine?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--green)">5</div><div><div class="sc">dotnet test --filter "TimePeriodTests"</div><div class="sd">Run just these tests — confirm all green</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide">
+  <div class="sh"><div class="num">2</div><h2>Unit Tests vs Integration Tests</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <div class="card" style="margin-bottom:8px"><h3>Unit test — one class, test doubles</h3><ul><li>All dependencies replaced with Fakes/Stubs/Spies</li><li>No database, no HTTP, no network</li><li>Run in: <strong>milliseconds</strong></li><li>Tell you: <strong>exactly which class</strong> is broken</li></ul></div>
+        <div class="card n" style="padding:8px 10px 8px 14px"><h3>Unit/ in this project</h3><p style="font-family:Consolas;font-size:10px;line-height:1.9">Application/ImportPessoasUnitTests.cs<br>Application/GetAllPessoasUnitTests.cs<br>Domain/RolesTests.cs<br>Models/TimePeriodUnitTests.cs</p></div>
+      </div>
+      <div>
+        <div class="card t" style="margin-bottom:8px"><h3>Integration test — real stack</h3><ul><li>Real PostgreSQL via Testcontainers</li><li>Full HTTP stack via WebApplicationFactory</li><li>Run in: <strong>seconds</strong></li><li>Catch: SQL bugs, EF mappings, HTTP routing, auth</li></ul></div>
+        <div class="card n" style="padding:8px 10px 8px 14px"><h3>Integration/ in this project</h3><p style="font-family:Consolas;font-size:10px;line-height:1.9">Controllers/PessoasImportControllerTests.cs<br>UseCases/ImportPessoasIntegrationTests.cs<br>Infrastructure/PessoaRepositoryIntegrationTests.cs</p></div>
+      </div>
+    </div>
+    <div class="alert navy">Rule: start with unit tests. Add integration tests at the boundaries — database, HTTP, external APIs. Most tests should be unit tests.</div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">2</div><h2>Unit vs Integration Tests</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 YOUR TURN — Compare a unit test and its integration twin — time both</div>
+    <div class="steps">
+      <div class="step"><div class="sn" style="background:var(--blue)">1</div><div><div class="sc">Open Unit/Application/ImportPessoasUnitTests.cs</div><div class="sd">Find: ShouldUpsertSourcePessoasAndCommit_WhenRepositoryHasNoKey</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--teal)">2</div><div><div class="sc">dotnet test --filter "ImportPessoasUnitTests"</div><div class="sd">Note the time. Which class does FakePessoaRepository replace?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--blue)">3</div><div><div class="sc">Open Integration/UseCases/ImportPessoasIntegrationTests.cs</div><div class="sd">Find: ShouldPersistAllPessoas_WhenDatabaseIsEmpty</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--accent)">4</div><div><div class="sc">dotnet test --filter "ImportPessoasIntegrationTests"</div><div class="sd">Note the time. What does it verify that the unit test can't?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--green)">5</div><div><div class="sc">Discuss: unit catches business logic bugs. Integration catches SQL/EF/routing bugs.</div><div class="sd">Can you think of a bug each type would catch that the other would miss?</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide">
+  <div class="sh"><div class="num">3</div><h2>Test Doubles — Fake, Stub, Spy, Mock</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:12px;font-style:italic;color:var(--dark)">Replace real dependencies in tests. All four kinds live in this project's <code>TestDoubles/</code> folder.</p>
+    <div class="cards c2">
+      <div class="card"><h3>Fake — FakePessoaRepository</h3><p>Working implementation, simpler than the real one. Stores data in memory. Records calls for assertions.</p><div class="term" style="margin-top:6px;font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>public IReadOnlyList&lt;Pessoa&gt;? LastUpsertedPessoas { get; private set; }
+
+public Task&lt;UpsertPessoasResult&gt; UpsertAllAsync(IReadOnlyList&lt;Pessoa&gt; pessoas, CancellationToken ct)
+{
+    LastUpsertedPessoas = pessoas;  // record for assertions
+    return Task.FromResult(new UpsertPessoasResult(pessoas.Count, 0));
+}</div></div>
+      <div class="card t"><h3>Stub — StubPessoasDataProvider</h3><p>Returns canned data you configure. No logic. Use when a dependency needs to return specific data.</p><div class="term" style="margin-top:6px;font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>// Constructed with the data to return:
+var stub = new StubPessoasDataProvider([new Pessoa { NII = "22601" }]);
+// Also records LastRequestedKeys and LastToken</div></div>
+      <div class="card g"><h3>Spy — SpyUnitOfWork</h3><p>Records how it was called. You assert on the recorded calls in your test body.</p><div class="term" style="margin-top:6px;font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>public int CommitCalls { get; private set; }
+public CancellationToken? LastToken { get; private set; }
+
+// In your test:
+uowSpy.CommitCalls.Should().Be(1);
+uowSpy.LastToken.Should().Be(ct);</div></div>
+      <div class="card p"><h3>Mock — Moq</h3><p>Spy configured with expectations at runtime. Use for complex setups or call-order verification.</p><div class="term" style="margin-top:6px;font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>var sequence = new MockSequence();
+_repo.InSequence(sequence).Setup(...).ReturnsAsync(keys);
+_data.InSequence(sequence).Setup(...).ReturnsAsync(pessoas);
+// Verifies ORDER of calls — not just that they happened</div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">3</div><h2>Test Doubles</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 YOUR TURN — Trace a test double through ImportPessoasUnitTests.cs</div>
+    <div class="steps">
+      <div class="step"><div class="sn" style="background:var(--blue)">1</div><div><div class="sc">Open Unit/TestDoubles/FakePessoaRepository.cs</div><div class="sd">Which interface does it implement? Which properties record calls?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--teal)">2</div><div><div class="sc">Open Unit/TestDoubles/SpyUnitOfWork.cs</div><div class="sd">What does CommitCalls count? What does LastToken capture?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--blue)">3</div><div><div class="sc">Find ShouldUpsertEmptyListAndCommit_WhenNoImportKeysExist</div><div class="sd">List all test doubles used. What does each assertion verify about each one?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--accent)">4</div><div><div class="sc">Find ShouldNotUpsertOrCommit_WhenDataProviderThrows</div><div class="sd">What does ThrowingPessoasDataProvider do? What does the Spy prove after the exception?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--green)">5</div><div><div class="sc">Find ShouldExecuteDependenciesInOrder_WhenUseCaseRuns</div><div class="sd">How does MockSequence verify call ORDER? When would this catch a real bug?</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide">
+  <div class="sh"><div class="num">4</div><h2>Writing Tests — AAA, Naming, FluentAssertions</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">Arrange / Act / Assert</p>
+        <div class="term"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>[Fact]
+public async Task ShouldUpsertSourcePessoasAndCommit_WhenRepositoryHasNoKey()
+{
+    // Arrange (Given)
+    var ct       = new CancellationTokenSource().Token;
+    var fakeRepo = new FakePessoaRepository([]);
+    var keysStub = new StubPessoasImportKeyProvider([new("22601","30001001")]);
+    var dataStub = new StubPessoasDataProvider([new Pessoa { NII = "22601" }]);
+    var uowSpy   = new SpyUnitOfWork();
+    var uut      = new ImportPessoas(fakeRepo, dataStub, keysStub, uowSpy);
+    //  ^^^ "unit under test"
+
+    // Act (When)
+    var result = await uut.ExecuteAsync(ct);
+
+    // Assert (Then)
+    result.TotalProcessed.Should().Be(1);
+    uowSpy.CommitCalls.Should().Be(1);
+}</div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">Naming: ShouldBehaviour_WhenCondition</p>
+        <div class="vi" style="margin-bottom:10px">
+          <div class="vi-row ok"><span class="vi-name">ShouldThrow_WhenEndIsBeforeStart</span><span class="vi-v">✅</span></div>
+          <div class="vi-row ok"><span class="vi-name">ShouldReturnForbidden_WhenImportAsViewer</span><span class="vi-v">✅</span></div>
+          <div class="vi-row ok"><span class="vi-name">ShouldUpsertEmptyList_WhenNoImportKeysExist</span><span class="vi-v">✅</span></div>
+          <div class="vi-row bad"><span class="vi-name">Test1 / TestImport</span><span class="vi-v">❌</span></div>
+        </div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">FluentAssertions</p>
+        <div class="term" style="font-size:9.5px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>result.Should().Be(1);
+list.Should().HaveCount(2);
+list.Should().BeEquivalentTo(["A","B"]);
+act.Should().Throw&lt;ArgumentException&gt;()
+   .WithMessage("*timestamp*");
+await act.Should().ThrowAsync&lt;Exception&gt;();
+savedPessoas.Should().ContainSingle(p => p.NII == "22600")
+    .Which.ExternalId.Should().Be("30002697");</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">4</div><h2>Writing Tests</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 YOUR TURN — Read tests as specifications, before reading the implementation</div>
+    <div class="steps">
+      <div class="step"><div class="sn" style="background:var(--teal)">1</div><div><div class="sc">Open Unit/Domain/RolesTests.cs</div><div class="sd">Without reading Roles.cs: write down what FromExternalProvider does, based only on the tests.</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--blue)">2</div><div><div class="sc">Open Application/Security/Roles.cs</div><div class="sd">Does the implementation match your expectations exactly?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--accent)">3</div><div><div class="sc">Find the [Theory] tests in RolesTests.cs</div><div class="sd">How many test cases are covered by [Theory] vs individual [Fact]? What did [Theory] save?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--teal)">4</div><div><div class="sc">Open Unit/Models/TimePeriodUnitTests.cs</div><div class="sd">List every behaviour of TimePeriod based solely on the tests. How many?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--green)">5</div><div><div class="sc">Find a test using .ContainSingle(...).Which.PropertyName...</div><div class="sd">What does the .Which chain add vs two separate assertions?</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide">
+  <div class="sh"><div class="num">5</div><h2>TDD Tutorial — Build TimePeriod from Scratch</h2><span class="lbl lbl-c">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:12px;font-style:italic;color:var(--dark)">Build <code>TimePeriodTdd</code> using strict TDD. Each behaviour starts as a failing test. You'll end up with the same class that already exists — built test-first.</p>
+    <div class="rows">
+      <div class="row" style="border-color:var(--blue)"><span class="tag" style="background:var(--blue)">Step 1</span><span class="info"><code>ShouldSetStartAndEndCorrectly_WhenRangeIsValid</code> — constructor stores start and end</span></div>
+      <div class="row" style="border-color:var(--muted)"><span class="tag" style="background:var(--muted)">Step 2</span><span class="info"><code>ShouldAllowEqualStartAndEnd_WhenStartEqualsEnd</code> — passes for free, documents edge case</span></div>
+      <div class="row" style="border-color:var(--red)"><span class="tag" style="background:var(--red)">Step 3</span><span class="info"><code>ShouldThrow_WhenEndIsBeforeStart</code> — drives the guard clause in the constructor</span></div>
+      <div class="row" style="border-color:var(--teal)"><span class="tag" style="background:var(--teal)">Step 4</span><span class="info"><code>ShouldReturnExpectedFormattedString_WhenStartAsStringCalled</code> — drives StartAsString()</span></div>
+      <div class="row" style="border-color:var(--teal)"><span class="tag" style="background:var(--teal)">Step 5</span><span class="info"><code>ShouldReturnExpectedFormattedString_WhenEndAsStringCalled</code> — drives EndAsString()</span></div>
+      <div class="row" style="border-color:var(--accent)"><span class="tag" style="background:var(--accent);color:var(--navy)">Step 6</span><span class="info"><code>ShouldKeepFormatting_WhenAsStringMethodsAreCultureIndependent</code> — surfaces subtle culture bug</span></div>
+      <div class="row" style="border-color:var(--purple)"><span class="tag" style="background:var(--purple)">Bonus</span><span class="info">Convert exception test to <code>[Theory]</code> with 3 InlineData cases (1 day / 1 hour / 1 second before)</span></div>
+    </div>
+    <div class="alert teal">Commit rule: one commit per Red → Green transition. <code>test: add step N</code> then <code>feat: implement step N</code></div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">5</div><h2>TDD Tutorial — Steps 1–3</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 Write the test first. See it fail (RED). Then implement minimum code (GREEN).</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px">
+      <div>
+        <p style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">Step 1 — test first (RED)</p>
+        <div class="term" style="font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>[Fact]
+public void ShouldSetStartAndEndCorrectly_WhenRangeIsValid()
+{
+    var start = DateTime.Parse("2020-11-24 10:00:00",
+        CultureInfo.InvariantCulture);
+    var end = DateTime.Parse("2020-11-24 12:00:00",
+        CultureInfo.InvariantCulture);
+    var tp = new TimePeriodTdd(start, end);
+    tp.Start.Should().Be(start);
+    tp.End.Should().Be(end);
+}</div>
+        <p style="font-size:11px;font-weight:700;color:var(--green);margin:6px 0 4px">Step 1 — minimum implementation (GREEN)</p>
+        <div class="term" style="font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>public sealed class TimePeriodTdd
+{
+    public DateTime Start { get; init; }
+    public DateTime End   { get; init; }
+    public TimePeriodTdd(DateTime start, DateTime end)
+    {
+        Start = start;
+        End   = end;
+    }
+}</div>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px">Step 2 — write test, run — GREEN for free ✅</p>
+        <div class="term" style="font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>[Fact]
+public void ShouldAllowEqualStartAndEnd_WhenStartEqualsEnd()
+{
+    var ts = DateTime.Parse("2020-11-24 10:00:00",
+        CultureInfo.InvariantCulture);
+    var tp = new TimePeriodTdd(ts, ts);
+    tp.Start.Should().Be(ts);
+    tp.End.Should().Be(ts);
+}
+// ← no code change needed. Still valuable as docs.</div>
+        <p style="font-size:11px;font-weight:700;color:var(--red);margin:6px 0 4px">Step 3 — validation (RED, then add guard)</p>
+        <div class="term" style="font-size:9px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>[Fact]
+public void ShouldThrow_WhenEndIsBeforeStart()
+{
+    Action act = () => new TimePeriodTdd(
+        DateTime.Parse("2020-11-25 10:00:00", CultureInfo.InvariantCulture),
+        DateTime.Parse("2020-11-24 10:00:00", CultureInfo.InvariantCulture));
+    act.Should().Throw&lt;ArgumentException&gt;()
+       .WithMessage("*End timestamp cannot be earlier*");
+}
+// Add to constructor: if (end &lt; start) throw new ArgumentException(...);</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><div class="num">5</div><h2>TDD Tutorial — Steps 4–6 + Bonus</h2><span class="lbl lbl-t">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt">💻 Continue — write test → RED → implement → GREEN → commit</div>
+    <div class="steps">
+      <div class="step"><div class="sn" style="background:var(--teal)">4</div><div><div class="sc">ShouldReturnExpectedFormattedString_WhenStartAsStringCalled</div><div class="sd">Assert timePeriod.StartAsString().Should().Be("2020-11-24 10:05:30")  →  implement: Start.ToString("yyyy-MM-dd HH:mm:ss")</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--teal)">5</div><div><div class="sc">ShouldReturnExpectedFormattedString_WhenEndAsStringCalled</div><div class="sd">Same pattern — drives EndAsString()</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--accent)">6</div><div><div class="sc">ShouldKeepFormatting_WhenAsStringMethodsAreCultureIndependent</div><div class="sd">Use new DateTime(year,month,day,h,m,s). Does it pass? Why might it fail on some machines without CultureInfo?</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--purple)">★</div><div><div class="sc">Bonus — convert exception test to [Theory] with 3 InlineData cases</div><div class="sd">1 day before / 1 hour before / 1 second before</div></div></div>
+      <div class="step"><div class="sn" style="background:var(--green)">✓</div><div><div class="sc">dotnet test --filter "TimePeriodTddTests"</div><div class="sd">All 6+ green? Compare your TimePeriodTdd with the original TimePeriod.cs</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+<div class="slide dark">
+  <div class="sh"><h2>Session Complete 🎉</h2></div>
+  <div class="sb">
+    <div class="three">
+      <div class="card r"><h3>TDD Cycle</h3><p>Red → Green → Refactor. Tests define requirements. Refactoring stays safe. One test at a time.</p></div>
+      <div class="card"><h3>Unit tests</h3><p>One class, test doubles, milliseconds. FakePessoaRepository, SpyUnitOfWork, StubProviders.</p></div>
+      <div class="card t"><h3>Integration tests</h3><p>Real Postgres (Testcontainers) + full HTTP stack (WebApplicationFactory). Seconds.</p></div>
+    </div>
+    <div class="three" style="margin-top:8px">
+      <div class="card g"><h3>Test doubles</h3><p>Fake = working impl<br>Stub = canned data<br>Spy = records calls<br>Mock = Moq expectations</p></div>
+      <div class="card a"><h3>AAA + naming</h3><p>Arrange / Act / Assert.<br>ShouldBehaviour_WhenCondition.<br>uut = unit under test.</p></div>
+      <div class="card p"><h3>FluentAssertions</h3><p>.Should().Be()<br>.Should().HaveCount()<br>.ContainSingle().Which.<br>.Throw&lt;T&gt;().WithMessage()</p></div>
+    </div>
+    <div class="term" style="margin-top:8px;font-size:10px"><div class="td"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>// The pattern — every new behaviour starts here:
+[Fact]
+public void Should&lt;Behaviour&gt;_When&lt;Condition&gt;()
+{
+    var uut = new ClassUnderTest(fake, stub, spy);   // Arrange
+    var result = uut.DoSomething();                  // Act
+    result.Should().Be(expectedValue);               // Assert
+    spy.CallCount.Should().Be(1);
+}</div>
+  </div>
+  <footer class="f">Module 03 — Test Driven Development | Pessoas Integração</footer>
+</div>
+
+</div>
+<div class="nav">
+  <button id="prev" onclick="change(-1)" disabled>← Prev</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter" style="min-width:60px;text-align:right;font-size:12px;color:#64748b">1 / 13</span>
+  <button id="next" onclick="change(1)">Next →</button>
+</div>
+<script>
+const slides=document.querySelectorAll('.slide');let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>go(i);dotsEl.appendChild(d);});
+function go(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('active');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('active');document.getElementById('counter').textContent=`${cur+1} / ${slides.length}`;document.getElementById('prev').disabled=cur===0;document.getElementById('next').disabled=cur===slides.length-1;}
+function change(d){go(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')change(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')change(-1);});
+</script>
+</body>
+</html>
