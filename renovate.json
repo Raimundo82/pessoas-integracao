@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>marinha-si/renovate-config:renovate"
+    "local>marinha-si/renovate-config"
   ],
   "enabledManagers": [
     "nuget",
