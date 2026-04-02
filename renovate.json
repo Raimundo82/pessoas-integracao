@@ -1,40 +1,75 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": ["nuget", "npm"],
+  "extends": [
+    "local>marinha-si/renovate-config:renovate"
+  ],
+  "enabledManagers": [
+    "nuget",
+    "npm"
+  ],
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true
-    },
-    {
-      "matchPackageNames": ["*"],
+      "matchPackageNames": [
+        "*"
+      ],
       "semanticCommitType": "chore"
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchFileNames": ["**/SigdnRhStaggingApi.csproj"],
+      "matchDatasources": [
+        "nuget"
+      ],
+      "matchFileNames": [
+        "**/SigdnRhStaggingApi.csproj"
+      ],
       "semanticCommitType": "fix"
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchPackageNames": ["Microsoft.EntityFrameworkCore.tools", "Microsoft.EntityFrameworkCore.design"],
+      "matchDatasources": [
+        "nuget"
+      ],
+      "matchPackageNames": [
+        "Microsoft.EntityFrameworkCore.tools",
+        "Microsoft.EntityFrameworkCore.design"
+      ],
       "semanticCommitType": "chore"
     },
     {
       "groupName": "hotchocolate monorepo",
-      "matchPackageNames": ["HotChocolate", "/^HotChocolate\\./"],
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "matchPackageNames": [
+        "HotChocolate",
+        "/^HotChocolate\\./"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+        "major"
+      ]
     },
     {
       "groupName": "keycloak authservices monorepo",
-      "matchPackageNames": ["/^Keycloak\\.AuthServices\\./"],
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "matchPackageNames": [
+        "/^Keycloak\\.AuthServices\\./"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+        "major"
+      ]
     },
     {
-      "extends": ["monorepo:dotnet"],
+      "extends": [
+        "monorepo:dotnet"
+      ],
       "groupName": "dotnet monorepo",
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+        "major"
+      ]
     }
   ]
 }
