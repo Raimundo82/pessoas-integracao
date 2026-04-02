@@ -72,11 +72,6 @@
       "matchFileNames": [
         "**/.config/dotnet-tools.json"
       ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor",
-        "major"
-      ],
       "rangeStrategy": "replace"
     },
     {
