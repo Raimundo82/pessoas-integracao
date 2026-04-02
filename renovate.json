@@ -2,35 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabledManagers": [
     "nuget",
-    "npm"
+    "npm",
+    "dockerfile",
+    "devcontainer"
   ],
   "rangeStrategy": "bump",
   "packageRules": [
-    {
-      "matchPackageNames": [
-        "*"
-      ],
-      "semanticCommitType": "chore"
-    },
-    {
-      "matchDatasources": [
-        "nuget"
-      ],
-      "matchFileNames": [
-        "**/SigdnRhStaggingApi.csproj"
-      ],
-      "semanticCommitType": "fix"
-    },
-    {
-      "matchDatasources": [
-        "nuget"
-      ],
-      "matchPackageNames": [
-        "Microsoft.EntityFrameworkCore.tools",
-        "Microsoft.EntityFrameworkCore.design"
-      ],
-      "semanticCommitType": "chore"
-    },
     {
       "groupName": "hotchocolate monorepo",
       "matchPackageNames": [
@@ -38,7 +15,6 @@
         "/^HotChocolate\\./"
       ],
       "matchUpdateTypes": [
-        "digest",
         "patch",
         "minor",
         "major"
@@ -50,7 +26,6 @@
         "/^Keycloak\\.AuthServices\\./"
       ],
       "matchUpdateTypes": [
-        "digest",
         "patch",
         "minor",
         "major"
@@ -62,11 +37,78 @@
       ],
       "groupName": "dotnet monorepo",
       "matchUpdateTypes": [
-        "digest",
         "patch",
         "minor",
         "major"
       ]
+    },
+    {
+      "groupName": "npm dev tooling",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
+    },
+    {
+      "groupName": "npm dev tooling major",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "groupName": "dotnet tools",
+      "matchFileNames": [
+        "**/.config/dotnet-tools.json"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "major"
+      ],
+      "rangeStrategy": "replace"
+    },
+    {
+      "groupName": "devcontainer",
+      "matchManagers": [
+        "devcontainer"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "major"
+      ]
+    },
+    {
+      "groupName": "dockerfile base images",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "major"
+      ]
+    },
+    {
+      "matchManagers": [
+        "dockerfile",
+        "devcontainer"
+      ],
+      "digest": {
+        "enabled": false
+      }
     }
   ]
 }
