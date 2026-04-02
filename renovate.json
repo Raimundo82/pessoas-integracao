@@ -2,9 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabledManagers": [
     "nuget",
-    "npm",
-    "dockerfile",
-    "devcontainer"
+    "npm"
   ],
   "rangeStrategy": "bump",
   "packageRules": [
