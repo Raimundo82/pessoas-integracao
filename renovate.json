@@ -2,7 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabledManagers": [
     "nuget",
-    "npm"
+    "npm",
+    "dockerfile",
+    "devcontainer"
   ],
   "rangeStrategy": "bump",
   "packageRules": [
@@ -41,26 +43,32 @@
       ]
     },
     {
-      "groupName": "npm dev tooling",
       "matchManagers": [
+        "nuget",
+        "devcontainer",
         "npm"
       ],
-      "matchDepTypes": [
-        "devDependencies"
+      "matchFileNames": [
+        "global.json",
+        ".devcontainer/devcontainer.json"
       ],
+      "groupName": "minor dev tooling",
       "matchUpdateTypes": [
         "patch",
         "minor"
       ]
     },
     {
-      "groupName": "npm dev tooling major",
       "matchManagers": [
+        "nuget",
+        "devcontainer",
         "npm"
       ],
-      "matchDepTypes": [
-        "devDependencies"
+      "matchFileNames": [
+        "global.json",
+        ".devcontainer/devcontainer.json"
       ],
+      "groupName": "major dev tooling",
       "matchUpdateTypes": [
         "major"
       ]
@@ -71,28 +79,6 @@
         "**/.config/dotnet-tools.json"
       ],
       "rangeStrategy": "replace"
-    },
-    {
-      "groupName": "devcontainer",
-      "matchManagers": [
-        "devcontainer"
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor",
-        "major"
-      ]
-    },
-    {
-      "groupName": "dockerfile base images",
-      "matchManagers": [
-        "dockerfile"
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor",
-        "major"
-      ]
     },
     {
       "matchManagers": [
