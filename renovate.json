@@ -44,9 +44,7 @@
     },
     {
       "matchManagers": [
-        "nuget",
-        "devcontainer",
-        "npm"
+        "nuget"
       ],
       "matchFileNames": [
         "global.json",
@@ -60,9 +58,7 @@
     },
     {
       "matchManagers": [
-        "nuget",
-        "devcontainer",
-        "npm"
+        "nuget"
       ],
       "matchFileNames": [
         "global.json",
