@@ -9,7 +9,9 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "matchManagers": ["devcontainer"],
+      "matchPackagePatterns": [
+        "^ghcr\\.io/devcontainers/features/"
+      ],
       "minimumReleaseAge": null,
       "minimumReleaseAgeBehaviour": "none"
     },
@@ -47,32 +49,17 @@
         "major"
       ]
     },
-    {
-      "matchManagers": [
-        "nuget"
-      ],
-      "matchFileNames": [
-        "global.json",
-        ".devcontainer/devcontainer.json"
-      ],
+        {
+      "matchManagers": ["nuget"],
+      "matchFileNames": ["global.json"],
+      "matchUpdateTypes": ["patch", "minor"],
       "groupName": "minor dev tooling",
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ]
     },
     {
-      "matchManagers": [
-        "nuget"
-      ],
-      "matchFileNames": [
-        "global.json",
-        ".devcontainer/devcontainer.json"
-      ],
-      "groupName": "major dev tooling",
-      "matchUpdateTypes": [
-        "major"
-      ]
+      "matchManagers": ["devcontainer"],
+      "matchFileNames": [".devcontainer/devcontainer.json"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "minor dev tooling",
     },
     {
       "groupName": "dotnet tools",
