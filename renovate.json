@@ -11,8 +11,7 @@
     {
       "groupName": "hotchocolate monorepo",
       "matchPackageNames": [
-        "HotChocolate",
-        "/^HotChocolate\\./"
+        "/^hotchocolate(\\.|$)/i"
       ],
       "matchUpdateTypes": [
         "patch",
