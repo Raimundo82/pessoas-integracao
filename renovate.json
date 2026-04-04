@@ -10,13 +10,8 @@
   "packageRules": [
     {
       "groupName": "hotchocolate monorepo",
-      "matchPackageNames": [
-        "HotChocolate**"
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor",
-        "major"
+      "matchSourceUrls": [
+        "https://github.com/ChilliCream/graphql-platform"
       ]
     },
     {
