@@ -9,13 +9,6 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "^ghcr\\.io/devcontainers/features/"
-      ],
-      "minimumReleaseAge": null,
-      "minimumReleaseAgeBehaviour": "none"
-    },
-    {
       "groupName": "hotchocolate monorepo",
       "matchPackageNames": [
         "HotChocolate",
