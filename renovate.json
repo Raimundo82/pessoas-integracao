@@ -53,13 +53,13 @@
       "matchManagers": ["nuget"],
       "matchFileNames": ["global.json"],
       "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "minor dev tooling",
+      "groupName": "minor dev tooling"
     },
     {
       "matchManagers": ["devcontainer"],
       "matchFileNames": [".devcontainer/devcontainer.json"],
       "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "minor dev tooling",
+      "groupName": "minor dev tooling"
     },
     {
       "groupName": "dotnet tools",
