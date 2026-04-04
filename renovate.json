@@ -9,6 +9,11 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
+      "matchManagers": ["devcontainer"],
+      "minimumReleaseAge": null,
+      "minimumReleaseAgeBehaviour": "none"
+    },
+    {
       "groupName": "hotchocolate monorepo",
       "matchPackageNames": [
         "HotChocolate",
