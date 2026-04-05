@@ -9,19 +9,40 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "groupName": "hotchocolate monorepo",
-      "matchSourceUrls": [
-        "https://github.com/ChilliCream/graphql-platform"
+      "groupName": "minor hotchocolate monorepo",
+      "matchPackageNames": [
+        "/^HotChocolate\\./"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
       ]
     },
     {
-      "groupName": "keycloak authservices monorepo",
+      "groupName": "major hotchocolate monorepo",
+      "matchPackageNames": [
+        "/^HotChocolate\\./"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "groupName": "minor keycloak authservices monorepo",
       "matchPackageNames": [
         "/^Keycloak\\.AuthServices\\./"
       ],
       "matchUpdateTypes": [
         "patch",
-        "minor",
+        "minor"
+      ]
+    },
+    {
+      "groupName": "major keycloak authservices monorepo",
+      "matchPackageNames": [
+        "/^Keycloak\\.AuthServices\\./"
+      ],
+      "matchUpdateTypes": [
         "major"
       ]
     },
@@ -29,24 +50,45 @@
       "extends": [
         "monorepo:dotnet"
       ],
-      "groupName": "dotnet monorepo",
+      "groupName": "minor dotnet monorepo",
       "matchUpdateTypes": [
         "patch",
         "minor",
+      ]
+    },
+    {
+      "extends": [
+        "monorepo:dotnet"
+      ],
+      "groupName": "major dotnet monorepo",
+      "matchUpdateTypes": [
         "major"
       ]
     },
-        {
-      "matchManagers": ["nuget"],
-      "matchFileNames": ["global.json"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "minor dev tooling"
+    {
+      "matchManagers": [
+        "devcontainer"
+      ],
+      "matchFileNames": [
+        ".devcontainer/devcontainer.json"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "groupName": "minor devcontainer monorepo"
     },
     {
-      "matchManagers": ["devcontainer"],
-      "matchFileNames": [".devcontainer/devcontainer.json"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "minor dev tooling"
+      "matchManagers": [
+        "devcontainer"
+      ],
+      "matchFileNames": [
+        ".devcontainer/devcontainer.json"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "major devcontainer monorepo"
     },
     {
       "groupName": "dotnet tools",
