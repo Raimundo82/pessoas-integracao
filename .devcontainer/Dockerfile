@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:2-10.0-noble
+FROM mcr.microsoft.com/devcontainers/dotnet:2-10.0-noble@sha256:0c412724a61b030f27d4ca38a876db27a88c09a7c32344013562710f4117aec3
 
 ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080 \
     https_proxy=http://proxy-n-wcg.marinha.pt:8080 \
