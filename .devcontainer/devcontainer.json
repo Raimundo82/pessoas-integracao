@@ -9,7 +9,7 @@
     "vscode": {
       "settings": {
         "plantuml.server": "https://www.plantuml.com/plantuml",
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.14.1/bin/node",
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.14.0/bin/node",
         "dotnet.preferCSharpExtension": false
       },
       "extensions": [
@@ -39,7 +39,7 @@
       "version": "10.0.201"
     },
     "ghcr.io/devcontainers/features/node:1.7.1": {
-      "version": "24.14.1"
+      "version": "24.14.0"
     },
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1.9.1": {
       "dockerDashComposeVersion": "none"
