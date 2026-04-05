@@ -7,6 +7,7 @@
     "devcontainer"
   ],
   "rangeStrategy": "bump",
+  "prHourlyLimit": 0,
   "packageRules": [
     {
       "groupName": "minor hotchocolate monorepo",
