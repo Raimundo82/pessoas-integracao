@@ -1,17 +1,16 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:10.0-noble
+FROM mcr.microsoft.com/devcontainers/dotnet:2-10.0-noble@sha256:0c412724a61b030f27d4ca38a876db27a88c09a7c32344013562710f4117aec3
 
-
-ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080
-ENV https_proxy=http://proxy-n-wcg.marinha.pt:8080
-ENV no_proxy=".marinha.pt,localhost"
+ENV http_proxy=http://proxy-n-wcg.marinha.pt:8080 \
+    https_proxy=http://proxy-n-wcg.marinha.pt:8080 \
+    no_proxy=".marinha.pt,localhost,host.docker.internal"
 
 COPY marinha.crt /usr/local/share/ca-certificates/marinha.crt
-RUN update-ca-certificates
-RUN rm -f /etc/apt/sources.list.d/yarn.list
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+RUN update-ca-certificates \
+    && rm -f /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+    docker.io \
+    docker-compose-v2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*

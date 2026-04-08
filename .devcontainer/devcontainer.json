@@ -5,18 +5,13 @@
   "dockerComposeFile": "docker-compose.yaml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
   "customizations": {
-    // Configure properties specific to VS Code.
     "vscode": {
-      // Set *default* container specific settings.json values on container create.
       "settings": {
         "plantuml.server": "https://www.plantuml.com/plantuml",
-        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.10.0/bin/node",
+        "sonarlint.pathToNodeExecutable": "/usr/local/share/nvm/versions/node/v24.14.0/bin/node",
         "dotnet.preferCSharpExtension": false
       },
-      // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
         // .NET Development
         "ms-dotnettools.csharp",
@@ -39,25 +34,19 @@
       ]
     }
   },
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [5000, 5001, 5432],
-  // "portsAttributes": {
-  //		"5001": {
-  //			"protocol": "https"
-  //		}
-  // }
-  // Use 'postCreateCommand' to run commands after the container is created.
-  //"postCreateCommand": "dotnet restore ./SigdnRhStaggingApi/SigdnRhStaggingApi.csproj"
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
   "features": {
-    "ghcr.io/devcontainers/features/dotnet:2": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "24.10.0"
+    "ghcr.io/devcontainers/features/dotnet:2.5.0": {
+      "version": "10.0.201"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": true
+    "ghcr.io/devcontainers/features/node:1.7.1": {
+      "version": "24.14.0"
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1.9.1": {
+      "dockerDashComposeVersion": "none"
     }
+  },
+  "remoteEnv": {
+    "TESTCONTAINERS_HOST_OVERRIDE": "host.docker.internal"
   },
   "postCreateCommand": "bash .devcontainer/post-script.sh"
 }

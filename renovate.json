@@ -1,40 +1,95 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": ["nuget", "npm"],
+  "enabledManagers": [
+    "nuget",
+    "npm",
+    "dockerfile",
+    "devcontainer"
+  ],
   "rangeStrategy": "bump",
+  "prHourlyLimit": 0,
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true
+      "groupName": "minor hotchocolate monorepo",
+      "matchPackageNames": [
+        "/^HotChocolate\\./"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     },
     {
-      "matchPackageNames": ["*"],
-      "semanticCommitType": "chore"
+      "groupName": "major hotchocolate monorepo",
+      "matchPackageNames": [
+        "/^HotChocolate\\./"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchFileNames": ["**/SigdnRhStaggingApi.csproj"],
-      "semanticCommitType": "fix"
+      "groupName": "minor keycloak authservices monorepo",
+      "matchPackageNames": [
+        "/^Keycloak\\.AuthServices\\./"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchPackageNames": ["Microsoft.EntityFrameworkCore.tools", "Microsoft.EntityFrameworkCore.design"],
-      "semanticCommitType": "chore"
+      "groupName": "major keycloak authservices monorepo",
+      "matchPackageNames": [
+        "/^Keycloak\\.AuthServices\\./"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
     },
     {
-      "groupName": "hotchocolate monorepo",
-      "matchPackageNames": ["HotChocolate", "/^HotChocolate\\./"],
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "extends": [
+        "monorepo:dotnet"
+      ],
+      "groupName": "minor dotnet monorepo",
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     },
     {
-      "groupName": "keycloak authservices monorepo",
-      "matchPackageNames": ["/^Keycloak\\.AuthServices\\./"],
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "extends": [
+        "monorepo:dotnet"
+      ],
+      "groupName": "major dotnet monorepo",
+      "matchUpdateTypes": [
+        "major"
+      ]
     },
     {
-      "extends": ["monorepo:dotnet"],
-      "groupName": "dotnet monorepo",
-      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
+      "groupName": "dotnet tools",
+      "matchFileNames": [
+        "**/.config/dotnet-tools.json"
+      ],
+      "rangeStrategy": "replace"
+    },
+    {
+      "matchManagers": [
+        "dockerfile",
+        "devcontainer"
+      ],
+      "digest": {
+        "enabled": false
+      }
+    },
+    {
+      "matchManagers": [
+        "devcontainer"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
+      "enabled": false
     }
   ]
 }

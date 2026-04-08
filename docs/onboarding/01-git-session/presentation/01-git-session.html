@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git Hands-On Session</title>
+<style>
+:root {
+  --navy:#1B2A4A; --blue:#2166A8; --teal:#0D9488; --ice:#CBE4F5;
+  --off:#F5F7FA; --muted:#64748B; --dark:#1E293B; --accent:#F59E0B;
+  --green:#16A34A; --red:#DC2626; --purple:#8B5CF6; --term:#1E2D3D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Calibri','Segoe UI',sans-serif;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:0}
+.deck{width:940px;position:relative}
+.slide{display:none;width:940px;min-height:530px;position:relative;background:var(--off);border-radius:10px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.slide.active{display:flex;flex-direction:column}
+.slide.dark{background:var(--navy)}
+
+/* ── TITLE SLIDE ── */
+.title-slide{background:var(--navy) !important}
+.title-slide .bar{position:absolute;left:0;top:0;width:18px;height:100%;background:var(--teal)}
+.title-slide .badge{position:absolute;top:32px;left:36px;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:5px 16px;border-radius:4px;letter-spacing:2px}
+.title-slide h1{position:absolute;top:88px;left:36px;right:40px;font-family:'Trebuchet MS',sans-serif;font-size:58px;font-weight:700;color:#fff;line-height:1}
+.title-slide .sub{position:absolute;top:230px;left:36px;right:60px;font-size:17px;color:var(--ice)}
+.pills{position:absolute;top:290px;left:36px;right:36px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{padding:5px 14px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+.title-slide footer{position:absolute;bottom:0;left:0;right:0;height:36px;background:#162236;display:flex;align-items:center;padding:0 28px;font-size:10px;color:var(--muted)}
+
+/* ── CONTENT SLIDE ── */
+.sh{border-top:6px solid var(--teal);background:#fff;padding:10px 28px;display:flex;align-items:center;gap:12px}
+.slide.dark .sh{background:#243554}
+.sh .step-badge{width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sh h2{font-family:'Trebuchet MS',sans-serif;font-size:20px;color:var(--navy);flex:1}
+.slide.dark .sh h2{color:#fff}
+.sh .label{padding:3px 12px;border-radius:12px;font-size:10px;font-weight:700;flex-shrink:0}
+.label-concept{background:var(--blue);color:#fff}
+.label-turn{background:var(--accent);color:var(--navy)}
+.sb{flex:1;padding:18px 28px;display:flex;flex-direction:column;gap:12px}
+footer.f{background:#e2eaf2;padding:6px 28px;font-size:10px;color:var(--muted)}
+.slide.dark footer.f{background:#162236}
+
+/* ── CARDS ── */
+.cards{display:grid;gap:12px}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}
+.card{background:#fff;border-radius:6px;padding:13px 13px 13px 17px;border-left:5px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card h3{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.card p,.card li{font-size:11px;color:var(--dark);line-height:1.65}
+.card ul{padding-left:15px}
+.card.t{border-color:var(--teal)}.card.g{border-color:var(--green)}
+.card.r{border-color:var(--red)}.card.a{border-color:var(--accent)}
+.card.n{border-color:var(--navy)}.card.m{border-color:var(--muted)}
+
+/* ── TERMINAL ── */
+.term{background:var(--term);border-radius:8px;padding:14px 16px;font-family:'Consolas',monospace;font-size:11.5px;color:var(--ice);line-height:1.75;white-space:pre;overflow-x:auto;border:1px solid #334155;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.term-dots{display:flex;gap:6px;margin-bottom:10px}
+.term-dots span{width:12px;height:12px;border-radius:50%;display:inline-block}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{display:flex;gap:12px;background:#fff;border-radius:6px;padding:9px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0;margin-top:1px}
+.step-cmd{font-family:'Consolas',monospace;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.step-desc{font-size:11px;color:var(--muted)}
+
+/* ── YOUR TURN BANNER ── */
+.yt-banner{background:var(--accent);border-radius:6px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--navy)}
+
+/* ── ROWS ── */
+.row-list{display:flex;flex-direction:column;gap:7px}
+.row{background:#fff;border-radius:4px;padding:8px 13px 8px 15px;border-left:5px solid var(--blue);display:flex;gap:10px;align-items:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.row .tag{font-family:'Consolas',monospace;font-size:11px;font-weight:700;color:var(--navy);min-width:160px;flex-shrink:0}
+.row .info{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;gap:0;padding:8px 0}
+.fl-step{flex:1;text-align:center}
+.fl-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;margin:0 auto 7px}
+.fl-label{font-size:11px;color:var(--dark)}
+.fl-arrow{font-size:20px;color:var(--muted);padding:0 4px;margin-bottom:24px}
+
+/* ── ALERT ── */
+.alert{border-radius:4px;padding:10px 15px;font-size:12px;font-weight:700}
+.alert.warn{background:var(--accent);color:var(--navy)}.alert.info{background:var(--blue);color:#fff}
+.alert.navy{background:var(--navy);color:var(--ice)}.alert.red{background:var(--red);color:#fff}
+
+/* ── VALID / INVALID ── */
+.vi{display:flex;flex-direction:column;gap:5px}
+.vi-row{display:flex;gap:10px;align-items:center;padding:6px 12px;border-radius:4px;border:1px solid #e2e8f0}
+.vi-row.ok{background:#f0fdf4}.vi-row.bad{background:#fef2f2}
+.vi-branch{font-family:'Consolas',monospace;font-size:11px;color:var(--dark);flex:1}
+.vi-verdict{font-size:11px;font-weight:700}
+.vi-row.ok .vi-verdict{color:var(--green)}.vi-row.bad .vi-verdict{color:var(--red)}
+
+/* ── LIFECYCLE ── */
+.lifecycle{display:flex;flex-direction:column;gap:4px}
+.lc-row{display:flex;gap:10px;align-items:center}
+.lc-num{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.lc-text{font-size:12px;color:var(--dark)}
+
+/* ── TWO COL ── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+
+/* ── WRAP SLIDE ── */
+.wrap{background:var(--navy) !important}
+.wrap .wh{font-family:'Trebuchet MS',sans-serif;font-size:30px;font-weight:700;color:#fff;margin-bottom:16px}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;color:#94a3b8;font-size:13px;width:940px;flex-shrink:0}
+.nav button{background:#1e293b;color:#e2e8f0;border:none;border-radius:6px;padding:9px 22px;font-size:13px;cursor:pointer;transition:background .2s}
+.nav button:hover{background:var(--blue)}.nav button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px;flex-wrap:wrap;max-width:500px;justify-content:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#334155;transition:background .2s;cursor:pointer;flex-shrink:0}
+.dot.active{background:var(--teal)}
+.progress{font-size:12px;color:#64748b;min-width:60px;text-align:right}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══ SLIDE 1: TITLE ═══ -->
+<div class="slide title-slide active">
+  <div class="bar"></div>
+  <div class="badge">HANDS-ON SESSION</div>
+  <h1>Git</h1>
+  <div class="sub">From zero to your first Pull Request</div>
+  <div class="pills">
+    <span class="pill" style="background:var(--teal)">1. Install Git</span>
+    <span class="pill" style="background:var(--blue)">2. SSH Keys</span>
+    <span class="pill" style="background:var(--green)">3. Clone a Repo</span>
+    <span class="pill" style="background:var(--blue)">4. GitHub Flow</span>
+    <span class="pill" style="background:var(--accent);color:var(--navy)">5. Conventional Branching</span>
+    <span class="pill" style="background:var(--teal)">6. Semantic Commits</span>
+    <span class="pill" style="background:var(--green)">7. Create a PR</span>
+  </div>
+  <footer>Pessoas Integração  |  SIGDN-RH Staging API  |  Demo → You try it</footer>
+</div>
+
+<!-- ═══ SLIDE 2: INSTALL GIT — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">1</div><h2>Install Git — Git vs Gitea vs GitHub</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;color:var(--dark);font-style:italic">Git is the tool you install. Gitea/GitHub are websites that host repositories.</p>
+    <div class="cards c3">
+      <div class="card"><h3>Git</h3><p>Command-line tool installed on your machine. Tracks changes, creates commits, manages branches. Works offline.</p></div>
+      <div class="card t"><h3>Gitea</h3><p>Self-hosted web platform. Our internal server at <code>devops-01.marinha.pt</code>. Stores repos, runs CI/CD, manages PRs.</p></div>
+      <div class="card m"><h3>GitHub</h3><p>Cloud-hosted version of the same idea (by Microsoft). Same Git concepts — just a different website.</p></div>
+    </div>
+    <div class="alert info">You install Git once on your machine. Gitea and GitHub are the collaboration layer on top — PR reviews, pipelines, issues.</div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 3: INSTALL GIT — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">1</div><h2>Install Git</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Install Git and set your identity</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div><div class="step-cmd">git --version</div><div class="step-desc">Version number? Already installed — skip to step 3.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div><div class="step-cmd">Install if missing</div><div class="step-desc">Windows: git-scm.com/download/win  |  macOS: brew install git  |  Linux: sudo apt install git</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">3</div><div><div class="step-cmd">git config --global user.name "Your Name"</div><div class="step-desc">Tag every future commit with your identity</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">4</div><div><div class="step-cmd">git config --global user.email "you@marinha.pt"</div><div class="step-desc">Must match your Gitea account email</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent)">5</div><div><div class="step-cmd">git config --global --list</div><div class="step-desc">Verify — you should see user.name and user.email in the output</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 4: SSH KEYS — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">2</div><h2>SSH Keys — Authenticate Without Passwords</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <div class="cards" style="margin-bottom:12px">
+          <div class="card r"><h3>❌ HTTPS</h3><p>Username + password (or token) on every push. Annoying and harder to manage securely.</p></div>
+          <div class="card g"><h3>✅ SSH</h3><p>Cryptographic key pair — set up once, works forever. Zero friction on every push.</p></div>
+        </div>
+        <div class="card n"><h3>Key pair</h3><p><strong>Private key</strong> <code>~/.ssh/id_ed25519</code> — stays on your machine. Never share it.<br><br><strong>Public key</strong> <code>~/.ssh/id_ed25519.pub</code> — you give this to Gitea. Safe to share.</p></div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">How SSH authentication works:</p>
+        <div class="term"><div class="term-dots"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>Your machine              Gitea server
+
+"I want to push"   ──────────────▶
+
+                   ◀────────────── "Prove who you are"
+
+[signs w/ priv key] ──────────────▶
+
+                   ◀────────────── "Verified ✅ Access granted"
+
+→ No password needed. Ever.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 5: SSH KEYS — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">2</div><h2>SSH Keys</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Generate your key and register it on Gitea</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--muted)">1</div><div><div class="step-cmd">ls ~/.ssh/</div><div class="step-desc">See id_ed25519 + id_ed25519.pub? Already have keys — skip to step 3.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div><div class="step-cmd">ssh-keygen -t ed25519 -C "you@marinha.pt"</div><div class="step-desc">Press Enter for all prompts. Creates private + public key pair.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">3</div><div><div class="step-cmd">cat ~/.ssh/id_ed25519.pub</div><div class="step-desc">Copy the output (starts with ssh-ed25519 AAAA...)</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent)">4</div><div><div class="step-cmd">Gitea → Settings → SSH Keys → Add Key</div><div class="step-desc">Paste your public key. Name it "My Laptop". Click Add Key.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">5</div><div><div class="step-cmd">ssh -T git@devops-01.marinha.pt</div><div class="step-desc">Expected: "Hi &lt;username&gt;! You've successfully authenticated."  ✅</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 6: CLONE — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">3</div><h2>Clone a Repo — Get the Project on Your Machine</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">What cloning does</p>
+        <div class="term"><div class="term-dots"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>Gitea server            Your laptop
+
+marinha-si/repo  ─clone─▶  ~/projects/repo/
+
+                            full history · work offline</div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin:10px 0 7px">After cloning — one remote</p>
+        <div class="card t"><h3>origin — the shared repo</h3><p><code>git@devops-01.marinha.pt:marinha-si/pessoas-integracao.git</code><br><br>Push your branches here. Open PRs from here.</p></div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">Our workflow</p>
+        <div class="term"><div class="term-dots"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div>origin/master (shared repo)
+       │
+       ▼ clone
+local master   ← keep in sync
+       │
+       └── feat/your-branch  ← your work
+                │
+                ▼ push + open PR
+→ reviewed → merged to master</div>
+        <div class="alert navy" style="margin-top:10px;font-size:11px">Everyone clones the same repo and works in branches. No forks needed.</div>
+        <div class="alert warn" style="font-size:11px">Always <code>git pull origin master</code> before creating a new branch.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 7: CLONE — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">3</div><h2>Clone a Repo</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Clone the shared repo and explore it</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div><div class="step-cmd">git clone git@devops-01.marinha.pt:marinha-si/pessoas-integracao.git</div><div class="step-desc">Clones the shared repo directly to your machine</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--muted)">2</div><div><div class="step-cmd">cd pessoas-integracao</div><div class="step-desc">Enter the cloned directory</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">3</div><div><div class="step-cmd">git remote -v</div><div class="step-desc">Verify: origin → marinha-si/pessoas-integracao.git</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--muted)">4</div><div><div class="step-cmd">git status</div><div class="step-desc">See which branch you're on (should be master)</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent)">5</div><div><div class="step-cmd">git log --oneline -10</div><div class="step-desc">Browse the last 10 commits of the project</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 8: GITHUB FLOW — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">4</div><h2>GitHub Flow — master is Always Deployable</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;font-style:italic;color:var(--dark)">One rule: <strong>master is always deployable</strong>. Everything else follows from that.</p>
+    <div class="flow">
+      <div class="fl-step"><div class="fl-dot" style="background:var(--teal)">1</div><div class="fl-label">Branch from master</div></div>
+      <div class="fl-arrow">→</div>
+      <div class="fl-step"><div class="fl-dot" style="background:var(--teal)">2</div><div class="fl-label">Make commits</div></div>
+      <div class="fl-arrow">→</div>
+      <div class="fl-step"><div class="fl-dot" style="background:var(--blue)">3</div><div class="fl-label">Open Pull Request</div></div>
+      <div class="fl-arrow">→</div>
+      <div class="fl-step"><div class="fl-dot" style="background:var(--accent)">4</div><div class="fl-label" style="color:var(--dark)">Review &amp; checks</div></div>
+      <div class="fl-arrow">→</div>
+      <div class="fl-step"><div class="fl-dot" style="background:var(--green)">5</div><div class="fl-label">Merge to master</div></div>
+    </div>
+    <div class="cards c2">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:7px">Key habits</p>
+        <ul style="font-size:12px;color:var(--dark);padding-left:18px;line-height:2">
+          <li>Branch from master — never from another feature branch</li>
+          <li>Keep branches short-lived</li>
+          <li>One thing per branch</li>
+          <li>Delete the branch after merge</li>
+        </ul>
+      </div>
+      <div class="cards">
+        <div class="card r"><h3>Gitflow</h3><p>develop + release branches, complex merge ceremonies. We don't use this.</p></div>
+        <div class="card g"><h3>GitHub Flow ✅</h3><p>Only master. Simple squash merge. master always reflects what's running.</p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 9: GITHUB FLOW — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">4</div><h2>GitHub Flow</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Create a branch from master and make your first commit</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--blue)">1</div><div><div class="step-cmd">git checkout master &amp;&amp; git pull origin master</div><div class="step-desc">Always start from an up-to-date master</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">2</div><div><div class="step-cmd">git checkout -b docs/hello-&lt;your-name&gt;</div><div class="step-desc">-b creates the branch AND switches to it in one step</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--muted)">3</div><div><div class="step-cmd">git branch</div><div class="step-desc">Confirm: * should be next to your new branch</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent)">4</div><div><div class="step-cmd">echo '# Hello' &gt; docs/onboarding/git-session/participants/&lt;name&gt;.md</div><div class="step-desc">Create a small file — something to commit</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">5</div><div><div class="step-cmd">git add . &amp;&amp; git commit -m "docs: add participant file for &lt;name&gt;"</div><div class="step-desc">Stage all changes and commit</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 10: CONVENTIONAL BRANCHING — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">5</div><h2>Conventional Branching — Naming Branches</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <div class="term" style="font-size:13px;padding:10px 16px">&lt;type&gt;/&lt;kebab-case-description&gt;     e.g.  feat/add-employee-address-field</div>
+    <div class="row-list">
+      <div class="row" style="border-color:var(--green)"><span class="tag" style="color:var(--green)">feat / feature</span><span class="info">New functionality</span></div>
+      <div class="row" style="border-color:var(--red)"><span class="tag" style="color:var(--red)">fix / bugfix / hotfix</span><span class="info">Bug fixes</span></div>
+      <div class="row" style="border-color:var(--blue)"><span class="tag" style="color:var(--blue)">refactor</span><span class="info">Code restructure, no behaviour change</span></div>
+      <div class="row" style="border-color:var(--teal)"><span class="tag" style="color:var(--teal)">test</span><span class="info">Adding or fixing tests</span></div>
+      <div class="row" style="border-color:var(--muted)"><span class="tag" style="color:var(--muted)">docs</span><span class="info">Documentation only</span></div>
+      <div class="row" style="border-color:var(--accent)"><span class="tag" style="color:var(--accent)">ci</span><span class="info">Pipeline / workflow changes</span></div>
+      <div class="row" style="border-color:var(--purple)"><span class="tag" style="color:var(--purple)">chore</span><span class="info">Dependencies, tooling, config</span></div>
+    </div>
+    <div class="alert warn">⚠️  branch-name-lint validates every branch name when a PR is opened. Invalid name = pipeline fails before anything else runs.</div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 11: CONVENTIONAL BRANCHING — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">5</div><h2>Conventional Branching</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Spot what's wrong and verify your branch name</div>
+    <p style="font-size:12px;font-weight:700;color:var(--ice);margin-top:4px">Which of these are valid?</p>
+    <div class="vi">
+      <div class="vi-row ok"><span class="vi-branch">feat/add-employee-address</span><span class="vi-verdict">✅ Valid</span></div>
+      <div class="vi-row bad"><span class="vi-branch">MyFeatureBranch</span><span class="vi-verdict">❌ No type, PascalCase</span></div>
+      <div class="vi-row bad"><span class="vi-branch">feature/AddEmployeeAddress</span><span class="vi-verdict">❌ Uppercase letters</span></div>
+      <div class="vi-row ok"><span class="vi-branch">test/employee-query-snapshot</span><span class="vi-verdict">✅ Valid</span></div>
+      <div class="vi-row bad"><span class="vi-branch">fix/duplicate ni check</span><span class="vi-verdict">❌ Spaces not allowed</span></div>
+      <div class="vi-row ok"><span class="vi-branch">chore/update-hotchocolate</span><span class="vi-verdict">✅ Valid</span></div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--teal)">→</div><div><div class="step-cmd">git branch</div><div class="step-desc">Verify your current branch follows the convention. If not: git branch -m old-name docs/hello-&lt;name&gt;</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 12: SEMANTIC COMMITS — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">6</div><h2>Semantic Commits — Conventional Commits Standard</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <div class="term" style="font-size:13px;padding:10px 16px">&lt;type&gt;: &lt;short description&gt;      lowercase · under 72 chars · no period at end</div>
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">Real examples from this project</p>
+        <div class="row-list">
+          <div class="row" style="border-color:var(--green)"><span class="tag" style="color:var(--green);font-size:10px">feat:</span><span class="info" style="font-family:Consolas;font-size:10px">feat: add GetEmployeeByNi GraphQL query</span></div>
+          <div class="row" style="border-color:var(--red)"><span class="tag" style="color:var(--red);font-size:10px">fix:</span><span class="info" style="font-family:Consolas;font-size:10px">fix: throw EmployeeByNiNotFoundException</span></div>
+          <div class="row" style="border-color:var(--teal)"><span class="tag" style="color:var(--teal);font-size:10px">test:</span><span class="info" style="font-family:Consolas;font-size:10px">test: add snapshot for FetchAllEmployeesSorted</span></div>
+          <div class="row" style="border-color:var(--blue)"><span class="tag" style="color:var(--blue);font-size:10px">refactor:</span><span class="info" style="font-family:Consolas;font-size:10px">refactor: extract dbContext to DisposeAsync</span></div>
+          <div class="row" style="border-color:var(--accent)"><span class="tag" style="color:var(--accent);font-size:10px">ci:</span><span class="info" style="font-family:Consolas;font-size:10px">ci: add Trivy scan to PR workflow</span></div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">Impact on semantic versioning</p>
+        <div class="row-list">
+          <div class="row" style="border-color:var(--green)"><span class="tag" style="color:var(--green)">feat:</span><span class="info">Minor bump — 1.0.0 → 1.<strong>1</strong>.0</span></div>
+          <div class="row" style="border-color:var(--blue)"><span class="tag" style="color:var(--blue)">fix: / perf:</span><span class="info">Patch bump — 1.0.0 → 1.0.<strong>1</strong></span></div>
+          <div class="row" style="border-color:var(--red)"><span class="tag" style="color:var(--red)">BREAKING CHANGE</span><span class="info">Major bump — 1.0.0 → <strong>2</strong>.0.0</span></div>
+          <div class="row" style="border-color:var(--muted)"><span class="tag" style="color:var(--muted)">others</span><span class="info">No version bump</span></div>
+        </div>
+        <div class="alert warn" style="margin-top:10px;font-size:11px">pull-request-lint validates the PR title against this standard — the title becomes the squash-merge commit on master.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 13: SEMANTIC COMMITS — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">6</div><h2>Semantic Commits</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Amend your commit and add a second one</div>
+    <p style="font-size:12px;font-weight:700;color:var(--ice);margin-top:4px">Spot the invalid ones:</p>
+    <div class="vi" style="margin-bottom:8px">
+      <div class="vi-row bad"><span class="vi-branch">"Added the address field"</span><span class="vi-verdict">❌ No type, capitalised, past tense</span></div>
+      <div class="vi-row bad"><span class="vi-branch">"fix"</span><span class="vi-verdict">❌ No description</span></div>
+      <div class="vi-row bad"><span class="vi-branch">"feat: Add address field."</span><span class="vi-verdict">❌ Capitalised A, has period</span></div>
+      <div class="vi-row ok"><span class="vi-branch">"feat: add address field to Employee"</span><span class="vi-verdict">✅ Correct</span></div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div><div class="step-cmd">git log --oneline -3</div><div class="step-desc">Check your last commit message</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div><div class="step-cmd">git commit --amend -m "docs: add participant file for &lt;name&gt;"</div><div class="step-desc">Fix the message if needed — only do this before pushing</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div><div class="step-cmd">echo 'Attended Git session' &gt;&gt; participants/&lt;name&gt;.md &amp;&amp; git add . &amp;&amp; git commit -m "docs: add session note for &lt;name&gt;"</div><div class="step-desc">Make a second valid commit</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 14: CREATE A PR — CONCEPT ═══ -->
+<div class="slide">
+  <div class="sh"><div class="step-badge">7</div><h2>Create a Pull Request — The Merge Proposal</h2><span class="label label-concept">CONCEPT</span></div>
+  <div class="sb">
+    <p style="font-size:13px;font-style:italic;color:var(--dark)">A PR is a formal proposal to merge your branch into master — where checks run and code review happens.</p>
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">PR lifecycle</p>
+        <div class="lifecycle">
+          <div class="lc-row"><div class="lc-num" style="background:var(--teal)">1</div><div class="lc-text">Push branch to your fork</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--blue)">2</div><div class="lc-text">Open PR on Gitea</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--accent)">3</div><div class="lc-text" style="color:var(--dark)">Pipeline runs automatically</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--muted)">4</div><div class="lc-text">Reviewer comments</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--blue)">5</div><div class="lc-text">Fix &amp; re-push</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--green)">6</div><div class="lc-text">All green + approved → Squash merge</div></div>
+          <div class="lc-row"><div class="lc-num" style="background:var(--navy)">7</div><div class="lc-text">Delete branch</div></div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">What makes a good PR</p>
+        <div class="row-list">
+          <div class="row"><span class="tag">Title</span><span class="info">✅ feat: add GetEmployeeByNumsap query<br>❌ "my changes"</span></div>
+          <div class="row"><span class="tag">Size</span><span class="info">✅ One logical change<br>❌ Months of work in one PR</span></div>
+          <div class="row"><span class="tag">Checklist</span><span class="info">✅ Filled in<br>❌ Ignored</span></div>
+          <div class="row"><span class="tag">Branch</span><span class="info">✅ feat/add-numsap-query<br>❌ master or dev</span></div>
+        </div>
+        <div class="alert warn" style="margin-top:8px;font-size:11px">Direct pushes to master are BLOCKED. All changes go through PRs.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 15: CREATE A PR — YOUR TURN ═══ -->
+<div class="slide dark">
+  <div class="sh"><div class="step-badge">7</div><h2>Create a Pull Request</h2><span class="label label-turn">YOUR TURN</span></div>
+  <div class="sb">
+    <div class="yt-banner">💻  YOUR TURN — Push your branch and open a PR on Gitea</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div><div class="step-cmd">git push origin docs/hello-&lt;your-name&gt;</div><div class="step-desc">Pushes your branch to your fork. Git prints a URL — click it.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div><div class="step-cmd">Gitea → Compare &amp; pull request</div><div class="step-desc">Click the banner. Set base repo: marinha-si/pessoas-integracao, base branch: master</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent)">3</div><div><div class="step-cmd">Title: docs: add participant file for &lt;your-name&gt;</div><div class="step-desc">Must follow Conventional Commits — pull-request-lint will check it</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">4</div><div><div class="step-cmd">Fill the checklist. Assign a reviewer.</div><div class="step-desc">Check both boxes in the PR template</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">5</div><div><div class="step-cmd">Watch the Checks tab</div><div class="step-desc">branch-name-lint ✓  pull-request-lint ✓  ci-build-test ✓  — all must be green</div></div></div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+<!-- ═══ SLIDE 16: WRAP-UP ═══ -->
+<div class="slide dark">
+  <div class="sh"><h2>Session Complete 🎉</h2></div>
+  <div class="sb">
+    <div class="two">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--ice);margin-bottom:8px">Quick reference — the full flow</p>
+        <div class="term"><div class="term-dots"><span style="background:#dc2626"></span><span style="background:#f59e0b"></span><span style="background:#16a34a"></span></div># Configure
+git config --global user.name "Name"
+ssh-keygen -t ed25519 -C "email"
+
+# Clone
+git clone git@gitea:marinha-si/repo.git
+cd repo
+
+# Branch (GitHub Flow + Conventional)
+git checkout master &amp;&amp; git pull origin master
+git checkout -b feat/my-thing
+
+# Commit (Semantic Commits)
+git add . &amp;&amp; git commit -m "feat: add thing"
+
+# Push + open PR on Gitea
+git push origin feat/my-thing</div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--ice);margin-bottom:8px">What's next</p>
+        <div class="cards">
+          <div class="card" style="border-color:var(--blue)"><h3>Module 02 — DevSecOps Pipeline</h3><p>Understand every CI check that runs on your PR</p></div>
+          <div class="card t"><h3>Module 03 — Test Driven Development</h3><p>Write tests first — Red → Green → Refactor</p></div>
+          <div class="card g"><h3>Module 04 — Project Architecture</h3><p>Layers, responsibilities, clean code</p></div>
+        </div>
+        <div class="alert info" style="margin-top:10px;font-size:12px">Questions? Open an issue in the onboarding repo or ask in the team chat.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="f">Git Hands-On Session  |  Pessoas Integração</footer>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button id="prev" onclick="change(-1)" disabled>← Prev</button>
+  <div class="dots" id="dots"></div>
+  <span class="progress" id="counter">1 / 16</span>
+  <button id="next" onclick="change(1)">Next →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+const dotsEl = document.getElementById('dots');
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => go(i);
+  dotsEl.appendChild(d);
+});
+function go(n) {
+  slides[cur].classList.remove('active');
+  dotsEl.children[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  dotsEl.children[cur].classList.add('active');
+  document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
+  document.getElementById('prev').disabled = cur === 0;
+  document.getElementById('next').disabled = cur === slides.length - 1;
+}
+function change(d) { go(cur + d); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') change(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') change(-1);
+});
+</script>
+</body>
+</html>

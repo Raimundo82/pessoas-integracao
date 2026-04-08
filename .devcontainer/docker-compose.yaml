@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -8,6 +6,7 @@ services:
 
     volumes:
       - ../..:/workspaces:cached
+      - /var/run/docker.sock:/var/run/docker.sock
 
     environment:
       ConnectionStrings__DefaultConnection: 'Host=localhost;Database=${DB_NAME};Username=postgres;Password=${DB_PASSWORD}'
@@ -16,8 +15,6 @@ services:
       AppSettings__WriteApiKey: ${WRITE_API_KEY}
       SONARQUBE_CI_TOKEN: ${SONARQUBE_CI_TOKEN}
       SONAR_HOST_URL: ${SONAR_HOST_URL}
-      no_proxy: '.marinha.pt,localhost'
-      NO_PROXY: '.marinha.pt,localhost'
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
