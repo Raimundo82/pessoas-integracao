@@ -48,6 +48,25 @@
       ]
     },
     {
+      "groupName": "coverlet monorepo",
+      "matchPackageNames": [
+        "^coverlet\\."
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
+    },
+    {
+      "groupName": "major coverlet monorepo",
+      "matchPackageNames": [
+        "^coverlet\\."
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
       "extends": [
         "monorepo:dotnet"
       ],
