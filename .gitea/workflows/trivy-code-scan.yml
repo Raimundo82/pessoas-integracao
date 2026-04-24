@@ -36,12 +36,11 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         run: |
-          WORKSPACE=$(pwd)
           docker run --rm \
             -e HTTP_PROXY -e HTTPS_PROXY -e NO_PROXY \
             -e http_proxy -e https_proxy -e no_proxy \
-            -v "${WORKSPACE}:/work" \
-            -w /work \
+            --volumes-from $(cat /proc/1/cpuset | cut -d/ -f3) \
+            -w $GITHUB_WORKSPACE \
             aquasec/trivy:0.68.2 \
             fs \
               --scanners vuln,secret \
