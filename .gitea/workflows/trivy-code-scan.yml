@@ -45,7 +45,7 @@ jobs:
               --scanners vuln \
               --severity CRITICAL,HIGH \
               --dependency-tree \
-              --file-patterns ".*\.csproj" \
+              --file-patterns "dotnet:.*\.csproj" \
               --exit-code 1 \
               --timeout 10m \
               .
