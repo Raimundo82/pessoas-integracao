@@ -19,6 +19,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         run: |
+          docker rm -f trivy-scan 2>/dev/null || true
           docker create --name trivy-scan \
             aquasec/trivy:0.68.2 \
             fs \
