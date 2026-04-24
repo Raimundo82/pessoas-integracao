@@ -17,23 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v5
-        with:
-          global-json-file: global.json
-
-      - name: Restore .NET
-        run: |
-          dotnet restore
-          echo "=== Lock files generated ==="
-          find . -name "packages.lock.json"
-
-      - name: Debug workspace
-        run: |
-          echo "PWD: $(pwd)"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          find . -name "*.csproj" | head -10
-
       - name: Run Trivy vulnerability scanner
         run: |
           docker create --name trivy-scan \
