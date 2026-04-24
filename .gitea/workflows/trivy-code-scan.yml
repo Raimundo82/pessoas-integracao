@@ -31,7 +31,10 @@ jobs:
           global-json-file: global.json
 
       - name: Restore .NET
-        run: dotnet restore
+        run: |
+          dotnet restore
+          echo "=== Lock files generated ==="
+          find . -name "packages.lock.json"
 
       - name: Debug workspace
         run: |
