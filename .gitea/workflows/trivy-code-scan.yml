@@ -36,11 +36,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         run: |
-          docker run --rm \
-            -e HTTP_PROXY -e HTTPS_PROXY -e NO_PROXY \
-            -e http_proxy -e https_proxy -e no_proxy \
-            --volumes-from $(cat /proc/1/cpuset | cut -d/ -f3) \
-            -w $GITHUB_WORKSPACE \
+          docker create --name trivy-scan \
             aquasec/trivy:0.68.2 \
             fs \
               --scanners vuln,secret \
@@ -50,4 +46,10 @@ jobs:
               --ignore-unfixed \
               --exit-code 1 \
               --timeout 10m \
-              .
+              /work
+
+          docker cp $GITHUB_WORKSPACE/. trivy-scan:/work
+          docker start --attach trivy-scan
+          EXIT_CODE=$?
+          docker rm -f trivy-scan
+          exit $EXIT_CODE
