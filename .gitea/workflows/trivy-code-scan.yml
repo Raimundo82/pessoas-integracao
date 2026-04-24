@@ -22,7 +22,9 @@ jobs:
           docker run --rm \
             -e HTTP_PROXY -e HTTPS_PROXY -e NO_PROXY \
             -e http_proxy -e https_proxy -e no_proxy \
-            --mount type=bind,source=$(pwd),target=/ \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $GITHUB_WORKSPACE:/work \
+            -w /work \
             aquasec/trivy:0.68.2 \
             fs \
               --scanners vuln,secret \
