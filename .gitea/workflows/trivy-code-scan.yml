@@ -25,4 +25,10 @@ jobs:
             -v "$PWD:/work" \
             -w /work \
             aquasec/trivy:0.68.2 \
-            fs --severity CRITICAL,HIGH --exit-code 1 --timeout 10m .
+            fs \
+              --scanners vuln \
+              --severity CRITICAL,HIGH \
+              --dependency-tree \
+              --exit-code 1 \
+              --timeout 10m \
+              .
