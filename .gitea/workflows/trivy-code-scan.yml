@@ -17,21 +17,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+            | sh -s -- -b /usr/local/bin v0.70.0
+
       - name: Run Trivy vulnerability scanner
         run: |
-          docker run --rm \
-            -e HTTP_PROXY -e HTTPS_PROXY -e NO_PROXY \
-            -e http_proxy -e https_proxy -e no_proxy \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -v $GITHUB_WORKSPACE:/work \
-            -w /work \
-            aquasec/trivy:0.68.2 \
-            fs \
-              --scanners vuln,secret \
-              --severity CRITICAL,HIGH \
-              --dependency-tree \
-              --skip-dirs bin,obj,.git \
-              --ignore-unfixed \
-              --exit-code 1 \
-              --timeout 10m \
-              .
+          trivy fs \
+            --scanners vuln,secret \
+            --severity CRITICAL,HIGH \
+            --dependency-tree \
+            --skip-dirs bin,obj,.git \
+            --ignore-unfixed \
+            --exit-code 1 \
+            --timeout 10m \
+            --cache-dir /tmp/trivy-cache \
+            .
