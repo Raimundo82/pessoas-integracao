@@ -9,6 +9,7 @@ public interface IPessoaRepository
     Task AddRangeAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task ClearAllAsync(CancellationToken ct);
     Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
+    Task BulkUpsertAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
     Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
 }
