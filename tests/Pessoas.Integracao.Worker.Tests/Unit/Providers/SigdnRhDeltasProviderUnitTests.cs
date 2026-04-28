@@ -31,12 +31,12 @@ public sealed class SigdnRhDeltasProviderUnitTests
         var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
 
         // Assert
-        result.Should().AllBeOfType<PessoaDeltasKey>();
+        result.Should().AllBeOfType<PessoaImportKey>();
         result.Should().HaveCount(3);
         result.Should().BeEquivalentTo([
-            new PessoaDeltasKey("22600", "30002697", "UPDATE"),
-            new PessoaDeltasKey("22700", "30002797", "INSERT"),
-            new PessoaDeltasKey("22800", "30002897", "DELETE"),
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797"),
+            new PessoaImportKey("22800", "30002897"),
         ]);
     }
 
@@ -58,7 +58,7 @@ public sealed class SigdnRhDeltasProviderUnitTests
         // Assert
         result.Should().HaveCount(1);
         result.Should().BeEquivalentTo([
-            new PessoaDeltasKey("22600", "30002697", "UPDATE")
+            new PessoaImportKey("22600", "30002697")
         ]);
     }
 
