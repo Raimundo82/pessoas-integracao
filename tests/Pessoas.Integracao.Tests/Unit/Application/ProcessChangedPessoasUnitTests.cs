@@ -100,9 +100,6 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         var timePeriod = GetTimePeriod();
         var ct = new CancellationToken();
 
-        var deltaKey1 = new PessoaDeltasKey("111", "EXT1", "UPDATE");
-        var deltaKey2 = new PessoaDeltasKey("222", "EXT2", "UPDATE");
-
         var importKey1 = new PessoaImportKey("111", "EXT1");
         var importKey2 = new PessoaImportKey("222", "EXT2");
 
@@ -112,7 +109,7 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         var existingPessoa1 = new Pessoa { NII = "111", ExternalId = "EXT1", DadosPessoais = new DadosPessoais { NomeCompleto = "Old Name" } };
         var existingPessoa2 = new Pessoa { NII = "222", ExternalId = "EXT2", DadosPessoais = new DadosPessoais { NomeCompleto = "Old Name" } };
 
-        //        SetupPessoasChangedKeysProvider([deltaKey1, deltaKey2]);
+        SetupPessoasChangedKeysProvider([importKey1, importKey2]);
         SetupChangedPessoas([importKey1, importKey2], [changedPessoa1, changedPessoa2]);
         SetupExistingPessoa(importKey1, existingPessoa1);
         SetupExistingPessoa(importKey2, existingPessoa2);
@@ -133,18 +130,17 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
 
 
     [Fact]
-    public async Task Should_NotUpsert_When_ExecuteAsyncWithNoChanges()
+    public async Task Should_UpsertEmptyPessoa_When_ExecuteAsyncWithNoChanges()
     {
         // Arrange
         var timePeriod = GetTimePeriod();
-        var ct = new CancellationToken();
 
-        var deltaKey = new PessoaDeltasKey("123", "EXT", "UPDATE");
         var importKey = new PessoaImportKey("123", "EXT");
 
-        var changedPessoa = new Pessoa { NII = "123", ExternalId = "EXT", DadosPessoais = new DadosPessoais { NomeCompleto = "Changed Name" } };
+        var changedPessoa = new Pessoa { NII = "123", ExternalId = "EXT", DadosPessoais = new DadosPessoais { NomeCompleto = "Old Name" } };
         var existingPessoa = new Pessoa { NII = "123", ExternalId = "EXT", DadosPessoais = new DadosPessoais { NomeCompleto = "Old Name" } };
 
+        SetupPessoasChangedKeysProvider([importKey]);
         SetupChangedPessoas([importKey], [changedPessoa]);
         SetupExistingPessoa(importKey, existingPessoa);
         SetupPessoaChangedDetectorDoesNotDetectChange();
@@ -155,21 +151,20 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         await sut.ExecuteAsync(timePeriod, CancellationToken.None);
 
         // Assert
-        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
+        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
-
     [Fact]
-    public async Task Should_ReturnEmptyResult_When_ExecuteAsyncWithEmptyDeltaKeys()
+    public async Task Should_UpsertEmptyPessoa_When_ExecuteAsyncWithEmptyChangedImportKeys()
     {
         // Arrange
         var timePeriod = GetTimePeriod();
         var ct = new CancellationToken();
 
-        var importKey = new PessoaImportKey("123", "EXT");
-        var deltaKey = new PessoaDeltasKey("123", "EXT", "UPDATE");
-
-        SetupNonExistingPessoa(importKey);
+        SetupPessoasChangedKeysProvider([]);
+        SetupChangedPessoas([], []);
+        SetupNonExistingPessoa();
+        SetupPessoaChangedDetectorDoesNotDetectChange();
 
         var sut = CreateSut();
 
@@ -177,17 +172,17 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         await sut.ExecuteAsync(timePeriod, ct);
 
         // Assert
-        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
+        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
-    public async Task Should_ReturnEmptyResult_When_ExecuteAsyncWithEmptyPessoasFromProvider()
+    public async Task Should_UpsertEmptyPessoa_When_ExecuteAsyncWithEmptyPessoasFromProvider()
     {
         // Arrange
         var timePeriod = GetTimePeriod();
-        var ct = new CancellationToken();
 
-        SetupPessoasChangedKeysProvider([]); // <— no delta keys
+        SetupPessoasChangedKeysProvider([]);
+        SetupChangedPessoas([], []);
 
         var sut = CreateSut();
 
@@ -195,21 +190,18 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         await sut.ExecuteAsync(timePeriod, CancellationToken.None);
 
         // Assert
-        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Never);
+        _repo.Verify(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
-
     [Fact]
-    public async Task Should_HandleNullRepositoryReturn_When_ExecuteAsyncWithNullPessoa()
+    public async Task Should_UpsertEmptyPessoa_WhenExecuteAsyncWithEmptyPessoasFromRepository()
     {
         // Arrange
         var timePeriod = GetTimePeriod();
-        var ct = new CancellationToken();
-
-        var deltaKey = new PessoaDeltasKey("123", "EXT", "UPDATE");
         var importKey = new PessoaImportKey("123", "EXT");
         var changedPessoa = new Pessoa { NII = "123", ExternalId = "EXT" };
 
+        SetupPessoasChangedKeysProvider([importKey]);
         SetupChangedPessoas([importKey], [changedPessoa]);
         SetupNonExistingPessoa(importKey);
         SetupPessoaChangedDetetorDetectsChange();
@@ -230,7 +222,6 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
     {
         // Arrange
         var timePeriod = GetTimePeriod();
-        var ct = new CancellationToken();
 
         SetupUnavailableDeltaKeysProvider();
 
@@ -259,14 +250,17 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         var endTimestamp = DateTime.Now;
         return new TimePeriod(startTimestamp, endTimestamp);
     }
-    private void SetupPessoasChangedKeysProvider(IReadOnlyList<PessoaImportKey> deltaKeyList) =>
+
+    private void SetupPessoasChangedKeysProvider(IReadOnlyList<PessoaImportKey> importKeyList) =>
         _changedImportKeyProvider
             .Setup(k => k.GetChangedImportKeysAsync(It.IsAny<TimePeriod>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(deltaKeyList);
+            .ReturnsAsync(importKeyList);
+
     private void SetupUnavailableDeltaKeysProvider() =>
         _changedImportKeyProvider
             .Setup(k => k.GetChangedImportKeysAsync(It.IsAny<TimePeriod>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("SOAP error"));
+
     private void SetupChangedPessoas(IReadOnlyList<PessoaImportKey> importKeys, IReadOnlyList<Pessoa> changedPessoas)
     {
         _dataProvider
@@ -281,15 +275,24 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
     }
 
     private void SetupExistingPessoa(PessoaImportKey importKey, Pessoa existingPessoa) =>
-        _repo
-            .Setup(r => r.GetPessoaByImportKeyAsync(
-                It.Is<PessoaImportKey>(k =>
-                    k.Nii == importKey.Nii &&
-                    k.ExternalId == importKey.ExternalId),
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<Pessoa> { existingPessoa }.AsReadOnly());
+    _repo
+        .Setup(r => r.GetPessoasByNiiAsync(
+            It.Is<IReadOnlyList<string>>(list =>
+                list.Contains(importKey.Nii)),
+            It.IsAny<CancellationToken>()))
+        .ReturnsAsync(new List<Pessoa> { existingPessoa }.AsReadOnly());
+
     private void SetupNonExistingPessoa(PessoaImportKey importKey) =>
-        _repo.Setup(r => r.GetPessoaByImportKeyAsync(importKey, It.IsAny<CancellationToken>())).ReturnsAsync([]);
+        _repo.Setup(r => r.GetPessoasByNiiAsync(
+            It.Is<IReadOnlyList<string>>(list => list.Contains(importKey.Nii)),
+            It.IsAny<CancellationToken>()))
+        .ReturnsAsync(new List<Pessoa>().AsReadOnly());
+    private void SetupNonExistingPessoa() =>
+        _repo.Setup(r => r.GetPessoasByNiiAsync(
+                It.IsAny<IReadOnlyList<string>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Array.Empty<Pessoa>());
+
 
     private void SetupUpsert(UpsertPessoasResult upsertResult) =>
         _repo.Setup(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(upsertResult);
