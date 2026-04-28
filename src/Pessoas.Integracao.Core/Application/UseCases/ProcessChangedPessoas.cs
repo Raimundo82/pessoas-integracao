@@ -15,18 +15,18 @@ public class ProcessChangedPessoas(
     private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
     private readonly IPessoasDataProvider _pessoasDataProvider = pessoasDataProvider;
     private readonly IPessoasChangedImportKeyProvider _pessoasChangedImportKeyProvider = pessoasChangedImportKeyProvider;
-    private readonly IPessoaChangeDetector _pessoasDeltaDetector = pessoaChangeDetetor;
+    private readonly IPessoaChangeDetector _pessoasChangeDetector = pessoaChangeDetetor;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task ExecuteAsync(TimePeriod timePeriod, CancellationToken ct)
     {
-        var changedImporKeys = await _pessoasChangedImportKeyProvider.GetChangedImportKeysAsync(timePeriod, ct);
+        var changedImportKeys = await _pessoasChangedImportKeyProvider.GetChangedImportKeysAsync(timePeriod, ct);
 
-        var pessoasChanged = await _pessoasDataProvider.GetPessoasByImportKeysAsync(changedImporKeys, ct);
+        var pessoasChanged = await _pessoasDataProvider.GetPessoasByImportKeysAsync(changedImportKeys, ct);
 
         var equivalentPessoasInRepo = await _pessoaRepository.GetPessoasByNiiAsync(pessoasChanged.Select(p => p.NII).ToList(), ct);
 
         var pessoasToUpsert = pessoasChanged
-            .Where(changed => _pessoasDeltaDetector.IsPessoaChanged(
+            .Where(changed => _pessoasChangeDetector.IsPessoaChanged(
                 changed,
                 equivalentPessoasInRepo.FirstOrDefault(existing => existing.NII == changed.NII) ?? new Pessoa { NII = changed.NII }))
             .ToList();
