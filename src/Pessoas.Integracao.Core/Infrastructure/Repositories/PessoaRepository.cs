@@ -64,6 +64,10 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task BulkUpsertAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
-        await _context.BulkInsertOrUpdateAsync(pessoas, cancellationToken: ct);
+        await _context.BulkInsertOrUpdateAsync(
+            pessoas,
+            new BulkConfig { UpdateByProperties = [nameof(Pessoa.NII)] },
+            cancellationToken: ct
+        );
     }
 }
