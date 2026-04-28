@@ -52,11 +52,15 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
                 ct))
             .ReturnsAsync(equivalentPessoasInRepo);
 
-        _pessoaChangedDetetor
-               .Setup(d => d.IsPessoaChanged(
-                   It.Is<Pessoa>(p => p.NII == "123456789"),
-                   It.Is<Pessoa>(p => p.NII == "123456789")))
-               .Returns(true);
+        _pessoaChangedDetetor.Setup(d => d.GetChanges(
+                It.Is<Pessoa>(p => p.NII == "123456789"),
+                It.Is<Pessoa>(p => p.NII == "123456789")))
+            .Returns(new PessoaChangeResult(
+                HasChanges: true,
+                ChangeTypes: new HashSet<PessoaChangeType>
+                {
+                    PessoaChangeType.DadosPessoaisChanged
+                }));
 
         _repo.Setup(r => r.UpsertAllAsync(
                 It.Is<IReadOnlyList<Pessoa>>(pessoas => pessoas.SequenceEqual(changedPessoas)),
@@ -80,7 +84,7 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
             ct),
             Times.Once);
 
-        _pessoaChangedDetetor.Verify(d => d.IsPessoaChanged(
+        _pessoaChangedDetetor.Verify(d => d.GetChanges(
             It.Is<Pessoa>(p => p.NII == "123456789"),
             It.Is<Pessoa>(p => p.NII == "123456789")),
             Times.Once);
@@ -298,10 +302,21 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
         _repo.Setup(r => r.UpsertAllAsync(It.IsAny<IReadOnlyList<Pessoa>>(), It.IsAny<CancellationToken>())).ReturnsAsync(upsertResult);
 
     private void SetupPessoaChangedDetetorDetectsChange() =>
-        _pessoaChangedDetetor.Setup(d => d.IsPessoaChanged(It.IsAny<Pessoa>(), It.IsAny<Pessoa>())).Returns(true);
+    _pessoaChangedDetetor
+        .Setup(d => d.GetChanges(It.IsAny<Pessoa>(), It.IsAny<Pessoa>()))
+        .Returns(new PessoaChangeResult(
+            HasChanges: true,
+            ChangeTypes: new HashSet<PessoaChangeType> { PessoaChangeType.DadosPessoaisChanged }
+        ));
 
     private void SetupPessoaChangedDetectorDoesNotDetectChange() =>
-        _pessoaChangedDetetor.Setup(d => d.IsPessoaChanged(It.IsAny<Pessoa>(), It.IsAny<Pessoa>())).Returns(false);
+    _pessoaChangedDetetor
+        .Setup(d => d.GetChanges(It.IsAny<Pessoa>(), It.IsAny<Pessoa>()))
+        .Returns(new PessoaChangeResult(
+            HasChanges: false,
+            ChangeTypes: new HashSet<PessoaChangeType>()
+        ));
+
 
     private ProcessChangedPessoas CreateSut() =>
         new(_repo.Object, _dataProvider.Object, _changedImportKeyProvider.Object, _pessoaChangedDetetor.Object, _uow.Object);

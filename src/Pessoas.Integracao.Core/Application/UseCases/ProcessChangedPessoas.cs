@@ -26,9 +26,10 @@ public class ProcessChangedPessoas(
         var equivalentPessoasInRepo = await _pessoaRepository.GetPessoasByNiiAsync(pessoasChanged.Select(p => p.NII).ToList(), ct);
 
         var pessoasToUpsert = pessoasChanged
-            .Where(changed => _pessoasChangeDetector.IsPessoaChanged(
-                changed,
-                equivalentPessoasInRepo.FirstOrDefault(existing => existing.NII == changed.NII) ?? new Pessoa { NII = changed.NII }))
+            .Where(changed => _pessoasChangeDetector
+                    .GetChanges(changed, equivalentPessoasInRepo
+                    .FirstOrDefault(p => p.NII == changed.NII) ?? new Pessoa { NII = changed.NII })
+                    .HasChanges)
             .ToList();
 
         await _pessoaRepository.UpsertAllAsync(pessoasToUpsert, ct);
