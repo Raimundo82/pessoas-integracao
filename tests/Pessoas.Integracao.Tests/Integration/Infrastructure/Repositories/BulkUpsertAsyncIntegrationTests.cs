@@ -2,6 +2,8 @@ using FluentAssertions;
 
 using Microsoft.EntityFrameworkCore;
 
+using Npgsql;
+
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Core.Infrastructure.Data;
@@ -194,6 +196,31 @@ public sealed class BulkUpsertAsyncIntegrationTests : IDisposable
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
         savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("UNTOUCHED");
+    }
+
+    [Fact]
+    public async Task ShouldThrowAndRollbackEverything_WhenInputContainsDuplicateNIIs()
+    {
+        // Arrange
+        await SeedAsync(new Pessoa { NII = "99999", ExternalId = "EXISTING" });
+
+        var pessoas = new[]
+        {
+        new Pessoa { NII = "11111", ExternalId = "FIRST" },
+        new Pessoa { NII = "11111", ExternalId = "LAST" },
+        new Pessoa { NII = "88888", ExternalId = "VALID_NEW" }
+    };
+
+        // Act
+        Func<Task> act = () => _repository.BulkUpsertAsync(pessoas, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<PostgresException>()
+            .WithMessage("*ON CONFLICT DO UPDATE command cannot affect row a second time*");
+
+        var savedPessoas = await ReadAllPessoasAsync();
+        savedPessoas.Should().ContainSingle()
+            .Which.NII.Should().Be("99999");
     }
 
     private async Task SeedAsync(params Pessoa[] pessoas)
