@@ -525,15 +525,15 @@
       },
       "Quartz": {
         "type": "Transitive",
-        "resolved": "3.18.0",
-        "contentHash": "l+PY20yF32ljFkP/OROYc7Z7Wv3rhGARqxGkDMaCwOJ3aGA/94fPSBYtJpZKciLbc/89xfVlpEZbIzIPE0hHHQ=="
+        "resolved": "3.18.1",
+        "contentHash": "q/n/gKLcApDlTk90BRNvj6P8HKR+vbtZEQxo5BAbeEoN5e/8/aqRuG6yH7tVg02CeAXAD40boS74s9hVnh4XDw=="
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "Transitive",
-        "resolved": "3.18.0",
-        "contentHash": "YAtrZ+pYtPPnWKKuHII1x16E6HxyT1eHWQCvAR4zkMT8xmfuz1KCRHCg3+b8z/nGXpWyR6WpSoIh7dsR4jI+iA==",
+        "resolved": "3.18.1",
+        "contentHash": "ct+sIqr7n961jvo695GnqHjB+dhK6b/Y9LSXxK6n9EJ6JzMXpwcusd5u2lCqVqqNHaiGBLXp37E75hpPXHQkzA==",
         "dependencies": {
-          "Quartz": "3.18.0"
+          "Quartz": "3.18.1"
         }
       },
       "SharpZipLib": {
@@ -694,7 +694,7 @@
         "type": "Project",
         "dependencies": {
           "Pessoas.Integracao.Core": "[1.0.0, )",
-          "Quartz.Extensions.Hosting": "[3.18.0, )",
+          "Quartz.Extensions.Hosting": "[3.18.1, )",
           "System.ServiceModel.Http": "[10.0.652802, )",
           "System.ServiceModel.NetTcp": "[10.0.652802, )",
           "System.ServiceModel.Primitives": "[10.0.652802, )"
@@ -777,11 +777,11 @@
       },
       "Quartz.Extensions.Hosting": {
         "type": "CentralTransitive",
-        "requested": "[3.18.0, )",
-        "resolved": "3.18.0",
-        "contentHash": "DOIgnLibu9sEYqHAKRQYz+0oWZ5q2LP55oNUtosOygEiIxCvTtHAwkZdf6Ea0VCucZ1oO9SeWLoA4q4WFbZspw==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "kZ7ufndI5vygLpI0kCeukVKlzpRFtGjfoU3BoWZ6u6QKoRF2Z3KV1dSpv+VpMqRekz3SrObfN0iLZKWldoZLZw==",
         "dependencies": {
-          "Quartz.Extensions.DependencyInjection": "3.18.0"
+          "Quartz.Extensions.DependencyInjection": "3.18.1"
         }
       },
       "System.ServiceModel.Http": {
