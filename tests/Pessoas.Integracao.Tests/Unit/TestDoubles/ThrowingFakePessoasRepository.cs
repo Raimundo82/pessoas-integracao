@@ -33,4 +33,9 @@ public sealed class ThrowingFakePessoasRepository(IReadOnlyList<PessoaImportKey>
         LastGetKeysToken = cancellationToken;
         return Task.FromResult(_existingKeys);
     }
+
+    public Task BulkUpsertAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
 }
