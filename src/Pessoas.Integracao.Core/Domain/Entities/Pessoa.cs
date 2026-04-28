@@ -11,6 +11,7 @@ public class Pessoa
     public string? ExternalId { get; set; }
     public DadosPessoais DadosPessoais { get; set; } = new DadosPessoais();
     public DadosBiometricos DadosBiometricos { get; set; } = new DadosBiometricos();
+    public ICollection<Colocacao> Colocacoes { get; set; } = new List<Colocacao>();
 
     public void UpdateFrom(Pessoa source)
     {
