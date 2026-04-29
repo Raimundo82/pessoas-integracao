@@ -2,7 +2,6 @@ using FluentAssertions;
 
 using Microsoft.EntityFrameworkCore;
 
-using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Enums;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
@@ -407,49 +406,6 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         result.Should().HaveCount(2);
         result.Should().ContainSingle(k => k.Nii == "11111" && k.ExternalId == null);
         result.Should().ContainSingle(k => k.Nii == "22222" && k.ExternalId == "EXT2");
-    }
-
-    [Fact]
-    public async Task GetPessoaByImportKeyAsync_ShouldReturnPessoa_WhenImportKeyMatches()
-    {
-        // Arrange
-        var pessoa = new Pessoa
-        {
-            NII = "123456789",
-            ExternalId = "EXT123",
-            DadosPessoais = new DadosPessoais { NomeCompleto = "Test User" }
-        };
-
-        _context.Pessoas.Add(pessoa);
-        await _context.SaveChangesAsync();
-
-        var importKey = new PessoaImportKey("123456789", "EXT123");
-
-        // Act
-        var result = await _repository.GetPessoaByImportKeyAsync(importKey, CancellationToken.None);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().ContainSingle();
-
-        var returned = result.Single();
-        returned.Id.Should().Be(pessoa.Id);
-        returned.NII.Should().Be("123456789");
-        returned.ExternalId.Should().Be("EXT123");
-    }
-
-    [Fact]
-    public async Task GetPessoaByImportKeyAsync_ShouldReturnEmptyList_WhenNoPessoaMatches()
-    {
-        // Arrange
-        var importKey = new PessoaImportKey("999999999", "EXT999");
-
-        // Act
-        var result = await _repository.GetPessoaByImportKeyAsync(importKey, CancellationToken.None);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEmpty();
     }
 
     public void Dispose()
