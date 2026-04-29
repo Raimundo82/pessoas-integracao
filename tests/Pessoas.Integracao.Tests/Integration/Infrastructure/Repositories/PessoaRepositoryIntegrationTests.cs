@@ -346,13 +346,6 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         savedPessoas.Should().ContainSingle();
     }
 
-    public void Dispose()
-    {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
-        GC.SuppressFinalize(this);
-    }
-
     [Fact]
     public async Task GetExistingImportKeysAsync_ReturnsCorrectKeys()
     {
@@ -413,5 +406,12 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         result.Should().HaveCount(2);
         result.Should().ContainSingle(k => k.Nii == "11111" && k.ExternalId == null);
         result.Should().ContainSingle(k => k.Nii == "22222" && k.ExternalId == "EXT2");
+    }
+
+    public void Dispose()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
