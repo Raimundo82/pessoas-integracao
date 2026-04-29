@@ -5,9 +5,5 @@ namespace Pessoas.Integracao.Core.Application.Abstractions;
 
 public interface IPessoaChangeDetector
 {
-    // Rules:
-    // - If previous is null → return { Added }
-    // - PessoaAdded is exclusive (cannot be combined with other values)
-    // - No duplicate change types
     PessoaChangeResult GetChanges(Pessoa current, Pessoa? previous);
 }
