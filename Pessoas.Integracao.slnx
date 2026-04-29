@@ -8,6 +8,7 @@
     <Project Path="src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
     <Project Path="tests/Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
     <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
+    <Project Path="benchmarks/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
     <Project Path="src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <Project Path="src/Pessoas.Integracao.Consulta/Pessoas.Integracao.Consulta.csproj" />
 </Solution>
