@@ -1,7 +1,6 @@
 using Pessoas.Integracao.Core.Application.Abstractions;
 using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.Models;
-using Pessoas.Integracao.Core.Domain.Entities;
 
 namespace Pessoas.Integracao.Core.Application.UseCases;
 
@@ -28,7 +27,7 @@ public class ProcessChangedPessoas(
         var pessoasToUpsert = pessoasChanged
             .Where(changed => _pessoasChangeDetector
                     .GetChanges(changed, equivalentPessoasInRepo
-                    .FirstOrDefault(p => p.NII == changed.NII) ?? new Pessoa { NII = changed.NII })
+                    .FirstOrDefault(p => p.NII == changed.NII))
                     .HasChanges)
             .ToList();
 
