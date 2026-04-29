@@ -47,7 +47,7 @@ jobs:
           /d:sonar.pullrequest.key=${{ gitea.event.number }} \
           /d:sonar.pullrequest.branch=${{ gitea.head_ref }} \
           /d:sonar.pullrequest.base=${{ gitea.base_ref }} \
-          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**,**/Generated/**" \
+          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**,**/Generated/**,**/tests/Pessoas.Integracao.Benchmarks/**" \
           /d:sonar.scanner.scanAll=false
 
       - name: Build
