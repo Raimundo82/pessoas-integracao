@@ -18,8 +18,9 @@ end box
 
 
 box "Pessoas.Integracao.Core" #LightGreen
-participant DeltasPessoas
-participant PessoasRepository
+participant ProcessChangedPessoas
+participant PessoaRepository
+participant PessoaChangeDetector
 end box
 
 box "Pessoas.Integracao.Worker" #LightYellow
@@ -34,14 +35,10 @@ end box
 Admin -> PessoasDeltasController : POST /api/pessoas/deltas \n{startTimestamp, endTimestamp}
 activate PessoasDeltasController
 
-PessoasDeltasController -> DeltasPessoas : ExecuteAsync()
-activate DeltasPessoas
+PessoasDeltasController -> ProcessChangedPessoas : ExecuteAsync(timePeriod)
+activate ProcessChangedPessoas
 
-DeltasPessoas -> DeltasPessoas : timePeriod(startTimestamp, endTimestamp)
-activate DeltasPessoas
-deactivate DeltasPessoas
-
-DeltasPessoas -> SigdnRhPessoasProvider : GetDeltas(timePeriod)
+ProcessChangedPessoas -> SigdnRhPessoasProvider : GetChangedImportKeysAsync(timePeriod)
 activate SigdnRhPessoasProvider
 
 SigdnRhPessoasProvider -> SIGDN_WS : call SOAP ZhrWsGetDeltasPernr endpoint\n{Empresa, BegDate, EndDate}
@@ -50,56 +47,57 @@ activate SIGDN_WS
 SIGDN_WS --> SigdnRhPessoasProvider : ZhrWsGetDeltasPernrOut[]
 deactivate SIGDN_WS
 
-SigdnRhPessoasProvider --> DeltasPessoas : PessoaImportKey[]
+SigdnRhPessoasProvider --> ProcessChangedPessoas : changedImportKeys[]
 deactivate SigdnRhPessoasProvider
 
-loop for each PessoaImportKey
+ProcessChangedPessoas -> SigdnRhPessoasProvider : GetPessoasByImportKeysAsync(changedImportKeys)
+activate SigdnRhPessoasProvider
 
-    DeltasPessoas -> SigdnRhPessoasProvider : GetPessoasByImportKeysAsync(PessoaImportKey)
-    activate SigdnRhPessoasProvider
+SigdnRhPessoasProvider -> SIGDN_WS : call SOAP Infotype endpoints\n{Empresa, Nii, Numsap}
+activate SIGDN_WS
+SIGDN_WS --> SigdnRhPessoasProvider : SOAP Infotype endpoints outputs[]
+deactivate SIGDN_WS
 
-    SigdnRhPessoasProvider -> SIGDN_WS : call SOAP Infotype endpoints\n{Empresa, Nii, Numsap}
-    activate SIGDN_WS
-    SIGDN_WS --> SigdnRhPessoasProvider : SOAP Infotype endpoints outputs[]
-    SigdnRhPessoasProvider --> SigdnRhPessoasProvider : createPessoa()
-    activate SigdnRhPessoasProvider
-    deactivate SigdnRhPessoasProvider
-    deactivate SIGDN_WS
+SigdnRhPessoasProvider --> SigdnRhPessoasProvider : createPessoa()
+activate SigdnRhPessoasProvider
+deactivate SigdnRhPessoasProvider
 
-    SigdnRhPessoasProvider --> DeltasPessoas : changedPessoa
-    deactivate SigdnRhPessoasProvider
+SigdnRhPessoasProvider --> ProcessChangedPessoas : pessoasChanged[]
+deactivate SigdnRhPessoasProvider
 
+ProcessChangedPessoas -> PessoaRepository : GetPessoasByNiiAsync(niiList)
+activate PessoaRepository
+PessoaRepository --> ProcessChangedPessoas : equivalentPessoasInRepo[]
+deactivate PessoaRepository
 
-    DeltasPessoas -> DeltasPessoas : IsPessoaChanged(changedPessoa)
-    activate DeltasPessoas
-    DeltasPessoas -> PessoasRepository : GetExistingPessoaByNii(Nii)
-    activate PessoasRepository
+loop for each changedPessoa in pessoasChanged
 
-    PessoasRepository --> DeltasPessoas : Pessoa
-    deactivate PessoasRepository
+    ProcessChangedPessoas -> PessoaChangeDetector : GetChanges(changedPessoa, existingPessoa)
+    activate PessoaChangeDetector
+    PessoaChangeDetector --> ProcessChangedPessoas : changeResult (HasChanges)
+    deactivate PessoaChangeDetector
 
-    DeltasPessoas -> DeltasPessoas : comparePessoas(Pessoa, changedPessoa)
-    activate DeltasPessoas
-    deactivate DeltasPessoas
-    deactivate DeltasPessoas
-
-    alt Pessoa Changed
-        DeltasPessoas -> DeltasPessoas : Add to Upsert List
-    else Pessoa Not Changed
-        DeltasPessoas -> DeltasPessoas : Drop Pessoa (ignore)
+    alt HasChanges == true
+        ProcessChangedPessoas -> ProcessChangedPessoas : Add to Upsert List
+    else HasChanges == false
+        ProcessChangedPessoas -> ProcessChangedPessoas : Ignore
     end
 
 end
 
-DeltasPessoas -> PessoasRepository : UpsertAllAsync(List<Pessoa>)
-activate PessoasRepository
-PessoasRepository --> DeltasPessoas : UpsertPessoasResult
-deactivate PessoasRepository
+ProcessChangedPessoas -> PessoaRepository : UpsertAllAsync(pessoasToUpsert)
+activate PessoaRepository
+PessoaRepository --> ProcessChangedPessoas : void
+deactivate PessoaRepository
 
-DeltasPessoas --> PessoasDeltasController: DeltasPessoasResult
-deactivate DeltasPessoas
+ProcessChangedPessoas -> ProcessChangedPessoas : CommitAsync()
+activate ProcessChangedPessoas
+deactivate ProcessChangedPessoas
 
-PessoasDeltasController --> Admin : 202 Accepted (DeltasPessoasResult)
+ProcessChangedPessoas --> PessoasDeltasController: void
+deactivate ProcessChangedPessoas
+
+PessoasDeltasController --> Admin : 202 Accepted
 deactivate PessoasDeltasController
 
 @enduml
