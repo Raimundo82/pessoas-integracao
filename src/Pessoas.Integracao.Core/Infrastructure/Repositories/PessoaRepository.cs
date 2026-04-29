@@ -70,4 +70,15 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
             cancellationToken: ct
         );
     }
+
+    public async Task<IReadOnlyList<Pessoa>> BulkGetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
+    {
+        var pessoas = niis.Distinct().Select(nii => new Pessoa { NII = nii }).ToList();
+        await _context.BulkReadAsync(
+            pessoas,
+            new BulkConfig { UpdateByProperties = [nameof(Pessoa.NII)], ReplaceReadEntities = true, },
+            cancellationToken: ct
+        );
+        return [.. pessoas.Where(p => p.Id != 0)];
+    }
 }
