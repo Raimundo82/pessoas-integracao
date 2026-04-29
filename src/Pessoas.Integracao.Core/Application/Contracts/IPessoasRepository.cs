@@ -12,4 +12,8 @@ public interface IPessoaRepository
     Task BulkUpsertAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
     Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct);
+    Task<IReadOnlyList<Pessoa>> BulkGetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct);
+
+
 }

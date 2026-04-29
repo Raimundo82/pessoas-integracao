@@ -39,4 +39,14 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
     {
         throw new NotImplementedException();
     }
+
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<Pessoa>> BulkGetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
 }
