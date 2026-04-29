@@ -19,6 +19,7 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
 
+    [Obsolete("Use BulkUpsertAsync instead — benchmarks show it is 2-4x faster and uses ~15x less memory at scale.")]
     public async Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
 
@@ -75,6 +76,7 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
         );
     }
 
+    [Obsolete("Use GetPessoasByNiiAsync instead — benchmarks show it is 2-6x faster and uses ~4.5x less memory at scale.")]
     public async Task<IReadOnlyList<Pessoa>> BulkGetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
     {
         var pessoas = niis.Distinct().Select(nii => new Pessoa { NII = nii }).ToList();
