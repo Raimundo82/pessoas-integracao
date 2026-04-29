@@ -56,7 +56,6 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
                 It.Is<Pessoa>(p => p.NII == "123456789"),
                 It.Is<Pessoa>(p => p.NII == "123456789")))
             .Returns(new PessoaChangeResult(
-                HasChanges: true,
                 ChangeTypes: new HashSet<PessoaChangeType>
                 {
                     PessoaChangeType.DadosPessoaisChanged
@@ -305,7 +304,6 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
     _pessoaChangedDetetor
         .Setup(d => d.GetChanges(It.IsAny<Pessoa>(), It.IsAny<Pessoa>()))
         .Returns(new PessoaChangeResult(
-            HasChanges: true,
             ChangeTypes: new HashSet<PessoaChangeType> { PessoaChangeType.DadosPessoaisChanged }
         ));
 
@@ -313,10 +311,8 @@ public sealed class ProcessChangedPessoasUnitTests : IDisposable
     _pessoaChangedDetetor
         .Setup(d => d.GetChanges(It.IsAny<Pessoa>(), It.IsAny<Pessoa>()))
         .Returns(new PessoaChangeResult(
-            HasChanges: false,
             ChangeTypes: new HashSet<PessoaChangeType>()
         ));
-
 
     private ProcessChangedPessoas CreateSut() =>
         new(_repo.Object, _dataProvider.Object, _changedImportKeyProvider.Object, _pessoaChangedDetetor.Object, _uow.Object);
