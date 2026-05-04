@@ -12,4 +12,5 @@ public interface IPessoaRepository
     Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct);
     Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct);
     Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken);
+    Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct);
 }

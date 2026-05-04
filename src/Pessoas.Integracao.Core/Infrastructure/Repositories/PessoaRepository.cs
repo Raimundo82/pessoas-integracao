@@ -1,3 +1,5 @@
+using EFCore.BulkExtensions;
+
 using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Core.Application.Contracts;
@@ -58,5 +60,21 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
         return await _context.Pessoas
             .Select(p => new PessoaImportKey(p.NII, p.ExternalId))
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    {
+        using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        try
+        {
+            await ClearAllAsync(ct);
+            await _context.BulkInsertAsync(pessoas, cancellationToken: ct);
+            await transaction.CommitAsync(ct);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(ct);
+            throw;
+        }
     }
 }

@@ -88,6 +88,11 @@
           "Docker.DotNet.Enhanced": "3.131.1"
         }
       },
+      "MedallionTopologicalSort": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "dcAqM8TcyZQ/T466CvqNMUUn/G0FQE+4R7l62ngXH7hLFP9yA7yoP/ySsLgiXx3pGUQC3J+cUvXmJOOR/eC+oQ=="
+      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "18.5.1",
@@ -403,6 +408,11 @@
           "Newtonsoft.Json": "13.0.3"
         }
       },
+      "NetTopologySuite": {
+        "type": "Transitive",
+        "resolved": "2.6.0",
+        "contentHash": "1B1OTacTd4QtFyBeuIOcThwSSLUdRZU3bSFIwM8vk36XiZlBMi3K36u74e4OqwwHRHUuJC1PhbDx4hyI266X1Q=="
+      },
       "Newtonsoft.Json": {
         "type": "Transitive",
         "resolved": "13.0.3",
@@ -521,6 +531,8 @@
       "pessoas.integracao.core": {
         "type": "Project",
         "dependencies": {
+          "EFCore.BulkExtensions.Core": "[10.0.1, )",
+          "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
           "Microsoft.EntityFrameworkCore": "[10.0.7, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.1, )",
           "System.Security.Cryptography.Xml": "[10.0.7, )"
@@ -535,6 +547,27 @@
           "System.ServiceModel.Http": "[10.0.652802, )",
           "System.ServiceModel.NetTcp": "[10.0.652802, )",
           "System.ServiceModel.Primitives": "[10.0.652802, )"
+        }
+      },
+      "EFCore.BulkExtensions.Core": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.1, )",
+        "resolved": "10.0.1",
+        "contentHash": "D++Wd1Qy6RM+yMy4nQ3r0nc/cSA0T+AdlFBEuKDhwl6r5bwuBQpluP5h2rvQ3i+CetUGppef6JNH9grg8lo+Bw==",
+        "dependencies": {
+          "MedallionTopologicalSort": "1.0.0",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.3",
+          "NetTopologySuite": "2.6.0"
+        }
+      },
+      "EFCore.BulkExtensions.PostgreSql": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.1, )",
+        "resolved": "10.0.1",
+        "contentHash": "iZCay5ghyULm4kA0ET6BOrL9J7AhVlgBqILpy4TUBm6yaGALIwcGc/qe6EO/VS+k9/RwJdO4qsRqWiTNrxF1Aw==",
+        "dependencies": {
+          "EFCore.BulkExtensions.Core": "10.0.1",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
         }
       },
       "Microsoft.EntityFrameworkCore": {
