@@ -9,7 +9,7 @@ dotnet dotnet-sonarscanner begin \
           /d:sonar.pullrequest.key=99 \
           /d:sonar.pullrequest.branch=test \
           /d:sonar.pullrequest.base=master \
-          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**,**/Generated/**" \
+          /d:sonar.exclusions="**/.devcontainer/**,**/Migrations/**,**/bin/**,**/obj/**,**/Generated/**,**/tests/Pessoas.Integracao.Benchmarks/**" \
           /d:sonar.scanner.scanAll=false
 
 dotnet build --no-incremental
