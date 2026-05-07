@@ -17,11 +17,7 @@ public class PessoasImportController(ImportPessoas importAllPessoas) : Controlle
     {
         var result = await importAllPessoas.ExecuteAsync(cancellationToken);
 
-        var pessoasResult = new ImportPessoasResultDto(
-            TotalProcessed: result.TotalProcessed,
-            TotalAdded: result.TotalAdded,
-            TotalUpdated: result.TotalUpdated
-        );
+        var pessoasResult = new ImportPessoasResultDto(TotalProcessed: result.TotalProcessed);
 
         return Accepted(pessoasResult);
     }

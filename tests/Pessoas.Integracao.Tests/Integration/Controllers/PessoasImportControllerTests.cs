@@ -90,8 +90,6 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(2);
-        dto.TotalAdded.Should().Be(2);
-        dto.TotalUpdated.Should().Be(0);
 
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
@@ -130,8 +128,6 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(2);
-        dto.TotalAdded.Should().Be(0);
-        dto.TotalUpdated.Should().Be(2);
 
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(2);
@@ -175,8 +171,6 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(3);
-        dto.TotalAdded.Should().Be(1);
-        dto.TotalUpdated.Should().Be(2);
 
         var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
         savedPessoas.Should().HaveCount(3);

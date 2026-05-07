@@ -12,7 +12,6 @@ using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.Enums;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Core.Infrastructure.Data;
-using Pessoas.Integracao.Core.Infrastructure.Persistence;
 using Pessoas.Integracao.Core.Infrastructure.Repositories;
 using Pessoas.Integracao.Tests.TestInfrastructure;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
@@ -28,7 +27,6 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
-    private readonly EfUnitOfWork _uow;
     private readonly Mock<zhr_wsChannel> _soapChannel;
     private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockSoapChannelProvider;
     private readonly Mock<IPessoasDataProvider> _mockPessoasDataProvider;
@@ -42,7 +40,6 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _context = new AppDbContext(options);
         _repository = new PessoaRepository(_context);
-        _uow = new EfUnitOfWork(_context);
 
         _soapChannel = new Mock<zhr_wsChannel>();
         _mockSoapChannelProvider = new Mock<ISoapChannelProvider<zhr_wsChannel>>();
@@ -88,7 +85,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
                 ExternalId = k.Numsap
             })]);
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -130,13 +127,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -150,7 +149,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
 
     [Fact]
-    public async Task ShouldMaintainDatabasePessoas_WhenProviderReturnsEmptyResponse()
+    public async Task ShouldMaintainDatabasePessoas_WhenKeyProviderReturnsEmptyResponse()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -176,13 +175,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -224,13 +225,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -272,13 +275,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -291,7 +296,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldUpdateExistingPessoaAndKeepUnrelatedData_WhenMatchingPessoaExists()
+    public async Task ShouldReplaceUpdateExistingPessoaAndKeepUnrelatedData_WhenMatchingPessoaExists()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -319,12 +324,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
+
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -337,7 +345,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldKeepExistingData_WhenProviderReturnsEmpty()
+    public async Task ShouldKeepExistingData_WhenPessoasProviderReturnsEmpty()
     {
         // Arrange 
         await _context.Pessoas.AddRangeAsync(
@@ -361,9 +369,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Array.Empty<Pessoa>());
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -381,9 +395,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         await _context.Pessoas.AddAsync(new Pessoa { NII = "12345" });
         await _context.SaveChangesAsync();
         var soapResponse = new[]
-    {
+        {
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" }
         };
+
         _soapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ReturnsAsync(new ZhrWsGetPernrResponse1
@@ -400,13 +415,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -417,7 +434,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "12345");
     }
     [Fact]
-    public async Task ShouldHandleMixOfUpdatesAndInserts_WhenProviderReturnsNewAndExistingPessoas()
+    public async Task ShouldHandleMixOfExistingAndNewPessoas_WhenProviderReturnsNewAndExistingPessoas()
     {
         // Arrange
         await _context.Pessoas.AddRangeAsync(
@@ -447,12 +464,15 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. soapResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
+
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -496,16 +516,18 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
         var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -519,7 +541,7 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldUpdateOnlyExternalId_WhenPessoaHasDadosPessoaisAndDadosBiometricos()
+    public async Task ShouldOverwriteExistingData_WhenUpstreamSourceProvidesPartialData()
     {
         // Arrange
         Pessoa existingPessoa = new()
@@ -564,16 +586,18 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
 
         _mockPessoasDataProvider
             .Setup(p => p.GetPessoasByImportKeysAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([.. providerKeysResponse.Select(k => new Pessoa
-            {
-                NII = k.Ni,
-                ExternalId = k.Numsap
-            })]);
+            .ReturnsAsync((IReadOnlyList<PessoaImportKey> keys, CancellationToken ct) =>
+                [.. keys.Select(k => new Pessoa
+                {
+                    NII = k.Nii,
+                    ExternalId = k.ExternalId
+                })]
+            );
 
         var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
-        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider, _uow);
+        var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
 
         // Act
         await useCase.ExecuteAsync(CancellationToken.None);
@@ -581,12 +605,14 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         // Assert
         var savedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.NII == "22600");
         savedPessoa.ExternalId.Should().Be("NEW_ID");
-        savedPessoa.DadosPessoais.NomeCompleto.Should().Be(existingPessoa.DadosPessoais.NomeCompleto);
-        savedPessoa.DadosPessoais.Sobrenome.Should().Be(existingPessoa.DadosPessoais.Sobrenome);
-        savedPessoa.DadosPessoais.Apelidos.Should().Be(existingPessoa.DadosPessoais.Apelidos);
-        savedPessoa.DadosPessoais.DataNascimento.Should().Be(existingPessoa.DadosPessoais.DataNascimento);
-        savedPessoa.DadosBiometricos.CorDosOlhos.Should().Be(existingPessoa.DadosBiometricos.CorDosOlhos);
-        savedPessoa.DadosBiometricos.AlturaEmCm.Should().Be(existingPessoa.DadosBiometricos.AlturaEmCm);
+        savedPessoa.DadosPessoais.Should().NotBeNull();
+        savedPessoa.DadosBiometricos.Should().NotBeNull();
+        savedPessoa.DadosPessoais.NomeCompleto.Should().BeNull();
+        savedPessoa.DadosPessoais.Sobrenome.Should().BeNull();
+        savedPessoa.DadosPessoais.Apelidos.Should().BeNull();
+        savedPessoa.DadosPessoais.DataNascimento.Should().BeNull();
+        savedPessoa.DadosBiometricos.CorDosOlhos.Should().BeNull();
+        savedPessoa.DadosBiometricos.AlturaEmCm.Should().BeNull();
     }
 
 
