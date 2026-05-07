@@ -21,8 +21,9 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
+        var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
         await _context.BulkInsertOrUpdateAsync(
-            pessoas,
+            dedupedPessoas,
             new BulkConfig { UpdateByProperties = [nameof(Pessoa.NII)] },
             cancellationToken: ct
         );
@@ -45,11 +46,12 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
+        var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
         using var transaction = await _context.Database.BeginTransactionAsync(ct);
         try
         {
             await ClearAllAsync(ct);
-            await _context.BulkInsertAsync(pessoas, cancellationToken: ct);
+            await _context.BulkInsertAsync(dedupedPessoas, cancellationToken: ct);
             await transaction.CommitAsync(ct);
         }
         catch

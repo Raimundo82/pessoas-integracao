@@ -15,16 +15,18 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
+    private readonly DbContextOptions<AppDbContext> _options;
+
 
 
     public UpsertAllAsyncDbIntegrationTests(PostgresTestContainerDb db)
     {
 
-        var options = new DbContextOptionsBuilder<AppDbContext>()
+        _options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
 
-        _context = new AppDbContext(options);
+        _context = new AppDbContext(_options);
         _repository = new PessoaRepository(_context);
         _context.Database.EnsureCreated();
     }
@@ -45,7 +47,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
 
         // Assert
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await ReadAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("EXT1");
@@ -56,12 +58,10 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
     public async Task ShouldUpdateAllPessoas_WhenListContainsOnlyExistingPessoas()
     {
         // Arrange
-        await _context.Pessoas.AddRangeAsync(
+        await SeedAsync(
             new Pessoa { NII = "11111", ExternalId = "OLD1" },
             new Pessoa { NII = "22222", ExternalId = "OLD2" }
         );
-        await _context.SaveChangesAsync();
-        _context.ChangeTracker.Clear();
 
         var updatedPessoas = new[]
         {
@@ -73,7 +73,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await _repository.UpsertAllAsync(updatedPessoas, CancellationToken.None);
 
         // Assert
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await ReadAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("NEW1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
@@ -83,9 +83,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
     public async Task ShouldHandleBothInsertAndUpdate_WhenListContainsMixOfNewAndExistingPessoas()
     {
         // Arrange
-        await _context.Pessoas.AddAsync(new Pessoa { NII = "11111", ExternalId = "OLD1" });
-        await _context.SaveChangesAsync();
-        _context.ChangeTracker.Clear();
+        await SeedAsync(new Pessoa { NII = "11111", ExternalId = "OLD1" });
 
         var pessoas = new[]
         {
@@ -98,7 +96,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
 
         // Assert
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await ReadAllPessoasAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
@@ -125,10 +123,8 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
                 AlturaEmCm = 180
             }
         };
-        await _context.Pessoas.AddAsync(originalPessoa);
-        await _context.SaveChangesAsync();
-        var originalId = originalPessoa.Id;
-        _context.ChangeTracker.Clear();
+        var seededPessoas = await SeedAsync(originalPessoa);
+        var originalId = seededPessoas.Single(p => p.NII == "55555").Id;
 
         var updatedPessoa = new Pessoa
         {
@@ -151,7 +147,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await _repository.UpsertAllAsync([updatedPessoa], CancellationToken.None);
 
         // Assert
-        var savedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.NII == "55555");
+        var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == "55555");
         savedPessoa.Id.Should().Be(originalId);
         savedPessoa.ExternalId.Should().Be(updatedPessoa.ExternalId);
         savedPessoa.DadosPessoais.NomeCompleto.Should().Be(updatedPessoa.DadosPessoais.NomeCompleto);
@@ -172,9 +168,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
             ExternalId = "EXT_OLD",
             DadosPessoais = new DadosPessoais { NomeCompleto = "Original Name" }
         };
-        await _context.Pessoas.AddAsync(originalPessoa);
-        await _context.SaveChangesAsync();
-        _context.ChangeTracker.Clear();
+        await SeedAsync(originalPessoa);
 
         var updatedPessoa = new Pessoa
         {
@@ -187,7 +181,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await _repository.UpsertAllAsync([updatedPessoa], CancellationToken.None);
 
         // Assert
-        var savedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.NII == nii);
+        var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == nii);
         savedPessoa.DadosPessoais.NomeCompleto.Should().BeNull();
     }
 
@@ -195,16 +189,53 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
     public async Task ShouldNotThrowAndMaintainExistingData_WhenListIsEmpty()
     {
         // Arrange
-        await _context.Pessoas.AddAsync(new Pessoa { NII = "11111" });
-        await _context.SaveChangesAsync();
-        _context.ChangeTracker.Clear();
+        await SeedAsync(new Pessoa { NII = "11111" });
 
         // Act
         await _repository.UpsertAllAsync([], CancellationToken.None);
 
         // Assert
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await ReadAllPessoasAsync();
         savedPessoas.Should().ContainSingle();
+    }
+
+
+
+    [Fact]
+    public async Task ShouldDeduplicatedAndUpsertAll_WhenInputContainsDuplicateNIIs()
+    {
+        // Arrange
+        await SeedAsync(new Pessoa { NII = "99999", ExternalId = "EXISTING" });
+
+        var duplicatedPessoas = new[]
+        {
+            new Pessoa { NII = "11111", ExternalId = "FIRST" },
+            new Pessoa { NII = "11111", ExternalId = "LAST" },
+            new Pessoa { NII = "99999", ExternalId = "UPDATED" }
+        };
+
+        // Act
+        await _repository.UpsertAllAsync(duplicatedPessoas, CancellationToken.None);
+
+        // Assert
+        var savedPessoas = await ReadAllPessoasAsync();
+        savedPessoas.Should().HaveCount(2);
+        savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("FIRST");
+        savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("UPDATED");
+
+    }
+
+    private async Task<List<Pessoa>> SeedAsync(params Pessoa[] pessoas)
+    {
+        await using var seedContext = new AppDbContext(_options);
+        await seedContext.Pessoas.AddRangeAsync(pessoas);
+        await seedContext.SaveChangesAsync();
+        return [.. pessoas];
+    }
+    private async Task<List<Pessoa>> ReadAllPessoasAsync()
+    {
+        await using var readContext = new AppDbContext(_options);
+        return await readContext.Pessoas.ToListAsync();
     }
 
     public void Dispose()

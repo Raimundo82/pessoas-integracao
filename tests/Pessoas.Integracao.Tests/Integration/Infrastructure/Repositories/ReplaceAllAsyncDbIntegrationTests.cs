@@ -2,6 +2,8 @@ using FluentAssertions;
 
 using Microsoft.EntityFrameworkCore;
 
+using Npgsql;
+
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Core.Infrastructure.Data;
@@ -202,27 +204,50 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldThrowAndRollbackEverything_WhenInputContainsDuplicateNIIs()
+    public async Task ShouldDeduplicatedAndReplaceAll_WhenInputContainsDuplicateNIIs()
     {
         // Arrange
         await SeedAsync(new Pessoa { NII = "99999", ExternalId = "EXISTING" });
 
-        var invalidPessoas = new[]
+        var duplicatedPessoas = new[]
         {
             new Pessoa { NII = "11111", ExternalId = "FIRST" },
             new Pessoa { NII = "11111", ExternalId = "LAST" },
-            new Pessoa { NII = "88888", ExternalId = "VALID_NEW" }
+            new Pessoa { NII = "99999", ExternalId = "UPDATED" }
+        };
+
+        // Act
+        await _repository.ReplaceAllAsync(duplicatedPessoas, CancellationToken.None);
+
+        // Assert
+        var savedPessoas = await ReadAllPessoasAsync();
+        savedPessoas.Should().HaveCount(2);
+        savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("FIRST");
+        savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("UPDATED");
+
+    }
+
+    [Fact]
+    public async Task ShouldRollbackClearAll_WhenDatabaseErrorOccursDuringInsert()
+    {
+        // Arrange
+        var initialPessoa = new Pessoa { NII = "123", ExternalId = "ORIGINAL" };
+        await SeedAsync(initialPessoa);
+
+        var invalidPessoas = new[]
+        {
+            new Pessoa { NII = null!, ExternalId = "INVALID" }
         };
 
         // Act
         Func<Task> act = async () => await _repository.ReplaceAllAsync(invalidPessoas, CancellationToken.None);
 
-        // Assert
-        await act.Should().ThrowAsync<Npgsql.PostgresException>();
-        var savedPessoas = await ReadAllPessoasAsync();
-        savedPessoas.Should().HaveCount(1);
-        savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("EXISTING");
+        await act.Should().ThrowAsync<PostgresException>();
+
+        var result = await ReadAllPessoasAsync();
+        result.Should().ContainSingle(p => p.NII == "123", "The ClearAllAsync operation should have been rolled back because the subsequent insert failed.");
     }
+
 
     private async Task<List<Pessoa>> SeedAsync(params Pessoa[] pessoas)
     {
