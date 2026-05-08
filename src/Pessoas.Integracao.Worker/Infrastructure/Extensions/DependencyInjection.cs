@@ -29,7 +29,9 @@ public static class DependencyInjection
             .AddScoped<IPessoaCoreDataProvider, PessoaCoreDataProvider>()
             .AddScoped<IDadosPessoaisTranslator, DadosPessoaisTranslator>()
             .AddScoped<IDadosBiometricosTranslator, DadosBiometricosTranslator>()
+            .AddScoped<IColocacoesTranslator, ColocacoesTranslator>()
             .AddScoped<IExamesMedClient, ExamesMedClient>()
+            .AddScoped<IIndicacoesTempClient, IndicacoesTempClient>()
             .AddScoped<IPersonalDataClient, PersonalDataClient>()
             .AddScoped<ISoapResultCorrelator, SoapResultCorrelator>();
     }
