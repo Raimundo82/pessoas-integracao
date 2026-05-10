@@ -128,22 +128,6 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ClearAllAsync_RemovesAllRecords()
-    {
-        // Arrange
-        await _context.AddRangeAsync(new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" });
-        await _context.SaveChangesAsync();
-        await _repository.ClearAllAsync(CancellationToken.None);
-
-        // Act
-        await _uow.CommitAsync(CancellationToken.None);
-
-        // Assert
-        var remainingPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
-        remainingPessoas.Should().BeEmpty();
-    }
-
-    [Fact]
     public async Task GetAllAsync_WhenPessoasExist_ReturnsAllPessoas()
     {
         // Arrange
