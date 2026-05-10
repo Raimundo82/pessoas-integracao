@@ -17,16 +17,28 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => (await _context.Pessoas.AddAsync(pessoa, ct)).Entity;
 
-    public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
-
     public async Task UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
-        await _context.BulkInsertOrUpdateAsync(
-            dedupedPessoas,
-            new BulkConfig { UpdateByProperties = [nameof(Pessoa.NII)] },
-            cancellationToken: ct
-        );
+        var niis = dedupedPessoas.Select(p => p.NII).ToList();
+        var existingPessoas = await _context.Pessoas
+            .Include(p => p.Colocacoes)
+            .Where(p => niis.Contains(p.NII))
+            .ToDictionaryAsync(p => p.NII, ct);
+
+        foreach (var pessoa in dedupedPessoas)
+        {
+            if (existingPessoas.TryGetValue(pessoa.NII, out var tracked))
+            {
+                _context.Entry(tracked).CurrentValues.SetValues(pessoa);
+                tracked.Colocacoes = pessoa.Colocacoes;
+            }
+            else
+            {
+                _context.Pessoas.Add(pessoa);
+            }
+        }
+        await _context.BulkSaveChangesAsync(cancellationToken: ct);
     }
 
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
@@ -51,17 +63,10 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
     public async Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
-        using var transaction = await _context.Database.BeginTransactionAsync(ct);
-        try
-        {
-            await ClearAllAsync(ct);
-            await _context.BulkInsertAsync(dedupedPessoas, cancellationToken: ct);
-            await transaction.CommitAsync(ct);
-        }
-        catch
-        {
-            await transaction.RollbackAsync(ct);
-            throw;
-        }
+        await using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        await _context.Pessoas.ExecuteDeleteAsync(ct);
+        await _context.Pessoas.AddRangeAsync(dedupedPessoas, ct);
+        await _context.BulkSaveChangesAsync(cancellationToken: ct);
+        await transaction.CommitAsync(ct);
     }
 }
