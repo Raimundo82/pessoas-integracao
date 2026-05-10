@@ -16,10 +16,11 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Clients;
 
 public sealed class DeltaClientUnitTests : IDisposable
 {
-
     private IOptions<DataSourceSettings> _settings;
     private readonly Mock<ZHR_WS_DELTASChannel> _soapChannelDeltas;
     private readonly Mock<ISoapChannelProvider<ZHR_WS_DELTASChannel>> _soapChannelDeltasProvider;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+
     public DeltaClientUnitTests()
     {
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
@@ -53,7 +54,7 @@ public sealed class DeltaClientUnitTests : IDisposable
         var timePeriod = new TimePeriod(startTimestamp, endTimestamp);
 
         // Act
-        var deltas = await client.GetDeltasAsync(timePeriod, default);
+        var deltas = await client.GetDeltasAsync(timePeriod, _ct);
 
         // Assert
         deltas.Should().NotBeNull();
@@ -90,7 +91,7 @@ public sealed class DeltaClientUnitTests : IDisposable
         var timePeriod = new TimePeriod(startTimestamp, endTimestamp);
 
         // Act
-        var deltas = await client.GetDeltasAsync(timePeriod, default);
+        var deltas = await client.GetDeltasAsync(timePeriod, _ct);
 
         // Assert
         deltas.Should().NotBeNull();
@@ -121,7 +122,7 @@ public sealed class DeltaClientUnitTests : IDisposable
         var timePeriod = new TimePeriod(startTimestamp, endTimestamp);
 
         // Act
-        var deltas = await client.GetDeltasAsync(timePeriod, default);
+        var deltas = await client.GetDeltasAsync(timePeriod, _ct);
 
         // Assert
         deltas.Should().NotBeNull();
@@ -153,7 +154,7 @@ public sealed class DeltaClientUnitTests : IDisposable
         );
 
         // Act
-        var deltas = await client.GetDeltasAsync(timePeriod, default);
+        var deltas = await client.GetDeltasAsync(timePeriod, _ct);
 
         // Assert
         deltas.Should().NotBeNull();
@@ -177,7 +178,7 @@ public sealed class DeltaClientUnitTests : IDisposable
         );
 
         // Act
-        Func<Task> act = () => client.GetDeltasAsync(timePeriod, default);
+        Func<Task> act = () => client.GetDeltasAsync(timePeriod, _ct);
 
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>()

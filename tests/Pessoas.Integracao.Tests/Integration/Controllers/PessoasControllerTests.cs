@@ -41,19 +41,20 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnOkWithAllPessoaDtos_WhenGetAllAndPessoasExist()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
         await _context.Pessoas.AddRangeAsync(
             new Pessoa { NII = "22600", ExternalId = "30002697" },
             new Pessoa { NII = "21200", ExternalId = "30002798" }
         );
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         // Act
-        var response = await client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
+        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>(ct);
         pessoas.Should().NotBeNull();
         pessoas.Should().HaveCount(2);
         pessoas.Should().ContainEquivalentOf(new PessoaDto("22600", "30002697"));
@@ -64,14 +65,15 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnOkWithEmptyArray_WhenGetAllAndNoPessoasExist()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
 
         // Act
-        var response = await client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
+        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>(ct);
         pessoas.Should().NotBeNull();
         pessoas.Should().BeEmpty();
     }
@@ -80,16 +82,17 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnPessoaDtoWithNullExternalId_WhenGetAllAndPessoaHasNullExternalId()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var client = _factory.CreateAuthenticatedClient(Roles.Viewer);
-        await _context.Pessoas.AddAsync(new Pessoa { NII = "22600", ExternalId = null });
-        await _context.SaveChangesAsync();
+        await _context.Pessoas.AddAsync(new Pessoa { NII = "22600", ExternalId = null }, ct);
+        await _context.SaveChangesAsync(ct);
 
         // Act
-        var response = await client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
+        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>(ct);
         pessoas.Should().ContainSingle();
         pessoas![0].ExternalId.Should().BeNull();
     }
@@ -98,20 +101,21 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnOkWithAllPessoaDtos_WhenGetAllAsAdmin()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var adminClient = _factory.CreateAuthenticatedClient(Roles.Admin);
 
         await _context.Pessoas.AddRangeAsync(
             new Pessoa { NII = "11111", ExternalId = "TEST001" },
             new Pessoa { NII = "22222", ExternalId = "TEST002" }
         );
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         // Act
-        var response = await adminClient.GetAsync("/api/pessoas");
+        var response = await adminClient.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>();
+        var pessoas = await response.Content.ReadFromJsonAsync<List<PessoaDto>>(ct);
         pessoas.Should().HaveCount(2);
     }
 
@@ -119,6 +123,7 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnInternalServerError_WhenGetAllAndRepositoryThrowsException()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         var mockRepo = new Mock<IPessoaRepository>();
         mockRepo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Database failure"));
@@ -138,11 +143,11 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
         client.DefaultRequestHeaders.Add("X-Test-Claims", JsonSerializer.Serialize(claims));
 
         // Act
-        var response = await client.GetAsync("/api/pessoas");
+        var response = await client.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>(ct);
         response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
         problemDetails.Should().NotBeNull();
         problemDetails.Status.Should().Be(StatusCodes.Status500InternalServerError);
@@ -155,10 +160,11 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
     public async Task ShouldReturnUnauthorized_WhenGetAllUnauthenticated()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var unauthClient = _factory.CreateClient();
 
         // Act
-        var response = await unauthClient.GetAsync("/api/pessoas");
+        var response = await unauthClient.GetAsync("/api/pessoas", ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

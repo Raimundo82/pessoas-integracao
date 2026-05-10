@@ -14,6 +14,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+
 
     public GetPessoasByNiisIntegrationTests(PostgresTestContainerDb db)
     {
@@ -54,8 +56,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" } };
-        await _context.SaveChangesAsync(CancellationToken.None);
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
+        await _context.SaveChangesAsync(_ct);
+        await _repository.AddRangeAsync(pessoas, _ct);
 
         var niis = new List<string>();
         var ct = new CancellationTokenSource().Token;
@@ -89,8 +91,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
         // Arrange
         var targetNii = "22600";
         var pessoas = new[] { new Pessoa { NII = targetNii }, new Pessoa { NII = "22601" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { targetNii };
         var ct = new CancellationTokenSource().Token;
@@ -109,8 +111,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { "99999" };
         var ct = new CancellationTokenSource().Token;
@@ -128,8 +130,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { "22600", "22601" };
         var ct = new CancellationTokenSource().Token;
@@ -148,8 +150,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { "22600", "22601" };
         var ct = new CancellationTokenSource().Token;
@@ -168,8 +170,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { "22602", "22603" };
         var ct = new CancellationTokenSource().Token;
@@ -187,8 +189,8 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
     {
         // Arrange
         var pessoas = new[] { new Pessoa { NII = "22600" } };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
+        await _context.SaveChangesAsync(_ct);
 
         var niis = new List<string> { "22600", "22600", "22601" };
         var ct = new CancellationTokenSource().Token;
