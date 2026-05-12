@@ -17,7 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Colocacao>()
-            .Property(c => c.ExternalReference)
+            .Property(c => c.UnidadeExternaRef)
             .HasConversion(
                 v => v.ExternalReference,
                 v => new UnidadeExternaRef(v));
