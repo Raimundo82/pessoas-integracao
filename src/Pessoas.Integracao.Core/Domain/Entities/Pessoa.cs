@@ -19,4 +19,13 @@ public class Pessoa
         DadosPessoais = source.DadosPessoais;
         DadosBiometricos = source.DadosBiometricos;
     }
+
+    public void UpdateColocacoes(ICollection<Colocacao> sourceColocacoes)
+    {
+        Colocacoes.Clear();
+        foreach (var colocacao in sourceColocacoes)
+        {
+            Colocacoes.Add(colocacao);
+        }
+    }
 }
