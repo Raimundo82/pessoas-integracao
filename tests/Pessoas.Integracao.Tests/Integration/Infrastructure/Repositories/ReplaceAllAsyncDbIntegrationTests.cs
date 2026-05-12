@@ -43,9 +43,11 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         var oldId1 = seeded.First(p => p.NII == "11111").Id;
         var oldId2 = seeded.First(p => p.NII == "22222").Id;
 
+        var colocacoes = new Colocacao[] { AddColocacao("colo-1") };
+
         var input = new[]
         {
-            new Pessoa { NII = "11111", ExternalId = "NEW1" },
+            new Pessoa { NII = "11111", ExternalId = "NEW1", Colocacoes = colocacoes },
             new Pessoa { NII = "22222", ExternalId = "NEW2" }
         };
 
@@ -57,23 +59,32 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         result.Should().HaveCount(2);
 
         var p1 = result.Should().ContainSingle(p => p.NII == "11111").Which;
-        p1.ExternalId.Should().Be("NEW1");
         p1.Id.Should().NotBe(oldId1);
+        p1.ExternalId.Should().Be("NEW1");
+        p1.Colocacoes.Should().HaveCount(1);
+        p1.Colocacoes.Should().BeEquivalentTo(colocacoes, opts => opts.Excluding(c => c.Id));
 
         var p2 = result.Should().ContainSingle(p => p.NII == "22222").Which;
-        p2.ExternalId.Should().Be("NEW2");
         p2.Id.Should().NotBe(oldId2);
+        p2.ExternalId.Should().Be("NEW2");
+        p2.Colocacoes.Should().HaveCount(0);
+    }
+
+    private static Colocacao AddColocacao(string unidadeExternaRef)
+    {
+        return new Colocacao { UnidadeExternaRef = new UnidadeExternaRef(unidadeExternaRef) };
     }
 
     [Fact]
     public async Task ShouldHandleBothNewAndExisting_WhenReplacingAll()
     {
         // Arrange
-        await SeedAsync(new Pessoa { NII = "11111", ExternalId = "OLD1" });
+        await SeedAsync(new Pessoa { NII = "11111", ExternalId = "OLD1", Colocacoes = [AddColocacao("colo-1")] });
 
+        var colocacoes = new Colocacao[] { AddColocacao("colo-1"), AddColocacao("colo-2") };
         var pessoas = new[]
         {
-            new Pessoa { NII = "11111", ExternalId = "UPDATED1" },
+            new Pessoa { NII = "11111", ExternalId = "UPDATED1",Colocacoes = colocacoes },
             new Pessoa { NII = "22222", ExternalId = "NEW2" },
             new Pessoa { NII = "33333", ExternalId = "NEW3" }
         };
@@ -84,9 +95,19 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
         savedPessoas.Should().HaveCount(3);
-        savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
-        savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
-        savedPessoas.Should().ContainSingle(p => p.NII == "33333").Which.ExternalId.Should().Be("NEW3");
+
+        var p1 = savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which;
+        p1.ExternalId.Should().Be("UPDATED1");
+        p1.Colocacoes.Should().BeEquivalentTo(colocacoes, opts => opts.Excluding(c => c.Id));
+        p1.Colocacoes.Should().ContainSingle(c => c.UnidadeExternaRef.ExternalReference == "1111");
+
+        var p2 = savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which;
+        p2.ExternalId.Should().Be("NEW2");
+        p2.Colocacoes.Should().HaveCount(0);
+
+        var p3 = savedPessoas.Should().ContainSingle(p => p.NII == "33333").Which;
+        p3.ExternalId.Should().Be("UPDATED1");
+        p3.Colocacoes.Should().HaveCount(0);
     }
 
     [Fact]
@@ -259,7 +280,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
     private async Task<List<Pessoa>> ReadAllPessoasAsync()
     {
         await using var readContext = new AppDbContext(_options);
-        return await readContext.Pessoas.ToListAsync();
+        return await readContext.Pessoas.Include(p => p.Colocacoes).ToListAsync();
     }
 
     public void Dispose()
