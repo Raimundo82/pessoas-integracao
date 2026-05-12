@@ -13,24 +13,19 @@
         "dotnet.preferCSharpExtension": false
       },
       "extensions": [
-        // .NET Development
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
-        // Database
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
-        // Code Quality & Analysis
         "SonarSource.sonarlint-vscode",
         "hbenl.vscode-test-explorer",
-        // Formatting & Linting
         "esbenp.prettier-vscode",
         "EditorConfig.EditorConfig",
-        // Documentation & Diagrams
         "yzhang.markdown-all-in-one",
         "DavidAnson.vscode-markdownlint",
         "jebbs.plantuml",
-        // Other Tools
-        "me-dutour-mathieu.vscode-github-actions"
+        "me-dutour-mathieu.vscode-github-actions",
+        "Continue.continue"
       ]
     }
   },

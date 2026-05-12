@@ -28,17 +28,16 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
         foreach (var pessoa in dedupedPessoas)
         {
-            if (existingPessoas.TryGetValue(pessoa.NII, out var tracked))
+            if (existingPessoas.TryGetValue(pessoa.NII, out var trackedPessoa))
             {
-                _context.Entry(tracked).CurrentValues.SetValues(pessoa);
-                tracked.Colocacoes = pessoa.Colocacoes;
+                trackedPessoa.UpdateFrom(pessoa);
             }
             else
             {
                 _context.Pessoas.Add(pessoa);
             }
         }
-        await _context.BulkSaveChangesAsync(cancellationToken: ct);
+        await _context.SaveChangesAsync(cancellationToken: ct);
     }
 
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
@@ -63,10 +62,35 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
     public async Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
+
         await using var transaction = await _context.Database.BeginTransactionAsync(ct);
+
+        await _context.Colocacoes.ExecuteDeleteAsync(ct);
         await _context.Pessoas.ExecuteDeleteAsync(ct);
-        await _context.Pessoas.AddRangeAsync(dedupedPessoas, ct);
-        await _context.BulkSaveChangesAsync(cancellationToken: ct);
+
+        await _context.BulkInsertAsync(dedupedPessoas, cancellationToken: ct);
+
+        var existingPessoas = await _context.Pessoas.ToDictionaryAsync(p => p.NII, ct);
+
+        var colocacoes = dedupedPessoas
+            .SelectMany(p =>
+            {
+                var pessoaId = existingPessoas[p.NII].Id;
+
+                foreach (var colocacao in p.Colocacoes)
+                {
+                    colocacao.PessoaId = pessoaId;
+                }
+
+                return p.Colocacoes;
+            })
+            .ToList();
+
+        if (colocacoes.Count > 0)
+        {
+            await _context.BulkInsertAsync(colocacoes, cancellationToken: ct);
+        }
+
         await transaction.CommitAsync(ct);
     }
 }
