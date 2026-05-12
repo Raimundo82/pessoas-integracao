@@ -7,7 +7,7 @@ public class Colocacao
     public int Id { get; set; }
     public int PessoaId { get; set; }
     public virtual Pessoa Pessoa { get; set; } = null!;
-    public required UnidadeExternaRef ExternalReference { get; set; }
+    public required UnidadeExternaRef UnidadeExternaRef { get; set; }
     public DateTime Inicio { get; set; }
     public DateTime? Fim { get; set; }
 }
