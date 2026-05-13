@@ -3,11 +3,6 @@
 {
   "name": "C# (.NET) and PostgreSQL",
   "dockerComposeFile": "docker-compose.yaml",
-  "containerEnv": {
-    "http_proxy": "http://proxy-n-wcg.marinha.pt:8080",
-    "https_proxy": "http://proxy-n-wcg.marinha.pt:8080",
-    "no_proxy": ".marinha.pt,localhost,127.0.0.1,host.docker.internal"
-  },
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "customizations": {

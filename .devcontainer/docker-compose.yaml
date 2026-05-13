@@ -3,6 +3,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTPS_PROXY}
+        - no_proxy=${NO_PROXY}
 
     volumes:
       - ../..:/workspaces:cached
@@ -15,6 +19,9 @@ services:
       AppSettings__WriteApiKey: ${WRITE_API_KEY}
       SONARQUBE_CI_TOKEN: ${SONARQUBE_CI_TOKEN}
       SONAR_HOST_URL: ${SONAR_HOST_URL}
+      http_proxy: ${HTTP_PROXY}
+      https_proxy: ${HTTPS_PROXY}
+      no_proxy: ${NO_PROXY}
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

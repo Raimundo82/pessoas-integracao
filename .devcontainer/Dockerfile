@@ -1,6 +1,13 @@
 FROM mcr.microsoft.com/devcontainers/dotnet:2-10.0-noble@sha256:0c412724a61b030f27d4ca38a876db27a88c09a7c32344013562710f4117aec3
 
-ENV NODE_USE_SYSTEM_CA=1
+ARG http_proxy
+ARG https_proxy
+ARG no_proxy
+
+ENV http_proxy=$http_proxy \
+    https_proxy=$https_proxy \
+    no_proxy=$no_proxy \
+    NODE_USE_SYSTEM_CA=1
 
 COPY marinha.crt /usr/local/share/ca-certificates/marinha.crt
 COPY root-ca-ca.crt /usr/local/share/ca-certificates/root-ca-ca.crt
