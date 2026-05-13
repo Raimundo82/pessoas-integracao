@@ -14,6 +14,7 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 public sealed class SigdnRhPessoasProviderUnitTests
 {
     private readonly Mock<IPessoaCoreDataProvider> _coreDataProvider = new();
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     [Fact]
     public async Task ShouldCallCoreDataProviderWithSameImportKeys_WhenFetchingPessoas()
@@ -35,7 +36,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         _coreDataProvider.Verify(
@@ -58,7 +59,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
@@ -82,7 +83,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
@@ -105,7 +106,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
@@ -127,7 +128,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         var mutableListView = (IList<Pessoa>)pessoas;
@@ -144,7 +145,7 @@ public sealed class SigdnRhPessoasProviderUnitTests
         var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().NotBeNull();

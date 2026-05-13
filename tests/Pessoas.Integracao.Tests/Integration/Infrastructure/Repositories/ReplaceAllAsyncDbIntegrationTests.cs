@@ -19,6 +19,8 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly DbContextOptions<AppDbContext> _options;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+
 
     public ReplaceAllAsyncDbIntegrationTests(PostgresTestContainerDb db)
     {
@@ -50,7 +52,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.ReplaceAllAsync(input, CancellationToken.None);
+        await _repository.ReplaceAllAsync(input, _ct);
 
         // Assert
         var result = await ReadAllPessoasAsync();
@@ -79,7 +81,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.ReplaceAllAsync(pessoas, CancellationToken.None);
+        await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -133,7 +135,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.ReplaceAllAsync(pessoas, CancellationToken.None);
+        await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -155,7 +157,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         await SeedAsync(new Pessoa { NII = "11111" });
 
         // Act
-        await _repository.ReplaceAllAsync([], CancellationToken.None);
+        await _repository.ReplaceAllAsync([], _ct);
 
 
         // Assert
@@ -174,7 +176,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
     };
 
         // Act
-        await _repository.ReplaceAllAsync(pessoas, CancellationToken.None);
+        await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -195,7 +197,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         var pessoas = new[] { new Pessoa { NII = "11111", ExternalId = "UPDATED1" } };
 
         // Act
-        await _repository.ReplaceAllAsync(pessoas, CancellationToken.None);
+        await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -217,7 +219,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.ReplaceAllAsync(duplicatedPessoas, CancellationToken.None);
+        await _repository.ReplaceAllAsync(duplicatedPessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -240,7 +242,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        Func<Task> act = async () => await _repository.ReplaceAllAsync(invalidPessoas, CancellationToken.None);
+        Func<Task> act = async () => await _repository.ReplaceAllAsync(invalidPessoas, _ct);
 
         await act.Should().ThrowAsync<PostgresException>();
 

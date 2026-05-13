@@ -16,6 +16,8 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly DbContextOptions<AppDbContext> _options;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+
 
 
 
@@ -44,7 +46,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
 
 
         // Act
-        await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
+        await _repository.UpsertAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -70,7 +72,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.UpsertAllAsync(updatedPessoas, CancellationToken.None);
+        await _repository.UpsertAllAsync(updatedPessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -93,7 +95,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.UpsertAllAsync(pessoas, CancellationToken.None);
+        await _repository.UpsertAllAsync(pessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -144,7 +146,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.UpsertAllAsync([updatedPessoa], CancellationToken.None);
+        await _repository.UpsertAllAsync([updatedPessoa], _ct);
 
         // Assert
         var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == "55555");
@@ -178,7 +180,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.UpsertAllAsync([updatedPessoa], CancellationToken.None);
+        await _repository.UpsertAllAsync([updatedPessoa], _ct);
 
         // Assert
         var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == nii);
@@ -192,7 +194,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         await SeedAsync(new Pessoa { NII = "11111" });
 
         // Act
-        await _repository.UpsertAllAsync([], CancellationToken.None);
+        await _repository.UpsertAllAsync([], _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
@@ -215,7 +217,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IDisposable
         };
 
         // Act
-        await _repository.UpsertAllAsync(duplicatedPessoas, CancellationToken.None);
+        await _repository.UpsertAllAsync(duplicatedPessoas, _ct);
 
         // Assert
         var savedPessoas = await ReadAllPessoasAsync();
