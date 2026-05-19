@@ -11,28 +11,35 @@ public sealed class PessoaUpdateFromUnitTests
     [Fact]
     public void ShouldUpdateExternalId_WhenSourceHasExternalId()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123", ExternalId = "old-ext" };
         var source = new Pessoa { NII = "123", ExternalId = "new-ext" };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.ExternalId.Should().Be("new-ext");
     }
 
     [Fact]
     public void ShouldSetExternalIdToNull_WhenSourceExternalIdIsNull()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123", ExternalId = "old-ext" };
         var source = new Pessoa { NII = "123", ExternalId = null };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.ExternalId.Should().BeNull();
     }
 
     [Fact]
     public void ShouldUpdateDadosPessoais_WhenSourceHasDadosPessoais()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123", DadosPessoais = new DadosPessoais { NomeCompleto = "Old Name" } };
         var source = new Pessoa
         {
@@ -46,14 +53,17 @@ public sealed class PessoaUpdateFromUnitTests
             }
         };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.DadosPessoais.Should().BeEquivalentTo(source.DadosPessoais);
     }
 
     [Fact]
     public void ShouldUpdateDadosBiometricos_WhenSourceHasDadosBiometricos()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123", DadosBiometricos = new DadosBiometricos { AlturaEmCm = 170 } };
         var source = new Pessoa
         {
@@ -66,42 +76,53 @@ public sealed class PessoaUpdateFromUnitTests
             }
         };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.DadosBiometricos.Should().BeEquivalentTo(source.DadosBiometricos);
     }
 
     [Fact]
     public void ShouldNotChangeNII_AfterUpdate()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123" };
         var source = new Pessoa { NII = "999" };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.NII.Should().Be("123");
     }
 
     [Fact]
     public void ShouldNotChangeId_AfterUpdate()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123", Id = 42 };
         var source = new Pessoa { NII = "999", Id = 99 };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.Id.Should().Be(42);
     }
 
     [Fact]
     public void ShouldNotChangeColocacoes_AfterUpdate()
     {
+        // Arrange
         var existing = new Pessoa { NII = "123" };
         var originalColocacoes = existing.Colocacoes;
         var source = new Pessoa { NII = "999" };
 
+        // Act
         existing.UpdateFrom(source);
 
+        // Assert
         existing.Colocacoes.Should().BeSameAs(originalColocacoes);
     }
 }
