@@ -15,10 +15,10 @@ public sealed class ThrowingFakePessoasRepository(IReadOnlyList<PessoaImportKey>
 
     public Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => throw new NotSupportedException();
 
-    public Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    public Task UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         WasCalled = true;
-        return Task.FromException<UpsertPessoasResult>(_exceptionToThrow);
+        return Task.FromException(_exceptionToThrow);
     }
 
     public Task AddRangeAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => throw new NotSupportedException();
@@ -33,4 +33,7 @@ public sealed class ThrowingFakePessoasRepository(IReadOnlyList<PessoaImportKey>
         LastGetKeysToken = cancellationToken;
         return Task.FromResult(_existingKeys);
     }
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct) => throw new NotSupportedException();
+
+    public Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => throw new NotSupportedException();
 }

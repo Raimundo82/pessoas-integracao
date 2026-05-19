@@ -1,4 +1,3 @@
-// tests/Pessoas.Integracao.Tests/Unit/TestDoubles/FakePessoaRepository.cs
 using System.Collections.ObjectModel;
 
 
@@ -22,11 +21,11 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
         return Task.FromResult(_existingKeys);
     }
 
-    public Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    public Task UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
         LastUpsertedPessoas = pessoas;
         LastUpsertToken = ct;
-        return Task.FromResult(new UpsertPessoasResult(pessoas.Count, 0));
+        return Task.CompletedTask;
     }
 
     public Task<Pessoa> AddAsync(Pessoa pessoa, CancellationToken ct) => throw new NotSupportedException();
@@ -34,4 +33,7 @@ public sealed class FakePessoaRepository(IReadOnlyList<PessoaImportKey> existing
     public Task ClearAllAsync(CancellationToken ct) => throw new NotSupportedException();
     public Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
         Task.FromResult<IReadOnlyList<Pessoa>>(new ReadOnlyCollection<Pessoa>([]));
+    public Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct) => throw new NotSupportedException();
+
+    public Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct) => throw new NotSupportedException();
 }

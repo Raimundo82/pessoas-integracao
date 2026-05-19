@@ -489,3 +489,5 @@ $RECYCLE.BIN/
 
 # SonarQube
 .sonarqube
+
+.continue/**

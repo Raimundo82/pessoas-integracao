@@ -8,7 +8,5 @@ public sealed class StubPessoasImportKeyProvider(IReadOnlyList<PessoaImportKey> 
     private readonly IReadOnlyList<PessoaImportKey> _keys = keys;
 
     public Task<IReadOnlyList<PessoaImportKey>> GetSourceImportKeysAsync(CancellationToken ct)
-    {
-        return Task.FromResult(_keys);
-    }
+        => Task.FromResult(_keys);
 }

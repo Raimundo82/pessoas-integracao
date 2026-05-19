@@ -1,3 +1,5 @@
+using EFCore.BulkExtensions;
+
 using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Core.Application.Contracts;
@@ -17,32 +19,14 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public Task ClearAllAsync(CancellationToken ct) => _context.Pessoas.ExecuteDeleteAsync(ct);
 
-    public async Task<UpsertPessoasResult> UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    public async Task UpsertAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
     {
-
-        var niis = pessoas.Select(p => p.NII).ToList();
-        var existingPessoas = await _context.Pessoas
-            .Where(p => niis.Contains(p.NII))
-            .ToDictionaryAsync(p => p.NII, ct);
-
-        int added = 0;
-        int updated = 0;
-
-        foreach (var pessoa in pessoas)
-        {
-            if (existingPessoas.TryGetValue(pessoa.NII, out var existingPessoa))
-            {
-                existingPessoa.UpdateFrom(pessoa);
-                updated++;
-            }
-            else
-            {
-                _context.Pessoas.Add(pessoa);
-                added++;
-            }
-        }
-
-        return new UpsertPessoasResult(added, updated);
+        var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
+        await _context.BulkInsertOrUpdateAsync(
+            dedupedPessoas,
+            new BulkConfig { UpdateByProperties = [nameof(Pessoa.NII)] },
+            cancellationToken: ct
+        );
     }
 
     public async Task<IReadOnlyList<Pessoa>> GetAllAsync(CancellationToken ct) =>
@@ -50,7 +34,11 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
 
     public async Task<IReadOnlyList<Pessoa>> GetPessoasByNiiAsync(IReadOnlyList<string> niis, CancellationToken ct)
     {
-        return await _context.Pessoas.Where(p => niis.Contains(p.NII)).ToListAsync(ct);
+        var distinctNiis = niis.Distinct().ToList();
+        return await _context.Pessoas
+            .AsNoTracking()
+            .Where(p => distinctNiis.Contains(p.NII))
+            .ToListAsync(ct);
     }
 
     public async Task<IReadOnlyList<PessoaImportKey>> GetExistingImportKeysAsync(CancellationToken cancellationToken)
@@ -58,5 +46,22 @@ public class PessoaRepository(AppDbContext context) : IPessoaRepository
         return await _context.Pessoas
             .Select(p => new PessoaImportKey(p.NII, p.ExternalId))
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task ReplaceAllAsync(IReadOnlyList<Pessoa> pessoas, CancellationToken ct)
+    {
+        var dedupedPessoas = pessoas.DistinctBy(p => p.NII).ToList();
+        using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        try
+        {
+            await ClearAllAsync(ct);
+            await _context.BulkInsertAsync(dedupedPessoas, cancellationToken: ct);
+            await transaction.CommitAsync(ct);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(ct);
+            throw;
+        }
     }
 }

@@ -16,6 +16,7 @@ public sealed class PersonnelNumbersClientUnitTests : IDisposable
     private IOptions<DataSourceSettings> _settings;
     private Mock<zhr_wsChannel> _soapChannel;
     private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     public PersonnelNumbersClientUnitTests()
     {
@@ -50,7 +51,7 @@ public sealed class PersonnelNumbersClientUnitTests : IDisposable
         var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(_ct);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);
@@ -78,7 +79,7 @@ public sealed class PersonnelNumbersClientUnitTests : IDisposable
         var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
 
         // Act
-        var result = await client.GetPersonnelNumbersAsync(CancellationToken.None);
+        var result = await client.GetPersonnelNumbersAsync(_ct);
 
         // Assert
         result.Should().BeEquivalentTo(expectedOutput);

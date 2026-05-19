@@ -37,6 +37,7 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
     public async Task ExecuteAsync_WhenPessoasExist_ReturnsAllPessoaDtos()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         var pessoas = new ReadOnlyCollection<Pessoa>(
         [
             new() {
@@ -62,13 +63,13 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
             new() { Id = 2, NII = "21200", ExternalId = "30002797" }
         ]);
         _context.AddRange(pessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
         _context.ChangeTracker.Clear();
         var useCase = new GetAllPessoas(_repository);
 
 
         // Act
-        var result = await useCase.ExecuteAsync(CancellationToken.None);
+        var result = await useCase.ExecuteAsync(ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -82,11 +83,11 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
     public async Task ExecuteAsync_WhenNoPessoasExist_ReturnsEmptyCollection()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         var useCase = new GetAllPessoas(_repository);
 
-
         // Act (When)
-        var result = await useCase.ExecuteAsync(CancellationToken.None);
+        var result = await useCase.ExecuteAsync(ct);
 
         // Assert (Then)
         result.Should().NotBeNull();

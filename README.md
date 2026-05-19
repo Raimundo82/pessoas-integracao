@@ -2,13 +2,16 @@
 
 ## Index
 
-- [Plataforma de Integração de Pessoas](#plataforma-de-integração-de-pessoas)
+- [Plataforma de Integração de Informação das Pessoas](#plataforma-de-integração-de-informação-das-pessoas)
   - [Index](#index)
   - [🛠️ Development Environment](#️-development-environment)
     - [📁 Dev Container Specs](#-dev-container-specs)
     - [🚀 Getting Started](#-getting-started)
       - [Requirements](#requirements)
       - [Steps](#steps)
+  - [🚀 Running Benchmarks](#-running-benchmarks)
+    - [Execution Steps](#execution-steps)
+    - [Viewing Results](#viewing-results)
   - [🤝 Contributing](#-contributing)
 
 ## 🛠️ Development Environment
@@ -67,6 +70,27 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
      - Mount the project
      - Install tools and extensions
 
+## 🚀 Running Benchmarks
+
+This project uses [BenchmarkDotNet](https://benchmarkdotnet.org/) to measure performance.
+
+### Execution Steps
+
+Benchmarks must be run in **Release** mode to ensure the JIT compiler optimizes the code, providing accurate results.
+
+**Navigate to the benchmark project directory:**
+
+ ```bash
+  dotnet run -c Release --project tests/Pessoas.Integracao.Benchmarks
+ ```
+
+### Viewing Results
+
+Once the execution is complete, BenchmarkDotNet generates detailed reports in the `BenchmarkDotNet.Artifacts/results` folder. You can find the results in:
+
+- **Console:** A summary table is printed directly to the terminal.
+- **Files:** CSV, HTML, and Markdown reports are available in the artifacts folder for deeper analysis.
+  
 ## 🤝 Contributing
 
 Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines and best practices.

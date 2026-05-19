@@ -19,6 +19,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
     private Mock<zhr_wsChannel> _soapChannel;
     private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
     private readonly Mock<ISoapResultCorrelator> _soapResultCorrelator;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     public ExamesMedClientUnitTests()
     {
@@ -43,7 +44,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetExamesMedAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetExamesMedAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEmpty();
@@ -81,7 +82,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetExamesMedAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetExamesMedAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEquivalentTo(correlatedOutput);
@@ -127,7 +128,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetExamesMedAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetExamesMedAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEquivalentTo(correlatedOutput);
@@ -159,7 +160,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetExamesMedAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetExamesMedAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEmpty();
@@ -187,7 +188,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => client.GetExamesMedAsync(personImportKeys, CancellationToken.None));
+        await Assert.ThrowsAsync<Exception>(() => client.GetExamesMedAsync(personImportKeys, _ct));
     }
 
     [Fact]
@@ -201,7 +202,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => client.GetExamesMedAsync(personImportKeys, CancellationToken.None));
+        await Assert.ThrowsAsync<Exception>(() => client.GetExamesMedAsync(personImportKeys, _ct));
     }
 
 
