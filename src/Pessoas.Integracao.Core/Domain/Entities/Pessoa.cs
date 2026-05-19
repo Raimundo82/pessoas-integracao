@@ -24,6 +24,9 @@ public class Pessoa
     {
         Colocacoes.Clear();
         foreach (var colocacao in sourceColocacoes)
+        {
+            colocacao.PessoaId = Id;
             Colocacoes.Add(colocacao);
+        }
     }
 }
