@@ -13,7 +13,6 @@ public sealed class PessoaUpdateColocacoesUnitTests
         new()
         {
             PessoaId = pessoa.Id,
-            Pessoa = pessoa,
             ExternalReference = new UnidadeExternaRef(externalRef),
             Inicio = DateTime.UtcNow
         };
@@ -21,98 +20,139 @@ public sealed class PessoaUpdateColocacoesUnitTests
     [Fact]
     public void ShouldBeEmpty_WhenBothExistingAndSourceAreEmpty()
     {
+        // Arrange
         var existing = NewPessoa();
 
+        // Act
         existing.UpdateColocacoes([]);
 
+        // Assert
         existing.Colocacoes.Should().BeEmpty();
     }
 
     [Fact]
     public void ShouldBeEmpty_WhenExistingHasOneItemAndSourceIsEmpty()
     {
+        // Arrange
         var existing = NewPessoa();
-        existing.UpdateColocacoes([NewColocacao(existing)]);
+        existing.Colocacoes.Add(NewColocacao(existing, "U1"));
 
+        // Act
         existing.UpdateColocacoes([]);
 
+        // Assert
         existing.Colocacoes.Should().BeEmpty();
     }
 
     [Fact]
     public void ShouldBeEmpty_WhenExistingHasMultipleItemsAndSourceIsEmpty()
     {
+        // Arrange
         var existing = NewPessoa();
-        existing.UpdateColocacoes([NewColocacao(existing, "U1"), NewColocacao(existing, "U2"), NewColocacao(existing, "U3")]);
+        existing.Colocacoes.Add(NewColocacao(existing, "U1"));
+        existing.Colocacoes.Add(NewColocacao(existing, "U2"));
+        existing.Colocacoes.Add(NewColocacao(existing, "U3"));
 
+        // Act
         existing.UpdateColocacoes([]);
 
+        // Assert
         existing.Colocacoes.Should().BeEmpty();
     }
 
     [Fact]
     public void ShouldHaveOneItem_WhenExistingIsEmptyAndSourceHasOne()
     {
-        var existing = NewPessoa();
+        // Arrange
+        var existing = NewPessoa("999");
+        existing.Id = 1;
+
         var source = NewPessoa("999");
-        var incoming = NewColocacao(source, "U1");
+        source.Colocacoes.Add(NewColocacao(source, "U1"));
 
-        existing.UpdateColocacoes([incoming]);
+        // Act
+        existing.UpdateColocacoes([.. source.Colocacoes]);
 
-        existing.Colocacoes.Should().ContainSingle()
-            .Which.ExternalReference.Should().Be(new UnidadeExternaRef("U1"));
+        // Assert
+        existing.Colocacoes.Should().ContainSingle().Which.ExternalReference.Should().Be(new UnidadeExternaRef("U1"));
+        existing.Colocacoes.Should().OnlyContain(c => c.PessoaId == existing.Id);
     }
 
     [Fact]
     public void ShouldHaveMultipleItems_WhenExistingIsEmptyAndSourceHasMultiple()
     {
-        var existing = NewPessoa();
+        // Arrange
+        var existing = NewPessoa("999");
+        existing.Id = 1;
         var source = NewPessoa("999");
-        var incoming = new[] { NewColocacao(source, "U1"), NewColocacao(source, "U2"), NewColocacao(source, "U3") };
+        source.Colocacoes.Add(NewColocacao(source, "U1"));
+        source.Colocacoes.Add(NewColocacao(source, "U2"));
+        source.Colocacoes.Add(NewColocacao(source, "U3"));
 
-        existing.UpdateColocacoes(incoming);
+        // Act
+        existing.UpdateColocacoes([.. source.Colocacoes]);
 
+        // Assert
         existing.Colocacoes.Should().HaveCount(3);
+        existing.Colocacoes.Should().OnlyContain(c => c.PessoaId == existing.Id);
     }
 
     [Fact]
     public void ShouldHaveOneItem_WhenExistingHasOneAndSourceHasOne()
     {
-        var existing = NewPessoa();
-        existing.UpdateColocacoes([NewColocacao(existing, "OLD")]);
+        // Arrange
+        var existing = NewPessoa("999");
+        existing.Id = 1;
+        existing.Colocacoes.Add(NewColocacao(existing, "OLD"));
+
         var source = NewPessoa("999");
-        var incoming = NewColocacao(source, "NEW");
+        source.Colocacoes.Add(NewColocacao(source, "NEW"));
 
-        existing.UpdateColocacoes([incoming]);
+        // Act
+        existing.UpdateColocacoes([.. source.Colocacoes]);
 
-        existing.Colocacoes.Should().ContainSingle()
-            .Which.ExternalReference.Should().Be(new UnidadeExternaRef("NEW"));
+        // Assert
+        existing.Colocacoes.Should().ContainSingle().Which.ExternalReference.Should().Be(new UnidadeExternaRef("NEW"));
+        existing.Colocacoes.Should().OnlyContain(c => c.PessoaId == existing.Id);
     }
 
     [Fact]
     public void ShouldHaveMultipleItems_WhenExistingHasOneAndSourceHasMultiple()
     {
-        var existing = NewPessoa();
-        existing.UpdateColocacoes([NewColocacao(existing, "OLD")]);
+        // Arrange
+        var existing = NewPessoa("999");
+        existing.Id = 1;
+        existing.Colocacoes.Add(NewColocacao(existing, "OLD"));
         var source = NewPessoa("999");
-        var incoming = new[] { NewColocacao(source, "U1"), NewColocacao(source, "U2") };
+        source.Colocacoes.Add(NewColocacao(source, "U1"));
+        source.Colocacoes.Add(NewColocacao(source, "U2"));
 
-        existing.UpdateColocacoes(incoming);
+        // Act
+        existing.UpdateColocacoes([.. source.Colocacoes]);
 
+        // Assert
         existing.Colocacoes.Should().HaveCount(2);
+        existing.Colocacoes.Should().OnlyContain(c => c.PessoaId == existing.Id);
     }
 
     [Fact]
     public void ShouldReplaceAll_WhenExistingHasMultipleAndSourceHasMultiple()
     {
         var existing = NewPessoa();
-        existing.UpdateColocacoes([NewColocacao(existing, "OLD1"), NewColocacao(existing, "OLD2")]);
+        existing.Id = 1;
+        existing.Colocacoes.Add(NewColocacao(existing, "OLD1"));
+        existing.Colocacoes.Add(NewColocacao(existing, "OLD2"));
         var source = NewPessoa("999");
-        var incoming = new[] { NewColocacao(source, "NEW1"), NewColocacao(source, "NEW2"), NewColocacao(source, "NEW3") };
+        source.Colocacoes.Add(NewColocacao(source, "NEW1"));
+        source.Colocacoes.Add(NewColocacao(source, "NEW2"));
+        source.Colocacoes.Add(NewColocacao(source, "NEW3"));
 
-        existing.UpdateColocacoes(incoming);
+        // Act
+        existing.UpdateColocacoes([.. source.Colocacoes]);
 
+        // Assert
         existing.Colocacoes.Should().HaveCount(3)
             .And.NotContain(c => c.ExternalReference.ExternalReference.StartsWith("OLD"));
+        existing.Colocacoes.Should().OnlyContain(c => c.PessoaId == existing.Id);
     }
 }
