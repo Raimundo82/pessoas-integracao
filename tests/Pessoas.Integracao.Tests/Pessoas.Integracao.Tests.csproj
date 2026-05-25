@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
+    <ProjectReference Include="../../src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>
