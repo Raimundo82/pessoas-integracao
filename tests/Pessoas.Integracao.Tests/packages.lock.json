@@ -539,6 +539,15 @@
           "Pessoas.Integracao.Worker": "[1.0.0, )"
         }
       },
+      "pessoas.integracao.analitica": {
+        "type": "Project",
+        "dependencies": {
+          "EFCore.BulkExtensions.Core": "[10.0.1, )",
+          "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
+          "Microsoft.EntityFrameworkCore": "[10.0.8, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.1, )"
+        }
+      },
       "pessoas.integracao.core": {
         "type": "Project",
         "dependencies": {
