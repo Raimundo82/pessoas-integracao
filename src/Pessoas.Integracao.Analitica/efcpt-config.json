@@ -30,7 +30,7 @@
     "output-path": "Models"
   },
   "names": {
-    "dbcontext-name": "DbContext",
+    "dbcontext-name": "AnaliticaDbContext",
     "dbcontext-namespace": "Infrastructure.Data",
     "model-namespace": "Models",
     "root-namespace": "Analitica"
