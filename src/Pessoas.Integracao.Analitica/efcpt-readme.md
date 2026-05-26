@@ -2,7 +2,7 @@
 
 You need to configure your app now - here are some hints:
 
-### NuGet packages:
+### NuGet packages
 
 Add these NuGet packages to your .csproj based on your selections:
 
@@ -12,7 +12,7 @@ Add these NuGet packages to your .csproj based on your selections:
 </ItemGroup>
 ```
 
-### ASP.NET Core:
+### ASP.NET Core
 
 1. Register your DbContext class in your "Program.cs" file.
 
@@ -31,7 +31,7 @@ Add these NuGet packages to your .csproj based on your selections:
    }
    ```
 
-### Thank you!
+### Thank you
 
 Thank you for using this free tool! Have a look at [the wiki](https://github.com/ErikEJ/EFCorePowerTools/wiki/Reverse-Engineering)
 to learn more about all the advanced features
