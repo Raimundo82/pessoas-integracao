@@ -1,0 +1,188 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ErikEJ/EFCorePowerTools/master/samples/efcpt-config.schema.json",
+  "code-generation": {
+    "enable-on-configuring": false,
+    "generate-mermaid-diagram": false,
+    "merge-dacpacs": false,
+    "refresh-object-lists": false,
+    "remove-defaultsql-from-bool-properties": false,
+    "soft-delete-obsolete-files": true,
+    "t4-template-path": null,
+    "type": "all",
+    "use-alternate-stored-procedure-resultset-discovery": false,
+    "use-stored-procedure-resultset-fallback": true,
+    "use-data-annotations": false,
+    "use-database-names": false,
+    "use-database-names-for-routines": true,
+    "use-decimal-data-annotation-for-sproc-results": true,
+    "use-inflector": true,
+    "use-internal-access-modifiers-for-sprocs-and-functions": false,
+    "use-legacy-inflector": false,
+    "use-many-to-many-entity": false,
+    "use-nullable-reference-types": true,
+    "use-prefix-navigation-naming": false,
+    "use-typed-tvp-parameters": true,
+    "use-t4": false,
+    "use-t4-split": false
+  },
+  "file-layout": {
+    "output-dbcontext-path": "Infrastructure/Data",
+    "output-path": "Models"
+  },
+  "names": {
+    "dbcontext-name": "DbContext",
+    "dbcontext-namespace": "Infrastructure.Data",
+    "model-namespace": "Models",
+    "root-namespace": "Analitica"
+  },
+  "tables": [
+    {
+      "name": "[dbo].[ZhrWsAptidao_Aptidao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_AtribOrg]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_ClassifProf]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_DataMedida]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_Header]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_InfoProm]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_MonitPrazos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_Om]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAumentosDiminuicoes_Aumentos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsCondecor_Condecoracoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContigentes_Contigentes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContrato_Contrato]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContrato_SegSocial]"
+    },
+    {
+      "name": "[dbo].[ZhrWsEndCom_Comunicacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsEndCom_Endereco]"
+    },
+    {
+      "name": "[dbo].[ZhrWsExamesMed_Exames]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFerias_Ferias]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFormacao_Formacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFuncoes_Funcoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetIndicacoesTemp_TempoServico]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetLicencas2001_Licencas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListaUnidade]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListViaturas_Pessoas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListViaturas_Viatura]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetLouvores_Louvor]"
+    },
+    {
+      "name": "[dbo].[ZhrWSGetPernr]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetProcAvegdisc_Processos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsHabilitacoes_Habilitacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsHorarioTab_HorarioTrabalho]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_Bancarios]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_DadosFiscais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_Identificacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMedidas_Datas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMedidas_Medidas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMobilidades_Mobilidades]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_Familia]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_OutrosDados]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_Pessoais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Datas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Header]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Remun]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosComunicacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosEndereco]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosFamiliares]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosIdentificacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosPessoais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsTemposServicos_Tempos]"
+    }
+  ],
+  "type-mappings": {
+    "use-DateOnly-TimeOnly": true,
+    "use-HierarchyId": false,
+    "use-NodaTime": false,
+    "use-spatial": false
+  },
+  "views": []
+}
