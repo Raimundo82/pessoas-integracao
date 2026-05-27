@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
 public interface IColocacoesTranslator
 {
-    public List<Colocacao> Translate(ZhrSTemposervOutput? output);
+    public List<Colocacao> Translate(ZhrSAtribOrgOutput? output);
 }
