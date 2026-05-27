@@ -8,31 +8,20 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
 public class ColocacoesTranslator : IColocacoesTranslator
 {
-    public List<Colocacao> Translate(ZhrSTemposervOutput? output)
+    public List<Colocacao> Translate(ZhrSAtribOrgOutput? output)
     {
-        if (output?.TempoServico is not { Length: > 0 })
+        if (output?.AtribOrg is not { Length: > 0 })
             return [];
 
         var culture = CultureInfo.InvariantCulture;
 
-        return output.TempoServico
-            .Select(tempoServico => new Colocacao
+        return [.. output.AtribOrg
+            .DistinctBy(a => a.Datapresenta)
+            .Select(a => new Colocacao
             {
-                ExternalReference = new UnidadeExternaRef(tempoServico.Zzunid),
-
-                Inicio = DateTime.Parse(
-                    tempoServico.Datainicio,
-                    culture
-                ),
-
-                Fim = string.IsNullOrWhiteSpace(tempoServico.Datafim)
-                    ? null
-                    : DateTime.Parse(
-                        tempoServico.Datafim,
-                        culture
-                    )
-            })
-            .ToList();
+                ExternalReference = new UnidadeExternaRef(a.Unid),
+                Inicio = DateTime.Parse(a.Datapresenta, culture)
+            })];
     }
 }
 
