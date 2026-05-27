@@ -10,23 +10,17 @@ public class PessoaCoreDataProvider(
     IPersonalDataClient personalDataClient,
     IDadosPessoaisTranslator dadosPessoaisTranslator,
     IExamesMedClient examesMedClient,
-    IDadosBiometricosTranslator dadosBiometricosTranslator,
-    IIndicacoesTempClient indicacoesTempClient,
-    IColocacoesTranslator colocacoesTranslator
+    IDadosBiometricosTranslator dadosBiometricosTranslator
 ) : IPessoaCoreDataProvider
 {
     private readonly IPersonalDataClient _personalDataClient = personalDataClient;
     private readonly IDadosPessoaisTranslator _dadosPessoaisTranslator = dadosPessoaisTranslator;
     private readonly IExamesMedClient _examesMedClient = examesMedClient;
     private readonly IDadosBiometricosTranslator _dadosBiometricosTranslator = dadosBiometricosTranslator;
-    private readonly IIndicacoesTempClient _indicacoesTempClient = indicacoesTempClient;
-    private readonly IColocacoesTranslator _colocacoesTranslator = colocacoesTranslator;
-
     public async Task<Dictionary<PessoaImportKey, PessoaCoreDataFragment>> GetPessoaCoreDataAsync(IReadOnlyList<PessoaImportKey> importKeys, CancellationToken cancellationToken)
     {
         var personalDataOutputMap = await _personalDataClient.GetPersonalDataAsync(importKeys, cancellationToken);
         var biometricDataOuputMap = await _examesMedClient.GetExamesMedAsync(importKeys, cancellationToken);
-        var colocacoesDataOuputMap = await _indicacoesTempClient.GetIndicacoesTempAsync(importKeys, cancellationToken);
 
         return importKeys.ToDictionary(
             key => key,
@@ -34,9 +28,8 @@ public class PessoaCoreDataProvider(
             {
                 var dadosPessoais = _dadosPessoaisTranslator.Translate(personalDataOutputMap[key]);
                 var dadosBiometricos = _dadosBiometricosTranslator.Translate(biometricDataOuputMap[key]);
-                var colocacoes = _colocacoesTranslator.Translate(colocacoesDataOuputMap[key]);
 
-                return new PessoaCoreDataFragment(dadosPessoais, dadosBiometricos, colocacoes);
+                return new PessoaCoreDataFragment(dadosPessoais, dadosBiometricos);
             }
         );
     }
