@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
-using Pessoas.Integracao.Core.Infrastructure.Persistence;
+using Pessoas.Integracao.Core.Infrastructure.Models;
 
 namespace Pessoas.Integracao.Core.Infrastructure.Data;
 
@@ -21,9 +21,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasConversion(
                 v => v.ExternalReference,
                 v => new UnidadeExternaRef(v));
-
-        modelBuilder.Entity<UnidadeExterna>()
-            .HasIndex(u => u.ExternalId)
-            .IsUnique();
     }
 }
