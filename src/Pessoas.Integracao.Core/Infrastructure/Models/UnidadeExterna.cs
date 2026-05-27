@@ -2,7 +2,6 @@
 
 namespace Pessoas.Integracao.Core.Infrastructure.Models;
 
-[Index(nameof(ExternalId))]
 [Index(nameof(ExternalId), nameof(ValidFrom), IsUnique = true)]
 public class UnidadeExterna
 {
@@ -16,8 +15,8 @@ public class UnidadeExterna
 
     public bool HasAttributeChanges(string? descricao, string? abreviatura)
     {
-        return !string.Equals(Descricao, descricao, StringComparison.Ordinal)
-            || !string.Equals(Abreviatura, abreviatura, StringComparison.Ordinal);
+        return !string.Equals(Descricao, descricao, StringComparison.OrdinalIgnoreCase)
+            || !string.Equals(Abreviatura, abreviatura, StringComparison.OrdinalIgnoreCase);
     }
 
     public UnidadeExterna CloseVersion(DateTimeOffset changedAt)
