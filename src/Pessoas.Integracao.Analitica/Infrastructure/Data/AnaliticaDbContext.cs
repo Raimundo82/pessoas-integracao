@@ -2,10 +2,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using Analitica.Models;
 using Microsoft.EntityFrameworkCore;
+using Pessoas.Integracao.Analitica.Models;
 
-namespace Analitica.Infrastructure.Data;
+namespace Pessoas.Integracao.Analitica.Infrastructure.Data;
 
 public partial class AnaliticaDbContext : DbContext
 {
@@ -107,6 +107,136 @@ public partial class AnaliticaDbContext : DbContext
     public virtual DbSet<ZhrWsTemposServicosTempo> ZhrWsTemposServicosTempos { get; set; }
 
     public virtual DbSet<ZhrWsgetPernr> ZhrWsgetPernrs { get; set; }
+
+    public virtual DbSet<_0001Ueo> _0001Ueos { get; set; }
+
+    public virtual DbSet<_0003TiposNomeacao> _0003TiposNomeacaos { get; set; }
+
+    public virtual DbSet<_0004EstadosMovimento> _0004EstadosMovimentos { get; set; }
+
+    public virtual DbSet<_0005UrgenciasMovimento> _0005UrgenciasMovimentos { get; set; }
+
+    public virtual DbSet<_0006TiposColocacao> _0006TiposColocacaos { get; set; }
+
+    public virtual DbSet<_0007TiposComissao> _0007TiposComissaos { get; set; }
+
+    public virtual DbSet<_0010AtividadesPlanoAtividade> _0010AtividadesPlanoAtividades { get; set; }
+
+    public virtual DbSet<_0011MissaoDesempenhar> _0011MissaoDesempenhars { get; set; }
+
+    public virtual DbSet<_0013UnidadesExterna> _0013UnidadesExternas { get; set; }
+
+    public virtual DbSet<_0015Sexo> _0015Sexos { get; set; }
+
+    public virtual DbSet<_0016Paise> _0016Paises { get; set; }
+
+    public virtual DbSet<_001700180019DistConcFreg> _001700180019DistConcFregs { get; set; }
+
+    public virtual DbSet<_0020EstadoCivil> _0020EstadoCivils { get; set; }
+
+    public virtual DbSet<_0021Parentesco> _0021Parentescos { get; set; }
+
+    public virtual DbSet<_0022TipoRegEnder> _0022TipoRegEnders { get; set; }
+
+    public virtual DbSet<_0023TipoDocumento> _0023TipoDocumentos { get; set; }
+
+    public virtual DbSet<_0024TipoIdentificacao> _0024TipoIdentificacaos { get; set; }
+
+    public virtual DbSet<_0025It0028DadosMedico> _0025It0028DadosMedicos { get; set; }
+
+    public virtual DbSet<_0026Posto> _0026Postos { get; set; }
+
+    public virtual DbSet<_0027CategoriaMilitar> _0027CategoriaMilitars { get; set; }
+
+    public virtual DbSet<_0029QuadroEspecial> _0029QuadroEspecials { get; set; }
+
+    public virtual DbSet<_00300031TipoMotivoMedida> _00300031TipoMotivoMedidas { get; set; }
+
+    public virtual DbSet<_0032TipoDatum> _0032TipoData { get; set; }
+
+    public virtual DbSet<_00330040Condecoraco> _00330040Condecoracoes { get; set; }
+
+    public virtual DbSet<_0034TiposContigenciasAusencia> _0034TiposContigenciasAusencias { get; set; }
+
+    public virtual DbSet<_0035CodAusenciaIt2001> _0035CodAusenciaIt2001s { get; set; }
+
+    public virtual DbSet<_0036TipoMsgLogMsgty> _0036TipoMsgLogMsgties { get; set; }
+
+    public virtual DbSet<_00380039GrupoEmpregado> _00380039GrupoEmpregados { get; set; }
+
+    public virtual DbSet<_0041HabilitacoesLiteraria> _0041HabilitacoesLiterarias { get; set; }
+
+    public virtual DbSet<_0042CursosFormacao> _0042CursosFormacaos { get; set; }
+
+    public virtual DbSet<_0043ListaPosico> _0043ListaPosicoes { get; set; }
+
+    public virtual DbSet<_0044CargoIt0001> _0044CargoIt0001s { get; set; }
+
+    public virtual DbSet<_0045Situnidade> _0045Situnidades { get; set; }
+
+    public virtual DbSet<_0046TiposContratoIt0016> _0046TiposContratoIt0016s { get; set; }
+
+    public virtual DbSet<_0047MsgSistemaSy> _0047MsgSistemaSies { get; set; }
+
+    public virtual DbSet<_0048EstadoCivil> _0048EstadoCivils { get; set; }
+
+    public virtual DbSet<_0049AreaPreferenciaIt9011> _0049AreaPreferenciaIt9011s { get; set; }
+
+    public virtual DbSet<_0050TipoFormacaoIt9007> _0050TipoFormacaoIt9007s { get; set; }
+
+    public virtual DbSet<_0051TipoCursoIt9007> _0051TipoCursoIt9007s { get; set; }
+
+    public virtual DbSet<_0052PublicacaoIt9007> _0052PublicacaoIt9007s { get; set; }
+
+    public virtual DbSet<_0053SerieIt9007> _0053SerieIt9007s { get; set; }
+
+    public virtual DbSet<_0054RegimeSegSocial> _0054RegimeSegSocials { get; set; }
+
+    public virtual DbSet<_0055AdseIsentoIt0332> _0055AdseIsentoIt0332s { get; set; }
+
+    public virtual DbSet<_0056SubtyIt9011> _0056SubtyIt9011s { get; set; }
+
+    public virtual DbSet<_0057SituacaoIt9011> _0057SituacaoIt9011s { get; set; }
+
+    public virtual DbSet<_00580059OrgaoFuncaoIt9011> _00580059OrgaoFuncaoIt9011s { get; set; }
+
+    public virtual DbSet<_0060MissaoDesempenharDil> _0060MissaoDesempenharDils { get; set; }
+
+    public virtual DbSet<_0061StatusMovimento> _0061StatusMovimentos { get; set; }
+
+    public virtual DbSet<_0062AreaColocacao> _0062AreaColocacaos { get; set; }
+
+    public virtual DbSet<_0063TipoNomeacaoIt9011> _0063TipoNomeacaoIt9011s { get; set; }
+
+    public virtual DbSet<_0064TipoColocacaoIt9011> _0064TipoColocacaoIt9011s { get; set; }
+
+    public virtual DbSet<_0065TipoComissaoIt9011> _0065TipoComissaoIt9011s { get; set; }
+
+    public virtual DbSet<_0066UrgenciasMovimentoIt9011> _0066UrgenciasMovimentoIt9011s { get; set; }
+
+    public virtual DbSet<_0067Stat1P0000Mobilidade> _0067Stat1P0000Mobilidades { get; set; }
+
+    public virtual DbSet<_0068Stat2P0000Mobilidade> _0068Stat2P0000Mobilidades { get; set; }
+
+    public virtual DbSet<_0069SsinsP0021> _0069SsinsP0021s { get; set; }
+
+    public virtual DbSet<_0070ResidP0331> _0070ResidP0331s { get; set; }
+
+    public virtual DbSet<_0071LgartP0008> _0071LgartP0008s { get; set; }
+
+    public virtual DbSet<_0072TipoContratoIt0332> _0072TipoContratoIt0332s { get; set; }
+
+    public virtual DbSet<_0073TipoRegimeIt0332> _0073TipoRegimeIt0332s { get; set; }
+
+    public virtual DbSet<_00740075Class> _00740075Classes { get; set; }
+
+    public virtual DbSet<_0076Cnp2010> _0076Cnp2010s { get; set; }
+
+    public virtual DbSet<_0077007800790080NivelSalarial> _0077007800790080NivelSalarials { get; set; }
+
+    public virtual DbSet<_0081DivisaoIt0001> _0081DivisaoIt0001s { get; set; }
+
+    public virtual DbSet<_0082SubareaIt0001> _0082SubareaIt0001s { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1343,6 +1473,1107 @@ public partial class AnaliticaDbContext : DbContext
 
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0001Ueo>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0001_UEO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0003TiposNomeacao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0003_TIPOS_NOMEACAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0004EstadosMovimento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0004_ESTADOS_MOVIMENTO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0005UrgenciasMovimento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0005_URGENCIAS_MOVIMENTO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0006TiposColocacao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0006_TIPOS_COLOCACAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0007TiposComissao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0007_TIPOS_COMISSAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0010AtividadesPlanoAtividade>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0010_ATIVIDADES_PLANO_ATIVIDADES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0011MissaoDesempenhar>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0011_MISSAO_DESEMPENHAR");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0013UnidadesExterna>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0013_UNIDADES_EXTERNAS");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0015Sexo>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0015_SEXO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0016Paise>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0016_PAISES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_001700180019DistConcFreg>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0017_0018_0019_DIST_CONC_FREG");
+
+            entity.Property(e => e.Concelho).HasMaxLength(4000);
+            entity.Property(e => e.Distrito).HasMaxLength(4000);
+            entity.Property(e => e.Freguesia).HasMaxLength(4000);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.Id2).HasMaxLength(255);
+            entity.Property(e => e.Id3).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0020EstadoCivil>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0020_ESTADO_CIVIL");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0021Parentesco>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0021_PARENTESCO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0022TipoRegEnder>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0022_TIPO_REG_ENDER");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0023TipoDocumento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0023_TIPO_DOCUMENTO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0024TipoIdentificacao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0024_TIPO_IDENTIFICACAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0025It0028DadosMedico>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0025_IT0028_DADOS_MEDICOS");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0026Posto>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0026_POSTOS");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0027CategoriaMilitar>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0027_CATEGORIA_MILITAR");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0029QuadroEspecial>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0029_QUADRO_ESPECIAL");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_00300031TipoMotivoMedida>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0030_0031_TIPO_MOTIVO_MEDIDAS");
+
+            entity.Property(e => e.AbreviaturaMed).HasMaxLength(255);
+            entity.Property(e => e.AbreviaturaMotiv).HasMaxLength(255);
+            entity.Property(e => e.IdMedida).HasMaxLength(255);
+            entity.Property(e => e.IdMotivo).HasMaxLength(255);
+            entity.Property(e => e.Motivo).HasMaxLength(4000);
+            entity.Property(e => e.Tipo).HasMaxLength(4000);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0032TipoDatum>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0032_TIPO_DATA");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_00330040Condecoraco>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0033_0040_CONDECORACOES");
+
+            entity.Property(e => e.AbreviaturaMedalha)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_Medalha");
+            entity.Property(e => e.AbreviaturaTipo)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_Tipo");
+            entity.Property(e => e.DescricaoMedalha)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_Medalha");
+            entity.Property(e => e.DescricaoTipo)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_Tipo");
+            entity.Property(e => e.IdMedalha)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Medalha");
+            entity.Property(e => e.IdTipo)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Tipo");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0034TiposContigenciasAusencia>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0034_TIPOS_CONTIGENCIAS_AUSENCIAS");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.V1)
+                .HasMaxLength(255)
+                .HasColumnName("v1");
+            entity.Property(e => e.V2)
+                .HasMaxLength(255)
+                .HasColumnName("v2");
+        });
+
+        modelBuilder.Entity<_0035CodAusenciaIt2001>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0035_COD_AUSENCIA_IT2001");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0036TipoMsgLogMsgty>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0036_TIPO_MSG_LOG_MSGTY");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_00380039GrupoEmpregado>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0038_0039_GRUPO_EMPREGADOS");
+
+            entity.Property(e => e.AbreviaturaGp)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_GP");
+            entity.Property(e => e.AbreviaturaSgp)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_SGP");
+            entity.Property(e => e.DescricaoGp)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_GP");
+            entity.Property(e => e.DescricaoSgp)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_SGP");
+            entity.Property(e => e.IdGp)
+                .HasMaxLength(50)
+                .HasColumnName("Id_GP");
+            entity.Property(e => e.IdSgp)
+                .HasMaxLength(50)
+                .HasColumnName("Id_SGP");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0041HabilitacoesLiteraria>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0041_HABILITACOES_LITERARIAS");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0042CursosFormacao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0042_CURSOS_FORMACAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0043ListaPosico>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0043_LISTA_POSICOES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0044CargoIt0001>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0044_CARGO_IT0001");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0045Situnidade>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0045_SITUNIDADE");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0046TiposContratoIt0016>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0046_TIPOS_CONTRATO_IT0016");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0047MsgSistemaSy>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0047_MSG_SISTEMA_SY");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0048EstadoCivil>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0048_ESTADO_CIVIL");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0049AreaPreferenciaIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0049_AREA_PREFERENCIA_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0050TipoFormacaoIt9007>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0050_TIPO_FORMACAO_IT9007");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0051TipoCursoIt9007>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0051_TIPO_CURSO_IT9007");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0052PublicacaoIt9007>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0052_PUBLICACAO_IT9007");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0053SerieIt9007>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0053_SERIE_IT9007");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0054RegimeSegSocial>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0054_REGIME_SEG_SOCIAL");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0055AdseIsentoIt0332>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0055_ADSE_ISENTO_IT0332");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0056SubtyIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0056_SUBTY_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0057SituacaoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0057_SITUACAO_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_00580059OrgaoFuncaoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0058_0059_ORGAO_FUNCAO_IT9011");
+
+            entity.Property(e => e.AbreviaturaFuncao)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_FUNCAO");
+            entity.Property(e => e.AbreviaturaOrgao)
+                .HasMaxLength(255)
+                .HasColumnName("Abreviatura_ORGAO");
+            entity.Property(e => e.DescricaoFuncao)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_FUNCAO");
+            entity.Property(e => e.DescricaoOrgao)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_ORGAO");
+            entity.Property(e => e.IdFuncao)
+                .HasMaxLength(255)
+                .HasColumnName("Id_FUNCAO");
+            entity.Property(e => e.IdOrgao)
+                .HasMaxLength(255)
+                .HasColumnName("Id_ORGAO");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0060MissaoDesempenharDil>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0060_MISSAO_DESEMPENHAR_DIL");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0061StatusMovimento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0061_STATUS_MOVIMENTO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0062AreaColocacao>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0062_AREA_COLOCACAO");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0063TipoNomeacaoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0063_TIPO_NOMEACAO_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0064TipoColocacaoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0064_TIPO_COLOCACAO_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0065TipoComissaoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0065_TIPO_COMISSAO_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0066UrgenciasMovimentoIt9011>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0066_URGENCIAS_MOVIMENTO_IT9011");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0067Stat1P0000Mobilidade>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0067_STAT1_P0000_MOBILIDADES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0068Stat2P0000Mobilidade>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0068_STAT2_P0000_MOBILIDADES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0069SsinsP0021>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0069_SSINS_P0021");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0070ResidP0331>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0070_RESID_P0331");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0071LgartP0008>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0071_LGART_P0008");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0072TipoContratoIt0332>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0072_TIPO_CONTRATO_IT0332");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0073TipoRegimeIt0332>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0073_TIPO_REGIME_IT0332");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_00740075Class>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0074_0075_CLASSES");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Abreviatura2).HasMaxLength(255);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Descricao2).HasMaxLength(4000);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.Id2).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0076Cnp2010>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0076_CNP_2010");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0077007800790080NivelSalarial>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0077_0078_0079_0080_NIVEL_SALARIAL");
+
+            entity.Property(e => e.DescricaoRegiaoColetivo)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_Regiao_coletivo");
+            entity.Property(e => e.DescricaoTipoTarifa)
+                .HasMaxLength(4000)
+                .HasColumnName("Descricao_Tipo_Tarifa");
+            entity.Property(e => e.IdFaixaSalarial)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Faixa_Salarial");
+            entity.Property(e => e.IdNivelSalarial)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Nivel_Salarial");
+            entity.Property(e => e.IdRegiaoColetivo)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Regiao_coletivo");
+            entity.Property(e => e.IdTipoTarifa)
+                .HasMaxLength(255)
+                .HasColumnName("Id_Tipo_Tarifa");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0081DivisaoIt0001>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0081_DIVISAO_IT0001");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<_0082SubareaIt0001>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("0082_SUBAREA_IT0001");
+
+            entity.Property(e => e.Abreviatura).HasMaxLength(255);
+            entity.Property(e => e.Begda).HasMaxLength(10);
+            entity.Property(e => e.Descricao).HasMaxLength(4000);
+            entity.Property(e => e.Endda).HasMaxLength(10);
+            entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");

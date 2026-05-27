@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Analitica.Models;
+namespace Pessoas.Integracao.Analitica.Models;
 
 public partial class ZhrWsPersonalDataFamilium
 {
