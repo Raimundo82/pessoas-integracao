@@ -1,0 +1,383 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ErikEJ/EFCorePowerTools/master/samples/efcpt-config.schema.json",
+  "code-generation": {
+    "enable-on-configuring": false,
+    "generate-mermaid-diagram": false,
+    "merge-dacpacs": false,
+    "refresh-object-lists": false,
+    "remove-defaultsql-from-bool-properties": false,
+    "soft-delete-obsolete-files": true,
+    "t4-template-path": null,
+    "type": "all",
+    "use-alternate-stored-procedure-resultset-discovery": false,
+    "use-stored-procedure-resultset-fallback": true,
+    "use-data-annotations": false,
+    "use-database-names": false,
+    "use-database-names-for-routines": true,
+    "use-decimal-data-annotation-for-sproc-results": true,
+    "use-inflector": true,
+    "use-internal-access-modifiers-for-sprocs-and-functions": false,
+    "use-legacy-inflector": false,
+    "use-many-to-many-entity": false,
+    "use-nullable-reference-types": true,
+    "use-prefix-navigation-naming": false,
+    "use-typed-tvp-parameters": true,
+    "use-t4": false,
+    "use-t4-split": false
+  },
+  "file-layout": {
+    "output-dbcontext-path": "Infrastructure/Data",
+    "output-path": "Models"
+  },
+  "names": {
+    "dbcontext-name": "AnaliticaDbContext",
+    "dbcontext-namespace": "Infrastructure.Data",
+    "model-namespace": "Models",
+    "root-namespace": "Pessoas.Integracao.Analitica"
+  },
+  "tables": [
+    {
+      "name": "[dbo].[0001_UEO]"
+    },
+    {
+      "name": "[dbo].[0003_TIPOS_NOMEACAO]"
+    },
+    {
+      "name": "[dbo].[0004_ESTADOS_MOVIMENTO]"
+    },
+    {
+      "name": "[dbo].[0005_URGENCIAS_MOVIMENTO]"
+    },
+    {
+      "name": "[dbo].[0006_TIPOS_COLOCACAO]"
+    },
+    {
+      "name": "[dbo].[0007_TIPOS_COMISSAO]"
+    },
+    {
+      "name": "[dbo].[0010_ATIVIDADES_PLANO_ATIVIDADES]"
+    },
+    {
+      "name": "[dbo].[0011_MISSAO_DESEMPENHAR]"
+    },
+    {
+      "name": "[dbo].[0013_UNIDADES_EXTERNAS]"
+    },
+    {
+      "name": "[dbo].[0015_SEXO]"
+    },
+    {
+      "name": "[dbo].[0016_PAISES]"
+    },
+    {
+      "name": "[dbo].[0017_0018_0019_DIST_CONC_FREG]"
+    },
+    {
+      "name": "[dbo].[0020_ESTADO_CIVIL]"
+    },
+    {
+      "name": "[dbo].[0021_PARENTESCO]"
+    },
+    {
+      "name": "[dbo].[0022_TIPO_REG_ENDER]"
+    },
+    {
+      "name": "[dbo].[0023_TIPO_DOCUMENTO]"
+    },
+    {
+      "name": "[dbo].[0024_TIPO_IDENTIFICACAO]"
+    },
+    {
+      "name": "[dbo].[0025_IT0028_DADOS_MEDICOS]"
+    },
+    {
+      "name": "[dbo].[0026_POSTOS]"
+    },
+    {
+      "name": "[dbo].[0027_CATEGORIA_MILITAR]"
+    },
+    {
+      "name": "[dbo].[0029_QUADRO_ESPECIAL]"
+    },
+    {
+      "name": "[dbo].[0030_0031_TIPO_MOTIVO_MEDIDAS]"
+    },
+    {
+      "name": "[dbo].[0032_TIPO_DATA]"
+    },
+    {
+      "name": "[dbo].[0033_0040_CONDECORACOES]"
+    },
+    {
+      "name": "[dbo].[0034_TIPOS_CONTIGENCIAS_AUSENCIAS]"
+    },
+    {
+      "name": "[dbo].[0035_COD_AUSENCIA_IT2001]"
+    },
+    {
+      "name": "[dbo].[0036_TIPO_MSG_LOG_MSGTY]"
+    },
+    {
+      "name": "[dbo].[0038_0039_GRUPO_EMPREGADOS]"
+    },
+    {
+      "name": "[dbo].[0041_HABILITACOES_LITERARIAS]"
+    },
+    {
+      "name": "[dbo].[0042_CURSOS_FORMACAO]"
+    },
+    {
+      "name": "[dbo].[0043_LISTA_POSICOES]"
+    },
+    {
+      "name": "[dbo].[0044_CARGO_IT0001]"
+    },
+    {
+      "name": "[dbo].[0045_SITUNIDADE]"
+    },
+    {
+      "name": "[dbo].[0046_TIPOS_CONTRATO_IT0016]"
+    },
+    {
+      "name": "[dbo].[0047_MSG_SISTEMA_SY]"
+    },
+    {
+      "name": "[dbo].[0048_ESTADO_CIVIL]"
+    },
+    {
+      "name": "[dbo].[0049_AREA_PREFERENCIA_IT9011]"
+    },
+    {
+      "name": "[dbo].[0050_TIPO_FORMACAO_IT9007]"
+    },
+    {
+      "name": "[dbo].[0051_TIPO_CURSO_IT9007]"
+    },
+    {
+      "name": "[dbo].[0052_PUBLICACAO_IT9007]"
+    },
+    {
+      "name": "[dbo].[0053_SERIE_IT9007]"
+    },
+    {
+      "name": "[dbo].[0054_REGIME_SEG_SOCIAL]"
+    },
+    {
+      "name": "[dbo].[0055_ADSE_ISENTO_IT0332]"
+    },
+    {
+      "name": "[dbo].[0056_SUBTY_IT9011]"
+    },
+    {
+      "name": "[dbo].[0057_SITUACAO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0058_0059_ORGAO_FUNCAO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0060_MISSAO_DESEMPENHAR_DIL]"
+    },
+    {
+      "name": "[dbo].[0061_STATUS_MOVIMENTO]"
+    },
+    {
+      "name": "[dbo].[0062_AREA_COLOCACAO]"
+    },
+    {
+      "name": "[dbo].[0063_TIPO_NOMEACAO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0064_TIPO_COLOCACAO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0065_TIPO_COMISSAO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0066_URGENCIAS_MOVIMENTO_IT9011]"
+    },
+    {
+      "name": "[dbo].[0067_STAT1_P0000_MOBILIDADES]"
+    },
+    {
+      "name": "[dbo].[0068_STAT2_P0000_MOBILIDADES]"
+    },
+    {
+      "name": "[dbo].[0069_SSINS_P0021]"
+    },
+    {
+      "name": "[dbo].[0070_RESID_P0331]"
+    },
+    {
+      "name": "[dbo].[0071_LGART_P0008]"
+    },
+    {
+      "name": "[dbo].[0072_TIPO_CONTRATO_IT0332]"
+    },
+    {
+      "name": "[dbo].[0073_TIPO_REGIME_IT0332]"
+    },
+    {
+      "name": "[dbo].[0074_0075_CLASSES]"
+    },
+    {
+      "name": "[dbo].[0076_CNP_2010]"
+    },
+    {
+      "name": "[dbo].[0077_0078_0079_0080_NIVEL_SALARIAL]"
+    },
+    {
+      "name": "[dbo].[0081_DIVISAO_IT0001]"
+    },
+    {
+      "name": "[dbo].[0082_SUBAREA_IT0001]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAptidao_Aptidao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_AtribOrg]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_ClassifProf]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_DataMedida]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_Header]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_InfoProm]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_MonitPrazos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAtribOrg_Om]"
+    },
+    {
+      "name": "[dbo].[ZhrWsAumentosDiminuicoes_Aumentos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsCondecor_Condecoracoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContigentes_Contigentes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContrato_Contrato]"
+    },
+    {
+      "name": "[dbo].[ZhrWsContrato_SegSocial]"
+    },
+    {
+      "name": "[dbo].[ZhrWsEndCom_Comunicacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsEndCom_Endereco]"
+    },
+    {
+      "name": "[dbo].[ZhrWsExamesMed_Exames]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFerias_Ferias]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFormacao_Formacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsFuncoes_Funcoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetIndicacoesTemp_TempoServico]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetLicencas2001_Licencas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListaUnidade]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListViaturas_Pessoas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetListViaturas_Viatura]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetLouvores_Louvor]"
+    },
+    {
+      "name": "[dbo].[ZhrWSGetPernr]"
+    },
+    {
+      "name": "[dbo].[ZhrWsGetProcAvegdisc_Processos]"
+    },
+    {
+      "name": "[dbo].[ZhrWsHabilitacoes_Habilitacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsHorarioTab_HorarioTrabalho]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_Bancarios]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_DadosFiscais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsIdentif_Identificacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMedidas_Datas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMedidas_Medidas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsMobilidades_Mobilidades]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_Familia]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_OutrosDados]"
+    },
+    {
+      "name": "[dbo].[ZhrWsPersonalData_Pessoais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Datas]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Header]"
+    },
+    {
+      "name": "[dbo].[ZhrWsRemun_Remun]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosComunicacoes]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosEndereco]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosFamiliares]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosIdentificacao]"
+    },
+    {
+      "name": "[dbo].[ZhrWsSigre_DadosPessoais]"
+    },
+    {
+      "name": "[dbo].[ZhrWsTemposServicos_Tempos]"
+    }
+  ],
+  "type-mappings": {
+    "use-DateOnly-TimeOnly": true,
+    "use-HierarchyId": false,
+    "use-NodaTime": false,
+    "use-spatial": false
+  },
+  "views": []
+}

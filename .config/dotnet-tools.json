@@ -31,6 +31,11 @@
       "version": "8.0.0",
       "commands": ["dotnet-svcutil"],
       "rollForward": false
+    },
+    "erikej.efcorepowertools.cli": {
+      "version": "10.1.1386",
+      "commands": ["efcpt"],
+      "rollForward": false
     }
   }
 }
