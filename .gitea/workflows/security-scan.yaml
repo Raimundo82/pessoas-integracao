@@ -22,29 +22,13 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: '.'
+          token-setup-trivy: ${{ secrets.GH_PAT }}
           scanners: 'vuln,secret'
-          exit-code: '1'
           severity: 'MEDIUM,CRITICAL,HIGH'
           skip-dirs: 'bin,obj,.git'
           ignore-unfixed: 'true'
           timeout: '10m'
-
-      - name: Install Trivy
-        run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
-            | sh -s -- -b /usr/local/bin v0.70.0
-
-      - name: Run Trivy vulnerability scanner
-        run: |
-          trivy fs \
-            --scanners vuln,secret \
-            --severity CRITICAL,HIGH \
-            --dependency-tree \
-            --skip-dirs bin,obj,.git \
-            --ignore-unfixed \
-            --exit-code 1 \
-            --timeout 10m \
-            .
+          exit-code: '1'
 
   snyk-scan:
     name: Snyk Dependency Vulnerability Scan
