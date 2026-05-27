@@ -5,13 +5,13 @@ namespace Pessoas.Integracao.Core.Infrastructure.Models;
 [Index(nameof(ExternalId), nameof(ValidFrom), IsUnique = true)]
 public class UnidadeExterna
 {
-    public int Id { get; init; }
-    public required string ExternalId { get; init; }
-    public string? Descricao { get; init; }
-    public string? Abreviatura { get; init; }
-    public DateTimeOffset ValidFrom { get; init; }
-    public DateTimeOffset? ValidTo { get; init; }
-    public bool IsCurrent { get; init; }
+    public int Id { get; set; }
+    public required string ExternalId { get; set; }
+    public string? Descricao { get; set; }
+    public string? Abreviatura { get; set; }
+    public DateTimeOffset ValidFrom { get; set; }
+    public DateTimeOffset? ValidTo { get; set; }
+    public bool IsCurrent { get; set; }
 
     public bool HasAttributeChanges(string? descricao, string? abreviatura)
     {
@@ -19,18 +19,10 @@ public class UnidadeExterna
             || !string.Equals(Abreviatura, abreviatura, StringComparison.OrdinalIgnoreCase);
     }
 
-    public UnidadeExterna CloseVersion(DateTimeOffset changedAt)
+    public void CloseVersion(DateTimeOffset changedAt)
     {
-        return new UnidadeExterna
-        {
-            Id = Id,
-            ExternalId = ExternalId,
-            Descricao = Descricao,
-            Abreviatura = Abreviatura,
-            ValidFrom = ValidFrom,
-            ValidTo = changedAt,
-            IsCurrent = false,
-        };
+        ValidTo = changedAt;
+        IsCurrent = false;
     }
 
     public UnidadeExterna CreateNextVersion(string? descricao, string? abreviatura, DateTimeOffset changedAt)
