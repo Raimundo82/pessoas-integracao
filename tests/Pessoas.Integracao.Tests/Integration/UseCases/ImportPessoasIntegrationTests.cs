@@ -23,7 +23,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 namespace Pessoas.Integracao.Tests.Integration.UseCases;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class ImportPessoasIntegrationTests : IDisposable
+public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
@@ -31,9 +31,12 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     private readonly Mock<ISoapChannelProvider<zhr_wsChannel>> _mockSoapChannelProvider;
     private readonly Mock<IPessoasDataProvider> _mockPessoasDataProvider;
     private readonly IOptions<DataSourceSettings> _settings;
+    private readonly PostgresTestContainerDb _db;
+
 
     public ImportPessoasIntegrationTests(PostgresTestContainerDb db)
     {
+        _db = db;
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
@@ -50,9 +53,8 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
         _settings = Options.Create(new DataSourceSettings { Empresa = "3000" });
 
         _mockPessoasDataProvider = new Mock<IPessoasDataProvider>();
-
-        _context.Database.EnsureCreated();
     }
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ShouldPersistAllPessoas_WhenDatabaseIsEmpty()
@@ -627,9 +629,10 @@ public sealed class ImportPessoasIntegrationTests : IDisposable
     }
 
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
         _context.Dispose();
         GC.SuppressFinalize(this);
     }

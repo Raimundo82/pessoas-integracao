@@ -13,17 +13,19 @@ using Pessoas.Integracao.Tests.TestInfrastructure;
 namespace Pessoas.Integracao.Tests.Integration.Infrastructure.Repositories;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class PessoaRepositoryIntegrationTests : IDisposable
+public sealed class PessoaRepositoryIntegrationTests : IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly EfUnitOfWork _uow;
     private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+    private readonly PostgresTestContainerDb _db;
+
 
 
     public PessoaRepositoryIntegrationTests(PostgresTestContainerDb db)
     {
-
+        _db = db;
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
@@ -31,8 +33,8 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         _context = new AppDbContext(options);
         _repository = new PessoaRepository(_context);
         _uow = new EfUnitOfWork(_context);
-        _context.Database.EnsureCreated();
     }
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task AddAsync_WithRequiredFieldsOnly_ShouldPersistPessoa()
@@ -248,9 +250,10 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
         result.Should().ContainSingle(k => k.Nii == "22222" && k.ExternalId == "EXT2");
     }
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
         _context.Dispose();
         GC.SuppressFinalize(this);
     }

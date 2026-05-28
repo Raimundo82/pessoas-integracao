@@ -10,31 +10,25 @@ using Pessoas.Integracao.Tests.TestInfrastructure;
 namespace Pessoas.Integracao.Tests.Integration.Infrastructure.Repositories;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class GetPessoasByNiisIntegrationTests : IDisposable
+public sealed class GetPessoasByNiisIntegrationTests : IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
-
+    private readonly PostgresTestContainerDb _db;
 
     public GetPessoasByNiisIntegrationTests(PostgresTestContainerDb db)
     {
+        _db = db;
         var options = new DbContextOptionsBuilder<AppDbContext>()
-    .UseNpgsql(db.ConnectionString)
-    .Options;
+            .UseNpgsql(db.ConnectionString)
+            .Options;
 
         _context = new AppDbContext(options);
         _repository = new PessoaRepository(_context);
-        _context.Database.EnsureCreated();
-
     }
 
-    public void Dispose()
-    {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
-        GC.SuppressFinalize(this);
-    }
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ShouldReturnEmptyList_WhenInputEmptyListAndDBIsEmpty()
@@ -202,6 +196,14 @@ public sealed class GetPessoasByNiisIntegrationTests : IDisposable
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result[0].NII.Should().Be("22600");
+    }
+
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
+    public void Dispose()
+    {
+        _context.Dispose();
+        GC.SuppressFinalize(this);
     }
 
 }
