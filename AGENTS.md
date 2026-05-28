@@ -6,7 +6,7 @@ This document defines the standards, expectations, and constraints for automated
 
 The **Pessoas-Integracao (PIIP)** project is a specialized data staging layer designed to synchronize personnel information from **SIGDN-RHV** with the operational reality of the **Portuguese Navy**.
 
-Its primary purpose is to act as a reliable intermediary data store (Staging Area) that consumes all personnel-related data from the source system—expected to synchronize every 24 hours—and serves as the authoritative source of truth for all future applications developed by the Navy.
+Its primary purpose is to act as a reliable intermediary data store (Staging Area) that consumes all personnel-related data from the source system—expected to synchronize every x (not define...) hours—and serves as the authoritative source of truth for all future applications developed by the Navy.
 
 **Core Objectives:**
 
