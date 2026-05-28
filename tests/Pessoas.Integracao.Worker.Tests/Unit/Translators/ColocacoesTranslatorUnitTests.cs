@@ -11,19 +11,19 @@ public sealed class ColocacoesTranslatorUnitTests
     private readonly ColocacoesTranslator _sut = new();
 
     [Fact]
-    public void ShouldMapTempoServicoToColocacao()
+    public void ShouldMapAtribOrgToColocacao()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput
+        var output = new ZhrSAtribOrgOutput
         {
-            TempoServico = [
-                new ZhrSTemposerv
-                {
-                    Zzunid = "UNIT1",
-                    Datainicio = "2020-01-01",
-                    Datafim = "2021-01-01"
+            AtribOrg = [
+                new ZhrSAtribOrg {
+                    Unid = "123456",
+                    DescUni = "Unit 1",
+                    Abunid  = "U1",
+                    Datapresenta = "2020-10-01"
                 }
-            ]
+            ],
         };
 
         // Act
@@ -31,35 +31,37 @@ public sealed class ColocacoesTranslatorUnitTests
 
         // Assert
         result.Should().HaveCount(1);
-        result[0].ExternalReference.Should().Be(new UnidadeExternaRef("UNIT1"));
-        result[0].Inicio.Should().Be(new DateTime(2020, 1, 1));
-        result[0].Fim.Should().Be(new DateTime(2021, 1, 1));
+        result[0].ExternalReference.Should().Be(new UnidadeExternaRef("123456"));
+        result[0].Inicio.Should().Be(new DateTime(2020, 10, 1));
     }
 
     [Fact]
-    public void ShouldMapNullFim_WhenDatafimIsEmptyOrNull()
+    public void ShouldMapInicio_WhenDatapresentaIsValid()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput
+        var output = new ZhrSAtribOrgOutput
         {
-            TempoServico = [
-                new ZhrSTemposerv
+            AtribOrg = [
+                new ZhrSAtribOrg
                 {
-                    Zzunid = "UNIT1",
-                    Datainicio = "2020-01-01",
-                    Datafim = null
+                    Unid = "UNIT-0001",
+                    DescUni = "Unit 1",
+                    Abunid = "U1",
+                    Datapresenta = "2020-01-01"
                 },
-                new ZhrSTemposerv
+                new ZhrSAtribOrg
                 {
-                    Zzunid = "UNIT2",
-                    Datainicio = "2020-01-01",
-                    Datafim = ""
+                    Unid = "UNIT-0002",
+                    DescUni = "Unit 2",
+                    Abunid = "U2",
+                    Datapresenta = "2020-02-01"
                 },
-                new ZhrSTemposerv
+                new ZhrSAtribOrg
                 {
-                    Zzunid = "UNIT3",
-                    Datainicio = "2020-01-01",
-                    Datafim = "   "
+                    Unid = "UNIT-0003",
+                    DescUni = "Unit 3",
+                    Abunid = "U3",
+                    Datapresenta = "2020-03-01"
                 }
             ]
         };
@@ -69,16 +71,16 @@ public sealed class ColocacoesTranslatorUnitTests
 
         // Assert
         result.Should().HaveCount(3);
-        result[0].Fim.Should().BeNull();
-        result[1].Fim.Should().BeNull();
-        result[2].Fim.Should().BeNull();
+        result[0].Inicio.Should().Be(new DateTime(2020, 1, 1));
+        result[1].Inicio.Should().Be(new DateTime(2020, 2, 1));
+        result[2].Inicio.Should().Be(new DateTime(2020, 3, 1));
     }
 
     [Fact]
     public void ShouldReturnEmptyList_WhenOutputIsNull()
     {
         // Arrange
-        ZhrSTemposervOutput? output = null;
+        ZhrSAtribOrgOutput? output = null;
 
         // Act
         var result = _sut.Translate(output);
@@ -88,10 +90,10 @@ public sealed class ColocacoesTranslatorUnitTests
     }
 
     [Fact]
-    public void ShouldReturnEmptyList_WhenTempoServicoIsNull()
+    public void ShouldReturnEmptyList_WhenAtribOrgIsNull()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput { TempoServico = null };
+        var output = new ZhrSAtribOrgOutput { AtribOrg = null };
 
         // Act
         var result = _sut.Translate(output);
@@ -101,10 +103,10 @@ public sealed class ColocacoesTranslatorUnitTests
     }
 
     [Fact]
-    public void ShouldReturnEmptyList_WhenTempoServicoIsEmpty()
+    public void ShouldReturnEmptyList_WhenAtribOrgIsEmpty()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput { TempoServico = [] };
+        var output = new ZhrSAtribOrgOutput { AtribOrg = [] };
 
         // Act
         var result = _sut.Translate(output);
@@ -114,14 +116,26 @@ public sealed class ColocacoesTranslatorUnitTests
     }
 
     [Fact]
-    public void ShouldMapMultipleItems_WhenTempoServicoHasMultipleElements()
+    public void ShouldMapMultipleItems_WhenAtribOrgHasMultipleElements()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput
+        var output = new ZhrSAtribOrgOutput
         {
-            TempoServico = [
-                new ZhrSTemposerv { Zzunid = "UNIT1", Datainicio = "2010-01-01", Datafim = "2011-01-01" },
-                new ZhrSTemposerv { Zzunid = "UNIT2", Datainicio = "2012-01-01", Datafim = "2013-01-01" }
+            AtribOrg = [
+                new ZhrSAtribOrg
+                {
+                    Unid = "UNIT-0010",
+                    DescUni = "Unit 10",
+                    Abunid = "U10",
+                    Datapresenta = "2010-01-01"
+                },
+                new ZhrSAtribOrg
+                {
+                    Unid = "UNIT-0011",
+                    DescUni = "Unit 11",
+                    Abunid = "U11",
+                    Datapresenta = "2012-01-01"
+                }
             ]
         };
 
@@ -130,18 +144,24 @@ public sealed class ColocacoesTranslatorUnitTests
 
         // Assert
         result.Should().HaveCount(2);
-        result[0].ExternalReference.Should().Be(new UnidadeExternaRef("UNIT1"));
-        result[1].ExternalReference.Should().Be(new UnidadeExternaRef("UNIT2"));
+        result[0].ExternalReference.Should().Be(new UnidadeExternaRef("UNIT-0010"));
+        result[1].ExternalReference.Should().Be(new UnidadeExternaRef("UNIT-0011"));
     }
 
     [Fact]
     public void ShouldThrowException_WhenDateIsInvalid()
     {
         // Arrange
-        var output = new ZhrSTemposervOutput
+        var output = new ZhrSAtribOrgOutput
         {
-            TempoServico = [
-                new ZhrSTemposerv { Zzunid = "UNIT1", Datainicio = "invalid-date", Datafim = "2021-01-01" }
+            AtribOrg = [
+                new ZhrSAtribOrg
+                {
+                    Unid = "UNIT-ERROR",
+                    DescUni = "Invalid Unit",
+                    Abunid = "INV",
+                    Datapresenta = "invalid-date"
+                }
             ]
         };
 
