@@ -4,16 +4,22 @@ This document defines the standards, expectations, and constraints for automated
 
 ## 1. Project Overview and Purpose
 
-This project is a .NET-based integration API (`SigdnRhStaggingApi`). Its primary purpose is to handle integration logic and data movement, requiring high reliability and strict adherence to API contracts.
+The **Pessoas-Integracao (PIIP)** project is a specialized data staging layer designed to synchronize personnel information from **SIGDN-RHV** with the operational reality of the **Portuguese Navy**.
 
-## 2. Codebase Structure and Conventions
+Its primary purpose is to act as a reliable intermediary data store (Staging Area) that consumes all personnel-related data from the source system—expected to synchronize every 24 hours—and serves as the authoritative source of truth for all future applications developed by the Navy.
 
-- **Solution Format**: The project uses `.slnx` (Visual Studio Solution Explorer) for solution management.
-- **Project Layout**:
-  - `SigdnRhStaggingApi/`: Main application logic.
-  - `SigdnRhStaggingApi.Tests/`: Unit and integration tests.
-  - `src/` and `tests/`: Standard directory layout for source and test code.
-  - `scripts/`: Automation and utility scripts.
+**Core Objectives:**
+
+- **Data Decoupling:** Ensure that future Navy applications do not depend directly on the external SIGDN RHV system.
+- **Reliable Synchronization:** Maintain an up-to-date staging environment reflecting the current personnel data.
+- **Foundation for Ecosystem:** Provide a stable and standardized data source for any subsequent software development within the organization.
+
+## 2. Architecture and Design Conventions
+
+- **Clean Architecture**: The project follows Clean Architecture principles to ensure a strict separation of concerns:
+  - **Core (`Pessoas.Integracao.Core`)**: The central hub containing domain entities, business logic, and application interfaces. It must have no dependencies on external infrastructure.
+  - **Infrastructure/Presentation (`Pessoas.Integracao.Worker`, `.Admin`, `.Consulta`, `.Analitica`)**: These projects handle external concerns such as SOAP clients, database persistence, and API endpoints. They depend on the Core layer.
+- **Dependency Injection**: Always use constructor injection. Avoid the Service Locator pattern.
 - **Naming Conventions**: Follow standard .NET C# coding conventions (PascalCase for classes/methods, camelCase for private fields).
 
 ## 3. Rules for Modifying Files
@@ -46,3 +52,7 @@ This project is a .NET-based integration API (`SigdnRhStaggingApi`). Its primary
 - **Format**: Use conventional commits (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `test:`).
 - **Clarity**: Commit messages should clearly describe *what* was changed and *why*.
 - **PR Descriptions**: Automated PRs should include a summary of changes and a checklist confirming that tests were run.
+
+---
+
+*This file complements README.md and CONTRIBUTING.md, focusing specifically on machine-readable and automation-friendly guidance.*
