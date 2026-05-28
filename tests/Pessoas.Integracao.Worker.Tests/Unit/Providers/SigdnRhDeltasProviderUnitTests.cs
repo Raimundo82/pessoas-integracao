@@ -12,6 +12,7 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 public sealed class SigdnRhDeltasProviderUnitTests
 {
     private readonly Mock<IDeltasClient> _client = new();
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     [Fact]
     public async Task ShouldReturnMappedDeltaKeys_WhenDeltasAreReturnedByProviderClient()
@@ -28,7 +29,7 @@ public sealed class SigdnRhDeltasProviderUnitTests
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, _ct);
 
         // Assert
         result.Should().AllBeOfType<PessoaImportKey>();
@@ -53,7 +54,7 @@ public sealed class SigdnRhDeltasProviderUnitTests
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, _ct);
 
         // Assert
         result.Should().HaveCount(1);
@@ -73,7 +74,7 @@ public sealed class SigdnRhDeltasProviderUnitTests
         var period = new TimePeriod(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
         // Act
-        var result = await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
+        var result = await provider.GetChangedImportKeysAsync(period, _ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -92,7 +93,7 @@ public sealed class SigdnRhDeltasProviderUnitTests
 
         // Act
         Func<Task> action = async () =>
-            await provider.GetChangedImportKeysAsync(period, CancellationToken.None);
+            await provider.GetChangedImportKeysAsync(period, _ct);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>()

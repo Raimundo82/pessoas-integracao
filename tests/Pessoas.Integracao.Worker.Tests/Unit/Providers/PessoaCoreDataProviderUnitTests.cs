@@ -18,6 +18,8 @@ public sealed class PessoaCoreDataProviderUnitTests
     private readonly Mock<IDadosPessoaisTranslator> _dadosPessoaisTranslator = new();
     private readonly Mock<IExamesMedClient> _examesMedClient = new();
     private readonly Mock<IDadosBiometricosTranslator> _dadosBiometricosTranslator = new();
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+
 
     private PessoaCoreDataProvider CreateSut() =>
         new(_personalDataClient.Object, _dadosPessoaisTranslator.Object, _examesMedClient.Object, _dadosBiometricosTranslator.Object);
@@ -37,7 +39,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        await sut.GetPessoaCoreDataAsync(importKeys, default);
+        await sut.GetPessoaCoreDataAsync(importKeys, _ct);
 
         // Assert
         _personalDataClient.Verify(
@@ -101,7 +103,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        await sut.GetPessoaCoreDataAsync(importKeys, default);
+        await sut.GetPessoaCoreDataAsync(importKeys, _ct);
 
         // Assert
         _dadosPessoaisTranslator.Verify(t => t.Translate(outputPessoais1), Times.Once);
@@ -137,7 +139,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        var result = await sut.GetPessoaCoreDataAsync(importKeys, default);
+        var result = await sut.GetPessoaCoreDataAsync(importKeys, _ct);
 
         // Assert
         result.Should().HaveCount(2);
@@ -172,7 +174,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        var result = await sut.GetPessoaCoreDataAsync([importKey], default);
+        var result = await sut.GetPessoaCoreDataAsync([importKey], _ct);
 
         // Assert
         result.Should().ContainKey(importKey);
@@ -193,7 +195,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        var result = await sut.GetPessoaCoreDataAsync([], default);
+        var result = await sut.GetPessoaCoreDataAsync([], _ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -213,7 +215,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        Func<Task> action = async () => await sut.GetPessoaCoreDataAsync([], default);
+        Func<Task> action = async () => await sut.GetPessoaCoreDataAsync([], _ct);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");
@@ -229,7 +231,7 @@ public sealed class PessoaCoreDataProviderUnitTests
         var sut = CreateSut();
 
         // Act
-        Func<Task> action = async () => await sut.GetPessoaCoreDataAsync([], default);
+        Func<Task> action = async () => await sut.GetPessoaCoreDataAsync([], _ct);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");

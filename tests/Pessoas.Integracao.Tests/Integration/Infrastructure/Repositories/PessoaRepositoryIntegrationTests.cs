@@ -18,6 +18,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly EfUnitOfWork _uow;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
 
     public PessoaRepositoryIntegrationTests(PostgresTestContainerDb db)
@@ -38,16 +39,16 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     {
         // Arrange
         var pessoa = new Pessoa { NII = "22600" };
-        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
+        var result = await _repository.AddAsync(pessoa, _ct);
 
         // Act
-        await _uow.CommitAsync(CancellationToken.None);
+        await _uow.CommitAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
         result.Id.Should().BeGreaterThan(0);
         _context.Pessoas.Should().ContainSingle();
-        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id);
+        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id, _ct);
         persistedPessoa.Should().NotBeNull();
         persistedPessoa.Should().BeEquivalentTo(pessoa, opts => opts.Excluding(p => p.Id));
     }
@@ -56,6 +57,7 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task AddAsync_WithAllFields_ShouldPersistCompletePessoa()
     {
         // Arrange
+
         var pessoa = new Pessoa
         {
             NII = "22600",
@@ -78,16 +80,16 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
                 }
             }
         };
-        var result = await _repository.AddAsync(pessoa, CancellationToken.None);
+        var result = await _repository.AddAsync(pessoa, _ct);
 
         // Act
-        await _uow.CommitAsync(CancellationToken.None);
+        await _uow.CommitAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
         result.Id.Should().BeGreaterThan(0);
         _context.Pessoas.Should().ContainSingle();
-        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id);
+        var persistedPessoa = await _context.Pessoas.AsNoTracking().SingleAsync(p => p.Id == result.Id, _ct);
         persistedPessoa.Should().NotBeNull();
         persistedPessoa.Should().BeEquivalentTo(pessoa, opts => opts.Excluding(p => p.Id));
     }
@@ -96,18 +98,19 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task AddRangeAsync_ShouldPersistMultiplePessoasToDb()
     {
         // Arrange
+
         var pessoas = new[]
         {
             new Pessoa { NII = "22600" },
             new Pessoa { NII = "22601" }
         };
-        await _repository.AddRangeAsync(pessoas, CancellationToken.None);
+        await _repository.AddRangeAsync(pessoas, _ct);
 
         // Act
-        await _uow.CommitAsync(CancellationToken.None);
+        await _uow.CommitAsync(_ct);
 
         // Assert
-        var persistedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var persistedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(_ct);
         persistedPessoas.Should().HaveCount(2);
         persistedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "22601");
     }
@@ -116,12 +119,13 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task AddAsync_WithDuplicateNii_ShouldFailWithUniqueViolation()
     {
         // Arrange
-        await _context.AddAsync(new Pessoa { NII = "22600" });
-        await _context.SaveChangesAsync();
-        await _repository.AddAsync(new Pessoa { NII = "22600" }, CancellationToken.None);
+
+        await _context.AddAsync(new Pessoa { NII = "22600" }, _ct);
+        await _context.SaveChangesAsync(_ct);
+        await _repository.AddAsync(new Pessoa { NII = "22600" }, _ct);
 
         // Act
-        Func<Task> action = async () => await _uow.CommitAsync(CancellationToken.None);
+        Func<Task> action = async () => await _uow.CommitAsync(_ct);
 
         // Assert
         await action.Should().ThrowAsync<DbUpdateException>();
@@ -131,15 +135,16 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task ClearAllAsync_RemovesAllRecords()
     {
         // Arrange
-        await _context.AddRangeAsync(new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" });
-        await _context.SaveChangesAsync();
-        await _repository.ClearAllAsync(CancellationToken.None);
+
+        await _context.AddRangeAsync([new Pessoa { NII = "22600" }, new Pessoa { NII = "22601" }], _ct);
+        await _context.SaveChangesAsync(_ct);
+        await _repository.ClearAllAsync(_ct);
 
         // Act
-        await _uow.CommitAsync(CancellationToken.None);
+        await _uow.CommitAsync(_ct);
 
         // Assert
-        var remainingPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var remainingPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(_ct);
         remainingPessoas.Should().BeEmpty();
     }
 
@@ -147,17 +152,18 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task GetAllAsync_WhenPessoasExist_ReturnsAllPessoas()
     {
         // Arrange
+
         var pessoas = new[]
         {
             new Pessoa { NII = "22600" },
             new Pessoa { NII = "22601" }
         };
         await _context.AddRangeAsync(pessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(_ct);
         _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.GetAllAsync(CancellationToken.None);
+        var result = await _repository.GetAllAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -169,7 +175,8 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task GetAllAsync_WhenNoPessoasExist_ReturnsEmptyCollection()
     {
         // Act
-        var result = await _repository.GetAllAsync(CancellationToken.None);
+
+        var result = await _repository.GetAllAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -180,17 +187,18 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task GetExistingImportKeysAsync_ReturnsCorrectKeys()
     {
         // Arrange
+
         var pessoas = new[]
         {
             new Pessoa { NII = "11111", ExternalId = "EXT1" },
             new Pessoa { NII = "22222", ExternalId = "EXT2" }
         };
         await _context.AddRangeAsync(pessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(_ct);
         _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+        var result = await _repository.GetExistingImportKeysAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -203,12 +211,13 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task GetExistingImportKeysAsync_WithNoPessoas_ShouldReturnEmptyList()
     {
         // Arrange
+
         _context.Pessoas.RemoveRange(_context.Pessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(_ct);
         _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+        var result = await _repository.GetExistingImportKeysAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -219,17 +228,18 @@ public sealed class PessoaRepositoryIntegrationTests : IDisposable
     public async Task GetExistingImportKeysAsync_WithNullExternalIds_ShouldHandleGracefully()
     {
         // Arrange
+
         var pessoas = new[]
         {
             new Pessoa { NII = "11111", ExternalId = null },
             new Pessoa { NII = "22222", ExternalId = "EXT2" }
         };
         await _context.AddRangeAsync(pessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(_ct);
         _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.GetExistingImportKeysAsync(CancellationToken.None);
+        var result = await _repository.GetExistingImportKeysAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();

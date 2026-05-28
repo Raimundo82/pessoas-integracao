@@ -1,6 +1,0 @@
-@SigdnRhStaggingApi_HostAddress = http://localhost:5249
-
-GET {{SigdnRhStaggingApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

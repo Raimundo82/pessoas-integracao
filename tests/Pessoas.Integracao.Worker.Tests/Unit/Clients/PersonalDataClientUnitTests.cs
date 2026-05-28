@@ -19,6 +19,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
     private Mock<zhr_wsChannel> _soapChannel;
     private Mock<ISoapChannelProvider<zhr_wsChannel>> _soapChannelProvider;
     private readonly Mock<ISoapResultCorrelator> _soapResultCorrelator;
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     public PersonalDataClientUnitTests()
     {
@@ -39,7 +40,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetPersonalDataAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEmpty();
@@ -79,7 +80,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetPersonalDataAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEquivalentTo(correlatedOutput);
@@ -126,7 +127,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetPersonalDataAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEquivalentTo(correlatedOutput);
@@ -158,7 +159,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var result = await client.GetPersonalDataAsync(personImportKeys, CancellationToken.None);
+        var result = await client.GetPersonalDataAsync(personImportKeys, _ct);
 
         // Assert
         result.Should().BeEmpty();
@@ -185,7 +186,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, CancellationToken.None));
+        await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, _ct));
     }
 
     [Fact]
@@ -199,7 +200,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, CancellationToken.None));
+        await Assert.ThrowsAsync<Exception>(() => client.GetPersonalDataAsync(personImportKeys, _ct));
     }
 
 

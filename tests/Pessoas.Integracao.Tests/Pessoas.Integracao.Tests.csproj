@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Testcontainers.PostgreSql" />
-    <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.v3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
+    <ProjectReference Include="../../src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
   </ItemGroup>

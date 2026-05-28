@@ -12,7 +12,7 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 public sealed class SigdnRhPessoasImportKeysProviderUnitTests
 {
     private readonly Mock<IPersonnelNumbersClient> _client = new();
-
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     [Fact]
     public async Task ShouldReturnMappedImportKeys_WhenPersonnelNumbersAreReturnedByClient()
@@ -26,7 +26,7 @@ public sealed class SigdnRhPessoasImportKeysProviderUnitTests
         var provider = new SigdnRhPessoasImportKeysProvider(_client.Object);
 
         // Act
-        var result = await provider.GetSourceImportKeysAsync(CancellationToken.None);
+        var result = await provider.GetSourceImportKeysAsync(_ct);
 
         // Assert 
         result.Should().AllBeOfType<PessoaImportKey>();
@@ -51,7 +51,7 @@ public sealed class SigdnRhPessoasImportKeysProviderUnitTests
         var provider = new SigdnRhPessoasImportKeysProvider(_client.Object);
 
         // Act
-        var result = await provider.GetSourceImportKeysAsync(CancellationToken.None);
+        var result = await provider.GetSourceImportKeysAsync(_ct);
 
         // Assert 
         result.Should().AllBeOfType<PessoaImportKey>();
@@ -68,7 +68,7 @@ public sealed class SigdnRhPessoasImportKeysProviderUnitTests
         var provider = new SigdnRhPessoasImportKeysProvider(_client.Object);
 
         // Act
-        var result = await provider.GetSourceImportKeysAsync(CancellationToken.None);
+        var result = await provider.GetSourceImportKeysAsync(_ct);
 
         // Assert
         result.Should().NotBeNull();
@@ -83,7 +83,7 @@ public sealed class SigdnRhPessoasImportKeysProviderUnitTests
         var provider = new SigdnRhPessoasImportKeysProvider(_client.Object);
 
         // Act
-        Func<Task> action = async () => await provider.GetSourceImportKeysAsync(CancellationToken.None);
+        Func<Task> action = async () => await provider.GetSourceImportKeysAsync(_ct);
 
         // Assert
         await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SOAP error*");

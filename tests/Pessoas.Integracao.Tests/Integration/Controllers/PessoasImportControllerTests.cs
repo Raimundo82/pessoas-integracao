@@ -65,6 +65,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldPersistProviderPessoasToDatabase_WhenImportWithMockedSoapResponseAndEmptyDb()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         var soapResponse = new[]
         {
             new ZhrSListapessoal { Ni = "22600", Numsap = "30002697", Empresa = "3000" },
@@ -82,16 +83,16 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
 
 
         // Act
-        var response = await _client.PostAsync("/api/pessoas/import", null);
+        var response = await _client.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>(ct);
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(2);
 
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(ct);
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("22600", "21200");
         savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("30002697", "30002798");
@@ -101,13 +102,14 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldPreserveAllPessoasFromDatabase_WhenImportWithEmptySoapResponse()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         var existingPessoas = new[]
         {
             new Pessoa {NII = "11111", ExternalId = "OLD001"},
             new Pessoa {NII = "22222", ExternalId = "OLD002"}
         };
         await _context.Pessoas.AddRangeAsync(existingPessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
@@ -120,16 +122,16 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
             });
 
         // Act
-        var response = await _client.PostAsync("/api/pessoas/import", null);
+        var response = await _client.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>(ct);
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(2);
 
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(ct);
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
         savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("OLD001", "OLD002");
@@ -139,13 +141,14 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldKeepUntouchedData_WhenImportUpdatesExistingAndAddsNew()
     {
         // Arrange 
+        var ct = TestContext.Current.CancellationToken;
         var existingPessoas = new[]
         {
             new Pessoa {NII = "11111", ExternalId = "OLD001"},
             new Pessoa {NII = "22222", ExternalId = "OLD002"}
         };
         await _context.Pessoas.AddRangeAsync(existingPessoas);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         var newSoapResponse = new[]
         {
@@ -163,16 +166,16 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
             });
 
         // Act
-        var response = await _client.PostAsync("/api/pessoas/import", null);
+        var response = await _client.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>();
+        var dto = await response.Content.ReadFromJsonAsync<ImportPessoasResultDto>(ct);
         dto.Should().NotBeNull();
         dto.TotalProcessed.Should().Be(3);
 
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(ct);
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222", "33333");
         savedPessoas.Select(p => p.ExternalId).Should().BeEquivalentTo("NEW001", "OLD002", "NEW002");
@@ -182,19 +185,20 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldReturnInternalServerError_WhenSoapServiceThrowsException()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         _mockSoapChannel
             .Setup(c => c.ZhrWsGetPernrAsync(It.IsAny<ZhrWsGetPernrRequest>()))
             .ThrowsAsync(new Exception("SOAP service unavailable"));
 
         // Act
-        var response = await _client.PostAsync("/api/pessoas/import", null);
+        var response = await _client.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync();
+        var savedPessoas = await _context.Pessoas.AsNoTracking().ToListAsync(ct);
         savedPessoas.Should().BeEmpty();
 
-        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>(ct);
         response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
         problemDetails.Should().NotBeNull();
         problemDetails.Status.Should().Be(StatusCodes.Status500InternalServerError);
@@ -206,10 +210,11 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldReturnForbidden_WhenImportAsViewer()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var viewerClient = _factory.CreateAuthenticatedClient(Roles.Viewer);
 
         // Act
-        var response = await viewerClient.PostAsync("/api/pessoas/import", null);
+        var response = await viewerClient.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -219,10 +224,11 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public async Task ShouldReturnUnauthorized_WhenImportUnauthenticated()
     {
         // Arrange
+        var ct = TestContext.Current.CancellationToken;
         using var unauthClient = _factory.CreateClient();
 
         // Act
-        var response = await unauthClient.PostAsync("/api/pessoas/import", null);
+        var response = await unauthClient.PostAsync("/api/pessoas/import", null, ct);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
