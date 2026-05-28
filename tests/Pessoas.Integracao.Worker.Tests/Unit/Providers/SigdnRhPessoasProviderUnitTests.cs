@@ -14,9 +14,12 @@ namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;
 public sealed class SigdnRhPessoasProviderUnitTests
 {
     private readonly Mock<IPessoaCoreDataProvider> _coreDataProvider = new();
+    private readonly Mock<IPessoaProfessionalDataProvider> _professionalDataProvider = new();
+
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
     [Fact]
-    public async Task ShouldCallCoreDataProviderWithSameImportKeys_WhenFetchingPessoas()
+    public async Task ShouldCallDataProvidersWithSameImportKeys_WhenFetchingPessoas()
     {
         // Arrange
         var importKeys = new[]
@@ -32,15 +35,75 @@ public sealed class SigdnRhPessoasProviderUnitTests
                 [importKeys[1]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
             });
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([
+                    new Colocacao
+                    {
+                        ExternalReference = new UnidadeExternaRef("123456"),
+                        Inicio = new DateTime(2020, 10, 1)
+                    }
+                ]),
+                [importKeys[1]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         _coreDataProvider.Verify(
             p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()),
             Times.Once);
+
+        _professionalDataProvider.Verify(
+            p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldMapColocacoesFromProfessionalDataFragment_WhenBuildingPessoa()
+    {
+        // Arrange
+        var importKeys = new[]
+        {
+            new PessoaImportKey("22600", "30002697"),
+            new PessoaImportKey("22700", "30002797")
+        };
+
+        _coreDataProvider.Setup(p => p.GetPessoaCoreDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaCoreDataFragment>
+            {
+                [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos()),
+                [importKeys[1]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
+            });
+
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([
+                    new Colocacao
+                    {
+                        ExternalReference = new UnidadeExternaRef("123456"),
+                        Inicio = new DateTime(2020, 10, 1)
+                    }
+                ]),
+                [importKeys[1]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
+
+        // Act
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
+
+        // Assert
+        pessoas.Should().HaveCount(2);
+        pessoas[0].Colocacoes.Should().ContainSingle();
+        pessoas[0].Colocacoes.Single().ExternalReference.Should().Be(new UnidadeExternaRef("123456"));
+        pessoas[0].Colocacoes.Single().Inicio.Should().Be(new DateTime(2020, 10, 1));
+        pessoas[1].Colocacoes.Should().BeEmpty();
     }
 
     [Fact]
@@ -55,15 +118,24 @@ public sealed class SigdnRhPessoasProviderUnitTests
                 [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
             });
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
         pessoas[0].NII.Should().Be("22600");
         pessoas[0].ExternalId.Should().Be("30002697");
+        pessoas[0].DadosPessoais.Should().NotBeNull();
+        pessoas[0].DadosBiometricos.Should().NotBeNull();
+        pessoas[0].Colocacoes.Should().BeEmpty();
     }
 
     [Fact]
@@ -79,10 +151,16 @@ public sealed class SigdnRhPessoasProviderUnitTests
                 [importKeys[0]] = new PessoaCoreDataFragment(expectedDadosPessoais, new DadosBiometricos())
             });
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
@@ -102,10 +180,16 @@ public sealed class SigdnRhPessoasProviderUnitTests
                 [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), expectedDadosBiometricos)
             });
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().ContainSingle();
@@ -124,10 +208,16 @@ public sealed class SigdnRhPessoasProviderUnitTests
                 [importKeys[0]] = new PessoaCoreDataFragment(new DadosPessoais(), new DadosBiometricos())
             });
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        _professionalDataProvider.Setup(p => p.GetPessoaProfessionalDataAsync(importKeys, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<PessoaImportKey, PessoaProfessionalDataFragment>
+            {
+                [importKeys[0]] = new PessoaProfessionalDataFragment([])
+            });
+
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         var mutableListView = (IList<Pessoa>)pessoas;
@@ -136,19 +226,20 @@ public sealed class SigdnRhPessoasProviderUnitTests
     }
 
     [Fact]
-    public async Task ShouldReturnEmptyCollectionAndDoNotCallCoreDataProvider_WhenImportKeysCollectionIsEmpty()
+    public async Task ShouldReturnEmptyCollectionAndDoNotCallDataProviders_WhenImportKeysCollectionIsEmpty()
     {
         // Arrange
         var importKeys = Array.Empty<PessoaImportKey>();
 
-        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object);
+        var provider = new SigdnRhPessoasProvider(_coreDataProvider.Object, _professionalDataProvider.Object);
 
         // Act
-        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, default);
+        var pessoas = await provider.GetPessoasByImportKeysAsync(importKeys, _ct);
 
         // Assert
         pessoas.Should().NotBeNull();
         pessoas.Should().BeEmpty();
         _coreDataProvider.Verify(p => p.GetPessoaCoreDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()), Times.Never);
+        _professionalDataProvider.Verify(p => p.GetPessoaProfessionalDataAsync(It.IsAny<IReadOnlyList<PessoaImportKey>>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
