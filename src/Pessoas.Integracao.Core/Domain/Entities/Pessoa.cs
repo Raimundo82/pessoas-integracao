@@ -11,12 +11,22 @@ public class Pessoa
     public string? ExternalId { get; set; }
     public DadosPessoais DadosPessoais { get; set; } = new DadosPessoais();
     public DadosBiometricos DadosBiometricos { get; set; } = new DadosBiometricos();
-    public ICollection<Colocacao> Colocacoes { get; set; } = new List<Colocacao>();
+    public ICollection<Colocacao> Colocacoes { get; set; } = [];
 
     public void UpdateFrom(Pessoa source)
     {
         ExternalId = source.ExternalId;
         DadosPessoais = source.DadosPessoais;
         DadosBiometricos = source.DadosBiometricos;
+    }
+
+    public void UpdateColocacoes(IReadOnlyCollection<Colocacao> sourceColocacoes)
+    {
+        Colocacoes.Clear();
+        foreach (var colocacao in sourceColocacoes)
+        {
+            colocacao.PessoaId = Id;
+            Colocacoes.Add(colocacao);
+        }
     }
 }
