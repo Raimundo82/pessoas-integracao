@@ -142,7 +142,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldReturnEmptyList_WhenSoapResponseOutputIsNul()
+    public async Task ShouldReturnEmptyList_WhenSoapResponseOutputIsNull()
     {
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
@@ -171,6 +171,38 @@ public sealed class ExamesMedClientUnitTests : IDisposable
             It.IsAny<ZhrSExamesMedOutput[]>(),
             It.IsAny<Func<ZhrSExamesMedOutput, string>>()),
         Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldBuildRequestWithCorrectFields_WhenCallingGetExamesMedAsync()
+    {
+        // Arrange
+        var personImportKeys = new[] { new PessoaImportKey("22600", "30002696") };
+        _settings = Options.Create(new DataSourceSettings { Empresa = "1000" });
+
+        ZhrWsExamesMedRequest? capturedRequest = null;
+        _soapChannel
+            .Setup(c => c.ZhrWsExamesMedAsync(It.IsAny<ZhrWsExamesMedRequest>()))
+            .Callback<ZhrWsExamesMedRequest>(r => capturedRequest = r)
+            .ReturnsAsync(new ZhrWsExamesMedResponse1 { ZhrWsExamesMedResponse = new ZhrWsExamesMedResponse { Output = [] } });
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapResultCorrelator.Setup(c => c.CorrelateByKey(
+                It.IsAny<PessoaImportKey[]>(),
+                It.IsAny<ZhrSExamesMedOutput[]>(),
+                It.IsAny<Func<ZhrSExamesMedOutput, string>>()))
+            .Returns([]);
+
+        var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
+
+        // Act
+        await client.GetExamesMedAsync(personImportKeys, _ct);
+
+        // Assert
+        capturedRequest.Should().NotBeNull();
+        capturedRequest!.ZhrWsExamesMed.Input.Should().ContainSingle();
+        capturedRequest.ZhrWsExamesMed.Input[0].Ni.Should().Be("22600");
+        capturedRequest.ZhrWsExamesMed.Input[0].Numsap.Should().Be("30002696");
+        capturedRequest.ZhrWsExamesMed.Input[0].Empresa.Should().Be("1000");
     }
 
     [Fact]
