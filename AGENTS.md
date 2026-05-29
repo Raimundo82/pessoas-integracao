@@ -6,7 +6,7 @@ This document defines the standards, expectations, and constraints for automated
 
 The **Pessoas-Integracao (PIIP)** project is a specialized data staging layer designed to synchronize personnel information from **SIGDN-RHV** with the operational reality of the **Portuguese Navy**.
 
-Its primary purpose is to act as a reliable intermediary data store (Staging Area) that consumes all personnel-related data from the source system—expected to synchronize every x (not define...) hours—and serves as the authoritative source of truth for all future applications developed by the Navy.
+Its primary purpose is to act as a reliable intermediary data store (Staging Area) that consumes all personnel-related data from the source system—expected to synchronize at scheduled intervals... - and serves as the authoritative source of truth for all future applications developed by the Navy.
 
 **Core Objectives:**
 
@@ -25,7 +25,7 @@ Its primary purpose is to act as a reliable intermediary data store (Staging Are
 ## 3. Rules for Modifying Files
 
 - **Safe Zones**: Agents are encouraged to suggest improvements in `src/` and `tests/`.
-- **Restricted Zones**: Do NOT modify `.github/workflows/`, `global.json`, or `Directory.Packages.props` without explicit confirmation, as these affect the entire build pipeline and dependency management.
+- **Restricted Zones**: Do NOT modify `.gitea/workflows/`, `global.json`, or `Directory.Packages.props` without explicit confirmation, as these affect the entire build pipeline and dependency management.
 - **File Creation**: New files must be placed in the appropriate directory according to the project structure.
 - **Consistency**: Maintain the existing indentation and formatting defined in `.editorconfig` and `.prettierrc`.
 
