@@ -60,6 +60,8 @@ The container is defined in `.devcontainer/devcontainer.json` and uses a Docker 
    - `SONARQUBE_CI_TOKEN`: SonarQube CI token for full scan via development environment
    - `SONARQUBE_USER_TOKEN`: SonarQube user token for connected mode in development environment
    - `SONAR_HOST_URL`: SonarQube server URL
+   - `PROXY`: Proxy URL (required if your network uses a proxy)
+   - `NO_PROXY`: Comma-separated list of hosts that should bypass the proxy (e.g., `.marinha.pt,localhost,127.0.0.1,host.docker.internal`)
 
 3. **Open in VS Code**:
    - Press F1 (or Ctrl+Shift+P) and run:

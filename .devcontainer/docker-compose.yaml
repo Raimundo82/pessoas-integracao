@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - http_proxy=${HTTP_PROXY}
-        - https_proxy=${HTTPS_PROXY}
+        - http_proxy=${PROXY}
+        - https_proxy=${PROXY}
         - no_proxy=${NO_PROXY}
 
     volumes:
@@ -19,8 +19,8 @@ services:
       AppSettings__WriteApiKey: ${WRITE_API_KEY}
       SONARQUBE_CI_TOKEN: ${SONARQUBE_CI_TOKEN}
       SONAR_HOST_URL: ${SONAR_HOST_URL}
-      http_proxy: ${HTTP_PROXY}
-      https_proxy: ${HTTPS_PROXY}
+      http_proxy: ${PROXY}
+      https_proxy: ${PROXY}
       no_proxy: ${NO_PROXY}
 
     # Overrides default command so things don't shut down after the process ends.
