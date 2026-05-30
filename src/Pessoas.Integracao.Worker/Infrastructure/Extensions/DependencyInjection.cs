@@ -4,7 +4,6 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Correlation;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
@@ -23,7 +22,7 @@ public static class DependencyInjection
             .AddSoapChannelFactorySingleton<ZHR_WS_DELTASChannel>(settings => settings.DeltasUrl)
             .AddScoped<ISoapChannelProvider<zhr_wsChannel>, SoapChannelProvider<zhr_wsChannel>>()
             .AddScoped<ISoapChannelProvider<ZHR_WS_DELTASChannel>, SoapChannelProvider<ZHR_WS_DELTASChannel>>()
-            .AddScoped<IPersonnelNumbersClient, PersonnelNumberClient>()
+            .AddScoped<IPersonnelNumbersClient, PersonnelNumbersClient>()
             .AddScoped<IPessoasDataProvider, SigdnRhPessoasProvider>()
             .AddScoped<IPessoasImportKeyProvider, SigdnRhPessoasImportKeysProvider>()
             .AddScoped<IPessoaCoreDataProvider, PessoaCoreDataProvider>()

@@ -11,7 +11,6 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
@@ -34,7 +33,7 @@ public sealed class DependencyInjectionUnitTests
         // Assert
         services.Should().ContainSingle(d => d.ServiceType == typeof(ISoapChannelProvider<zhr_wsChannel>) && d.Lifetime == ServiceLifetime.Scoped);
         services.Should().ContainSingle(d => d.ServiceType == typeof(ISoapChannelProvider<ZHR_WS_DELTASChannel>) && d.Lifetime == ServiceLifetime.Scoped);
-        services.Should().ContainSingle(d => d.ServiceType == typeof(IPersonnelNumbersClient) && d.ImplementationType == typeof(PersonnelNumberClient));
+        services.Should().ContainSingle(d => d.ServiceType == typeof(IPersonnelNumbersClient) && d.ImplementationType == typeof(PersonnelNumbersClient));
         services.Should().ContainSingle(d => d.ServiceType == typeof(IPessoasDataProvider) && d.ImplementationType == typeof(SigdnRhPessoasProvider));
         services.Should().ContainSingle(d => d.ServiceType == typeof(IPessoasImportKeyProvider) && d.ImplementationType == typeof(SigdnRhPessoasImportKeysProvider));
     }

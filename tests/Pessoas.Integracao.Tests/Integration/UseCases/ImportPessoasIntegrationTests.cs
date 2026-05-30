@@ -77,7 +77,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -126,7 +126,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -175,7 +175,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -227,7 +227,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -278,7 +278,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -328,7 +328,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -374,7 +374,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -420,7 +420,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -470,7 +470,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 }
             });
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         _mockPessoasDataProvider
@@ -536,7 +536,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 })]
             );
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);
@@ -607,7 +607,7 @@ public sealed class ImportPessoasIntegrationTests : IAsyncLifetime, IDisposable
                 })]
             );
 
-        var perNrsClient = new PersonnelNumberClient(_settings, _mockSoapChannelProvider.Object);
+        var perNrsClient = new PersonnelNumbersClient(_settings, _mockSoapChannelProvider.Object);
         var importKeysProvider = new SigdnRhPessoasImportKeysProvider(perNrsClient);
 
         var useCase = new ImportPessoas(_repository, _mockPessoasDataProvider.Object, importKeysProvider);

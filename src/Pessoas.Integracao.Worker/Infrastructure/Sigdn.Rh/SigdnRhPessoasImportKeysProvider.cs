@@ -1,6 +1,6 @@
 using Pessoas.Integracao.Core.Application.Contracts;
 using Pessoas.Integracao.Core.Application.Models;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 

@@ -2,12 +2,11 @@ using Microsoft.Extensions.Options;
 
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
 
-public class PersonnelNumberClient(
+public class PersonnelNumbersClient(
         IOptions<DataSourceSettings> dataSourceSettings,
         ISoapChannelProvider<zhr_wsChannel> soapChannelProvider)
         : IPersonnelNumbersClient

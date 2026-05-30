@@ -48,7 +48,7 @@ public sealed class PersonnelNumbersClientUnitTests : IDisposable
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
+        var client = new PersonnelNumbersClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonnelNumbersAsync(_ct);
@@ -76,7 +76,7 @@ public sealed class PersonnelNumbersClientUnitTests : IDisposable
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
-        var client = new PersonnelNumberClient(_settings, _soapChannelProvider.Object);
+        var client = new PersonnelNumbersClient(_settings, _soapChannelProvider.Object);
 
         // Act
         var result = await client.GetPersonnelNumbersAsync(_ct);
