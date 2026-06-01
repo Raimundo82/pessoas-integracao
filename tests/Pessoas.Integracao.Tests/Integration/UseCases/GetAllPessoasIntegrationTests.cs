@@ -17,21 +17,25 @@ namespace Pessoas.Integracao.Tests.Integration.UseCases;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class GetAllPessoasIntegrationTests : IDisposable
+public sealed class GetAllPessoasIntegrationTests : IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
+    private readonly PostgresTestContainerDb _db;
+
 
     public GetAllPessoasIntegrationTests(PostgresTestContainerDb db)
     {
+        _db = db;
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
 
         _context = new AppDbContext(options);
         _repository = new PessoaRepository(_context);
-        _context.Database.EnsureCreated();
+
     }
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ExecuteAsync_WhenPessoasExist_ReturnsAllPessoaDtos()
@@ -94,9 +98,10 @@ public sealed class GetAllPessoasIntegrationTests : IDisposable
         result.Should().BeEmpty();
     }
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
         _context.Dispose();
         GC.SuppressFinalize(this);
     }

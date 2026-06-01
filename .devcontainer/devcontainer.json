@@ -43,5 +43,6 @@
   "remoteEnv": {
     "TESTCONTAINERS_HOST_OVERRIDE": "host.docker.internal"
   },
+  "postStartCommand": "bash .devcontainer/docker-socket-permissions.sh",
   "postCreateCommand": "bash .devcontainer/post-script.sh"
 }

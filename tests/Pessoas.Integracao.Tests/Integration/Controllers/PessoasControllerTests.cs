@@ -20,22 +20,26 @@ using Pessoas.Integracao.Tests.TestInfrastructure;
 namespace Pessoas.Integracao.Tests.Integration.Controllers;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebAppFactory>, IDisposable
+public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebAppFactory>, IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly IntegrationTestWebAppFactory _factory;
+    private readonly PostgresTestContainerDb _db;
+
 
     public PessoasControllerTests(PostgresTestContainerDb db, IntegrationTestWebAppFactory factory)
     {
         _factory = factory;
-
+        _db = db;
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
 
         _context = new AppDbContext(options);
-        _context.Database.EnsureCreated();
     }
+
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
+
 
     [Fact]
     public async Task ShouldReturnOkWithAllPessoaDtos_WhenGetAllAndPessoasExist()
@@ -170,10 +174,11 @@ public sealed class PessoasControllerTests : IClassFixture<IntegrationTestWebApp
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context?.Database.EnsureDeleted();
-        _context?.Dispose();
+        _context.Dispose();
         GC.SuppressFinalize(this);
     }
 }

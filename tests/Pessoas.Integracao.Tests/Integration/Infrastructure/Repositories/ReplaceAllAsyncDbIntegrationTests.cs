@@ -14,24 +14,26 @@ namespace Pessoas.Integracao.Tests.Integration.Infrastructure.Repositories;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
+public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposable
 {
     private readonly AppDbContext _context;
     private readonly PessoaRepository _repository;
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+    private readonly PostgresTestContainerDb _db;
 
 
     public ReplaceAllAsyncDbIntegrationTests(PostgresTestContainerDb db)
     {
+        _db = db;
         _options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
 
         _context = new AppDbContext(_options);
         _repository = new PessoaRepository(_context);
-        _context.Database.EnsureCreated();
     }
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ShouldReplaceAllPessoas_WhenReplacingAll()
@@ -264,9 +266,11 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IDisposable
         return await readContext.Pessoas.ToListAsync();
     }
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
         _context.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

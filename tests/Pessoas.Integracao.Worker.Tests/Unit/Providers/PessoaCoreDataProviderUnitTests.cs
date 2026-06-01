@@ -6,7 +6,6 @@ using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Contracts;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 

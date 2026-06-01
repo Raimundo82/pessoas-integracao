@@ -20,12 +20,14 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 namespace Pessoas.Integracao.Tests.Integration.Controllers;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTestWebAppFactory>, IDisposable
+public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTestWebAppFactory>, IAsyncLifetime, IDisposable
 {
     private readonly HttpClient _client;
     private readonly AppDbContext _context;
     private readonly IServiceScope _scope;
     private readonly Mock<zhr_wsChannel> _mockSoapChannel;
+    private readonly PostgresTestContainerDb _db;
+
 
     private readonly Mock<IPessoasDataProvider> _mockPessoasDataProvider;
     private readonly IntegrationTestWebAppFactory _factory;
@@ -33,6 +35,7 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
     public PessoasImportControllerTests(PostgresTestContainerDb db, IntegrationTestWebAppFactory factory)
     {
         _factory = factory;
+        _db = db;
         _client = factory.CreateAuthenticatedClient(Roles.Admin);
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(db.ConnectionString)
@@ -57,9 +60,9 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
                     NII = k.Nii,
                     ExternalId = k.ExternalId
                 })]);
-
-        _context.Database.EnsureCreated();
     }
+
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ShouldPersistProviderPessoasToDatabase_WhenImportWithMockedSoapResponseAndEmptyDb()
@@ -234,10 +237,11 @@ public sealed class PessoasImportControllerTests : IClassFixture<IntegrationTest
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
     public void Dispose()
     {
-        _context?.Database.EnsureDeleted();
-        _context?.Dispose();
+        _context.Dispose();
         GC.SuppressFinalize(this);
     }
 }
