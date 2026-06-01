@@ -2,6 +2,8 @@ using FluentAssertions;
 
 using Microsoft.EntityFrameworkCore;
 
+using Npgsql;
+
 using Pessoas.Integracao.Core.Domain.Entities;
 using Pessoas.Integracao.Core.Domain.ValueObjects;
 using Pessoas.Integracao.Core.Infrastructure.Data;
@@ -48,7 +50,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Select(p => p.NII).Should().BeEquivalentTo("11111", "22222");
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("EXT1");
@@ -74,7 +76,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync(updatedPessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("NEW1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
@@ -97,7 +99,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
@@ -148,7 +150,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync([updatedPessoa], _ct);
 
         // Assert
-        var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == "55555");
+        var savedPessoa = (await GetAllPessoasAsync()).Single(p => p.NII == "55555");
         savedPessoa.Id.Should().Be(originalId);
         savedPessoa.ExternalId.Should().Be(updatedPessoa.ExternalId);
         savedPessoa.DadosPessoais.NomeCompleto.Should().Be(updatedPessoa.DadosPessoais.NomeCompleto);
@@ -182,7 +184,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync([updatedPessoa], _ct);
 
         // Assert
-        var savedPessoa = (await ReadAllPessoasAsync()).Single(p => p.NII == nii);
+        var savedPessoa = (await GetAllPessoasAsync()).Single(p => p.NII == nii);
         savedPessoa.DadosPessoais.NomeCompleto.Should().BeNull();
     }
 
@@ -196,7 +198,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync([], _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().ContainSingle();
     }
 
@@ -219,11 +221,31 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await _repository.UpsertAllAsync(duplicatedPessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("FIRST");
         savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("UPDATED");
+    }
 
+    [Fact]
+    public async Task ShouldRollbackClearAll_WhenDatabaseErrorOccursDuringUpsert()
+    {
+        // Arrange
+        var initialPessoa = new Pessoa { NII = "123", ExternalId = "ORIGINAL" };
+        await SeedAsync(initialPessoa);
+
+        var invalidPessoas = new[]
+        {
+            new Pessoa { NII = null!, ExternalId = "INVALID" }
+        };
+
+        // Act
+        Func<Task> act = async () => await _repository.UpsertAllAsync(invalidPessoas, _ct);
+
+        await act.Should().ThrowAsync<PostgresException>();
+
+        var result = await GetAllPessoasAsync();
+        result.Should().ContainSingle(p => p.NII == "123", "The ClearAllAsync operation should have been rolled back because the subsequent insert failed.");
     }
 
     private async Task<List<Pessoa>> SeedAsync(params Pessoa[] pessoas)
@@ -233,7 +255,7 @@ public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposab
         await seedContext.SaveChangesAsync();
         return [.. pessoas];
     }
-    private async Task<List<Pessoa>> ReadAllPessoasAsync()
+    private async Task<List<Pessoa>> GetAllPessoasAsync()
     {
         await using var readContext = new AppDbContext(_options);
         return await readContext.Pessoas.ToListAsync();

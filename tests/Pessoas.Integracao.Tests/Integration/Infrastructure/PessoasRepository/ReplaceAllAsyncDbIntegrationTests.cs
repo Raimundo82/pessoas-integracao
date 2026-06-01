@@ -57,7 +57,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(input, _ct);
 
         // Assert
-        var result = await ReadAllPessoasAsync();
+        var result = await GetAllPessoasAsync();
         result.Should().HaveCount(2);
 
         var p1 = result.Should().ContainSingle(p => p.NII == "11111").Which;
@@ -86,7 +86,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(3);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("NEW2");
@@ -140,7 +140,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().ContainSingle(p => p.NII == "55555");
         var savedPessoa = savedPessoas.Single(p => p.NII == "55555");
         savedPessoa.Id.Should().NotBe(existingId);
@@ -163,7 +163,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
 
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().BeEmpty();
     }
 
@@ -181,7 +181,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("EXT1");
         savedPessoas.Should().ContainSingle(p => p.NII == "22222").Which.ExternalId.Should().Be("EXT2");
@@ -202,7 +202,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(pessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(1);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("UPDATED1");
     }
@@ -224,7 +224,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await _repository.ReplaceAllAsync(duplicatedPessoas, _ct);
 
         // Assert
-        var savedPessoas = await ReadAllPessoasAsync();
+        var savedPessoas = await GetAllPessoasAsync();
         savedPessoas.Should().HaveCount(2);
         savedPessoas.Should().ContainSingle(p => p.NII == "11111").Which.ExternalId.Should().Be("FIRST");
         savedPessoas.Should().ContainSingle(p => p.NII == "99999").Which.ExternalId.Should().Be("UPDATED");
@@ -232,7 +232,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
     }
 
     [Fact]
-    public async Task ShouldRollbackClearAll_WhenDatabaseErrorOccursDuringInsert()
+    public async Task ShouldRollbackClearAll_WhenDatabaseErrorOccursDuringReplaceAll()
     {
         // Arrange
         var initialPessoa = new Pessoa { NII = "123", ExternalId = "ORIGINAL" };
@@ -248,7 +248,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
 
         await act.Should().ThrowAsync<PostgresException>();
 
-        var result = await ReadAllPessoasAsync();
+        var result = await GetAllPessoasAsync();
         result.Should().ContainSingle(p => p.NII == "123", "The ClearAllAsync operation should have been rolled back because the subsequent insert failed.");
     }
 
@@ -260,7 +260,7 @@ public sealed class ReplaceAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposa
         await seedContext.SaveChangesAsync();
         return [.. pessoas];
     }
-    private async Task<List<Pessoa>> ReadAllPessoasAsync()
+    private async Task<List<Pessoa>> GetAllPessoasAsync()
     {
         await using var readContext = new AppDbContext(_options);
         return await readContext.Pessoas.ToListAsync();
