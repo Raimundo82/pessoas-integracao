@@ -8,18 +8,18 @@ pre-commit:
     dotnet-format:
       stage_fixed: true
       glob: '**/*.cs'
-      run: dotnet format --include {staged_files}
+      run: dotnet format whitespace --include {staged_files} && dotnet format style --include {staged_files}
 format-all:
   commands:
     prettier:
       glob: '**/*.{md,mdx,yml,yaml,json,jsonc}'
       run: npx prettier --write {all_files}
     dotnet:
-      run: dotnet format
+      run: dotnet format whitespace && dotnet format style
 format-ci:
   commands:
     prettier:
       glob: '**/*.{md,mdx,yml,yaml,json,jsonc}'
       run: npx prettier --check {all_files}
     dotnet:
-      run: dotnet format --verify-no-changes
+      run: dotnet format whitespace --verify-no-changes && dotnet format style --verify-no-changes

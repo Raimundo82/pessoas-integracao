@@ -8,9 +8,9 @@ namespace Pessoas.Integracao.Core.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<Pessoa> Pessoas { get; set; }
-    public DbSet<Colocacao> Colocacoes { get; set; }
-    public DbSet<UnidadeExterna> UnidadesExternas { get; set; }
+    public DbSet<Pessoa> Pessoas { get; set; } = null!;
+    public DbSet<Colocacao> Colocacoes { get; set; } = null!;
+    public DbSet<UnidadeExterna> UnidadesExternas { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

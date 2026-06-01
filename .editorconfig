@@ -41,6 +41,7 @@ dotnet_remove_unnecessary_imports = true
 file_header_template = unset
 dotnet_diagnostic.IDE0005.severity = error
 dotnet_diagnostic.IDE0210.severity = error
+dotnet_diagnostic.CS1591.severity = none
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:silent
@@ -129,10 +130,13 @@ csharp_style_prefer_readonly_struct_member = true:suggestion
 # Code-block preferences
 csharp_prefer_braces = true:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_style_namespace_declarations = file_scoped:error
 csharp_style_prefer_method_group_conversion = true:silent
-csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_prefer_primary_constructors = true:error
 csharp_style_prefer_top_level_statements = true:silent
+
+dotnet_diagnostic.IDE0161.severity = error
+dotnet_diagnostic.IDE0290.severity = error
 
 # Expression-level preferences
 csharp_prefer_simple_default_expression = true:suggestion
