@@ -7,9 +7,11 @@ namespace Pessoas.Integracao.Analitica.Models;
 
 public partial class ZhrWsAptidaoAptidao
 {
+    public int Id { get; set; }
+
     public string? Numsap { get; set; }
 
-    public string? Ni { get; set; }
+    public required string Ni { get; set; }
 
     public string? Subty { get; set; }
 

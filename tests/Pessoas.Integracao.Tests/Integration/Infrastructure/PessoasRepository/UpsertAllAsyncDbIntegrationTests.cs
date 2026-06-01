@@ -8,7 +8,7 @@ using Pessoas.Integracao.Core.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Repositories;
 using Pessoas.Integracao.Tests.TestInfrastructure;
 
-namespace Pessoas.Integracao.Tests.Integration.Infrastructure.Repositories;
+namespace Pessoas.Integracao.Tests.Integration.Infrastructure.PessoasRepository;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class UpsertAllAsyncDbIntegrationTests : IAsyncLifetime, IDisposable

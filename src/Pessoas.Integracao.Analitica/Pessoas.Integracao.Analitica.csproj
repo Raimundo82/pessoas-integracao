@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="EFCore.BulkExtensions.Core" />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
   </ItemGroup>
 
 </Project>

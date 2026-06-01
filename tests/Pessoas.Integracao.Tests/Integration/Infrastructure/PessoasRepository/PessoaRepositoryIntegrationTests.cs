@@ -10,7 +10,7 @@ using Pessoas.Integracao.Core.Infrastructure.Persistence;
 using Pessoas.Integracao.Core.Infrastructure.Repositories;
 using Pessoas.Integracao.Tests.TestInfrastructure;
 
-namespace Pessoas.Integracao.Tests.Integration.Infrastructure.Repositories;
+namespace Pessoas.Integracao.Tests.Integration.Infrastructure.PessoasRepository;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class PessoaRepositoryIntegrationTests : IAsyncLifetime, IDisposable

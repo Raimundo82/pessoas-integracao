@@ -5,6 +5,7 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="EFCore.BulkExtensions" Version="10.0.1" />
     <PackageVersion Include="EFCore.BulkExtensions.Core" Version="10.0.1" />
     <PackageVersion Include="EFCore.BulkExtensions.PostgreSql" Version="10.0.1" />
     <PackageVersion Include="FluentAssertions" Version="8.10.0" />

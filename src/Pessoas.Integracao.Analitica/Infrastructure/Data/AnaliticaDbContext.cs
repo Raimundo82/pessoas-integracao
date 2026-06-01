@@ -2,7 +2,9 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+
 using Pessoas.Integracao.Analitica.Models;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.Data;
@@ -242,10 +244,12 @@ public partial class AnaliticaDbContext : DbContext
     {
         modelBuilder.Entity<ZhrWsAptidaoAptidao>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("ZhrWsAptidao_Aptidao");
+            entity.ToTable("ZhrWsAptidao_Aptidao");
 
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+            entity.HasIndex(x => x.Ni);
             entity.Property(e => e.AreaExame).IsUnicode(false);
             entity.Property(e => e.ArexamesDesc).IsUnicode(false);
             entity.Property(e => e.DataExame).IsUnicode(false);
@@ -260,7 +264,6 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.ServicoMedInt).IsUnicode(false);
             entity.Property(e => e.Subty).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.Valor).IsUnicode(false);
         });
@@ -297,7 +300,6 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Stat2desc).IsUnicode(false);
             entity.Property(e => e.Unid).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
                 .HasColumnName("updated_at");
         });
 
@@ -351,7 +353,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Quadespdesc).IsUnicode(false);
             entity.Property(e => e.Quadro).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.ZarmaCod).IsUnicode(false);
             entity.Property(e => e.ZclasCod).IsUnicode(false);
@@ -373,7 +375,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -390,7 +392,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -410,7 +412,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Posto).IsUnicode(false);
             entity.Property(e => e.Sitprom).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zarfu).IsUnicode(false);
             entity.Property(e => e.Zarma).IsUnicode(false);
@@ -440,7 +442,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Tipodatafim).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -457,7 +459,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -479,7 +481,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Obs2).IsUnicode(false);
             entity.Property(e => e.Obs3).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -507,7 +509,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.PostoCat).IsUnicode(false);
             entity.Property(e => e.Tpcond).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -527,7 +529,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.TipoContig).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -546,7 +548,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zzdlmc).IsUnicode(false);
         });
@@ -574,7 +576,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ssnum).IsUnicode(false);
             entity.Property(e => e.Ssrgm).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -589,7 +591,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Subtipcom).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -622,7 +624,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Tipocom3).IsUnicode(false);
             entity.Property(e => e.Tiporesid).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -642,7 +644,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.ServicoMedInt).IsUnicode(false);
             entity.Property(e => e.Subty).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Valor).IsUnicode(false);
         });
@@ -660,7 +662,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -675,7 +677,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zzauto).IsUnicode(false);
             entity.Property(e => e.ZzcurIngress).IsUnicode(false);
@@ -735,7 +737,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Subty).IsUnicode(false);
             entity.Property(e => e.Uname).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zzadsub).IsUnicode(false);
             entity.Property(e => e.Zzcodsub).IsUnicode(false);
@@ -781,7 +783,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Text2).IsUnicode(false);
             entity.Property(e => e.Text3).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zdescricao).IsUnicode(false);
             entity.Property(e => e.Znhor).IsUnicode(false);
@@ -812,7 +814,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -829,7 +831,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Datafalecido).HasMaxLength(10);
             entity.Property(e => e.GrupoEmpregado).HasMaxLength(10);
             entity.Property(e => e.MageCreatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("_mage_created_at");
             entity.Property(e => e.MageUpdatedAt)
                 .HasMaxLength(52)
@@ -857,7 +859,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Cartaoemitido).HasMaxLength(1);
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.MageCreatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("_mage_created_at");
             entity.Property(e => e.MageUpdatedAt)
                 .HasMaxLength(52)
@@ -928,7 +930,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Tiplouv).IsUnicode(false);
             entity.Property(e => e.Unidade).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -975,7 +977,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.TipoprocDsc).IsUnicode(false);
             entity.Property(e => e.Unidacontagem).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -999,7 +1001,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Pais).IsUnicode(false);
             entity.Property(e => e.Relevsammfa).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1017,7 +1019,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.PerDdHorario).IsUnicode(false);
             entity.Property(e => e.PerSemHorario).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1036,7 +1038,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.NumConta).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1061,7 +1063,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Resid).IsUnicode(false);
             entity.Property(e => e.Svrat).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Wspse).IsUnicode(false);
         });
@@ -1082,7 +1084,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Tipodoc).IsUnicode(false);
             entity.Property(e => e.Tipodocdesc).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.ZzdispId).IsUnicode(false);
         });
@@ -1099,7 +1101,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.TipoData).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1117,7 +1119,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Stat1).IsUnicode(false);
             entity.Property(e => e.Stat2).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1133,7 +1135,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Subty).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.ZfuncDesc).IsUnicode(false);
             entity.Property(e => e.Zhrmotexclu).IsUnicode(false);
@@ -1222,7 +1224,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ssins).IsUnicode(false);
             entity.Property(e => e.Ssnum).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Zzfatxt).IsUnicode(false);
         });
@@ -1260,7 +1262,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Subty).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.ZzIndig).IsUnicode(false);
         });
@@ -1297,7 +1299,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Sexo).IsUnicode(false);
             entity.Property(e => e.SexoDesc).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1312,7 +1314,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.TipoData).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1327,7 +1329,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1344,7 +1346,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.Waers).IsUnicode(false);
             entity.Property(e => e.Zzposr).IsUnicode(false);
@@ -1361,7 +1363,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Grupo).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1383,7 +1385,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Rua).IsUnicode(false);
             entity.Property(e => e.Tiporesid).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1400,7 +1402,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.NomeproprioPai).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1421,7 +1423,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Tipodoc).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1442,7 +1444,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Paisnat).IsUnicode(false);
             entity.Property(e => e.Sexo).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1461,7 +1463,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.Tipo).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1474,7 +1476,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Ni).IsUnicode(false);
             entity.Property(e => e.Numsap).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1490,7 +1492,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1506,7 +1508,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1522,7 +1524,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1538,7 +1540,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1554,7 +1556,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1570,7 +1572,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1586,7 +1588,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1602,7 +1604,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1618,7 +1620,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1634,7 +1636,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1650,7 +1652,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1667,7 +1669,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Id2).HasMaxLength(255);
             entity.Property(e => e.Id3).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1683,7 +1685,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1699,7 +1701,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1715,7 +1717,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1731,7 +1733,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1747,7 +1749,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1763,7 +1765,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1779,7 +1781,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1795,7 +1797,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1811,7 +1813,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1828,7 +1830,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Motivo).HasMaxLength(4000);
             entity.Property(e => e.Tipo).HasMaxLength(4000);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1844,7 +1846,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1873,7 +1875,7 @@ public partial class AnaliticaDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("Id_Tipo");
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1889,7 +1891,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
             entity.Property(e => e.V1)
                 .HasMaxLength(255)
@@ -1911,7 +1913,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1927,7 +1929,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1956,7 +1958,7 @@ public partial class AnaliticaDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("Id_SGP");
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1972,7 +1974,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -1988,7 +1990,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2004,7 +2006,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2020,7 +2022,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2036,7 +2038,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2052,7 +2054,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2068,7 +2070,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2084,7 +2086,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2100,7 +2102,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2116,7 +2118,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2132,7 +2134,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2148,7 +2150,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2164,7 +2166,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2180,7 +2182,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2196,7 +2198,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2212,7 +2214,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2228,7 +2230,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2257,7 +2259,7 @@ public partial class AnaliticaDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("Id_ORGAO");
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2273,7 +2275,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2289,7 +2291,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2305,7 +2307,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2321,7 +2323,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2337,7 +2339,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2353,7 +2355,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2369,7 +2371,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2385,7 +2387,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2401,7 +2403,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2417,7 +2419,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2433,7 +2435,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2449,7 +2451,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2465,7 +2467,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2481,7 +2483,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2498,7 +2500,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.Id2).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2514,7 +2516,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2543,7 +2545,7 @@ public partial class AnaliticaDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("Id_Tipo_Tarifa");
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2559,7 +2561,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
@@ -2575,7 +2577,7 @@ public partial class AnaliticaDbContext : DbContext
             entity.Property(e => e.Endda).HasMaxLength(10);
             entity.Property(e => e.Id).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
+
                 .HasColumnName("updated_at");
         });
 
