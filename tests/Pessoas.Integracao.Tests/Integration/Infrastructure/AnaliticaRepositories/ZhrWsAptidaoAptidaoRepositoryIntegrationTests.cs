@@ -34,7 +34,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
-    public async Task ShouldPreserveAlllRows_WhenUpsertByNiiInputIsEmpty()
+    public async Task ShouldPreserveAllRows_WhenReplaceMatchingByNiInputIsEmpty()
     {
         // Arrange
         var existing = new[]
@@ -48,7 +48,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         await _context.SaveChangesAsync(_ct);
 
         // Act
-        await _repository.UpsertByNiiAsync([], _ct);
+        await _repository.ReplaceMatchingByNiAsync([], _ct);
 
         // Assert
         var result = await GetAllZhrWsAptidaoAptidao();
@@ -58,7 +58,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldInsertAllRows_WhenNiIsNewAndEmptyDB()
+    public async Task ShouldInsertAllRows_WhenDatabaseIsEmptyAndNiIsNew()
     {
         // Arrange
         var ni = "10001";
@@ -69,7 +69,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        await _repository.UpsertByNiiAsync(exams, _ct);
+        await _repository.ReplaceMatchingByNiAsync(exams, _ct);
 
         // Assert
         var result = await GetAllZhrWsAptidaoAptidao();
@@ -79,7 +79,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldReplaceExistingRowsAndPreserveUnrelated_WhenNiExists()
+    public async Task ShouldReplaceMatchingByNiRowsAndPreserveUnrelated_WhenNiExists()
     {
         // Arrange
         await _context.ZhrWsAptidaoAptidaos.AddRangeAsync(
@@ -97,7 +97,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        await _repository.UpsertByNiiAsync(newExams, _ct);
+        await _repository.ReplaceMatchingByNiAsync(newExams, _ct);
 
         // Assert
         var result = await GetAllZhrWsAptidaoAptidao();
@@ -109,7 +109,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldNotAffectOtherNiValues_WhenDifferentNiIsUpserted()
+    public async Task ShouldNotAffectOtherNiValues_WhenReplaceMatchingByNiIsCalledForDifferentNi()
     {
         // Arrange
         await _context.ZhrWsAptidaoAptidaos.AddAsync(
@@ -123,7 +123,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        await _repository.UpsertByNiiAsync(exams, _ct);
+        await _repository.ReplaceMatchingByNiAsync(exams, _ct);
 
         // Assert
         var result = await GetAllZhrWsAptidaoAptidao();
@@ -134,7 +134,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldReplaceAllMatchingNiRows_WhenMultipleNisProvided()
+    public async Task ShouldReplaceMatchingByNiRows_WhenMultipleNisProvided()
     {
         // Arrange
         await _context.ZhrWsAptidaoAptidaos.AddRangeAsync(
@@ -152,7 +152,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        await _repository.UpsertByNiiAsync(exams, _ct);
+        await _repository.ReplaceMatchingByNiAsync(exams, _ct);
 
         // Assert
         var result = await GetAllZhrWsAptidaoAptidao();
@@ -167,7 +167,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldRollbackUpserByNii_WhenDatabaseErrorOccurs()
+    public async Task ShouldRollbackReplaceMatchingByNi_WhenDatabaseErrorOccurs()
     {
         // Arrange
         await _context.ZhrWsAptidaoAptidaos.AddAsync(
@@ -183,7 +183,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        Func<Task> act = async () => await _repository.UpsertByNiiAsync(newDataset, _ct);
+        Func<Task> act = async () => await _repository.ReplaceMatchingByNiAsync(newDataset, _ct);
 
         await act.Should().ThrowAsync<PostgresException>();
 
@@ -194,7 +194,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldRollbackUpserByNii_WhenDatabaseErrorOccursWithEmptyDB()
+    public async Task ShouldRollbackReplaceMatchingByNi_WhenDatabaseErrorOccursWithEmptyDatabase()
     {
         // Arrange
         var newDataset = new[]
@@ -205,7 +205,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
         };
 
         // Act
-        Func<Task> act = async () => await _repository.UpsertByNiiAsync(newDataset, _ct);
+        Func<Task> act = async () => await _repository.ReplaceMatchingByNiAsync(newDataset, _ct);
         await act.Should().ThrowAsync<PostgresException>();
 
         // Assert
@@ -214,7 +214,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldPreserveAlllRows_WhenReplaceAllInputIsEmpty()
+    public async Task ShouldLeaveDatabaseEmpty_WhenReplaceAllInputIsEmpty()
     {
         // Arrange
         var existing = new[]
@@ -236,7 +236,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldContainOnlyNewRecords_WhenReplaceAllAsyncIsCalledWithPopulatedDB()
+    public async Task ShouldContainOnlyNewRecords_WhenReplaceAllAsyncIsCalledWithPopulatedDatabase()
     {
         // Arrange
         await _context.ZhrWsAptidaoAptidaos.AddRangeAsync(
@@ -262,7 +262,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldContainOnlyNewRecords_WhenReplaceAllAsyncIsCalledWithEmptyDB()
+    public async Task ShouldContainOnlyNewRecords_WhenReplaceAllAsyncIsCalledWithEmptyDatabase()
     {
         // Arrange
         var newDataset = new[]
@@ -309,7 +309,7 @@ public sealed class ZhrWsAptidaoAptidaoRepositoryIntegrationTests : IAsyncLifeti
     }
 
     [Fact]
-    public async Task ShouldRollbackReplaceAll_WhenDatabaseErrorOccursWithEmptyDB()
+    public async Task ShouldRollbackReplaceAll_WhenDatabaseErrorOccursWithEmptyDatabase()
     {
         // Arrange
         var newDataset = new[]

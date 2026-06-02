@@ -12,7 +12,7 @@ public class ZhrWsAptidaoAptidaoRepository(AnaliticaDbContext context) : IZhrWsA
 {
     private readonly AnaliticaDbContext _context = context;
 
-    public async Task UpsertByNiiAsync(IReadOnlyList<ZhrWsAptidaoAptidao> entities, CancellationToken ct)
+    public async Task ReplaceMatchingByNiAsync(IReadOnlyList<ZhrWsAptidaoAptidao> entities, CancellationToken ct)
     {
         var nis = entities
             .Select(entity => entity.Ni)
