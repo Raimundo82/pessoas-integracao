@@ -240,21 +240,14 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
         using var cancellationTokenSource = new CancellationTokenSource();
-        var cancellationToken = cancellationTokenSource.Token;
+        var soapCallStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         _soapChannel
             .Setup(c => c.ZhrWsPersonalDataAsync(It.IsAny<ZhrWsPersonalDataRequest>()))
-            .Returns(async () =>
+            .Returns(() =>
             {
-                await Task.Delay(100); // Simulate some delay
-                cancellationToken.ThrowIfCancellationRequested();
-                return new ZhrWsPersonalDataResponse1
-                {
-                    ZhrWsPersonalDataResponse = new ZhrWsPersonalDataResponse
-                    {
-                        Output = []
-                    }
-                };
+                soapCallStarted.TrySetResult();
+                return new TaskCompletionSource<ZhrWsPersonalDataResponse1>(TaskCreationOptions.RunContinuationsAsynchronously).Task;
             });
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
@@ -263,10 +256,16 @@ public sealed class PersonalDataClientUnitTests : IDisposable
 
         // Act
         var getPersonalDataTask = client.GetPersonalDataAsync(personImportKeys, cancellationTokenSource.Token);
+        await soapCallStarted.Task;
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await Assert.ThrowsAsync<OperationCanceledException>(() => getPersonalDataTask);
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => getPersonalDataTask);
+        _soapResultCorrelator.Verify(c => c.CorrelateByKey(
+            It.IsAny<PessoaImportKey[]>(),
+            It.IsAny<ZhrSPessoaisOutput[]?>(),
+            It.IsAny<Func<ZhrSPessoaisOutput, string>>()),
+        Times.Never);
     }
 
 

@@ -24,10 +24,12 @@ public class ExamesMedClient(
         var channel = _soapChannelProvider.CreateChannel();
         var input = importKey.Select(k => new ZhrWsInputStruct { Empresa = _settings.Empresa, Numsap = k.ExternalId, Ni = k.Nii });
 
-        var response = await channel.ZhrWsExamesMedAsync(new ZhrWsExamesMedRequest
-        {
-            ZhrWsExamesMed = new ZhrWsExamesMed { Input = [.. input] }
-        });
+        var response = await channel
+            .ZhrWsExamesMedAsync(new ZhrWsExamesMedRequest
+            {
+                ZhrWsExamesMed = new ZhrWsExamesMed { Input = [.. input] }
+            })
+            .WaitAsync(cancellationToken);
 
         var output = response.ZhrWsExamesMedResponse.Output;
 

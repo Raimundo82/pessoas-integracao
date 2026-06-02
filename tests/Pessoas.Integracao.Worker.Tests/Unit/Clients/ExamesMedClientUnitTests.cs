@@ -238,21 +238,14 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
         using var cancellationTokenSource = new CancellationTokenSource();
-        var cancellationToken = cancellationTokenSource.Token;
+        var soapCallStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         _soapChannel
             .Setup(c => c.ZhrWsExamesMedAsync(It.IsAny<ZhrWsExamesMedRequest>()))
-            .Returns(async () =>
+            .Returns(() =>
             {
-                await Task.Delay(100);
-                cancellationToken.ThrowIfCancellationRequested();
-                return new ZhrWsExamesMedResponse1
-                {
-                    ZhrWsExamesMedResponse = new ZhrWsExamesMedResponse
-                    {
-                        Output = []
-                    }
-                };
+                soapCallStarted.TrySetResult();
+                return new TaskCompletionSource<ZhrWsExamesMedResponse1>(TaskCreationOptions.RunContinuationsAsynchronously).Task;
             });
 
         _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
@@ -261,10 +254,16 @@ public sealed class ExamesMedClientUnitTests : IDisposable
 
         // Act
         var getExamesMedTask = client.GetExamesMedAsync(personImportKeys, cancellationTokenSource.Token);
+        await soapCallStarted.Task;
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await Assert.ThrowsAsync<OperationCanceledException>(() => getExamesMedTask);
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => getExamesMedTask);
+        _soapResultCorrelator.Verify(c => c.CorrelateByKey(
+            It.IsAny<PessoaImportKey[]>(),
+            It.IsAny<ZhrSExamesMedOutput[]?>(),
+            It.IsAny<Func<ZhrSExamesMedOutput, string>>()),
+        Times.Never);
     }
 
 

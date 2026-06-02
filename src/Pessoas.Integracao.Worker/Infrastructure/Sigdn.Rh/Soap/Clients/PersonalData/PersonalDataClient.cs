@@ -24,10 +24,12 @@ public class PersonalDataClient(
         var channel = _soapChannelProvider.CreateChannel();
         var input = importKeys.Select(k => new ZhrWsInputStruct { Empresa = _settings.Empresa, Numsap = k.ExternalId, Ni = k.Nii });
 
-        var response = await channel.ZhrWsPersonalDataAsync(new ZhrWsPersonalDataRequest
-        {
-            ZhrWsPersonalData = new ZhrWsPersonalData { Input = [.. input] }
-        });
+        var response = await channel
+            .ZhrWsPersonalDataAsync(new ZhrWsPersonalDataRequest
+            {
+                ZhrWsPersonalData = new ZhrWsPersonalData { Input = [.. input] }
+            })
+            .WaitAsync(cancellationToken);
 
         var output = response.ZhrWsPersonalDataResponse.Output;
 
