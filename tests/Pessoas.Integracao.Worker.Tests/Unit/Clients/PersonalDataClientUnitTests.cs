@@ -35,8 +35,6 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         // Arrange
         var personImportKeys = Array.Empty<PessoaImportKey>();
 
-        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
-
         var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
@@ -55,7 +53,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
 
 
     [Fact]
-    public async Task ShouldReturnExpectedOutput_WhenImportKeysHasOneItem()
+    public async Task ShouldReturnExpectedOutput_WhenImportKeyListHasOneItem()
     {
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("22600", "30002696") };
@@ -140,7 +138,39 @@ public sealed class PersonalDataClientUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldReturnEmptyDict_WhenSoapResponseOutputIsNul()
+    public async Task ShouldBuildRequestWithCorrectFields_WhenCallingGetPersonalDataAsync()
+    {
+        // Arrange
+        var personImportKeys = new[] { new PessoaImportKey("22600", "30002696") };
+        _settings = Options.Create(new DataSourceSettings { Empresa = "1000" });
+
+        ZhrWsPersonalDataRequest? capturedRequest = null;
+        _soapChannel
+            .Setup(c => c.ZhrWsPersonalDataAsync(It.IsAny<ZhrWsPersonalDataRequest>()))
+            .Callback<ZhrWsPersonalDataRequest>(r => capturedRequest = r)
+            .ReturnsAsync(new ZhrWsPersonalDataResponse1 { ZhrWsPersonalDataResponse = new ZhrWsPersonalDataResponse { Output = [] } });
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapResultCorrelator.Setup(c => c.CorrelateByKey(
+                It.IsAny<PessoaImportKey[]>(),
+                It.IsAny<ZhrSPessoaisOutput[]>(),
+                It.IsAny<Func<ZhrSPessoaisOutput, string>>()))
+            .Returns([]);
+
+        var client = new PersonalDataClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
+
+        // Act
+        await client.GetPersonalDataAsync(personImportKeys, _ct);
+
+        // Assert
+        capturedRequest.Should().NotBeNull();
+        capturedRequest!.ZhrWsPersonalData.Input.Should().ContainSingle();
+        capturedRequest.ZhrWsPersonalData.Input[0].Ni.Should().Be("22600");
+        capturedRequest.ZhrWsPersonalData.Input[0].Numsap.Should().Be("30002696");
+        capturedRequest.ZhrWsPersonalData.Input[0].Empresa.Should().Be("1000");
+    }
+
+    [Fact]
+    public async Task ShouldReturnEmptyDict_WhenSoapResponseOutputIsNull()
     {
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
@@ -167,7 +197,7 @@ public sealed class PersonalDataClientUnitTests : IDisposable
         _soapChannel.Verify(c => c.ZhrWsPersonalDataAsync(It.IsAny<ZhrWsPersonalDataRequest>()), Times.Once);
         _soapResultCorrelator.Verify(c => c.CorrelateByKey(
                 It.Is<PessoaImportKey[]>(keys => keys.SequenceEqual(personImportKeys)),
-                It.Is<ZhrSPessoaisOutput[]>(output => output == null),
+                It.Is<ZhrSPessoaisOutput[]?>(output => output == null),
                 It.IsAny<Func<ZhrSPessoaisOutput, string>>()), Times.Once);
     }
 

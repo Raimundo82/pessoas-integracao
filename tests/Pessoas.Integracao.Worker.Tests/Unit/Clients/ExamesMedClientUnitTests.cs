@@ -34,12 +34,6 @@ public sealed class ExamesMedClientUnitTests : IDisposable
     {
         // Arrange
         var personImportKeys = Array.Empty<PessoaImportKey>();
-        var soapOutput = Array.Empty<ZhrSExamesMedOutput>();
-
-        _soapChannel
-            .Setup(c => c.ZhrWsExamesMedAsync(It.IsAny<ZhrWsExamesMedRequest>()))
-            .ReturnsAsync(new ZhrWsExamesMedResponse1 { ZhrWsExamesMedResponse = new ZhrWsExamesMedResponse { Output = soapOutput } });
-        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
 
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
@@ -142,7 +136,7 @@ public sealed class ExamesMedClientUnitTests : IDisposable
     }
 
     [Fact]
-    public async Task ShouldReturnEmptyList_WhenSoapResponseOutputIsNul()
+    public async Task ShouldReturnEmptyDict_WhenSoapResponseOutputIsNull()
     {
         // Arrange
         var personImportKeys = new[] { new PessoaImportKey("00001", "00000001") };
@@ -168,9 +162,41 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         _soapChannel.Verify(c => c.ZhrWsExamesMedAsync(It.IsAny<ZhrWsExamesMedRequest>()), Times.Once);
         _soapResultCorrelator.Verify(c => c.CorrelateByKey(
             It.IsAny<PessoaImportKey[]>(),
-            It.IsAny<ZhrSExamesMedOutput[]>(),
+            It.IsAny<ZhrSExamesMedOutput[]?>(),
             It.IsAny<Func<ZhrSExamesMedOutput, string>>()),
         Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldBuildRequestWithCorrectFields_WhenCallingGetExamesMedAsync()
+    {
+        // Arrange
+        var personImportKeys = new[] { new PessoaImportKey("22600", "30002696") };
+        _settings = Options.Create(new DataSourceSettings { Empresa = "1000" });
+
+        ZhrWsExamesMedRequest? capturedRequest = null;
+        _soapChannel
+            .Setup(c => c.ZhrWsExamesMedAsync(It.IsAny<ZhrWsExamesMedRequest>()))
+            .Callback<ZhrWsExamesMedRequest>(r => capturedRequest = r)
+            .ReturnsAsync(new ZhrWsExamesMedResponse1 { ZhrWsExamesMedResponse = new ZhrWsExamesMedResponse { Output = [] } });
+        _soapChannelProvider.Setup(f => f.CreateChannel()).Returns(_soapChannel.Object);
+        _soapResultCorrelator.Setup(c => c.CorrelateByKey(
+                It.IsAny<PessoaImportKey[]>(),
+                It.IsAny<ZhrSExamesMedOutput[]>(),
+                It.IsAny<Func<ZhrSExamesMedOutput, string>>()))
+            .Returns([]);
+
+        var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
+
+        // Act
+        await client.GetExamesMedAsync(personImportKeys, _ct);
+
+        // Assert
+        capturedRequest.Should().NotBeNull();
+        capturedRequest!.ZhrWsExamesMed.Input.Should().ContainSingle();
+        capturedRequest.ZhrWsExamesMed.Input[0].Ni.Should().Be("22600");
+        capturedRequest.ZhrWsExamesMed.Input[0].Numsap.Should().Be("30002696");
+        capturedRequest.ZhrWsExamesMed.Input[0].Empresa.Should().Be("1000");
     }
 
     [Fact]
@@ -234,11 +260,11 @@ public sealed class ExamesMedClientUnitTests : IDisposable
         var client = new ExamesMedClient(_settings, _soapChannelProvider.Object, _soapResultCorrelator.Object);
 
         // Act
-        var getPersonalDataTask = client.GetExamesMedAsync(personImportKeys, cancellationTokenSource.Token);
+        var getExamesMedTask = client.GetExamesMedAsync(personImportKeys, cancellationTokenSource.Token);
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await Assert.ThrowsAsync<OperationCanceledException>(() => getPersonalDataTask);
+        await Assert.ThrowsAsync<OperationCanceledException>(() => getExamesMedTask);
     }
 
 
