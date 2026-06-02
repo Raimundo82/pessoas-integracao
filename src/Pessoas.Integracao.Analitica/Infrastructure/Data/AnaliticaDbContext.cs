@@ -274,6 +274,10 @@ public partial class AnaliticaDbContext : DbContext
                 .HasNoKey()
                 .ToTable("ZhrWsAtribOrg_AtribOrg");
 
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+            entity.HasIndex(x => x.Ni);
             entity.Property(e => e.Abunid).IsUnicode(false);
             entity.Property(e => e.Begda).IsUnicode(false);
             entity.Property(e => e.Cargo).IsUnicode(false);
