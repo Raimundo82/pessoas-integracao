@@ -10,7 +10,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Extensions;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.PersonnelNumbers;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 

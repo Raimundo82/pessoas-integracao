@@ -1,7 +1,7 @@
 ﻿using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.ExamesMed;
 
 public interface IExamesMedClient
 {

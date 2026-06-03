@@ -1,6 +1,7 @@
 using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Fragments;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.ExamesMed;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.PersonalData;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Translators;
 
 namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.FragmentProviders;

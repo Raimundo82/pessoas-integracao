@@ -6,7 +6,7 @@ using Moq;
 
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.PersonnelNumbers;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
 namespace Pessoas.Integracao.Worker.Tests.Unit.Clients;

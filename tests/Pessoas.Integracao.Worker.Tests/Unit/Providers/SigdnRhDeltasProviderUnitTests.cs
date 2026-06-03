@@ -4,7 +4,7 @@ using Moq;
 
 using Pessoas.Integracao.Core.Application.Models;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh;
-using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.Deltas;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Deltas;
 
 namespace Pessoas.Integracao.Worker.Tests.Unit.Providers;

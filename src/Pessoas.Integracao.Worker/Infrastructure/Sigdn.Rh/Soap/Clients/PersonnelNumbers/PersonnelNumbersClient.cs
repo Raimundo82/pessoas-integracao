@@ -4,7 +4,7 @@ using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Configuration;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Channel;
 using Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Generated.Output;
 
-namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients;
+namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.PersonnelNumbers;
 
 public class PersonnelNumbersClient(
         IOptions<DataSourceSettings> dataSourceSettings,
