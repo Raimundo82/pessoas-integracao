@@ -9,27 +9,31 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.Personn
 public class PersonnelNumbersClient(
         IOptions<DataSourceSettings> dataSourceSettings,
         ISoapChannelProvider<zhr_wsChannel> soapChannelProvider)
-        : IPersonnelNumbersClient
+        : SoapBaseClient<zhr_wsChannel>(soapChannelProvider), IPersonnelNumbersClient
 {
     private readonly DataSourceSettings _settings = dataSourceSettings.Value;
-    private readonly ISoapChannelProvider<zhr_wsChannel> _soapChannelProvider = soapChannelProvider;
+
     public async Task<ZhrSListapessoal[]> GetPersonnelNumbersAsync(CancellationToken cancellationToken)
     {
-        var channel = _soapChannelProvider.CreateChannel();
-
-        var result = await channel.ZhrWsGetPernrAsync(new ZhrWsGetPernrRequest
+        return await ExecuteAsync(async channel =>
         {
-            ZhrWsGetPernr = new ZhrWsGetPernr
-            {
-                Input = [
-                    new ZhrWsInputStru
+            var result = await channel
+                .ZhrWsGetPernrAsync(new ZhrWsGetPernrRequest
+                {
+                    ZhrWsGetPernr = new ZhrWsGetPernr
                     {
-                        Empresa = _settings.Empresa,
-                        Dtreferencia = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+                        Input = [
+                        new ZhrWsInputStru
+                        {
+                            Empresa = _settings.Empresa,
+                            Dtreferencia = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+                        }
+                    ]
                     }
-                ]
-            }
+                })
+                .WaitAsync(cancellationToken);
+
+            return result.ZhrWsGetPernrResponse.Output.FirstOrDefault()?.Pessoal ?? [];
         });
-        return result.ZhrWsGetPernrResponse.Output.FirstOrDefault()?.Pessoal ?? [];
     }
 }

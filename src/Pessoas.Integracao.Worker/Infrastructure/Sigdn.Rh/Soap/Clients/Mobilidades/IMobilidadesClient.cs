@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.Mobilid
 
 public interface IMobilidadesClient
 {
-    Task<Dictionary<PessoaImportKey, ZhrSMobilidadesOutput?>> GetMobilidadesAsync(IReadOnlyList<PessoaImportKey> importKey, CancellationToken cancellationToken);
+    Task<Dictionary<PessoaImportKey, ZhrSMobilidadesOutput?>> GetMobilidadesAsync(IReadOnlyList<PessoaImportKey> importKeys, CancellationToken cancellationToken);
 }

@@ -12,25 +12,26 @@ public class MobilidadesClient(
         IOptions<DataSourceSettings> dataSourceSettings,
         ISoapChannelProvider<zhr_wsChannel> soapChannelProvider,
         ISoapResultCorrelator soapResultCorrelator
-    ) : IMobilidadesClient
+    ) : SoapBaseClient<zhr_wsChannel>(soapChannelProvider), IMobilidadesClient
 {
     private readonly DataSourceSettings _settings = dataSourceSettings.Value;
-    private readonly ISoapChannelProvider<zhr_wsChannel> _soapChannelProvider = soapChannelProvider;
     private readonly ISoapResultCorrelator _soapResultCorrelator = soapResultCorrelator;
 
-    public async Task<Dictionary<PessoaImportKey, ZhrSMobilidadesOutput?>> GetMobilidadesAsync(IReadOnlyList<PessoaImportKey> importKey, CancellationToken cancellationToken)
+    public async Task<Dictionary<PessoaImportKey, ZhrSMobilidadesOutput?>> GetMobilidadesAsync(IReadOnlyList<PessoaImportKey> importKeys, CancellationToken cancellationToken)
     {
-        if (importKey.Count == 0) return [];
+        return importKeys.Count == 0
+            ? []
+            : await ExecuteAsync(async channel =>
+        {
+            var input = importKeys.Select(k => new ZhrWsInputStruct { Empresa = _settings.Empresa, Numsap = k.ExternalId, Ni = k.Nii });
 
-        var channel = _soapChannelProvider.CreateChannel();
-        var input = importKey.Select(k => new ZhrWsInputStruct { Empresa = _settings.Empresa, Numsap = k.ExternalId, Ni = k.Nii });
+            var response = await channel
+                .ZhrWsMobilidadesAsync(new ZhrWsMobilidadesRequest { ZhrWsMobilidades = new ZhrWsMobilidades { Input = [.. input] } })
+                .WaitAsync(cancellationToken);
 
-        var response = await channel
-            .ZhrWsMobilidadesAsync(new ZhrWsMobilidadesRequest { ZhrWsMobilidades = new ZhrWsMobilidades { Input = [.. input] } })
-            .WaitAsync(cancellationToken);
+            var output = response.ZhrWsMobilidadesResponse?.Output;
 
-        var output = response.ZhrWsMobilidadesResponse?.Output;
-
-        return _soapResultCorrelator.CorrelateByKey(importKey, output, x => x.Ni);
+            return _soapResultCorrelator.CorrelateByKey(importKeys, output, x => x.Ni);
+        });
     }
 }

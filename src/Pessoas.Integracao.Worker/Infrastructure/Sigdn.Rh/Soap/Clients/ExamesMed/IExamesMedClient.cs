@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Worker.Infrastructure.Sigdn.Rh.Soap.Clients.ExamesM
 
 public interface IExamesMedClient
 {
-    Task<Dictionary<PessoaImportKey, ZhrSExamesMedOutput?>> GetExamesMedAsync(IReadOnlyList<PessoaImportKey> importKey, CancellationToken cancellationToken);
+    Task<Dictionary<PessoaImportKey, ZhrSExamesMedOutput?>> GetExamesMedAsync(IReadOnlyList<PessoaImportKey> importKeys, CancellationToken cancellationToken);
 }
