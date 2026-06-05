@@ -1,0 +1,11 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": ["http://esb-lb-soa.marinha.pt:8301/ZHR_EPR?wsdl"],
+    "namespaceMappings": ["*, Pessoas.Integracao.Worker.Infrastructure.Models.Dados"],
+    "outputFile": "DadosService.cs",
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}
