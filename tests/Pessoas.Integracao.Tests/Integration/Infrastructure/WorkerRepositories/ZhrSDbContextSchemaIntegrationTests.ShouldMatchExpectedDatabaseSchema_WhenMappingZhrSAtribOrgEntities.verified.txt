@@ -1,0 +1,512 @@
+﻿{
+  RootPK: [
+    Id
+  ],
+  RootNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: Numsap
+    },
+    {
+      Name: Ni
+    }
+  ],
+  RootNullableCols: [
+    {
+      Name: DataIncorp
+    },
+    {
+      Name: Datquadro
+    },
+    {
+      Name: Datarma
+    },
+    {
+      Name: Dataingresso
+    },
+    {
+      Name: UpdatedAt
+    }
+  ],
+  RootIdxs: [
+    {
+      Name: IX_ZhrSAtribOrgOutputs_Ni,
+      Columns: [
+        Ni
+      ]
+    },
+    {
+      Name: IX_ZhrSAtribOrgOutputs_Numsap,
+      Columns: [
+        Numsap
+      ]
+    },
+    {
+      Name: PK_ZhrSAtribOrgOutputs,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  AtribOrgPK: [
+    Id
+  ],
+  AtribOrgNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  AtribOrgNullableCols: [
+    {
+      Name: Unid
+    },
+    {
+      Name: Abunid
+    },
+    {
+      Name: DescUni
+    },
+    {
+      Name: Situnid
+    },
+    {
+      Name: DescSit
+    },
+    {
+      Name: DtPosicao
+    },
+    {
+      Name: Posicao
+    },
+    {
+      Name: Sigla
+    },
+    {
+      Name: DescPosi
+    },
+    {
+      Name: Cargo
+    },
+    {
+      Name: DescCarg
+    },
+    {
+      Name: GrpEmpregad
+    },
+    {
+      Name: DescEmp
+    },
+    {
+      Name: Codsitcargo
+    },
+    {
+      Name: DescSubemp
+    },
+    {
+      Name: Dtsitquadro
+    },
+    {
+      Name: Datapresenta
+    },
+    {
+      Name: Stat1
+    },
+    {
+      Name: Stat1desc
+    },
+    {
+      Name: Stat2
+    },
+    {
+      Name: Stat2desc
+    },
+    {
+      Name: Descrelemprego
+    },
+    {
+      Name: Begda
+    }
+  ],
+  AtribOrgIdxs: [
+    {
+      Name: IX_ZhrSAtribOrgs_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSAtribOrgs,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  ClassifProfPK: [
+    Id
+  ],
+  ClassifProfNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  ClassifProfNullableCols: [
+    {
+      Name: Quadro
+    },
+    {
+      Name: Codposto
+    },
+    {
+      Name: Abposto
+    },
+    {
+      Name: Desccatprof
+    },
+    {
+      Name: Dtposto
+    },
+    {
+      Name: Classe
+    },
+    {
+      Name: DescClct
+    },
+    {
+      Name: Armaserv
+    },
+    {
+      Name: Descarma
+    },
+    {
+      Name: Datarma
+    },
+    {
+      Name: Especialidade
+    },
+    {
+      Name: Descesp
+    },
+    {
+      Name: DtEspecialidade
+    },
+    {
+      Name: Quadespdesc
+    },
+    {
+      Name: Zzgrad
+    },
+    {
+      Name: DtZzgrad
+    },
+    {
+      Name: Abpostograd
+    },
+    {
+      Name: DescpostGrad
+    },
+    {
+      Name: Numordposto
+    },
+    {
+      Name: Agrupclassemar
+    },
+    {
+      Name: Classemar
+    },
+    {
+      Name: Datclassemar
+    },
+    {
+      Name: Esp1
+    },
+    {
+      Name: Esp1Dsc
+    },
+    {
+      Name: Esp2
+    },
+    {
+      Name: Esp2Dsc
+    },
+    {
+      Name: Esp3
+    },
+    {
+      Name: Esp3Dsc
+    },
+    {
+      Name: Codsubespec
+    },
+    {
+      Name: Abrevespec
+    },
+    {
+      Name: DtSubesp
+    },
+    {
+      Name: Dataramoclasse
+    },
+    {
+      Name: Descramoclasse
+    },
+    {
+      Name: ZclasCod
+    },
+    {
+      Name: ZramoCod
+    },
+    {
+      Name: ZarmaCod
+    },
+    {
+      Name: ZespfCod
+    },
+    {
+      Name: ZqespCod
+    },
+    {
+      Name: AreaFunc
+    },
+    {
+      Name: AreaFuncDsc
+    },
+    {
+      Name: EspOfSar
+    },
+    {
+      Name: EspOfSarDsc
+    },
+    {
+      Name: EspPra
+    },
+    {
+      Name: EspPraDsc
+    },
+    {
+      Name: Cargo
+    },
+    {
+      Name: CargoDsc
+    },
+    {
+      Name: Begda
+    }
+  ],
+  ClassifProfIdxs: [
+    {
+      Name: IX_ZhrSClassifProfs_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSClassifProfs,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  DataMedidasPK: [
+    Id
+  ],
+  DataMedidasNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  DataMedidasNullableCols: [
+    {
+      Name: Dar01
+    },
+    {
+      Name: Dat01
+    },
+    {
+      Name: DescMedida
+    }
+  ],
+  DataMedidasIdxs: [
+    {
+      Name: IX_ZhrSDataMedidas_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSDataMedidas,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  infoPromPK: [
+    Id
+  ],
+  infoPromNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  infoPromNullableCols: [
+    {
+      Name: Begda
+    },
+    {
+      Name: Endda
+    },
+    {
+      Name: Sitprom
+    },
+    {
+      Name: Motdemora
+    },
+    {
+      Name: ZdemDes
+    },
+    {
+      Name: Motpret
+    },
+    {
+      Name: ZpretDes
+    },
+    {
+      Name: ClasseMilitar
+    },
+    {
+      Name: Posto
+    },
+    {
+      Name: Zdatapromo
+    },
+    {
+      Name: Zarma
+    },
+    {
+      Name: Zarfu
+    },
+    {
+      Name: ZespxOs
+    },
+    {
+      Name: ZespxP
+    },
+    {
+      Name: Zcarg
+    },
+    {
+      Name: Zordem
+    },
+    {
+      Name: Zzpubl
+    },
+    {
+      Name: Zznumpubl
+    },
+    {
+      Name: Zzdata
+    },
+    {
+      Name: Zzseri
+    },
+    {
+      Name: Zzdispal
+    },
+    {
+      Name: Zzdesp
+    }
+  ],
+  infoPromIdxs: [
+    {
+      Name: IX_ZhrSInfoProms_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSInfoProms,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  monitPrazosPK: [
+    Id
+  ],
+  monitPrazosNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  monitPrazosNullableCols: [
+    {
+      Name: Tipodatafim
+    },
+    {
+      Name: Dataprev
+    }
+  ],
+  monitPrazosIdxs: [
+    {
+      Name: IX_ZhrSMonitPrazos_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSMonitPrazos,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  omPK: [
+    Id
+  ],
+  omNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  omNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSAtribOrgOutputId
+    }
+  ],
+  omIdxs: [
+    {
+      Name: IX_ZhrSOms_ZhrSAtribOrgOutputId,
+      Columns: [
+        ZhrSAtribOrgOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSOms,
+      Columns: [
+        Id
+      ]
+    }
+  ]
+}
