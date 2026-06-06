@@ -1,8 +1,8 @@
 namespace Pessoas.Integracao.Worker.Infrastructure.Models.Dados;
 
-public partial class ZhrSAptidao : ZhrWsBaseModel
+public partial class ZhrSAptidao : ZhrSBaseModel
 {
     public int ZhrSAptidaoOutputId { get; set; }
-    public required ZhrSAptidaoOutput Output { get; set; }
+    public virtual required ZhrSAptidaoOutput Root { get; set; }
 }
 
