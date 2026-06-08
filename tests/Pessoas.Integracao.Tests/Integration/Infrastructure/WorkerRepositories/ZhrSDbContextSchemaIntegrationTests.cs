@@ -98,4 +98,75 @@ public sealed class ZhrSDbContextSchemaIntegrationTests(PostgresTestContainerDb 
             omIdxs = om.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
         });
     }
+
+    [Fact]
+    public async Task ShouldMatchExpectedDatabaseSchema_WhenMappingZhrSMobilidadesEntities()
+    {
+        // Arrange
+        var connection = new NpgsqlConnection(_db.ConnectionString);
+        using var reader = new DatabaseReader(connection);
+
+        // Act
+        var rootTable = reader.Table("ZhrSMobilidadesOutputs", _ct);
+        var mobilidadesTable = reader.Table("ZhrSMobilidades", _ct);
+
+        // Assert
+        await Verify(new
+        {
+            RootPK = rootTable.PrimaryKey.Columns,
+            RootNonNullableCols = rootTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            RootNullableCols = rootTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            RootIdxs = rootTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            MobilidadesPK = mobilidadesTable.PrimaryKey.Columns,
+            MobilidadesNonNullableCols = mobilidadesTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            MobilidadesNullableCols = mobilidadesTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            MobilidadesIdxs = mobilidadesTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
+        });
+    }
+
+    [Fact]
+    public async Task ShouldMatchExpectedDatabaseSchema_WhenMappingZhrSPessoaisEntities()
+    {
+        // Arrange
+        var connection = new NpgsqlConnection(_db.ConnectionString);
+        using var reader = new DatabaseReader(connection);
+
+        // Act
+        var rootTable = reader.Table("ZhrSPessoaisOutputs", _ct);
+        var pessoaisTable = reader.Table("ZhrSPessoais", _ct);
+        var familiaTable = reader.Table("ZhrSFamilias", _ct);
+        var outrosdadosTable = reader.Table("ZhrSOutrosdados", _ct);
+        var deficienciasTable = reader.Table("ZhrSDeficiencias", _ct);
+
+        // Assert
+        await Verify(new
+        {
+            RootPK = rootTable.PrimaryKey.Columns,
+            RootNonNullableCols = rootTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            RootNullableCols = rootTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            RootIdxs = rootTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            PessoaisPK = pessoaisTable.PrimaryKey.Columns,
+            PessoaisNonNullableCols = pessoaisTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            PessoaisNullableCols = pessoaisTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            PessoaisIdxs = pessoaisTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            FamiliaPK = familiaTable.PrimaryKey.Columns,
+            FamiliaNonNullableCols = familiaTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            FamiliaNullableCols = familiaTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            FamiliaIdxs = familiaTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            OutrosdadosPK = outrosdadosTable.PrimaryKey.Columns,
+            OutrosdadosNonNullableCols = outrosdadosTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            OutrosdadosNullableCols = outrosdadosTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            OutrosdadosIdxs = outrosdadosTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            DeficienciasPK = deficienciasTable.PrimaryKey.Columns,
+            DeficienciasNonNullableCols = deficienciasTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            DeficienciasNullableCols = deficienciasTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            DeficienciasIdxs = deficienciasTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
+        });
+    }
+
 }

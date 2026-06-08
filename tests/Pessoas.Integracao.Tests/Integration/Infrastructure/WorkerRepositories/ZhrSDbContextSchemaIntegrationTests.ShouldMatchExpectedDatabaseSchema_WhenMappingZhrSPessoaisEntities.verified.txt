@@ -1,0 +1,365 @@
+﻿{
+  RootPK: [
+    Id
+  ],
+  RootNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: Numsap
+    },
+    {
+      Name: Ni
+    }
+  ],
+  RootNullableCols: [
+    {
+      Name: UpdatedAt
+    }
+  ],
+  RootIdxs: [
+    {
+      Name: IX_ZhrSPessoaisOutputs_Ni,
+      Columns: [
+        Ni
+      ]
+    },
+    {
+      Name: IX_ZhrSPessoaisOutputs_Numsap,
+      Columns: [
+        Numsap
+      ]
+    },
+    {
+      Name: PK_ZhrSPessoaisOutputs,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  PessoaisPK: [
+    Id
+  ],
+  PessoaisNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSPessoaisOutputId
+    }
+  ],
+  PessoaisNullableCols: [
+    {
+      Name: Nome
+    },
+    {
+      Name: Apelido
+    },
+    {
+      Name: Sexo
+    },
+    {
+      Name: SexoDesc
+    },
+    {
+      Name: DtNasci
+    },
+    {
+      Name: Idade
+    },
+    {
+      Name: Idade31dezembro
+    },
+    {
+      Name: Nacionalidade1
+    },
+    {
+      Name: Nacionalidade2
+    },
+    {
+      Name: Nacionalidade3
+    },
+    {
+      Name: PaisNat
+    },
+    {
+      Name: PaisnascDesc
+    },
+    {
+      Name: DistritoNat
+    },
+    {
+      Name: DistnascDesc
+    },
+    {
+      Name: ConcelhoNat
+    },
+    {
+      Name: ConcnascDesc
+    },
+    {
+      Name: FreguesiaNat
+    },
+    {
+      Name: FregnascDesc
+    },
+    {
+      Name: EstCivil
+    },
+    {
+      Name: EstadocivilDesc
+    },
+    {
+      Name: DataEstCivil
+    },
+    {
+      Name: Rufnm
+    },
+    {
+      Name: DtFalec
+    }
+  ],
+  PessoaisIdxs: [
+    {
+      Name: IX_ZhrSPessoais_ZhrSPessoaisOutputId,
+      Columns: [
+        ZhrSPessoaisOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSPessoais,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  FamiliaPK: [
+    Id
+  ],
+  FamiliaNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSPessoaisOutputId
+    }
+  ],
+  FamiliaNullableCols: [
+    {
+      Name: Objps
+    },
+    {
+      Name: Famsa
+    },
+    {
+      Name: Sigla
+    },
+    {
+      Name: Fgbdt
+    },
+    {
+      Name: Fanat
+    },
+    {
+      Name: Fasex
+    },
+    {
+      Name: Fanam
+    },
+    {
+      Name: Zzfatxt
+    },
+    {
+      Name: Fcnam
+    },
+    {
+      Name: Finum
+    },
+    {
+      Name: Ssnum
+    },
+    {
+      Name: Ssins
+    },
+    {
+      Name: Benef
+    },
+    {
+      Name: Nsers
+    },
+    {
+      Name: Begda
+    },
+    {
+      Name: Endda
+    },
+    {
+      Name: Dtfalec
+    }
+  ],
+  FamiliaIdxs: [
+    {
+      Name: IX_ZhrSFamilias_ZhrSPessoaisOutputId,
+      Columns: [
+        ZhrSPessoaisOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSFamilias,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  OutrosdadosPK: [
+    Id
+  ],
+  OutrosdadosNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: ZhrSPessoaisOutputId
+    }
+  ],
+  OutrosdadosNullableCols: [
+    {
+      Name: DataIni
+    },
+    {
+      Name: DataFim
+    },
+    {
+      Name: Subty
+    },
+    {
+      Name: DescSub
+    },
+    {
+      Name: Aus01
+    },
+    {
+      Name: Aus02
+    },
+    {
+      Name: Aus03
+    },
+    {
+      Name: Aus04
+    },
+    {
+      Name: Aus05
+    },
+    {
+      Name: Aus06
+    },
+    {
+      Name: Aus07
+    },
+    {
+      Name: Aus08
+    },
+    {
+      Name: Aus09
+    },
+    {
+      Name: Aus10
+    },
+    {
+      Name: Aus11
+    },
+    {
+      Name: Aus12
+    },
+    {
+      Name: Aus13
+    },
+    {
+      Name: Aus14
+    },
+    {
+      Name: Aus15
+    },
+    {
+      Name: Aus16
+    },
+    {
+      Name: Aus17
+    },
+    {
+      Name: Aus18
+    },
+    {
+      Name: Aus19
+    },
+    {
+      Name: Aus20
+    },
+    {
+      Name: ZzIndig
+    }
+  ],
+  OutrosdadosIdxs: [
+    {
+      Name: IX_ZhrSOutrosdados_ZhrSPessoaisOutputId,
+      Columns: [
+        ZhrSPessoaisOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSOutrosdados,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  DeficienciasPK: [
+    Id
+  ],
+  DeficienciasNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: PercDef
+    },
+    {
+      Name: ZhrSPessoaisOutputId
+    }
+  ],
+  DeficienciasNullableCols: [
+    {
+      Name: DataIni
+    },
+    {
+      Name: DataFim
+    },
+    {
+      Name: Descricao
+    },
+    {
+      Name: DtEmissao
+    },
+    {
+      Name: Dfa
+    },
+    {
+      Name: DoencProf
+    }
+  ],
+  DeficienciasIdxs: [
+    {
+      Name: IX_ZhrSDeficiencias_ZhrSPessoaisOutputId,
+      Columns: [
+        ZhrSPessoaisOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSDeficiencias,
+      Columns: [
+        Id
+      ]
+    }
+  ]
+}
