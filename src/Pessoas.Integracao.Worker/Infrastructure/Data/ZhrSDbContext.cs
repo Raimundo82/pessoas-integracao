@@ -19,6 +19,17 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
     public DbSet<ZhrSMonitPrazos> ZhrSMonitPrazos { get; set; } = null!;
     public DbSet<ZhrSOm> ZhrSOms { get; set; } = null!;
 
+    // Pessoais
+    public DbSet<ZhrSPessoaisOutput> ZhrSPessoaisOutputs { get; set; } = null!;
+    public DbSet<ZhrSPessoais> ZhrSPessoais { get; set; } = null!;
+    public DbSet<ZhrSFamilia> ZhrSFamilias { get; set; } = null!;
+    public DbSet<ZhrSOutrosdados> ZhrSOutrosdados { get; set; } = null!;
+    public DbSet<ZhrSDeficiencias> ZhrSDeficiencias { get; set; } = null!;
+
+    // Mobilidades
+    public DbSet<ZhrSMobilidadesOutput> ZhrSMobilidadesOutputs { get; set; } = null!;
+    public DbSet<ZhrSMobilidades> ZhrSMobilidades { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var outputSubclasses = modelBuilder.Model
