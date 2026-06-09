@@ -656,6 +656,7 @@
       "pessoas.integracao.worker": {
         "type": "Project",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[10.0.8, )",
           "Microsoft.Extensions.Hosting": "[10.0.8, )",
           "Pessoas.Integracao.Core": "[1.0.0, )",
           "Quartz.Extensions.Hosting": "[3.18.1, )",
