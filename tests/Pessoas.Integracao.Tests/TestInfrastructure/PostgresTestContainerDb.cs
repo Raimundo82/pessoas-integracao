@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -21,6 +23,11 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
     private Respawner _respawner = null!;
 
     public string ConnectionString { get; private set; } = null!;
+
+    [ModuleInitializer]
+    public static void Initialize() =>
+         DerivePathInfo((sourceFile, projectDirectory, type, method) =>
+            new PathInfo(Path.Combine(projectDirectory, "__snapshots__")));
 
     public PostgresTestContainerDb()
     {
