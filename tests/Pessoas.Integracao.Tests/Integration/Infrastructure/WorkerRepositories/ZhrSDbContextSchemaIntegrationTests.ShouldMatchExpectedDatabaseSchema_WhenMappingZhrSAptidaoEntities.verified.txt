@@ -46,10 +46,10 @@
       Name: Id
     },
     {
-      Name: ZhrSAptidaoOutputId
+      Name: Valor
     },
     {
-      Name: Valor
+      Name: ZhrSAptidaoOutputId
     }
   ],
   AptidaoNullableCols: [
