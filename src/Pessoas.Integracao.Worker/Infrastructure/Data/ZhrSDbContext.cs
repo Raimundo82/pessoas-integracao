@@ -42,6 +42,9 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
         {
             var entity = modelBuilder.Entity(entityType.ClrType);
 
+            foreach (var arrayProp in entityType.ClrType.GetProperties().Where(p => p.PropertyType.IsArray))
+                entity.Ignore(arrayProp.Name);
+
             foreach (var propName in requiredAndIndexedProps)
             {
                 entity.Property(propName).IsRequired();
