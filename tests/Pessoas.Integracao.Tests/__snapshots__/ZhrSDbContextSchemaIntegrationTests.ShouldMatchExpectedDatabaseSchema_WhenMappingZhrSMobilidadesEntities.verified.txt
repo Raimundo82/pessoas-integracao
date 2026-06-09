@@ -1,0 +1,260 @@
+﻿{
+  RootPK: [
+    Id
+  ],
+  RootNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: Numsap
+    },
+    {
+      Name: Ni
+    }
+  ],
+  RootNullableCols: [
+    {
+      Name: UpdatedAt
+    }
+  ],
+  RootIdxs: [
+    {
+      Name: IX_ZhrSMobilidadesOutputs_Ni,
+      Columns: [
+        Ni
+      ]
+    },
+    {
+      Name: IX_ZhrSMobilidadesOutputs_Numsap,
+      Columns: [
+        Numsap
+      ]
+    },
+    {
+      Name: PK_ZhrSMobilidadesOutputs,
+      Columns: [
+        Id
+      ]
+    }
+  ],
+  MobilidadesPK: [
+    Id
+  ],
+  MobilidadesNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: Zzhrprmr
+    },
+    {
+      Name: ZhrSMobilidadesOutputId
+    }
+  ],
+  MobilidadesNullableCols: [
+    {
+      Name: Zzpref
+    },
+    {
+      Name: ZzprefDesc
+    },
+    {
+      Name: Zzunpref
+    },
+    {
+      Name: ZzcodUnpref
+    },
+    {
+      Name: ZzunprefDesc
+    },
+    {
+      Name: Begda
+    },
+    {
+      Name: Endda
+    },
+    {
+      Name: Zzdate
+    },
+    {
+      Name: Zzdat1
+    },
+    {
+      Name: Zzdatd
+    },
+    {
+      Name: Subty
+    },
+    {
+      Name: Zzdatr
+    },
+    {
+      Name: ZzdespachoMobilidade
+    },
+    {
+      Name: Zzdat2
+    },
+    {
+      Name: ZzentidadeMobilidade
+    },
+    {
+      Name: ZzueosMobilidade
+    },
+    {
+      Name: ZzueosMobilidadeDesc
+    },
+    {
+      Name: ZzurgMobilidade
+    },
+    {
+      Name: ZurgmDesc
+    },
+    {
+      Name: Zzueos
+    },
+    {
+      Name: ZzueosDesc
+    },
+    {
+      Name: ZzplansMobilidade
+    },
+    {
+      Name: ZzplansMobilidadeAbrv
+    },
+    {
+      Name: ZzplansMobilidadeDesc
+    },
+    {
+      Name: ZztipcMobilidade
+    },
+    {
+      Name: ZtipcmDesc
+    },
+    {
+      Name: ZzdtPrevistaMobilidade
+    },
+    {
+      Name: ZzstatusMobilidade
+    },
+    {
+      Name: Zzdescr
+    },
+    {
+      Name: ZzdtStatusMobilidade
+    },
+    {
+      Name: ZzobservacoesMobilidade
+    },
+    {
+      Name: Zzsitu
+    },
+    {
+      Name: ZzsituDesc
+    },
+    {
+      Name: Zzorga
+    },
+    {
+      Name: Zzfunc
+    },
+    {
+      Name: ZfuncDesc
+    },
+    {
+      Name: Zzidguiam
+    },
+    {
+      Name: Zzunguiam
+    },
+    {
+      Name: ZzunguiamDesc
+    },
+    {
+      Name: Zzdatp
+    },
+    {
+      Name: Zzstat
+    },
+    {
+      Name: ZstatDesc
+    },
+    {
+      Name: Zztipn
+    },
+    {
+      Name: ZtipnDesc
+    },
+    {
+      Name: Zztipc
+    },
+    {
+      Name: ZtipcDesc
+    },
+    {
+      Name: Zztpcom
+    },
+    {
+      Name: ZtipcomDesc
+    },
+    {
+      Name: Zzurg
+    },
+    {
+      Name: ZurgDesc
+    },
+    {
+      Name: Zzcoloc
+    },
+    {
+      Name: ZzprefDescr
+    },
+    {
+      Name: Zzmiss
+    },
+    {
+      Name: ZmissDesc
+    },
+    {
+      Name: Zzundest
+    },
+    {
+      Name: Zzabunid
+    },
+    {
+      Name: ZzundestDesc
+    },
+    {
+      Name: Zzunex
+    },
+    {
+      Name: ZzunexDesc
+    },
+    {
+      Name: Zzdati
+    },
+    {
+      Name: Zhrmotexclu
+    },
+    {
+      Name: Zhrmotexcludsc
+    },
+    {
+      Name: Zhrobsmotexclu
+    }
+  ],
+  MobilidadesIdxs: [
+    {
+      Name: IX_ZhrSMobilidades_ZhrSMobilidadesOutputId,
+      Columns: [
+        ZhrSMobilidadesOutputId
+      ]
+    },
+    {
+      Name: PK_ZhrSMobilidades,
+      Columns: [
+        Id
+      ]
+    }
+  ]
+}
