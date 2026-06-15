@@ -12,4 +12,5 @@
     <Project Path="src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj" />
     <Project Path="src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <Project Path="src/Pessoas.Integracao.Consulta/Pessoas.Integracao.Consulta.csproj" />
+    <Project Path="src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
 </Solution>

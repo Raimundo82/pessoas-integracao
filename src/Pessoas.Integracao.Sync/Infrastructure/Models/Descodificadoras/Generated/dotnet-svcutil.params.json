@@ -1,0 +1,11 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": ["http://esb-lb-soa.marinha.pt:8301/ZHR_descodif_EPR?wsdl"],
+    "namespaceMappings": ["*, Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras"],
+    "outputFile": "DescodificadorasService.cs",
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}
