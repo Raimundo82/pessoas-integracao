@@ -22,6 +22,7 @@ services:
       http_proxy: ${PROXY}
       https_proxy: ${PROXY}
       no_proxy: ${NO_PROXY}
+      ZHR_URL: ${ZHR_BASE_URL}
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
