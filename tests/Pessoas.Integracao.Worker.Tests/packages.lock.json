@@ -656,6 +656,8 @@
       "pessoas.integracao.worker": {
         "type": "Project",
         "dependencies": {
+          "EFCore.BulkExtensions.Core": "[10.0.1, )",
+          "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
           "Microsoft.Extensions.Hosting": "[10.0.9, )",
           "Pessoas.Integracao.Core": "[1.0.0, )",
           "Quartz.Extensions.Hosting": "[3.18.1, )",
