@@ -115,6 +115,38 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
         result.Should().ContainSingle(e => e.Ni == "999");
     }
 
+    [Fact]
+    public async Task ReplaceMatchingByNiAsync_ShouldWorkWithDifferentGenericType()
+    {
+        // Arrange
+        var repository = GetRepository<ZhrWsAtribOrgAtribOrg>();
+        var data = new[] { new ZhrWsAtribOrgAtribOrg { Ni = "100", Unid = "Test" } };
+
+        // Act
+        await repository.ReplaceMatchingByNiAsync(data, _ct);
+
+        // Assert
+        var result = await GetAll<ZhrWsAtribOrgAtribOrg>();
+        result.Should().ContainSingle(e => e.Ni == "100" && e.Unid == "Test");
+    }
+
+    [Fact]
+    public async Task ReplaceMatchingByNiAsync_ShouldHandleLargeDataset()
+    {
+        // Arrange
+        var repository = GetRepository<ZhrWsAptidaoAptidao>();
+        var largeList = Enumerable.Range(1, 1000)
+            .Select(i => new ZhrWsAptidaoAptidao { Ni = i.ToString(), Subty = "Large" })
+            .ToList();
+
+        // Act
+        await repository.ReplaceMatchingByNiAsync(largeList, _ct);
+
+        // Assert
+        var result = await GetAll<ZhrWsAptidaoAptidao>();
+        result.Should().HaveCount(1000);
+    }
+
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     public void Dispose()
@@ -123,3 +155,4 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
         GC.SuppressFinalize(this);
     }
 }
+
