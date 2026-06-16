@@ -28,8 +28,7 @@ public class PessoaSyncRefDbContext(DbContextOptions<PessoaSyncRefDbContext> opt
             entity.Property(e => e.SyncState)
                 .HasConversion(
                     v => v.UpdatedAt,
-                    v => new SyncState(v))
-                .HasColumnName("sync_state_updated_at");
+                    v => new SyncState(v));
         });
     }
 }
