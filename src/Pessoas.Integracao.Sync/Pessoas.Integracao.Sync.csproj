@@ -6,9 +6,23 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EFCore.BulkExtensions.Core" />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
     <PackageReference Include="System.ServiceModel.Http" />
     <PackageReference Include="System.ServiceModel.NetTcp" />
     <PackageReference Include="System.ServiceModel.Primitives" />
     <PackageReference Include="System.Security.Cryptography.Xml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application/Contracts/" />
+    <Folder Include="Application/UseCases/" />
+    <Folder Include="Domain/Entities/" />
+    <Folder Include="Domain/ValueObjects/" />
+    <Folder Include="Infrastructure/" />
+    <Folder Include="Infrastructure/Data/" />
+    <Folder Include="Infrastructure/Models/" />
+    <Folder Include="Infrastructure/Repositories/" />
+  </ItemGroup>
+
 </Project>
