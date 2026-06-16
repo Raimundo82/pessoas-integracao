@@ -1,3 +1,9 @@
+using FluentAssertions;
+
+using Microsoft.EntityFrameworkCore;
+
+using Npgsql;
+
 using Pessoas.Integracao.Analitica.Infrastructure.Data;
 using Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 using Pessoas.Integracao.Analitica.Models;
