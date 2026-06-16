@@ -1,8 +1,8 @@
 using FluentAssertions;
 
+using Pessoas.Integracao.Analitica.Application.Contracts;
 using Pessoas.Integracao.Analitica.Infrastructure;
 using Pessoas.Integracao.Analitica.Infrastructure.Repositories;
-using Pessoas.Integracao.Analitica.Application.Contracts;
 
 namespace Pessoas.Integracao.Tests.TestInfrastructure;
 
