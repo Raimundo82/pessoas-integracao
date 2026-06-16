@@ -204,6 +204,80 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         result.Select(e => e.Ni).Should().BeEquivalentTo("33333", "44444");
     }
 
+    [Fact]
+    public async Task ShouldHandleLargeDataset_When_GetAsyncIsCalled()
+    {
+        // Arrange
+        const int totalRecords = 90000;
+
+        var existing = Enumerable.Range(1, totalRecords)
+            .Select(i => new PessoaSyncRef
+            {
+                Ni = i.ToString("D5"),
+                ExternalId = $"EX{i}",
+                SyncState = new SyncState(DateTimeOffset.UtcNow)
+            })
+            .ToList();
+
+        await _context.PessoaSyncRefs.AddRangeAsync(existing, _ct);
+        await _context.SaveChangesAsync(_ct);
+
+        var query = existing
+            .Select(e => new PessoaSyncRef
+            {
+                Ni = e.Ni,
+                ExternalId = "IGNORED",
+                SyncState = new SyncState(DateTimeOffset.UtcNow)
+            })
+            .ToList();
+
+        // Act
+        Func<Task> action = async () => await _repository.GetAsync(query, _ct);
+
+        // Assert
+        await action.Should().NotThrowAsync();
+
+        var result = await _repository.GetAsync(query, _ct);
+        result.Should().HaveCount(totalRecords);
+    }
+
+    [Fact]
+    public async Task ShouldHandleLargeDataset_When_DeleteAsyncIsCalled()
+    {
+        // Arrange
+        const int totalRecords = 90000;
+
+        var existing = Enumerable.Range(1, totalRecords)
+            .Select(i => new PessoaSyncRef
+            {
+                Ni = i.ToString("D5"),
+                ExternalId = $"EX{i}",
+                SyncState = new SyncState(DateTimeOffset.UtcNow)
+            })
+            .ToList();
+
+        await _context.PessoaSyncRefs.AddRangeAsync(existing, _ct);
+        await _context.SaveChangesAsync(_ct);
+
+        var toDelete = existing
+            .Select(e => new PessoaSyncRef
+            {
+                Ni = e.Ni,
+                ExternalId = "IGNORED",
+                SyncState = new SyncState(DateTimeOffset.UtcNow)
+            })
+            .ToList();
+
+        // Act
+        Func<Task> action = async () => await _repository.DeleteAsync(toDelete, _ct);
+
+        // Assert
+        await action.Should().NotThrowAsync();
+
+        var remaining = await GetAll();
+        remaining.Should().BeEmpty();
+    }
+
     private async Task<List<PessoaSyncRef>> GetAll()
     {
         await using var ctx = new PessoaSyncRefDbContext(_options);
