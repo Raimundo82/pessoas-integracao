@@ -18,9 +18,9 @@ public sealed class AnaliticaDependencyInjectionUnitTests
         services.AddRepositories();
 
         // Assert
-        services.Should().ContainSingle(d => 
-            d.ServiceType == typeof(IAnaliticaRepository<>) && 
-            d.ImplementationType == typeof(AnaliticaRepository<>) && 
+        services.Should().ContainSingle(d =>
+            d.ServiceType == typeof(IAnaliticaRepository<>) &&
+            d.ImplementationType == typeof(AnaliticaRepository<>) &&
             d.Lifetime == ServiceLifetime.Scoped);
     }
 
@@ -30,7 +30,7 @@ public sealed class AnaliticaDependencyInjectionUnitTests
         // Arrange
         var services = new ServiceCollection();
         services.AddRepositories();
-        
+
         using var serviceProvider = services.BuildServiceProvider();
 
         // Act & Assert
