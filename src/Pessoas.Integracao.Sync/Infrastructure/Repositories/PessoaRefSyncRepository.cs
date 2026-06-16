@@ -30,10 +30,8 @@ public sealed class PessoaSyncRefRepository(PessoaSyncRefDbContext context) : IP
         IReadOnlyList<PessoaSyncRef> entities,
         CancellationToken ct)
     {
-        var list = entities.ToList();
-
         await _context.BulkInsertOrUpdateAsync(
-            list,
+            entities,
             cancellationToken: ct
         );
     }
