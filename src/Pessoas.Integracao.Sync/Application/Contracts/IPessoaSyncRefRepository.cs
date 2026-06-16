@@ -4,16 +4,16 @@ namespace Pessoas.Integracao.Sync.Application.Contracts;
 
 public interface IPessoaSyncRefRepository
 {
-    Task<IReadOnlyList<PessoaSyncRef>> GetAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
+    Task<IReadOnlyList<PessoaSyncRef>> GetByNiAsync(
+        IReadOnlyList<string> niList,
         CancellationToken ct);
 
     Task UpsertAsync(
         IReadOnlyList<PessoaSyncRef> entities,
         CancellationToken ct);
 
-    Task DeleteAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
+    Task DeleteByNiAsync(
+        IReadOnlyList<string> niList,
         CancellationToken ct);
 
     Task ReplaceAllAsync(

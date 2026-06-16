@@ -12,17 +12,12 @@ public sealed class PessoaSyncRefRepository(PessoaSyncRefDbContext context) : IP
 {
     private readonly PessoaSyncRefDbContext _context = context;
 
-    public async Task<IReadOnlyList<PessoaSyncRef>> GetAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
+    public async Task<IReadOnlyList<PessoaSyncRef>> GetByNiAsync(
+        IReadOnlyList<string> niList,
         CancellationToken ct)
     {
-        var nis = entities
-            .Select(e => e.Ni)
-            .Distinct()
-            .ToList();
-
         return await _context.PessoaSyncRefs
-            .Where(e => nis.Contains(e.Ni))
+            .Where(e => niList.Contains(e.Ni))
             .ToListAsync(ct);
     }
 
@@ -36,17 +31,12 @@ public sealed class PessoaSyncRefRepository(PessoaSyncRefDbContext context) : IP
         );
     }
 
-    public async Task DeleteAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
+    public async Task DeleteByNiAsync(
+        IReadOnlyList<string> niList,
         CancellationToken ct)
     {
-        var nis = entities
-            .Select(e => e.Ni)
-            .Distinct()
-            .ToList();
-
         await _context.PessoaSyncRefs
-            .Where(e => nis.Contains(e.Ni))
+            .Where(e => niList.Contains(e.Ni))
             .ExecuteDeleteAsync(ct);
     }
 
