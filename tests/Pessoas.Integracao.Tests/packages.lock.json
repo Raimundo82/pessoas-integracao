@@ -641,6 +641,16 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.2, )"
         }
       },
+      "pessoas.integracao.sync": {
+        "type": "Project",
+        "dependencies": {
+          "EFCore.BulkExtensions.Core": "[10.0.1, )",
+          "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
+          "System.ServiceModel.Http": "[10.0.652802, )",
+          "System.ServiceModel.NetTcp": "[10.0.652802, )",
+          "System.ServiceModel.Primitives": "[10.0.652802, )"
+        }
+      },
       "pessoas.integracao.worker": {
         "type": "Project",
         "dependencies": {

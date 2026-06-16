@@ -8,6 +8,7 @@ using Npgsql;
 
 using Pessoas.Integracao.Analitica.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Data;
+using Pessoas.Integracao.Sync.Infrastructure.Data;
 using Pessoas.Integracao.Worker.Infrastructure.Data;
 
 using Respawn;
@@ -61,6 +62,10 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
             .UseNpgsql(ConnectionString)
             .Options;
 
+        var syncOptions = new DbContextOptionsBuilder<PessoaSyncRefDbContext>()
+                .UseNpgsql(ConnectionString)
+                .Options;
+
         await using var context = new AppDbContext(options);
         await context.Database.EnsureCreatedAsync();
 
@@ -69,6 +74,9 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
 
         await using var ImportKeySyncStateContext = new ImportKeySyncStateDbContext(workerOptions);
         await ImportKeySyncStateContext.Database.GetInfrastructure().GetRequiredService<IRelationalDatabaseCreator>().CreateTablesAsync();
+
+        await using var PessoaSyncRefContext = new PessoaSyncRefDbContext(syncOptions);
+        await PessoaSyncRefContext.Database.GetInfrastructure().GetRequiredService<IRelationalDatabaseCreator>().CreateTablesAsync();
 
         _resetConnection = new NpgsqlConnection(ConnectionString);
         await _resetConnection.OpenAsync();
