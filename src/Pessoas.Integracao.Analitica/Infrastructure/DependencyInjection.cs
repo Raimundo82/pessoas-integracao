@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 using Pessoas.Integracao.Analitica.Application.Contracts;
 using Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 
