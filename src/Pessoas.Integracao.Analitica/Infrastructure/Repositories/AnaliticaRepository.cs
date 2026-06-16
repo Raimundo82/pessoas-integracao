@@ -21,7 +21,7 @@ public class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliti
             .Distinct()
             .ToList();
 
-        using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        await using var transaction = await _context.Database.BeginTransactionAsync(ct);
         await _dbSet
             .Where(e => nis.Contains(e.Ni))
             .ExecuteDeleteAsync(ct);
@@ -32,7 +32,7 @@ public class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliti
 
     public async Task ReplaceAllAsync(IReadOnlyList<TEntity> entities, CancellationToken ct)
     {
-        using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        await using var transaction = await _context.Database.BeginTransactionAsync(ct);
         await _dbSet.ExecuteDeleteAsync(ct);
         await _context.BulkInsertAsync(entities, cancellationToken: ct);
         await transaction.CommitAsync(ct);
