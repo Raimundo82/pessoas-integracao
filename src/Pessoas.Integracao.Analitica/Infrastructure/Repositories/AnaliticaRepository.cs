@@ -11,8 +11,8 @@ namespace Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 public class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliticaRepository<TEntity>
     where TEntity : ZhrWsBaseModel
 {
-    protected readonly AnaliticaDbContext _context = context;
-    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    private readonly AnaliticaDbContext _context = context;
+    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public async Task ReplaceMatchingByNiAsync(IReadOnlyList<TEntity> entities, CancellationToken ct)
     {
