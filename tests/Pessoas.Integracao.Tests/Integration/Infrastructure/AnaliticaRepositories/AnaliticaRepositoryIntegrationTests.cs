@@ -30,7 +30,10 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
     }
 
     private AnaliticaRepository<T> GetRepository<T>() where T : ZhrWsBaseModel
-        => new(_context);
+    {
+        var context = new AnaliticaDbContext(_options);
+        return new AnaliticaRepository<T>(context);
+    }
 
     private async Task<List<T>> GetAll<T>() where T : ZhrWsBaseModel
     {
