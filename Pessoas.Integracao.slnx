@@ -10,6 +10,7 @@
     <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
     <Project Path="tests/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
     <Project Path="src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Sync.Tests/Pessoas.Integracao.Sync.Tests.csproj" />
     <Project Path="src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <Project Path="src/Pessoas.Integracao.Consulta/Pessoas.Integracao.Consulta.csproj" />
     <Project Path="src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
