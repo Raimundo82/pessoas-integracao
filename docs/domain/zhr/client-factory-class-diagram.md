@@ -27,56 +27,77 @@ interface IZhrWsClientFactory {
 
 ' ========== FACTORY IMPLEMENTATIONS ==========
 class ZhrWsClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
+  - ZhrWsSettings _settings
   + CreateClient() : ZhrBaseClient
 }
 
 class ZhrWsDeltasClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
+  - ZhrWsSettings _settings
   + CreateClient() : ZhrBaseClient
 }
 
 class ZhrWsDescodifClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
+  - ZhrWsSettings _settings
   + CreateClient() : ZhrBaseClient
 }
 
 ' ========== BINDING FACTORY ==========
-class SoapBindingFactory <<utility>> {
-  + {static} CreateDefaultBinding() : CustomBinding
+interface IBindingFactory {
+  + CreateBinding() : CustomBinding
+}
+
+class BindingFactory implements IBindingFactory {
+  - WcfBindingSettings _bindingSettings
+  + BindingFactory(ZhrWsSettings settings)
+  + CreateBinding() : CustomBinding
 }
 
 ' ========== CONFIGURATION ==========
-class DataSourceSettings {
-  + OutputUrl : string
-  + DeltasUrl : string
+class ZhrWsSettings {
   + Empresa : string
-  + ClientUsername : string
-  + ClientPassword : string
+  + Endpoints : ZhrEndpointSettings
+  + Auth : ZhrAuthenticationSettings
+  + Binding : WcfBindingSettings
 }
 
-note right of DataSourceSettings
+class WcfBindingSettings {
+  + SoapVersion : string
+  + Encoding : string
+  + MaxBufferSize : int
+  + MaxReceivedMessageSize : long
+  + DecompressionEnabled : bool
+  + UseDefaultWebProxy : bool
+  + ReceiveTimeoutSeconds : int
+  + SendTimeoutSeconds : int
+  + OpenTimeoutSeconds : int
+  + CloseTimeoutSeconds : int
+}
+
+note right of ZhrWsSettings
   **Security Warning:** `ClientPassword` must be retrieved
   from a secure secret provider (e.g., Environment Variables,
   Key Vault) and never stored in plain text configuration files.
 end note
 
-' ========== RELATIONS ==========
+ZhrWsSettings "1" *-- "1" WcfBindingSettings : contains
+BindingFactory ..> ZhrWsSettings : depends on (constructor)
 ZHR_WSClient --|> ZhrBaseClient
 ZHR_WSDeltasClient --|> ZhrBaseClient
 ZHR_WSDescodifClient --|> ZhrBaseClient
 
-ZhrWsClientFactory --> DataSourceSettings : reads
-ZhrWsClientFactory --> SoapBindingFactory : uses
+ZhrWsClientFactory --> ZhrWsSettings : reads
+ZhrWsClientFactory --> IBindingFactory : uses
 ZhrWsClientFactory ..> ZHR_WSClient : creates
 
-ZhrWsDeltasClientFactory --> DataSourceSettings : reads
-ZhrWsDeltasClientFactory --> SoapBindingFactory : uses
+ZhrWsDeltasClientFactory --> ZhrWsSettings : reads
+ZhrWsDeltasClientFactory --> IBindingFactory : uses
 ZhrWsDeltasClientFactory ..> ZHR_WSDeltasClient : creates
 
-ZhrWsDescodifClientFactory --> DataSourceSettings : reads
-ZhrWsDescodifClientFactory --> SoapBindingFactory : uses
+ZhrWsDescodifClientFactory --> ZhrWsSettings : reads
+ZhrWsDescodifClientFactory --> IBindingFactory : uses
 ZhrWsDescodifClientFactory ..> ZHR_WSDescodifClient : creates
+
+BindingFactory --> WcfBindingSettings : reads
 
 note right of ZhrBaseClient
   Marker class - base for all ZHR clients
