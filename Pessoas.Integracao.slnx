@@ -4,14 +4,18 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/src/">
     <Project Path="src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
     <Project Path="src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
-    <Project Path="tests/Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
-    <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
-    <Project Path="tests/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
-    <Project Path="src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj" />
-    <Project Path="tests/Pessoas.Integracao.Sync.Tests/Pessoas.Integracao.Sync.Tests.csproj" />
     <Project Path="src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <Project Path="src/Pessoas.Integracao.Consulta/Pessoas.Integracao.Consulta.csproj" />
     <Project Path="src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Sync.Tests/Pessoas.Integracao.Sync.Tests.csproj" />
+  </Folder>
 </Solution>
