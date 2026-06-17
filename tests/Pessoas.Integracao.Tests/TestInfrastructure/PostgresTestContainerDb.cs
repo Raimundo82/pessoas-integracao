@@ -1,12 +1,9 @@
 using System.Runtime.CompilerServices;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
 
 using Npgsql;
 
-using Pessoas.Integracao.Analitica.Infrastructure.Data;
 using Pessoas.Integracao.Core.Infrastructure.Data;
 
 using Respawn;
@@ -52,15 +49,8 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
             .UseNpgsql(ConnectionString)
             .Options;
 
-        var analiticaOptions = new DbContextOptionsBuilder<AnaliticaDbContext>()
-            .UseNpgsql(ConnectionString)
-            .Options;
-
         await using var context = new AppDbContext(options);
         await context.Database.EnsureCreatedAsync();
-
-        await using var analiticaContext = new AnaliticaDbContext(analiticaOptions);
-        await analiticaContext.Database.GetInfrastructure().GetRequiredService<IRelationalDatabaseCreator>().CreateTablesAsync();
 
         _resetConnection = new NpgsqlConnection(ConnectionString);
         await _resetConnection.OpenAsync();

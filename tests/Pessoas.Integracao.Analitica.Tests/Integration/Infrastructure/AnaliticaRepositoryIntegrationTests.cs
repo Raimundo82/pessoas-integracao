@@ -7,9 +7,9 @@ using Npgsql;
 using Pessoas.Integracao.Analitica.Infrastructure.Data;
 using Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 using Pessoas.Integracao.Analitica.Models;
-using Pessoas.Integracao.Tests.TestInfrastructure;
+using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Tests.Integration.Infrastructure.AnaliticaRepositories;
+namespace Pessoas.Integracao.Analitica.Tests.Integration.Infrastructure;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb db) : IAsyncLifetime
@@ -182,3 +182,4 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
 
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
+

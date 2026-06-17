@@ -1,10 +1,13 @@
 using FluentAssertions;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Pessoas.Integracao.Analitica.Application.Contracts;
+
 using Pessoas.Integracao.Analitica.Infrastructure;
 using Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 
-namespace Pessoas.Integracao.Tests.TestInfrastructure;
+namespace Pessoas.Integracao.Analitica.Tests.Unit.DependencyInjection;
 
 public sealed class AnaliticaDependencyInjectionUnitTests
 {
