@@ -81,6 +81,7 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
 
     public async ValueTask DisposeAsync()
     {
+        if (_resetConnection != null) await _resetConnection.DisposeAsync();
         await _container.DisposeAsync();
     }
 }
