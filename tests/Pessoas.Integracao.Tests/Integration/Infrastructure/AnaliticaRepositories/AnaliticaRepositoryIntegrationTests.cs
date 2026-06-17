@@ -31,7 +31,7 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
             new ZhrWsAptidaoAptidao { Ni = "20002", Subty = "0001" },
             new ZhrWsAptidaoAptidao { Ni = "20102", Subty = "0001" }
         };
-        await Seed(existing);
+        await SeedDataAsync(existing);
 
         // Act
         await using var actContext = CreateContext();
@@ -53,7 +53,7 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
             new ZhrWsAptidaoAptidao { Ni = "20002", Subty = "Old" },
             new ZhrWsAptidaoAptidao { Ni = "20102", Subty = "Keep" }
         };
-        await Seed(existing);
+        await SeedDataAsync(existing);
 
         var updates = new[]
         {
@@ -81,7 +81,7 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
         {
             new ZhrWsAptidaoAptidao { Ni = "1", Subty = "Old" },
         };
-        await Seed(existing);
+        await SeedDataAsync(existing);
 
         var newData = new[] { new ZhrWsAptidaoAptidao { Ni = "2", Subty = "New" } };
 
@@ -104,7 +104,7 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
         {
             new ZhrWsAptidaoAptidao { Ni = "999", Subty = "Safe" },
         };
-        await Seed(existing);
+        await SeedDataAsync(existing);
 
         var invalidData = new[] { new ZhrWsAptidaoAptidao { Ni = null!, Subty = "Error" } };
 
@@ -165,17 +165,14 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
         atribOrgResult.Should().ContainSingle(e => e.Ni == "2" && e.DescCarg == "asfd" && e.Posicao == "asdfasdf" && e.Numsap == "3002");
     }
 
+    private AnaliticaDbContext CreateContext() => new(_options);
 
-    private async Task Seed<T>(IEnumerable<T> entities) where T : ZhrWsBaseModel
+    private async Task SeedDataAsync<T>(IEnumerable<T> entities) where T : ZhrWsBaseModel
     {
-        await using var context = CreateContext();
+        await using var context = new AnaliticaDbContext(_options);
         await context.Set<T>().AddRangeAsync(entities, _ct);
         await context.SaveChangesAsync(_ct);
     }
 
-    private AnaliticaDbContext CreateContext() => new(_options);
-
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
-
 }
-
