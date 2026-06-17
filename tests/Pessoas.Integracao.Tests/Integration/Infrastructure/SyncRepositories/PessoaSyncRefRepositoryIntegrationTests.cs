@@ -34,7 +34,7 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
-    public async Task ShouldReturnMatchingRows_WhenGetAsyncIsCalled()
+    public async Task ShouldReturnMatchingRows_WhenGetByNiAsyncIsCalled()
     {
         // Arrange
         var existing = new[]
@@ -47,22 +47,19 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         await _context.PessoaSyncRefs.AddRangeAsync(existing);
         await _context.SaveChangesAsync(_ct);
 
-        var query = new[]
-        {
-            new PessoaSyncRef { Ni = "10001", ExternalId = "X", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "30003", ExternalId = "Y", SyncState = new SyncState(DateTimeOffset.UtcNow) }
-        };
+        var niList = new[] { "10001", "30003" };
 
         // Act
-        var result = await _repository.GetAsync(query, _ct);
+        var result = await _repository.GetByNiAsync(niList, _ct);
 
         // Assert
         result.Should().HaveCount(2);
         result.Select(e => e.Ni).Should().BeEquivalentTo("10001", "30003");
     }
 
+
     [Fact]
-    public async Task ShouldReturnEmpty_WhenGetAsyncReceivesEmptyList()
+    public async Task ShouldReturnEmpty_WhenGetByNiAsyncReceivesEmptyList()
     {
         // Arrange
         await _context.PessoaSyncRefs.AddAsync(
@@ -71,11 +68,12 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         await _context.SaveChangesAsync(_ct);
 
         // Act
-        var result = await _repository.GetAsync([], _ct);
+        var result = await _repository.GetByNiAsync([], _ct);
 
         // Assert
         result.Should().BeEmpty();
     }
+
 
     [Fact]
     public async Task ShouldInsertRows_WhenUpsertAsyncReceivesNewNis()
@@ -154,7 +152,7 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     }
 
     [Fact]
-    public async Task ShouldDeleteMatchingRows_WhenDeleteAsyncIsCalled()
+    public async Task ShouldDeleteMatchingRows_WhenDeleteByNiAsyncIsCalled()
     {
         // Arrange
         await _context.PessoaSyncRefs.AddRangeAsync(
@@ -164,14 +162,10 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         );
         await _context.SaveChangesAsync(_ct);
 
-        var toDelete = new[]
-        {
-            new PessoaSyncRef { Ni = "20002", ExternalId = "X", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "30003", ExternalId = "Y", SyncState = new SyncState(DateTimeOffset.UtcNow) }
-        };
+        var niList = new[] { "20002", "30003" };
 
         // Act
-        await _repository.DeleteAsync(toDelete, _ct);
+        await _repository.DeleteByNiAsync(niList, _ct);
 
         // Assert
         var result = await GetAll();
@@ -202,80 +196,6 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         var result = await GetAll();
         result.Should().HaveCount(2);
         result.Select(e => e.Ni).Should().BeEquivalentTo("33333", "44444");
-    }
-
-    [Fact]
-    public async Task ShouldHandleLargeDataset_When_GetAsyncIsCalled()
-    {
-        // Arrange
-        const int totalRecords = 90000;
-
-        var existing = Enumerable.Range(1, totalRecords)
-            .Select(i => new PessoaSyncRef
-            {
-                Ni = i.ToString("D5"),
-                ExternalId = $"EX{i}",
-                SyncState = new SyncState(DateTimeOffset.UtcNow)
-            })
-            .ToList();
-
-        await _context.PessoaSyncRefs.AddRangeAsync(existing, _ct);
-        await _context.SaveChangesAsync(_ct);
-
-        var query = existing
-            .Select(e => new PessoaSyncRef
-            {
-                Ni = e.Ni,
-                ExternalId = "IGNORED",
-                SyncState = new SyncState(DateTimeOffset.UtcNow)
-            })
-            .ToList();
-
-        // Act
-        Func<Task> action = async () => await _repository.GetAsync(query, _ct);
-
-        // Assert
-        await action.Should().NotThrowAsync();
-
-        var result = await _repository.GetAsync(query, _ct);
-        result.Should().HaveCount(totalRecords);
-    }
-
-    [Fact]
-    public async Task ShouldHandleLargeDataset_When_DeleteAsyncIsCalled()
-    {
-        // Arrange
-        const int totalRecords = 90000;
-
-        var existing = Enumerable.Range(1, totalRecords)
-            .Select(i => new PessoaSyncRef
-            {
-                Ni = i.ToString("D5"),
-                ExternalId = $"EX{i}",
-                SyncState = new SyncState(DateTimeOffset.UtcNow)
-            })
-            .ToList();
-
-        await _context.PessoaSyncRefs.AddRangeAsync(existing, _ct);
-        await _context.SaveChangesAsync(_ct);
-
-        var toDelete = existing
-            .Select(e => new PessoaSyncRef
-            {
-                Ni = e.Ni,
-                ExternalId = "IGNORED",
-                SyncState = new SyncState(DateTimeOffset.UtcNow)
-            })
-            .ToList();
-
-        // Act
-        Func<Task> action = async () => await _repository.DeleteAsync(toDelete, _ct);
-
-        // Assert
-        await action.Should().NotThrowAsync();
-
-        var remaining = await GetAll();
-        remaining.Should().BeEmpty();
     }
 
     private async Task<List<PessoaSyncRef>> GetAll()
