@@ -4,89 +4,75 @@
 @startuml ZHR WS Client Factory
 title ZHR WS Client Factory Pattern Architecture
 
-' ========== BASE CLIENT ==========
-abstract class ZhrBaseClient
+@startuml
+skinparam classAttributeIconColor #black
+skinparam nodesep 60
+skinparam ranksep 60
 
-' ========== WCF CLIENTS ==========
-class ZHR_WSClient {
-  + ZhrWsOpAsync(request) : Task<ZhrWsOpResponse>
+' ========== CORE COMPONENTS ==========
+' We add the technical constraint back into the label for accuracy
+interface "IZhrWsGenericClientFactory<TClient, TChannel>\n<TClient : ClientBase<TChannel>>" as IClientFactory {
+    + CreateClient(): TClient
 }
 
-class ZHR_WSDeltasClient {
-  + GetDeltasAsync(numsap) : Task<DeltasResponse>
+class "ZhrWsGenericClientFactory<TClient, TChannel>\n<TClient : ClientBase<TChannel>>" as ClientFactory {
+    + CreateClient(): TClient
 }
 
-class ZHR_WSDescodifClient {
-  + DescodificarAsync(codigo) : Task<DescodificaResponse>
+interface IBindingFactory {
+    + CreateBinding(): CustomBinding
 }
 
-' ========== FACTORY INTERFACE ==========
-interface IZhrWsClientFactory {
-  + CreateClient() : ZhrBaseClient
-}
-
-' ========== FACTORY IMPLEMENTATIONS ==========
-class ZhrWsClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
-  + CreateClient() : ZhrBaseClient
-}
-
-class ZhrWsDeltasClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
-  + CreateClient() : ZhrBaseClient
-}
-
-class ZhrWsDescodifClientFactory implements IZhrWsClientFactory {
-  - DataSourceSettings _settings
-  + CreateClient() : ZhrBaseClient
-}
-
-' ========== BINDING FACTORY ==========
-class SoapBindingFactory <<utility>> {
-  + {static} CreateDefaultBinding() : CustomBinding
-}
+class BindingFactory implements IBindingFactory
 
 ' ========== CONFIGURATION ==========
-class DataSourceSettings {
-  + OutputUrl : string
-  + DeltasUrl : string
-  + Empresa : string
-  + ClientUsername : string
-  + ClientPassword : string
+class ZhrWsSettings {
+    + Endpoints
+    + Auth
+    + Binding
 }
 
-note right of DataSourceSettings
-  **Security Warning:** `ClientPassword` must be retrieved
-  from a secure secret provider (e.g., Environment Variables,
-  Key Vault) and never stored in plain text configuration files.
+' ========== WCF GENERATED STACK ==========
+package "WCF Generated Types" {
+    interface ZHR_WS
+    interface ZHR_WS_Deltas
+    interface ZHR_WS_Descodif
+
+    class ClientBase<T>
+
+    class ZHR_WSClient
+    class ZHR_WS_DeltasClient
+    class ZHR_WS_DescodifClient
+
+    ZHR_WSClient --|> ClientBase : "extends"
+    ZHR_WSClient ..|> ZHR_WS : "implements"
+
+    ZHR_WS_DeltasClient --|> ClientBase : "extends"
+    ZHR_WS_DeltasClient ..|> ZHR_WS_Deltas : "implements"
+
+    ZHR_WS_DescodifClient --|> ClientBase : "extends"
+    ZHR_WS_DescodifClient ..|> ZHR_WS_Descodif : "implements"
+}
+
+' ========== RELATIONSHIPS ==========
+
+IClientFactory <|.. ClientFactory
+
+ClientFactory --> IBindingFactory
+ClientFactory --> ZhrWsSettings
+BindingFactory --> ZhrWsSettings
+
+' This arrow explicitly links the Factory's TClient constraint to the ClientBase class
+ClientFactory ..> ClientBase : "constrains TClient to"
+
+' Production Flow
+ClientFactory ..> ZHR_WSClient : "Produces"
+ClientFactory ..> ZHR_WS_DeltasClient : "Produces"
+ClientFactory ..> ZHR_WS_DescodifClient : "Produces"
+
+note right of ClientFactory
+  TChannel is the interface
+  (ZHR_WS, ZHR_WS_Deltas, etc.)
 end note
-
-' ========== RELATIONS ==========
-ZHR_WSClient --|> ZhrBaseClient
-ZHR_WSDeltasClient --|> ZhrBaseClient
-ZHR_WSDescodifClient --|> ZhrBaseClient
-
-ZhrWsClientFactory --> DataSourceSettings : reads
-ZhrWsClientFactory --> SoapBindingFactory : uses
-ZhrWsClientFactory ..> ZHR_WSClient : creates
-
-ZhrWsDeltasClientFactory --> DataSourceSettings : reads
-ZhrWsDeltasClientFactory --> SoapBindingFactory : uses
-ZhrWsDeltasClientFactory ..> ZHR_WSDeltasClient : creates
-
-ZhrWsDescodifClientFactory --> DataSourceSettings : reads
-ZhrWsDescodifClientFactory --> SoapBindingFactory : uses
-ZhrWsDescodifClientFactory ..> ZHR_WSDescodifClient : creates
-
-note right of ZhrBaseClient
-  Marker class - base for all ZHR clients
-end note
-
-note right of IZhrWsClientFactory
-  Single interface for all factories
-  Returns ZhrBaseClient (polymorphic)
-  Type-safe via ZhrBaseClient constraint
-end note
-
 @enduml
 ```
