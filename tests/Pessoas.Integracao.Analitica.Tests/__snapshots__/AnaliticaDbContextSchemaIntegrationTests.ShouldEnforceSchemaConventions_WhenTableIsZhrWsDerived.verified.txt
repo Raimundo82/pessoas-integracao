@@ -1,0 +1,102 @@
+﻿{
+  Name: ZhrWsAptidao_Aptidao,
+  PrimaryKey: [
+    Id
+  ],
+  Columns: [
+    {
+      Name: Id,
+      Nullable: false,
+      IsAutoNumber: false
+    },
+    {
+      Name: Numsap,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Subty,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Denominacao,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: AreaExame,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: ArexamesDesc,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: ServicoMedInt,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Valor,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: DataExame,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Modalidade,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: ModalDesc,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Resultado,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: ResultadoDesc,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Observacoes,
+      Nullable: true,
+      IsAutoNumber: false
+    },
+    {
+      Name: Ni,
+      Nullable: false,
+      IsAutoNumber: false
+    },
+    {
+      Name: updated_at,
+      Nullable: true,
+      IsAutoNumber: false
+    }
+  ],
+  Indexes: [
+    {
+      Name: IX_ZhrWsAptidao_Aptidao_Ni,
+      Columns: [
+        Ni
+      ]
+    },
+    {
+      Name: PK_ZhrWsAptidao_Aptidao,
+      Columns: [
+        Id
+      ]
+    }
+  ]
+}
