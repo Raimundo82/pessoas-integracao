@@ -12,7 +12,7 @@
     <Project Path="src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/Pessoas.Integracao.TestHelpers/Pessoas.Integracao.TestHelpers.csproj" />
+    <Project Path="tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
     <Project Path="tests/Pessoas.Integracao.Tests/Pessoas.Integracao.Tests.csproj" />
     <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
     <Project Path="tests/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
