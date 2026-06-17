@@ -141,8 +141,15 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
     public async Task ShouldReplaceDataCorrectly_WhenUsingMultipleAnaliticaRepositories()
     {
         // Arrange
-        var aptidaoData = new[] { new ZhrWsAptidaoAptidao { Ni = "2", Subty = "New", Numsap = "3002" } };
-        var atribOrgData = new[] { new ZhrWsAtribOrgAtribOrg { Ni = "2", DescCarg = "asfd", Posicao = "asdfasdf", Numsap = "3002" } };
+        var aptidaoData = new[]
+        {
+            new ZhrWsAptidaoAptidao { Ni = "2", Subty = "New", Numsap = "3002" }
+        };
+
+        var atribOrgData = new[]
+        {
+            new ZhrWsAtribOrgAtribOrg { Ni = "2", DescCarg = "asfd", Posicao = "asdfasdf", Numsap = "3002" }
+        };
 
         // Act
         await using var actContext = CreateContext();
@@ -151,7 +158,6 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
 
         var atribOrgRepo = new AnaliticaRepository<ZhrWsAtribOrgAtribOrg>(actContext);
         await atribOrgRepo.ReplaceMatchingByNiAsync(atribOrgData, _ct);
-
 
         // Assert
         await using var assertContext = CreateContext();
