@@ -23,6 +23,8 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
     private NpgsqlConnection _resetConnection = null!;
     private Respawner _respawner = null!;
 
+    private const string DatabaseName = "testedb";
+
     public string ConnectionString { get; private set; } = null!;
 
     [ModuleInitializer]
@@ -33,7 +35,7 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
     public PostgresTestContainerDb()
     {
         _container = new PostgreSqlBuilder("postgres:17")
-            .WithDatabase("testedb")
+            .WithDatabase(DatabaseName)
             .WithCleanUp(true)
             .Build();
     }
@@ -44,7 +46,7 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
 
         var builder = new NpgsqlConnectionStringBuilder(_container.GetConnectionString())
         {
-            Database = "testedb",
+            Database = DatabaseName,
             SslMode = SslMode.Disable,
 
         };
