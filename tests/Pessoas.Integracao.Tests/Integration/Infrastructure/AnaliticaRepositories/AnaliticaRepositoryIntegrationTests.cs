@@ -12,9 +12,8 @@ using Pessoas.Integracao.Tests.TestInfrastructure;
 namespace Pessoas.Integracao.Tests.Integration.Infrastructure.AnaliticaRepositories;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDisposable
+public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime
 {
-    private readonly AnaliticaDbContext _context;
     private readonly DbContextOptions<AnaliticaDbContext> _options;
     private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
     private readonly PostgresTestContainerDb _db;
@@ -25,11 +24,7 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
         _options = new DbContextOptionsBuilder<AnaliticaDbContext>()
             .UseNpgsql(db.ConnectionString)
             .Options;
-
-        _context = new AnaliticaDbContext(_options);
     }
-
-
 
     public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
@@ -43,8 +38,7 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
             new ZhrWsAptidaoAptidao { Ni = "20002", Subty = "0001" },
             new ZhrWsAptidaoAptidao { Ni = "20102", Subty = "0001" }
         };
-        await _context.Set<ZhrWsAptidaoAptidao>().AddRangeAsync(existing);
-        await _context.SaveChangesAsync(_ct);
+        await SeedDataAsync(existing);
 
         // Act
         await repository.ReplaceMatchingByNiAsync([], _ct);
@@ -59,11 +53,12 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
     {
         // Arrange
         var repository = GetRepository<ZhrWsAptidaoAptidao>();
-        await _context.Set<ZhrWsAptidaoAptidao>().AddRangeAsync(
+        var existing = new[]
+        {
             new ZhrWsAptidaoAptidao { Ni = "20002", Subty = "Old" },
             new ZhrWsAptidaoAptidao { Ni = "20102", Subty = "Keep" }
-        );
-        await _context.SaveChangesAsync(_ct);
+        };
+        await SeedDataAsync(existing);
 
         var updates = new[] { new ZhrWsAptidaoAptidao { Ni = "20002", Subty = "New" } };
 
@@ -82,8 +77,8 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
     {
         // Arrange
         var repository = GetRepository<ZhrWsAptidaoAptidao>();
-        await _context.Set<ZhrWsAptidaoAptidao>().AddAsync(new ZhrWsAptidaoAptidao { Ni = "1", Subty = "Old" }, _ct);
-        await _context.SaveChangesAsync(_ct);
+
+        await SeedDataAsync(new[] { new ZhrWsAptidaoAptidao { Ni = "1", Subty = "Old" } });
 
         var newData = new[] { new ZhrWsAptidaoAptidao { Ni = "2", Subty = "New" } };
 
@@ -100,8 +95,8 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
     {
         // Arrange
         var repository = GetRepository<ZhrWsAptidaoAptidao>();
-        await _context.Set<ZhrWsAptidaoAptidao>().AddAsync(new ZhrWsAptidaoAptidao { Ni = "999", Subty = "Safe" }, _ct);
-        await _context.SaveChangesAsync(_ct);
+
+        await SeedDataAsync(new[] { new ZhrWsAptidaoAptidao { Ni = "999", Subty = "Safe" } });
 
         var invalidData = new[] { new ZhrWsAptidaoAptidao { Ni = null!, Subty = "Error" } };
 
@@ -163,14 +158,15 @@ public sealed class AnaliticaRepositoryIntegrationTests : IAsyncLifetime, IDispo
     private async Task<List<T>> GetAll<T>() where T : ZhrWsBaseModel
     {
         await using var context = new AnaliticaDbContext(_options);
-        return await context.Set<T>().ToListAsync();
+        return await context.Set<T>().ToListAsync(_ct);
     }
-    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
-    public void Dispose()
+    private async Task SeedDataAsync<T>(IEnumerable<T> entities) where T : ZhrWsBaseModel
     {
-        _context.Dispose();
-        GC.SuppressFinalize(this);
+        await using var context = new AnaliticaDbContext(_options);
+        await context.Set<T>().AddRangeAsync(entities, _ct);
+        await context.SaveChangesAsync(_ct);
     }
-}
 
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+}
