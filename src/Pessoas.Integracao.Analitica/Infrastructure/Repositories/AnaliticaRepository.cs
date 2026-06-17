@@ -8,7 +8,7 @@ using Pessoas.Integracao.Analitica.Models;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 
-public class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliticaRepository<TEntity>
+public sealed class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliticaRepository<TEntity>
     where TEntity : ZhrWsBaseModel
 {
     private readonly AnaliticaDbContext _context = context;
