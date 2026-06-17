@@ -47,393 +47,263 @@
     },
     {
       "name": "[dbo].[0001_UEO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0003_TIPOS_NOMEACAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0004_ESTADOS_MOVIMENTO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0005_URGENCIAS_MOVIMENTO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0006_TIPOS_COLOCACAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0007_TIPOS_COMISSAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0010_ATIVIDADES_PLANO_ATIVIDADES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0011_MISSAO_DESEMPENHAR]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0013_UNIDADES_EXTERNAS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0015_SEXO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0016_PAISES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0017_0018_0019_DIST_CONC_FREG]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0020_ESTADO_CIVIL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0021_PARENTESCO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0022_TIPO_REG_ENDER]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0023_TIPO_DOCUMENTO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0024_TIPO_IDENTIFICACAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0025_IT0028_DADOS_MEDICOS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0026_POSTOS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0027_CATEGORIA_MILITAR]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0029_QUADRO_ESPECIAL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0030_0031_TIPO_MOTIVO_MEDIDAS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0032_TIPO_DATA]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0033_0040_CONDECORACOES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0034_TIPOS_CONTIGENCIAS_AUSENCIAS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0035_COD_AUSENCIA_IT2001]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0036_TIPO_MSG_LOG_MSGTY]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0038_0039_GRUPO_EMPREGADOS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0041_HABILITACOES_LITERARIAS]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0042_CURSOS_FORMACAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0043_LISTA_POSICOES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0044_CARGO_IT0001]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0045_SITUNIDADE]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0046_TIPOS_CONTRATO_IT0016]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0047_MSG_SISTEMA_SY]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0048_ESTADO_CIVIL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0049_AREA_PREFERENCIA_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0050_TIPO_FORMACAO_IT9007]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0051_TIPO_CURSO_IT9007]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0052_PUBLICACAO_IT9007]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0053_SERIE_IT9007]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0054_REGIME_SEG_SOCIAL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0055_ADSE_ISENTO_IT0332]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0056_SUBTY_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0057_SITUACAO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0058_0059_ORGAO_FUNCAO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0060_MISSAO_DESEMPENHAR_DIL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0061_STATUS_MOVIMENTO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0062_AREA_COLOCACAO]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0063_TIPO_NOMEACAO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0064_TIPO_COLOCACAO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0065_TIPO_COMISSAO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0066_URGENCIAS_MOVIMENTO_IT9011]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0067_STAT1_P0000_MOBILIDADES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0068_STAT2_P0000_MOBILIDADES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0069_SSINS_P0021]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0070_RESID_P0331]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0071_LGART_P0008]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0072_TIPO_CONTRATO_IT0332]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0073_TIPO_REGIME_IT0332]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0074_0075_CLASSES]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0076_CNP_2010]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0077_0078_0079_0080_NIVEL_SALARIAL]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0081_DIVISAO_IT0001]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[0082_SUBAREA_IT0001]",
-      "excludedColumns": [
-        "updated_at"
-      ]
+      "excludedColumns": ["updated_at"]
     },
     {
       "name": "[dbo].[Lista_nii_pern]",
@@ -449,334 +319,191 @@
     },
     {
       "name": "[dbo].[ZhrWsAptidao_Aptidao]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_AtribOrg]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_ClassifProf]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_DataMedida]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_Header]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_InfoProm]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_MonitPrazos]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAtribOrg_Om]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsAumentosDiminuicoes_Aumentos]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsCondecor_Condecoracoes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsContigentes_Contigentes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsContrato_Contrato]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsContrato_SegSocial]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsEndCom_Comunicacoes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsEndCom_Endereco]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsExamesMed_Exames]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsFerias_Ferias]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsFormacao_Formacao]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsFuncoes_Funcoes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetIndicacoesTemp_TempoServico]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetLicencas2001_Licencas]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetListaUnidade]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetListViaturas_Pessoas]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at",
-        "_mage_created_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at", "_mage_created_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetListViaturas_Viatura]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at",
-        "_mage_created_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at", "_mage_created_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetLouvores_Louvor]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWSGetPernr]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsGetProcAvegdisc_Processos]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsHabilitacoes_Habilitacoes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsHorarioTab_HorarioTrabalho]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsIdentif_Bancarios]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsIdentif_DadosFiscais]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsIdentif_Identificacao]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsMedidas_Datas]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsMedidas_Medidas]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsMobilidades_Mobilidades]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsPersonalData_Familia]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsPersonalData_OutrosDados]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsPersonalData_Pessoais]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsRemun_Datas]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsRemun_Header]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsRemun_Remun]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsSigre_DadosComunicacoes]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsSigre_DadosEndereco]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsSigre_DadosFamiliares]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsSigre_DadosIdentificacao]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsSigre_DadosPessoais]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[ZhrWsTemposServicos_Tempos]",
-      "excludedColumns": [
-        "Ni",
-        "updated_at"
-      ]
+      "excludedColumns": ["Ni", "updated_at"]
     },
     {
       "name": "[dbo].[zz_log_errors]",
