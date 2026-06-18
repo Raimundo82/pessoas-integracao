@@ -14,8 +14,6 @@ public class PessoaSyncRefDbContext(DbContextOptions<PessoaSyncRefDbContext> opt
 
         modelBuilder.Entity<PessoaSyncRef>(entity =>
         {
-            entity.HasKey(e => e.Ni);
-
             entity.Property(e => e.Ni)
                 .IsRequired()
                 .HasMaxLength(255);
