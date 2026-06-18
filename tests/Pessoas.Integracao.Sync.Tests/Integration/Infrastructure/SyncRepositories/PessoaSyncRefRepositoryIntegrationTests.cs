@@ -173,6 +173,29 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         result.Single().Ni.Should().Be("10001");
     }
 
+    [Fact]
+    public async Task ShouldNotDeleteAnyRows_WhenDeleteByNiAsyncReceivesEmptyList()
+    {
+        // Arrange
+        var existing = new[]
+        {
+            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
+            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+        };
+
+        await _context.PessoaSyncRefs.AddRangeAsync(existing);
+        await _context.SaveChangesAsync(_ct);
+
+        // Act
+        await _repository.DeleteByNiAsync([], _ct);
+
+        // Assert
+        var result = await GetAll();
+        result.Should().HaveCount(2);
+        result.Select(e => e.Ni).Should().BeEquivalentTo("10001", "20002");
+    }
+
+
     private async Task<List<PessoaSyncRef>> GetAll()
     {
         await using var ctx = new PessoaSyncRefDbContext(_options);
