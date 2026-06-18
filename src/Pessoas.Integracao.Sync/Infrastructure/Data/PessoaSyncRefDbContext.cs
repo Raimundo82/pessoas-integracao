@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Domain.ValueObjects;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Data;
 
@@ -25,10 +24,13 @@ public class PessoaSyncRefDbContext(DbContextOptions<PessoaSyncRefDbContext> opt
                 .IsRequired()
                 .HasMaxLength(255);
 
-            entity.Property(e => e.SyncState)
-                .HasConversion(
-                    v => v.UpdatedAt,
-                    v => new SyncState(v));
+            entity.OwnsOne(e => e.SyncState, navigation =>
+            {
+                navigation.Property(s => s.UpdatedAt)
+                    .HasColumnName("SyncState")
+                    .HasColumnType("timestamp with time zone")
+                    .IsRequired();
+            });
         });
     }
 }
