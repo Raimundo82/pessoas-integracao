@@ -17,5 +17,7 @@
     <Project Path="tests/Pessoas.Integracao.Worker.Tests/Pessoas.Integracao.Worker.Tests.csproj" />
     <Project Path="tests/Pessoas.Integracao.Benchmarks/Pessoas.Integracao.Benchmarks.csproj" />
     <Project Path="tests/Pessoas.Integracao.Sync.Tests/Pessoas.Integracao.Sync.Tests.csproj" />
+    <Project
+      Path="tests/Pessoas.Integracao.Analitica.Tests/Pessoas.Integracao.Analitica.Tests.csproj" />
   </Folder>
 </Solution>

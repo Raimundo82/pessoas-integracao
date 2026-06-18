@@ -8,19 +8,21 @@ using Pessoas.Integracao.Analitica.Models;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.Repositories;
 
-public class ZhrWsAtribOrgAtribOrgRepository(AnaliticaDbContext context) : IZhrWsAtribOrgAtribOrgRepository
+public sealed class AnaliticaRepository<TEntity>(AnaliticaDbContext context) : IAnaliticaRepository<TEntity>
+    where TEntity : ZhrWsBaseModel
 {
     private readonly AnaliticaDbContext _context = context;
+    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
-    public async Task ReplaceMatchingByNiAsync(IReadOnlyList<ZhrWsAtribOrgAtribOrg> entities, CancellationToken ct)
+    public async Task ReplaceMatchingByNiAsync(IReadOnlyList<TEntity> entities, CancellationToken ct)
     {
         var nis = entities
-            .Select(entity => entity.Ni)
+            .Select(e => e.Ni)
             .Distinct()
             .ToList();
 
-        using var transaction = await _context.Database.BeginTransactionAsync(ct);
-        await _context.ZhrWsAtribOrgAtribOrgs
+        await using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        await _dbSet
             .Where(e => nis.Contains(e.Ni))
             .ExecuteDeleteAsync(ct);
 
@@ -28,10 +30,10 @@ public class ZhrWsAtribOrgAtribOrgRepository(AnaliticaDbContext context) : IZhrW
         await transaction.CommitAsync(ct);
     }
 
-    public async Task ReplaceAllAsync(IReadOnlyList<ZhrWsAtribOrgAtribOrg> entities, CancellationToken ct)
+    public async Task ReplaceAllAsync(IReadOnlyList<TEntity> entities, CancellationToken ct)
     {
-        using var transaction = await _context.Database.BeginTransactionAsync(ct);
-        await _context.ZhrWsAtribOrgAtribOrgs.ExecuteDeleteAsync(ct);
+        await using var transaction = await _context.Database.BeginTransactionAsync(ct);
+        await _dbSet.ExecuteDeleteAsync(ct);
         await _context.BulkInsertAsync(entities, cancellationToken: ct);
         await transaction.CommitAsync(ct);
     }
