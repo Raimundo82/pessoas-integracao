@@ -173,31 +173,6 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         result.Single().Ni.Should().Be("10001");
     }
 
-    [Fact]
-    public async Task ShouldReplaceAllRows_WhenReplaceAllAsyncIsCalled()
-    {
-        // Arrange
-        await _context.PessoaSyncRefs.AddRangeAsync(
-            new PessoaSyncRef { Ni = "11111", ExternalId = "OLD1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "22222", ExternalId = "OLD2", SyncState = new SyncState(DateTimeOffset.UtcNow) }
-        );
-        await _context.SaveChangesAsync(_ct);
-
-        var newItems = new[]
-        {
-            new PessoaSyncRef { Ni = "33333", ExternalId = "NEW1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "44444", ExternalId = "NEW2", SyncState = new SyncState(DateTimeOffset.UtcNow) }
-        };
-
-        // Act
-        await _repository.ReplaceAllAsync(newItems, _ct);
-
-        // Assert
-        var result = await GetAll();
-        result.Should().HaveCount(2);
-        result.Select(e => e.Ni).Should().BeEquivalentTo("33333", "44444");
-    }
-
     private async Task<List<PessoaSyncRef>> GetAll()
     {
         await using var ctx = new PessoaSyncRefDbContext(_options);

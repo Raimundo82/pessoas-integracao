@@ -15,10 +15,6 @@ public interface IPessoaSyncRefRepository
     Task DeleteByNiAsync(
         IReadOnlyList<string> niList,
         CancellationToken ct);
-
-    Task ReplaceAllAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
-        CancellationToken ct);
 }
 
 

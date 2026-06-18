@@ -39,17 +39,4 @@ public sealed class PessoaSyncRefRepository(PessoaSyncRefDbContext context) : IP
             .Where(e => niList.Contains(e.Ni))
             .ExecuteDeleteAsync(ct);
     }
-
-    public async Task ReplaceAllAsync(
-        IReadOnlyList<PessoaSyncRef> entities,
-        CancellationToken ct)
-    {
-        using var tx = await _context.Database.BeginTransactionAsync(ct);
-
-        await _context.PessoaSyncRefs.ExecuteDeleteAsync(ct);
-        await _context.PessoaSyncRefs.AddRangeAsync(entities, ct);
-
-        await _context.SaveChangesAsync(ct);
-        await tx.CommitAsync(ct);
-    }
 }
