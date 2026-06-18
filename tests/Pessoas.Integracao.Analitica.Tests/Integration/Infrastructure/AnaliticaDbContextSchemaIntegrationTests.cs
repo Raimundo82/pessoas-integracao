@@ -2,9 +2,9 @@ using DatabaseSchemaReader;
 
 using Npgsql;
 
-using Pessoas.Integracao.Tests.TestInfrastructure;
+using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Tests.Integration.Infrastructure.AnaliticaRepositories;
+namespace Pessoas.Integracao.Analitica.Tests.Integration.Infrastructure;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class AnaliticaDbContextSchemaIntegrationTests(PostgresTestContainerDb db) : IAsyncLifetime
