@@ -24,13 +24,10 @@ public class PessoaSyncRefDbContext(DbContextOptions<PessoaSyncRefDbContext> opt
                 .IsRequired()
                 .HasMaxLength(255);
 
-            entity.OwnsOne(e => e.SyncState, navigation =>
-            {
-                navigation.Property(s => s.UpdatedAt)
+            entity.OwnsOne(e => e.SyncState, navigation => navigation.Property(s => s.UpdatedAt)
                     .HasColumnName("SyncState")
                     .HasColumnType("timestamp with time zone")
-                    .IsRequired();
-            });
+                    .IsRequired());
         });
     }
 }
