@@ -17,7 +17,6 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
             .Where(t => t.ClrType.IsSubclassOf(typeof(ZhrSBaseModelOutput)))
             .ToList();
 
-
         foreach (var outputEntityType in outputTypes)
         {
             var outputEntity = modelBuilder.Entity(outputEntityType.ClrType);
@@ -38,7 +37,6 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
                             .HasMany(elementType, prop.Name)
                             .WithOne("Output")
                             .HasForeignKey("Ni");
-
                     }
                     else
                     {
