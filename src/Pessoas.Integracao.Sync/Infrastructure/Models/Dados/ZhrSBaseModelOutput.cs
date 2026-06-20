@@ -7,6 +7,6 @@ public interface IOutputModel
 
 public abstract class ZhrSBaseModelOutput
 {
-    public DateTime? UpdatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 
 }
