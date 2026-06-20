@@ -25,6 +25,7 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
             outputEntity.HasIndex("Numsap").IsUnique();
 
             var props = outputEntityType.ClrType.GetProperties();
+
             foreach (var prop in props)
             {
                 if (prop.PropertyType.IsArray)
@@ -35,7 +36,7 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
                     {
                         outputEntity
                             .HasMany(elementType, prop.Name)
-                            .WithOne("Output")
+                            .WithOne()
                             .HasForeignKey("Ni");
                     }
                     else
