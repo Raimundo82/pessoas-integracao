@@ -1,25 +1,15 @@
 ﻿{
-  Name: PessoaSyncRefs,
+  TableName: PessoaSyncRefs,
   PrimaryKey: [
     Ni
   ],
-  Columns: [
-    {
-      Name: Ni,
-      Nullable: false,
-      IsAutoNumber: false
-    },
-    {
-      Name: ExternalId,
-      Nullable: false,
-      IsAutoNumber: false
-    },
-    {
-      Name: SyncState_UpdatedAt,
-      Nullable: false,
-      IsAutoNumber: false
-    }
+  ForeignKey: [],
+  NonNullableColumns: [
+    Ni,
+    ExternalId,
+    SyncState_UpdatedAt
   ],
+  NullableColumns: [],
   Indexes: [
     {
       Name: PK_PessoaSyncRefs,
