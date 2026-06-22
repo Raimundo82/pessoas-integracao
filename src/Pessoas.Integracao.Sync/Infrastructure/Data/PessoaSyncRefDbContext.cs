@@ -14,10 +14,6 @@ public class PessoaSyncRefDbContext(DbContextOptions<PessoaSyncRefDbContext> opt
 
         modelBuilder.Entity<PessoaSyncRef>(entity =>
         {
-            entity.Property(e => e.Ni)
-                .IsRequired()
-                .HasMaxLength(255);
-
             entity.Property(e => e.ExternalId)
                 .IsRequired()
                 .HasMaxLength(255);
