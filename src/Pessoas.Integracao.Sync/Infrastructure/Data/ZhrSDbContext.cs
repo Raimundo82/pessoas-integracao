@@ -37,7 +37,8 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
                         outputEntity
                             .HasMany(elementType, prop.Name)
                             .WithOne()
-                            .HasForeignKey("Ni");
+                            .HasForeignKey("Ni")
+                            .OnDelete(DeleteBehavior.Cascade);
                     }
                     else
                     {
