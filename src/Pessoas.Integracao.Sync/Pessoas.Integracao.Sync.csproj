@@ -14,4 +14,16 @@
     <PackageReference Include="System.ServiceModel.Primitives" />
     <PackageReference Include="System.Security.Cryptography.Xml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application/Contracts/" />
+    <Folder Include="Application/UseCases/" />
+    <Folder Include="Domain/Entities/" />
+    <Folder Include="Domain/ValueObjects/" />
+    <Folder Include="Infrastructure/" />
+    <Folder Include="Infrastructure/Data/" />
+    <Folder Include="Infrastructure/Models/" />
+    <Folder Include="Infrastructure/Repositories/" />
+  </ItemGroup>
+
 </Project>

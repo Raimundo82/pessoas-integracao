@@ -1,0 +1,22 @@
+﻿{
+  TableName: PessoaSyncRefs,
+  PrimaryKey: [
+    Ni
+  ],
+  ForeignKey: [],
+  NonNullableColumns: [
+    Ni,
+    ExternalId
+  ],
+  NullableColumns: [
+    SyncState_UpdatedAt
+  ],
+  Indexes: [
+    {
+      Name: PK_PessoaSyncRefs,
+      Columns: [
+        Ni
+      ]
+    }
+  ]
+}

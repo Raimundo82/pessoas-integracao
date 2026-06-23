@@ -65,6 +65,11 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
             .UseNpgsql(ConnectionString)
             .Options;
 
+        var syncOptions = new DbContextOptionsBuilder<PessoaSyncRefDbContext>()
+
+            .UseNpgsql(ConnectionString)
+            .Options;
+
         await using var context = new AppDbContext(options);
         await context.Database.EnsureCreatedAsync();
 
@@ -73,6 +78,9 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
 
         await using var zhrSContext = new ZhrSDbContext(zhrSOptions);
         await zhrSContext.Database.GetInfrastructure().GetRequiredService<IRelationalDatabaseCreator>().CreateTablesAsync();
+
+        await using var pessoaSyncRefContext = new PessoaSyncRefDbContext(syncOptions);
+        await pessoaSyncRefContext.Database.GetInfrastructure().GetRequiredService<IRelationalDatabaseCreator>().CreateTablesAsync();
 
         _resetConnection = new NpgsqlConnection(ConnectionString);
         await _resetConnection.OpenAsync();
@@ -93,3 +101,4 @@ public sealed class PostgresTestContainerDb : IAsyncLifetime
         await _container.DisposeAsync();
     }
 }
+

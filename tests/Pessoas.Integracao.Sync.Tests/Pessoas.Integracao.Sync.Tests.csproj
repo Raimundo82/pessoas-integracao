@@ -25,7 +25,6 @@
     <ProjectReference Include="../../src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
     <ProjectReference
       Include="../../tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
-
   </ItemGroup>
 
 </Project>
