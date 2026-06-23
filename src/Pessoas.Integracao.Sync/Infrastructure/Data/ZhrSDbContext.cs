@@ -34,16 +34,13 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
 
                     if (elementType != null && elementType.IsSubclassOf(typeof(ZhrSBaseModel)))
                     {
-                        outputEntity
-                            .HasMany(elementType, prop.Name)
-                            .WithOne()
+                        modelBuilder.Entity(elementType)
+                            .HasOne(outputEntityType.ClrType)
+                            .WithMany()
                             .HasForeignKey("Ni")
                             .OnDelete(DeleteBehavior.Cascade);
                     }
-                    else
-                    {
-                        outputEntity.Ignore(prop.Name);
-                    }
+                    outputEntity.Ignore(prop.Name);
                 }
             }
         }
