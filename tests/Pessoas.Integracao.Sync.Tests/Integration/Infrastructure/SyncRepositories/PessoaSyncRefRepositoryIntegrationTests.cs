@@ -39,9 +39,9 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         // Arrange
         var existing = new[]
         {
-            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "30003", ExternalId = "A3", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState {UpdatedAt =  DateTimeOffset.UtcNow }},
+            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState {}},
+            new PessoaSyncRef { Ni = "30003", ExternalId = "A3", SyncState = new SyncState {UpdatedAt =  DateTimeOffset.UtcNow }}
         };
 
         await _context.PessoaSyncRefs.AddRangeAsync(existing);
@@ -63,7 +63,7 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     {
         // Arrange
         await _context.PessoaSyncRefs.AddAsync(
-            new PessoaSyncRef { Ni = "99999", ExternalId = "X", SyncState = new SyncState(DateTimeOffset.UtcNow) }, _ct
+            new PessoaSyncRef { Ni = "99999", ExternalId = "X", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } }, _ct
         );
         await _context.SaveChangesAsync(_ct);
 
@@ -81,8 +81,8 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         // Arrange
         var items = new[]
         {
-            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState {UpdatedAt =  DateTimeOffset.UtcNow } },
+            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState { } }
         };
 
         // Act
@@ -98,14 +98,14 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     public async Task ShouldUpdateExistingRows_WhenUpsertAsyncReceivesExistingNis()
     {
         // Arrange
-        var oldState = new SyncState(DateTimeOffset.UtcNow.AddDays(-1));
+        var oldState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow.AddDays(-1) };
 
         await _context.PessoaSyncRefs.AddAsync(
             new PessoaSyncRef { Ni = "10001", ExternalId = "OLD", SyncState = oldState }, _ct
         );
         await _context.SaveChangesAsync(_ct);
 
-        var newState = new SyncState(DateTimeOffset.UtcNow);
+        var newState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow };
 
         var items = new[]
         {
@@ -121,10 +121,10 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
 
         var row = result.Single();
         row.ExternalId.Should().Be("NEW");
-        row.SyncState.UpdatedAt.Should().BeAfter(oldState.UpdatedAt);
+        row.SyncState.UpdatedAt.Should().BeAfter(oldState.UpdatedAt.Value);
         row.SyncState.UpdatedAt
             .Should()
-            .BeCloseTo(newState.UpdatedAt, TimeSpan.FromMilliseconds(1));
+            .BeCloseTo(newState.UpdatedAt.Value, TimeSpan.FromMilliseconds(1));
     }
 
     [Fact]
@@ -132,14 +132,14 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     {
         // Arrange
         await _context.PessoaSyncRefs.AddAsync(
-            new PessoaSyncRef { Ni = "20002", ExternalId = "OLD", SyncState = new SyncState(DateTimeOffset.UtcNow.AddDays(-1)) }, _ct
+            new PessoaSyncRef { Ni = "20002", ExternalId = "OLD", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow.AddDays(-1) } }, _ct
         );
         await _context.SaveChangesAsync(_ct);
 
         var items = new[]
         {
-            new PessoaSyncRef { Ni = "20002", ExternalId = "UPDATED", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "30003", ExternalId = "NEW", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+            new PessoaSyncRef { Ni = "20002", ExternalId = "UPDATED", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } },
+            new PessoaSyncRef { Ni = "30003", ExternalId = "NEW", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } }
         };
 
         // Act
@@ -156,9 +156,9 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
     {
         // Arrange
         await _context.PessoaSyncRefs.AddRangeAsync(
-            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "30003", ExternalId = "A3", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } },
+            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } },
+            new PessoaSyncRef { Ni = "30003", ExternalId = "A3", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } }
         );
         await _context.SaveChangesAsync(_ct);
 
@@ -179,8 +179,8 @@ public sealed class PessoaSyncRefRepositoryIntegrationTests : IAsyncLifetime, ID
         // Arrange
         var existing = new[]
         {
-            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState(DateTimeOffset.UtcNow) },
-            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState(DateTimeOffset.UtcNow) }
+            new PessoaSyncRef { Ni = "10001", ExternalId = "A1", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow } },
+            new PessoaSyncRef { Ni = "20002", ExternalId = "A2", SyncState = new SyncState { UpdatedAt = DateTimeOffset.UtcNow }}
         };
 
         await _context.PessoaSyncRefs.AddRangeAsync(existing);

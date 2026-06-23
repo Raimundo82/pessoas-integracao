@@ -6,10 +6,11 @@
   ForeignKey: [],
   NonNullableColumns: [
     Ni,
-    ExternalId,
+    ExternalId
+  ],
+  NullableColumns: [
     SyncState_UpdatedAt
   ],
-  NullableColumns: [],
   Indexes: [
     {
       Name: PK_PessoaSyncRefs,
