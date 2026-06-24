@@ -44,4 +44,40 @@ public sealed class ZhrSDbContextSchemaIntegrationTests(PostgresTestContainerDb 
         });
     }
 
+    [Fact]
+    public async Task ShouldMatchExpectedDatabaseSchema_WhenMappingZhrSPessoaisEntities()
+    {
+        // Arrange
+        var connection = new NpgsqlConnection(_db.ConnectionString);
+        using var reader = new DatabaseReader(connection);
+
+        // Act
+        var pessoaisOutputTable = reader.Table("ZhrSPessoaisOutputs", _ct);
+        var pessoaisTable = reader.Table("ZhrSPessoais", _ct);
+        var familiasTable = reader.Table("ZhrSFamilias", _ct);
+        var schema = reader.DatabaseSchema;
+
+        // Assert
+        await Verify(new
+        {
+            PessoaisOutputPK = pessoaisOutputTable.PrimaryKey.Columns,
+            PessoaisOutputNonNullableCols = pessoaisOutputTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            PessoaisOutputNullableCols = pessoaisOutputTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            PessoaisOutputIdxs = pessoaisOutputTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            PessoaisPK = pessoaisTable.PrimaryKey.Columns,
+            PessoaisFK = pessoaisTable.ForeignKeys.Select(fk => new { fk.Name, fk.Columns }),
+            PessoaisNonNullableCols = pessoaisTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            PessoaisNullableCols = pessoaisTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            PessoaisIdxs = pessoaisTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
+
+            FamiliasPK = pessoaisTable.PrimaryKey.Columns,
+            FamiliasFK = pessoaisTable.ForeignKeys.Select(fk => new { fk.Name, fk.Columns }),
+            FamiliasNonNullableCols = pessoaisTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            FamiliasNullableCols = pessoaisTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            FamiliasIdxs = pessoaisTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
+        });
+    }
+
+
 }

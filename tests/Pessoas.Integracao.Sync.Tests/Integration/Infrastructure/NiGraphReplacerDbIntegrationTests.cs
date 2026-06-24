@@ -29,9 +29,8 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
     {
 
         // Arrange
-        var newOutput = AptidaoOutput("22600", "30002697")
-            .WithChildren("Aptidao1", "Aptidao2")
-            .Build();
+        var newOutput = AptidaoOutput("22600", "30002697");
+        newOutput.Aptidao = [AptidaoChild("22600", "Aptidao1"), AptidaoChild("22600", "Aptidao2")];
 
         // Act
         await ExecuteAsync([newOutput], newOutput.Aptidao);
@@ -54,17 +53,15 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         var updatedAt = new DateTimeOffset(2024, 6, 1, 0, 0, 0, TimeSpan.Zero);
 
         await SeedAsync(
-            AptidaoOutput(ni1, "30002697").Build(),
-            ChildrenFor(ni1, "Aptidao1", "Aptidao2"));
+            AptidaoOutput(ni1, "30002697"),
+           [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]);
 
         await SeedAsync(
-            AptidaoOutput(ni2, "30002698").Build(),
-            ChildrenFor(ni2, "Aptidao1", "Aptidao2"));
+            AptidaoOutput(ni2, "30002698"),
+           [AptidaoChild(ni2, "Aptidao1"), AptidaoChild(ni2, "Aptidao2")]);
 
-        var replacement = AptidaoOutput(ni1, "30002697", updatedAt)
-            .WithChildren("Aptidao3", "Aptidao4")
-            .Build();
-
+        var replacement = AptidaoOutput(ni1, "30002697", updatedAt);
+        replacement.Aptidao = [AptidaoChild(ni1, "Aptidao3"), AptidaoChild(ni1, "Aptidao4")];
 
         // Act
         await ExecuteAsync([replacement], replacement.Aptidao);
@@ -93,8 +90,8 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
 
         var outputs = new[]
         {
-            AptidaoOutput(ni1, "30002697").WithChildren("Aptidao1", "Aptidao2").Build(),
-            AptidaoOutput(ni2, "30002698").WithChildren("Aptidao3", "Aptidao4").Build(),
+           new ZhrSAptidaoOutput { Ni = ni1, Numsap = "30002697", Aptidao = [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]},
+           new ZhrSAptidaoOutput { Ni = ni2, Numsap = "30002698", Aptidao = [AptidaoChild(ni2, "Aptidao3"), AptidaoChild(ni2, "Aptidao4")]},
         };
 
         // Act
@@ -123,10 +120,10 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         var ni = "22600";
 
         await SeedAsync(
-            AptidaoOutput(ni, "30002697").Build(),
-            ChildrenFor(ni, "Aptidao1", "Aptidao2"));
+            AptidaoOutput(ni, "30002697"), [AptidaoChild(ni, "Aptidao1"), AptidaoChild(ni, "Aptidao2")]);
 
-        var replacement = AptidaoOutput(ni, "30002697").WithChildren().Build();
+        var replacement = AptidaoOutput(ni, "30002697");
+        replacement.Aptidao = [];
 
         // Act
         await ExecuteAsync([replacement], replacement.Aptidao);
@@ -141,6 +138,12 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         childrenResult.Should().BeEmpty();
     }
 
+    private static ZhrSAptidaoOutput AptidaoOutput(string ni, string numsap, DateTimeOffset? updatedAt = null) =>
+        new() { Ni = ni, Numsap = numsap, UpdatedAt = updatedAt };
+
+    private static ZhrSAptidao AptidaoChild(string ni, string areaExame) =>
+        new() { Ni = ni, AreaExame = areaExame };
+
 
     private ZhrSDbContext NewContext() => new(_options);
     private async Task ExecuteAsync(ZhrSAptidaoOutput[] outputs, IEnumerable<ZhrSAptidao> children)
@@ -154,34 +157,6 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         await context.Set<ZhrSAptidaoOutput>().AddAsync(root, _ct);
         await context.Set<ZhrSAptidao>().AddRangeAsync(children, _ct);
         await context.SaveChangesAsync(_ct);
-    }
-
-    private static AptidaoOutputBuilder AptidaoOutput(
-        string ni,
-        string numsap,
-        DateTimeOffset? updatedAt = null
-    ) => new(ni, numsap, updatedAt);
-
-    private static ZhrSAptidao[] ChildrenFor(string ni, params string[] areaExames) =>
-        [.. areaExames.Select(a => new ZhrSAptidao { Ni = ni, AreaExame = a })];
-
-    private sealed class AptidaoOutputBuilder(string ni, string numsap, DateTimeOffset? updatedAt)
-    {
-        private ZhrSAptidao[] _children = [];
-
-        public AptidaoOutputBuilder WithChildren(params string[] areaExames)
-        {
-            _children = ChildrenFor(ni, areaExames);
-            return this;
-        }
-
-        public ZhrSAptidaoOutput Build() => new()
-        {
-            Ni = ni,
-            Numsap = numsap,
-            UpdatedAt = updatedAt,
-            Aptidao = _children,
-        };
     }
 }
 
