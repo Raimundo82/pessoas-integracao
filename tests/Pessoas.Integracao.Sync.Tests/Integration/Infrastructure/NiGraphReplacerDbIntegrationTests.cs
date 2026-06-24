@@ -1,8 +1,5 @@
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore;
-
-using Pessoas.Integracao.Sync.Infrastructure.Data;
 using Pessoas.Integracao.Sync.Infrastructure.Data.Persistance;
 using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 using Pessoas.Integracao.Testing;
@@ -11,18 +8,8 @@ namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : IAsyncLifetime
+public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : GraphReplacerTestsBase(db), IAsyncLifetime
 {
-    private readonly DbContextOptions<ZhrSDbContext> _options = new DbContextOptionsBuilder<ZhrSDbContext>()
-            .UseNpgsql(db.ConnectionString)
-            .Options;
-
-    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
-    private readonly PostgresTestContainerDb _db = db;
-
-    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
-
-    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
     [Fact]
     public async Task ShouldInsertRootAndChildren_WhenDbIsEmpty()
@@ -145,7 +132,7 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
     }
 
     [Fact]
-    public async Task ShouldDeleteChildren_WhenRootIsReplacedWithEmptyChildrenData()
+    public async Task ShouldDeleteOnlyMatchingChildren_WhenRootIsReplacedWithEmptyChildrenData()
     {
 
         // Arrange
@@ -170,29 +157,11 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         childrenResult.Should().BeEmpty();
     }
 
-    private static ZhrSAptidaoOutput AptidaoOutput(string ni, string numsap, DateTimeOffset? updatedAt = null) =>
-        new() { Ni = ni, Numsap = numsap, UpdatedAt = updatedAt };
-
-    private static ZhrSAptidao AptidaoChild(string ni, string areaExame) =>
-        new() { Ni = ni, AreaExame = areaExame };
-
-
-    private ZhrSDbContext NewContext() => new(_options);
 
     private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IEnumerable<ZhrSBaseModel[]> children)
         where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
         await new NiGraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
-    }
-
-    private async Task SeedAsync<TOutput>(TOutput root, params ZhrSBaseModel[][] childrenSets)
-        where TOutput : ZhrSBaseModelOutput, IOutputModel, new()
-    {
-        await using var context = NewContext();
-        await context.Set<TOutput>().AddAsync(root, _ct);
-        foreach (var children in childrenSets)
-            context.AddRange(children);
-        await context.SaveChangesAsync(_ct);
     }
 }
