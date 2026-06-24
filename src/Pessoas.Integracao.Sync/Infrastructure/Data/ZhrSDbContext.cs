@@ -17,14 +17,14 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
             .Where(t => t.ClrType.IsSubclassOf(typeof(ZhrSBaseModelOutput)))
             .ToList();
 
-        foreach (var outputEntityType in outputTypes)
+        foreach (var outputEntityType in outputTypes.Select(t => t.ClrType))
         {
-            var outputEntity = modelBuilder.Entity(outputEntityType.ClrType);
+            var outputEntity = modelBuilder.Entity(outputEntityType);
             outputEntity.HasKey("Ni");
             outputEntity.Property("Numsap").IsRequired();
             outputEntity.HasIndex("Numsap").IsUnique();
 
-            var props = outputEntityType.ClrType.GetProperties();
+            var props = outputEntityType.GetProperties();
 
             foreach (var prop in props)
             {
@@ -35,7 +35,7 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
                     if (elementType != null && elementType.IsSubclassOf(typeof(ZhrSBaseModel)))
                     {
                         modelBuilder.Entity(elementType)
-                            .HasOne(outputEntityType.ClrType)
+                            .HasOne(outputEntityType)
                             .WithMany()
                             .HasForeignKey("Ni")
                             .OnDelete(DeleteBehavior.Cascade);
