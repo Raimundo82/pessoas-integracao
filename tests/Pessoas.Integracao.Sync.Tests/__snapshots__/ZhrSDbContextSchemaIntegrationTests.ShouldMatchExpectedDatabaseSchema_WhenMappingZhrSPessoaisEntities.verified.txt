@@ -138,7 +138,7 @@
   ],
   FamiliasFK: [
     {
-      Name: FK_ZhrSPessoais_ZhrSPessoaisOutputs_Ni,
+      Name: FK_ZhrSFamilias_ZhrSPessoaisOutputs_Ni,
       Columns: [
         Ni
       ]
@@ -154,84 +154,66 @@
   ],
   FamiliasNullableCols: [
     {
-      Name: Nome
+      Name: Objps
     },
     {
-      Name: Apelido
+      Name: Famsa
     },
     {
-      Name: Sexo
+      Name: Sigla
     },
     {
-      Name: SexoDesc
+      Name: Fgbdt
     },
     {
-      Name: DtNasci
+      Name: Fanat
     },
     {
-      Name: Idade
+      Name: Fasex
     },
     {
-      Name: Idade31dezembro
+      Name: Fanam
     },
     {
-      Name: Nacionalidade1
+      Name: Zzfatxt
     },
     {
-      Name: Nacionalidade2
+      Name: Fcnam
     },
     {
-      Name: Nacionalidade3
+      Name: Finum
     },
     {
-      Name: PaisNat
+      Name: Ssnum
     },
     {
-      Name: PaisnascDesc
+      Name: Ssins
     },
     {
-      Name: DistritoNat
+      Name: Benef
     },
     {
-      Name: DistnascDesc
+      Name: Nsers
     },
     {
-      Name: ConcelhoNat
+      Name: Begda
     },
     {
-      Name: ConcnascDesc
+      Name: Endda
     },
     {
-      Name: FreguesiaNat
-    },
-    {
-      Name: FregnascDesc
-    },
-    {
-      Name: EstCivil
-    },
-    {
-      Name: EstadocivilDesc
-    },
-    {
-      Name: DataEstCivil
-    },
-    {
-      Name: Rufnm
-    },
-    {
-      Name: DtFalec
+      Name: Dtfalec
     }
   ],
   FamiliasIdxs: [
     {
-      Name: IX_ZhrSPessoais_Ni,
+      Name: IX_ZhrSFamilias_Ni,
       Columns: [
         Ni
       ]
     },
     {
-      Name: PK_ZhrSPessoais,
+      Name: PK_ZhrSFamilias,
       Columns: [
         Id
       ]
