@@ -71,11 +71,11 @@ public sealed class ZhrSDbContextSchemaIntegrationTests(PostgresTestContainerDb 
             PessoaisNullableCols = pessoaisTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
             PessoaisIdxs = pessoaisTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) }),
 
-            FamiliasPK = pessoaisTable.PrimaryKey.Columns,
-            FamiliasFK = pessoaisTable.ForeignKeys.Select(fk => new { fk.Name, fk.Columns }),
-            FamiliasNonNullableCols = pessoaisTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
-            FamiliasNullableCols = pessoaisTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
-            FamiliasIdxs = pessoaisTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
+            FamiliasPK = familiasTable.PrimaryKey.Columns,
+            FamiliasFK = familiasTable.ForeignKeys.Select(fk => new { fk.Name, fk.Columns }),
+            FamiliasNonNullableCols = familiasTable.Columns.Where(c => !c.Nullable).Select(c => new { c.Name }),
+            FamiliasNullableCols = familiasTable.Columns.Where(c => c.Nullable).Select(c => new { c.Name }),
+            FamiliasIdxs = familiasTable.Indexes.Select(i => new { i.Name, Columns = i.Columns.Select(c => c.Name) })
         });
     }
 
