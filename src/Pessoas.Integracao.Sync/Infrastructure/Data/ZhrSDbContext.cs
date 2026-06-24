@@ -10,6 +10,15 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
     public DbSet<ZhrSAptidaoOutput> ZhrSAptidaoOutputs { get; set; } = null!;
     public DbSet<ZhrSAptidao> ZhrSAptidoes { get; set; } = null!;
 
+    // Pessoais
+    // Pessoais
+    public DbSet<ZhrSPessoaisOutput> ZhrSPessoaisOutputs { get; set; } = null!;
+    public DbSet<ZhrSPessoais> ZhrSPessoais { get; set; } = null!;
+    public DbSet<ZhrSFamilia> ZhrSFamilias { get; set; } = null!;
+    public DbSet<ZhrSOutrosdados> ZhrSOutrosdados { get; set; } = null!;
+    public DbSet<ZhrSDeficiencias> ZhrSDeficiencias { get; set; } = null!;
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var outputTypes = modelBuilder.Model
