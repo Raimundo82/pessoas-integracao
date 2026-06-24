@@ -11,7 +11,6 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
     public DbSet<ZhrSAptidao> ZhrSAptidoes { get; set; } = null!;
 
     // Pessoais
-    // Pessoais
     public DbSet<ZhrSPessoaisOutput> ZhrSPessoaisOutputs { get; set; } = null!;
     public DbSet<ZhrSPessoais> ZhrSPessoais { get; set; } = null!;
     public DbSet<ZhrSFamilia> ZhrSFamilias { get; set; } = null!;
