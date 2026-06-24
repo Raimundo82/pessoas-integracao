@@ -22,8 +22,7 @@ public class ZhrSDbContext(DbContextOptions<ZhrSDbContext> options) : DbContext(
     {
         var outputTypes = modelBuilder.Model
             .GetEntityTypes()
-            .Where(t => t.ClrType.IsSubclassOf(typeof(ZhrSBaseModelOutput)))
-            .ToList();
+            .Where(t => t.ClrType.IsSubclassOf(typeof(ZhrSBaseModelOutput)));
 
         foreach (var outputEntityType in outputTypes.Select(t => t.ClrType))
         {
