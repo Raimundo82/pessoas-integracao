@@ -588,6 +588,7 @@
         "dependencies": {
           "EFCore.BulkExtensions.Core": "[10.0.1, )",
           "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
+          "Microsoft.EntityFrameworkCore": "[10.0.9, )",
           "Microsoft.Extensions.Hosting": "[10.0.9, )",
           "System.Security.Cryptography.Xml": "[10.0.9, )",
           "System.ServiceModel.Http": "[10.0.652802, )",

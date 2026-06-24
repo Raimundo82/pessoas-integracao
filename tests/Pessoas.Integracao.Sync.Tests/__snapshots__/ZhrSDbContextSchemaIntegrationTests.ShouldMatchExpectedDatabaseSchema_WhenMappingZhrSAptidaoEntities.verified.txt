@@ -1,0 +1,103 @@
+﻿{
+  AptidaoOutputPK: [
+    Ni
+  ],
+  AptidaoOutputNonNullableCols: [
+    {
+      Name: Ni
+    },
+    {
+      Name: Numsap
+    }
+  ],
+  AptidaoOutputNullableCols: [
+    {
+      Name: UpdatedAt
+    }
+  ],
+  AptidaoOutputIdxs: [
+    {
+      Name: IX_ZhrSAptidaoOutputs_Numsap,
+      Columns: [
+        Numsap
+      ]
+    },
+    {
+      Name: PK_ZhrSAptidaoOutputs,
+      Columns: [
+        Ni
+      ]
+    }
+  ],
+  AptidaoPK: [
+    Id
+  ],
+  AptidaoFK: [
+    {
+      Name: FK_ZhrSAptidoes_ZhrSAptidaoOutputs_Ni,
+      Columns: [
+        Ni
+      ]
+    }
+  ],
+  AptidaoNonNullableCols: [
+    {
+      Name: Id
+    },
+    {
+      Name: Valor
+    },
+    {
+      Name: Ni
+    }
+  ],
+  AptidaoNullableCols: [
+    {
+      Name: Subty
+    },
+    {
+      Name: Denominacao
+    },
+    {
+      Name: AreaExame
+    },
+    {
+      Name: ArexamesDesc
+    },
+    {
+      Name: ServicoMedInt
+    },
+    {
+      Name: DataExame
+    },
+    {
+      Name: Modalidade
+    },
+    {
+      Name: ModalDesc
+    },
+    {
+      Name: Resultado
+    },
+    {
+      Name: ResultadoDesc
+    },
+    {
+      Name: Observacoes
+    }
+  ],
+  AptidaoIdxs: [
+    {
+      Name: IX_ZhrSAptidoes_Ni,
+      Columns: [
+        Ni
+      ]
+    },
+    {
+      Name: PK_ZhrSAptidoes,
+      Columns: [
+        Id
+      ]
+    }
+  ]
+}

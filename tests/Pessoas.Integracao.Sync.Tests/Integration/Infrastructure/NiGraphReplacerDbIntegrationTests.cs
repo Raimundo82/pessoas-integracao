@@ -1,0 +1,198 @@
+using FluentAssertions;
+
+using Microsoft.EntityFrameworkCore;
+
+using Pessoas.Integracao.Sync.Infrastructure.Data;
+using Pessoas.Integracao.Sync.Infrastructure.Data.Persistance;
+using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
+using Pessoas.Integracao.Testing;
+
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+
+
+[Collection(nameof(PostgresTestDatabaseCollection))]
+public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : IAsyncLifetime
+{
+    private readonly DbContextOptions<ZhrSDbContext> _options = new DbContextOptionsBuilder<ZhrSDbContext>()
+            .UseNpgsql(db.ConnectionString)
+            .Options;
+
+    private readonly CancellationToken _ct = TestContext.Current.CancellationToken;
+    private readonly PostgresTestContainerDb _db = db;
+
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
+    public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
+
+    [Fact]
+    public async Task ShouldInsertRootAndChildren_WhenDbIsEmpty()
+    {
+
+        // Arrange
+        var newOutput = AptidaoOutput("22600", "30002697");
+        newOutput.Aptidao = [AptidaoChild("22600", "Aptidao1"), AptidaoChild("22600", "Aptidao2")];
+
+        // Act
+        await ExecuteAsync([newOutput], [newOutput.Aptidao]);
+
+        // Assert
+        await using var assertContext = NewContext();
+        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+        rootResult.Should().HaveCount(1);
+        rootResult.Should().ContainSingle(r => r.Ni == "22600" && r.Numsap == "30002697" && r.UpdatedAt == null);
+        childrenResult.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task ShouldReplaceMatchingRootAndPreserveOthers_WhenDbIsPopulated()
+    {
+
+        // Arrange
+        var (ni1, ni2) = ("22600", "226001");
+        var updatedAt = new DateTimeOffset(2024, 6, 1, 0, 0, 0, TimeSpan.Zero);
+
+        await SeedAsync(
+            AptidaoOutput(ni1, "30002697"),
+           [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]);
+
+        await SeedAsync(
+            AptidaoOutput(ni2, "30002698"),
+           [AptidaoChild(ni2, "Aptidao1"), AptidaoChild(ni2, "Aptidao2")]);
+
+        await SeedAsync(
+            new ZhrSPessoaisOutput { Ni = "226002", Numsap = "30002699" },
+            [new ZhrSPessoais { Ni = "226002", Nome = "Pessoa2" }],
+            [
+                new ZhrSFamilia { Ni = "226002", Fcnam = "Familiar1" },
+                new ZhrSFamilia { Ni = "226002", Fcnam = "Familiar2" }
+            ]
+        );
+
+        var aptidaoReplacement = AptidaoOutput(ni1, "30002697", updatedAt);
+        aptidaoReplacement.Aptidao = [AptidaoChild(ni1, "Aptidao3"), AptidaoChild(ni1, "Aptidao4")];
+
+        var pessoaisReplacement = new ZhrSPessoaisOutput
+        {
+            Ni = "226002",
+            Numsap = "30002699",
+            Pessoais = [new ZhrSPessoais { Ni = "226002", Nome = "Pessoa2" }],
+            Familia = [new ZhrSFamilia { Ni = "226002", Fcnam = "Familiar1" }]
+        };
+
+
+        // Act
+        await ExecuteAsync([aptidaoReplacement], [aptidaoReplacement.Aptidao]);
+        await ExecuteAsync([pessoaisReplacement], [pessoaisReplacement.Pessoais, pessoaisReplacement.Familia]);
+
+        // Assert
+        await using var assertContext = NewContext();
+
+        var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        aptidaoRootResult.Should().HaveCount(2);
+        aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni1 && r.Numsap == "30002697" && r.UpdatedAt == updatedAt);
+        aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni2 && r.Numsap == "30002698");
+
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+        childrenResult.Should().HaveCount(4);
+        childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao3");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao4");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao1");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao2");
+
+        var pessoaisRootResult = assertContext.Set<ZhrSPessoaisOutput>();
+        pessoaisRootResult.Should().HaveCount(1);
+        pessoaisRootResult.Should().ContainSingle(r => r.Ni == "226002" && r.Numsap == "30002699");
+
+        var pessoaisResult = assertContext.Set<ZhrSPessoais>();
+        pessoaisResult.Should().HaveCount(1);
+        pessoaisResult.Should().ContainSingle(p => p.Ni == "226002" && p.Nome == "Pessoa2");
+
+        var familiaResult = assertContext.Set<ZhrSFamilia>();
+        familiaResult.Should().HaveCount(1);
+        familiaResult.Should().ContainSingle(f => f.Ni == "226002" && f.Fcnam == "Familiar1");
+    }
+
+
+    [Fact]
+    public async Task ShouldInsertMultipleRootsAndChildren_WhenDbIsEmpty()
+    {
+        // Arrange
+        var (ni1, ni2) = ("22600", "22601");
+
+        var outputs = new[]
+        {
+           new ZhrSAptidaoOutput { Ni = ni1, Numsap = "30002697", Aptidao = [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]},
+           new ZhrSAptidaoOutput { Ni = ni2, Numsap = "30002698", Aptidao = [AptidaoChild(ni2, "Aptidao3"), AptidaoChild(ni2, "Aptidao4")]},
+        };
+
+        // Act
+        await ExecuteAsync(outputs, [[.. outputs.SelectMany(o => o.Aptidao)]]);
+
+        // Assert
+        var assertContext = NewContext();
+        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        rootResult.Should().HaveCount(2);
+        rootResult.Should().ContainSingle(r => r.Ni == ni1 && r.Numsap == "30002697");
+        rootResult.Should().ContainSingle(r => r.Ni == ni2 && r.Numsap == "30002698");
+
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+        childrenResult.Should().HaveCount(4);
+        childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao1");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao2");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao3");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao4");
+    }
+
+    [Fact]
+    public async Task ShouldDeleteChildren_WhenRootIsReplacedWithEmptyChildrenData()
+    {
+
+        // Arrange
+        var ni = "22600";
+
+        await SeedAsync(
+            AptidaoOutput(ni, "30002697"), [AptidaoChild(ni, "Aptidao1"), AptidaoChild(ni, "Aptidao2")]);
+
+        var replacement = AptidaoOutput(ni, "30002697");
+        replacement.Aptidao = [];
+
+        // Act
+        await ExecuteAsync([replacement], [replacement.Aptidao]);
+
+        // Assert
+        await using var assertContext = NewContext();
+        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        rootResult.Should().HaveCount(1);
+
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+        rootResult.Should().ContainSingle(r => r.Ni == ni && r.Numsap == "30002697" && r.UpdatedAt == null);
+        childrenResult.Should().BeEmpty();
+    }
+
+    private static ZhrSAptidaoOutput AptidaoOutput(string ni, string numsap, DateTimeOffset? updatedAt = null) =>
+        new() { Ni = ni, Numsap = numsap, UpdatedAt = updatedAt };
+
+    private static ZhrSAptidao AptidaoChild(string ni, string areaExame) =>
+        new() { Ni = ni, AreaExame = areaExame };
+
+
+    private ZhrSDbContext NewContext() => new(_options);
+
+    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IEnumerable<ZhrSBaseModel[]> children)
+        where TOutput : ZhrSBaseModelOutput, IOutputModel
+    {
+        await using var context = NewContext();
+        await new NiGraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
+    }
+
+    private async Task SeedAsync<TOutput>(TOutput root, params ZhrSBaseModel[][] childrenSets)
+        where TOutput : ZhrSBaseModelOutput, IOutputModel, new()
+    {
+        await using var context = NewContext();
+        await context.Set<TOutput>().AddAsync(root, _ct);
+        foreach (var children in childrenSets)
+            context.AddRange(children);
+        await context.SaveChangesAsync(_ct);
+    }
+}
