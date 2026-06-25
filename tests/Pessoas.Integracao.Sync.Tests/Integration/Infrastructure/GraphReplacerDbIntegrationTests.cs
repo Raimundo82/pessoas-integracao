@@ -154,6 +154,59 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         childrenResult.Should().BeEmpty();
     }
 
+    [Fact]
+    public async Task ShouldPreserveOtherZhrOutputs_WhenOnlyOneZhrOutputIsReplaced()
+    {
+        // Arrange
+        var (ni1, ni2) = ("22600", "226001");
+
+        await SeedAsync(
+            AptidaoOutput(ni1, "30002697"),
+            [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]);
+
+        await SeedAsync(
+            AptidaoOutput(ni2, "30002698"),
+            [AptidaoChild(ni2, "Aptidao3"), AptidaoChild(ni2, "Aptidao4")]);
+
+        var updatedAt = new DateTimeOffset(2024, 6, 1, 0, 0, 0, TimeSpan.Zero);
+
+        await SeedAsync(
+            new ZhrSPessoaisOutput { Ni = ni1, Numsap = "30002699" },
+            [new ZhrSPessoais { Ni = ni1, Nome = "Pessoa2" }],
+            [
+                new ZhrSFamilia { Ni = ni1, Fcnam = "Familiar1" },
+                new ZhrSFamilia { Ni = ni1, Fcnam = "Familiar2" }
+            ]
+        );
+
+        var newAptidao = AptidaoOutput(ni1, "30002697", updatedAt);
+        newAptidao.Aptidao = [AptidaoChild(ni1, "Aptidao5"), AptidaoChild(ni1, "Aptidao6")];
+
+        await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
+
+        // Assert
+        await using var assertContext = NewContext();
+
+        var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        aptidaoRootResult.Should().HaveCount(1);
+        aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni1 && r.UpdatedAt == updatedAt);
+
+        var aptidaoChildrenResult = assertContext.Set<ZhrSAptidao>();
+        aptidaoChildrenResult.Should().HaveCount(2);
+        aptidaoChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao5");
+        aptidaoChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao6");
+
+        var pessoaisRootResult = assertContext.Set<ZhrSPessoaisOutput>();
+        pessoaisRootResult.Should().ContainSingle(c => c.Ni == ni1);
+
+        var pessoaisChildrenResult = assertContext.Set<ZhrSPessoais>();
+        pessoaisChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Nome == "Pessoa2");
+
+        var familiaChildrenResult = assertContext.Set<ZhrSFamilia>();
+        familiaChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Fcnam == "Familiar1");
+        familiaChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Fcnam == "Familiar2");
+    }
+
     private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
         where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
