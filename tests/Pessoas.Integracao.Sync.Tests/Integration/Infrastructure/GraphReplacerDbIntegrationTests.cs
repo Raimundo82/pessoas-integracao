@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-using Pessoas.Integracao.Sync.Infrastructure.Data.Persistance;
+using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 using Pessoas.Integracao.Testing;
 
@@ -108,9 +108,10 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
            new ZhrSAptidaoOutput { Ni = ni1, Numsap = "30002697", Aptidao = [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]},
            new ZhrSAptidaoOutput { Ni = ni2, Numsap = "30002698", Aptidao = [AptidaoChild(ni2, "Aptidao3"), AptidaoChild(ni2, "Aptidao4")]},
         };
+        ZhrSAptidao[] aptidoes = [.. outputs.SelectMany(o => o.Aptidao)];
 
         // Act
-        await ExecuteAsync(outputs, [[.. outputs.SelectMany(o => o.Aptidao)]]);
+        await ExecuteAsync(outputs, [aptidoes]);
 
         // Assert
         var assertContext = NewContext();
@@ -153,10 +154,10 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         childrenResult.Should().BeEmpty();
     }
 
-    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IEnumerable<ZhrSBaseModel[]> children)
+    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
         where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new GraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
+        await new GraphReplacer(context).ExecuteAsync(outputs, children, _ct);
     }
 }
