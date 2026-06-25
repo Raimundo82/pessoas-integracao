@@ -15,7 +15,11 @@ public abstract class GraphReplacerTestsBase(PostgresTestContainerDb db) : IAsyn
     protected readonly CancellationToken _ct = TestContext.Current.CancellationToken;
     protected readonly PostgresTestContainerDb _db = db;
 
-    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
+    }
 
     public ValueTask InitializeAsync() => new(_db.ResetDatabaseAsync());
 
