@@ -20,7 +20,7 @@ public sealed class NiGraphReplacer(ZhrSDbContext dbContext)
         await using var transaction = await _context.Database.BeginTransactionAsync(ct);
         await _context.Set<T>().Where(e => nis.Contains(e.Ni)).ExecuteDeleteAsync(ct);
         await _context.BulkInsertAsync(roots, cancellationToken: ct);
-        foreach (var child in children) await BulkPersistenceHelper.BulkInsertUntypedAsync(_context, child, ct);
+        foreach (var child in children) await _context.BulkInsertAsync(child, cancellationToken: ct);
         await transaction.CommitAsync(ct);
 
     }
