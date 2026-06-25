@@ -8,7 +8,7 @@ namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : GraphReplacerTestsBase(db), IAsyncLifetime
+public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime
 {
 
     [Fact]

@@ -8,7 +8,7 @@ namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : GraphReplacerTestsBase(db), IAsyncLifetime
+public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime
 {
     [Fact]
     public async Task ShouldInsertRootAndChildren_WhenDbIsEmpty()
@@ -211,6 +211,6 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new GraphReplacer(context).ExecuteAsync(outputs, children, _ct);
+        await new BulkTableReplacer(context).ExecuteAsync(outputs, children, _ct);
     }
 }

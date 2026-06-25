@@ -6,7 +6,7 @@ using Pessoas.Integracao.Testing;
 
 namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
 
-public abstract class GraphReplacerTestsBase(PostgresTestContainerDb db) : IAsyncLifetime
+public abstract class TableReplacerTestsBase(PostgresTestContainerDb db) : IAsyncLifetime
 {
     protected readonly DbContextOptions<ZhrSDbContext> _options = new DbContextOptionsBuilder<ZhrSDbContext>()
             .UseNpgsql(db.ConnectionString)

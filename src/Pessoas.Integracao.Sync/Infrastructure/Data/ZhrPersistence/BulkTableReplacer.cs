@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
 using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 
-public sealed class GraphReplacer(ZhrSDbContext dbContext)
+public sealed class BulkTableReplacer(ZhrSDbContext dbContext)
 {
     public async Task ExecuteAsync<T>(
             IReadOnlyList<T> roots,
