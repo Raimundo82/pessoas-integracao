@@ -24,13 +24,13 @@ internal static class BulkPersistenceHelper
 
         var method = DeleteMethodsCache.GetOrAdd(elementType, t =>
             typeof(BulkPersistenceHelper)
-               .GetMethod(nameof(DeleteAllAsync), BindingFlags.NonPublic | BindingFlags.Static)!
+               .GetMethod(nameof(DeleteAllAsync), BindingFlags.Public | BindingFlags.Static)!
                .MakeGenericMethod(t));
 
         return (Task)method.Invoke(null, [context, ct])!;
     }
 
-    private static Task<int> DeleteAllAsync<T>(ZhrSDbContext context, CancellationToken ct) where T : ZhrSBaseModel
+    public static Task<int> DeleteAllAsync<T>(ZhrSDbContext context, CancellationToken ct) where T : ZhrSBaseModel
         => context.Set<T>().ExecuteDeleteAsync(ct);
 
     internal static Task BulkInsertUntypedAsync(ZhrSDbContext context, Array entityItems, CancellationToken ct)
