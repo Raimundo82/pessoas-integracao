@@ -2,6 +2,8 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Data;
 
 using Microsoft.EntityFrameworkCore;
 
+using Npgsql;
+
 public static class DbContextExtensions
 {
     public static async Task TruncateTableAsync(
@@ -12,8 +14,10 @@ public static class DbContextExtensions
     {
         var modelType = context.Model.FindEntityType(entityType) ?? throw new InvalidOperationException($"Type '{entityType.Name}' is not mapped.");
         var tableName = modelType.GetTableName() ?? throw new InvalidOperationException($"Type '{modelType.Name}' has no table name.");
+
+        var quotedTableName = new NpgsqlCommandBuilder().QuoteIdentifier(tableName);
         var cascadeStr = cascade ? " CASCADE" : string.Empty;
-        var sql = $"TRUNCATE TABLE \"{tableName}\"{cascadeStr};";
+        var sql = $"TRUNCATE TABLE {quotedTableName}{cascadeStr};";
         await context.Database.ExecuteSqlRawAsync(sql, cancellationToken);
     }
 
