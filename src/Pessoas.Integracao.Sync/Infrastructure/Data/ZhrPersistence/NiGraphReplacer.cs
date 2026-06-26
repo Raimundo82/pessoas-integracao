@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Sync.Infrastructure.Data.Persistance;
+namespace Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 
 using EFCore.BulkExtensions;
 

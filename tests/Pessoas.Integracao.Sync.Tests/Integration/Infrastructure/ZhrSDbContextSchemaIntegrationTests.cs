@@ -26,7 +26,6 @@ public sealed class ZhrSDbContextSchemaIntegrationTests(PostgresTestContainerDb 
         // Act
         var aptidaoOutputTable = reader.Table("ZhrSAptidaoOutputs", _ct);
         var aptidaoTable = reader.Table("ZhrSAptidoes", _ct);
-        var schema = reader.DatabaseSchema;
 
         // Assert
         await Verify(new
