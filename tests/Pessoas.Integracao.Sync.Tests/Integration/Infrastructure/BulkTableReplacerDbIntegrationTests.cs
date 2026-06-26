@@ -207,6 +207,36 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         familiaChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Fcnam == "Familiar2");
     }
 
+    [Fact]
+    public async Task ShouldRollbackWipe_WhenInsertFails()
+    {
+        // Arrange
+        var ni = "22600";
+        await SeedAsync(
+            AptidaoOutput(ni, "30002697"),
+            [AptidaoChild(ni, "Aptidao1")]
+        );
+
+        var replacement = AptidaoOutput(ni, "30002697");
+        var invalidChildren = new ZhrSAptidao[]
+        {
+            new() { Ni = null!, AreaExame = "Invalid" }
+        };
+
+        // Act
+        var act = async () => await ExecuteAsync([replacement], [invalidChildren]);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+
+        await using var assertContext = NewContext();
+        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+
+        rootResult.Should().ContainSingle(r => r.Ni == ni);
+        childrenResult.Should().ContainSingle(c => c.Ni == ni && c.AreaExame == "Aptidao1");
+    }
+
     private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
         where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
