@@ -6,7 +6,7 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="DatabaseSchemaReader" Version="2.21.0" />
+    <PackageVersion Include="DatabaseSchemaReader" Version="2.22.0" />
     <PackageVersion Include="EFCore.BulkExtensions" Version="10.0.1" />
     <PackageVersion Include="EFCore.BulkExtensions.Core" Version="10.0.1" />
     <PackageVersion Include="EFCore.BulkExtensions.PostgreSql" Version="10.0.1" />

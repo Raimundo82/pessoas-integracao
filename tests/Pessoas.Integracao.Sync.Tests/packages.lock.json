@@ -707,7 +707,7 @@
       "pessoas.integracao.testing": {
         "type": "Project",
         "dependencies": {
-          "DatabaseSchemaReader": "[2.21.0, )",
+          "DatabaseSchemaReader": "[2.22.0, )",
           "Microsoft.EntityFrameworkCore": "[10.0.9, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.2, )",
           "Pessoas.Integracao.Analitica": "[1.0.0, )",
@@ -721,9 +721,9 @@
       },
       "DatabaseSchemaReader": {
         "type": "CentralTransitive",
-        "requested": "[2.21.0, )",
-        "resolved": "2.21.0",
-        "contentHash": "Ar7ORnzQROg2Lv1iLlU4M2xwGOJi8q4NMYWS1JPtkJWNmjPqZjlp5ilDFQgQl6dBy7SvzqDH+NwX9RslJr901w==",
+        "requested": "[2.22.0, )",
+        "resolved": "2.22.0",
+        "contentHash": "yigDZVLqQGJN3ztEmFfql/eXIkFdbYA/noWzDLXjljIUAOwL8TSc+gtmr5RWfRutxNk/zcb7vaGkgin4LkcCPQ==",
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp": "5.3.0"
         }
