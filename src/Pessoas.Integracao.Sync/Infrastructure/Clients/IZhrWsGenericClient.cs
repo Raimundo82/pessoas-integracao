@@ -8,6 +8,7 @@ public interface IZhrWsGenericClient
     Task<TResponse> CallAsync<TResponse>(
         Func<ZHR_WSClient, ZhrWsInputStruct[], Task<TResponse>> zhrSOperation,
         IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
-        CancellationToken ct
+        DateOnly? referenceDate = null,
+        CancellationToken ct = default
     ) where TResponse : IZhrWsBaseResponse;
 }
