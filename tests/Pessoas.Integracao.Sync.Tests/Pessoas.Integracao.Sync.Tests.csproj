@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Testcontainers.PostgreSql" />
@@ -23,8 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
-    <ProjectReference
-      Include="../../tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
+    <ProjectReference Include="../../tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
   </ItemGroup>
 
 </Project>
