@@ -2,6 +2,8 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ReferenceDate;
 
 public class ZhrReferenceDateFormatter(TimeProvider timeProvider) : IZhrReferenceDateFormatter
 {
+    private const string ZhrDateFormat = "yyyy-MM-dd";
+
     public string Format(DateOnly dateReference)
     {
         var currentDate = DateOnly.FromDateTime(timeProvider.GetUtcNow().Date);
@@ -9,6 +11,6 @@ public class ZhrReferenceDateFormatter(TimeProvider timeProvider) : IZhrReferenc
         {
             dateReference = currentDate;
         }
-        return dateReference.ToString("yyyy-MM-dd");
+        return dateReference.ToString(ZhrDateFormat);
     }
 }
