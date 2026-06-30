@@ -135,24 +135,20 @@ public class ZhrWsGenericClientTest()
         var referenceDateFormatterMock = new Mock<IZhrReferenceDateFormatter>();
 
         var uut = new ZhrWsGenericClient(clientFactoryMock.Object, settingsMock.Object, referenceDateFormatterMock.Object);
-        ZhrWsInputStruct[] capturedInputs = [];
+        // Mock the delegate to verify it's never called
+        var soapOperationMock = new Mock<Func<ZHR_WSClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>>();
 
-        ZhrWsAptidaoResponse1? expectedResponse = null;
-
-        Task<ZhrWsAptidaoResponse1?> DelegatedFunc(ZHR_WSClient client, ZhrWsInputStruct[] inputs)
-        {
-            capturedInputs = inputs;
-            return Task.FromResult(expectedResponse);
-        }
 
         // Act
         var result = await uut.CallAsync(
-            DelegatedFunc,
+            soapOperationMock.Object,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken
         );
 
         // Assert
         result.Should().BeNull();
+        soapOperationMock.Verify(op => op(It.IsAny<ZHR_WSClient>(), It.IsAny<ZhrWsInputStruct[]>()), Times.Never);
+
     }
 }
