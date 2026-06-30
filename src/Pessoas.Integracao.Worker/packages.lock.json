@@ -55,12 +55,12 @@
       },
       "Quartz.Extensions.Hosting": {
         "type": "Direct",
-        "requested": "[3.18.1, )",
-        "resolved": "3.18.1",
-        "contentHash": "kZ7ufndI5vygLpI0kCeukVKlzpRFtGjfoU3BoWZ6u6QKoRF2Z3KV1dSpv+VpMqRekz3SrObfN0iLZKWldoZLZw==",
+        "requested": "[3.18.2, )",
+        "resolved": "3.18.2",
+        "contentHash": "6uSMAm4FArjtVoxBjlkA+gHL1Eln2ngIOnRTrVrYxtSlM5PpLQd2aV+fc/OOwfwt+AyDm69HOAybEFqVvyyG2A==",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
-          "Quartz.Extensions.DependencyInjection": "3.18.1"
+          "Quartz.Extensions.DependencyInjection": "3.18.2"
         }
       },
       "System.ServiceModel.Http": {
@@ -408,20 +408,20 @@
       },
       "Quartz": {
         "type": "Transitive",
-        "resolved": "3.18.1",
-        "contentHash": "q/n/gKLcApDlTk90BRNvj6P8HKR+vbtZEQxo5BAbeEoN5e/8/aqRuG6yH7tVg02CeAXAD40boS74s9hVnh4XDw==",
+        "resolved": "3.18.2",
+        "contentHash": "/KaRLj7jv84RSIR/UtAWnzYRmS7o/mA6CdEuoLwxhLa9Nfl7Q1keMA7Fe/r2BzRfDf+7YpN1QNEYSSU89DA3OA==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "Transitive",
-        "resolved": "3.18.1",
-        "contentHash": "ct+sIqr7n961jvo695GnqHjB+dhK6b/Y9LSXxK6n9EJ6JzMXpwcusd5u2lCqVqqNHaiGBLXp37E75hpPXHQkzA==",
+        "resolved": "3.18.2",
+        "contentHash": "+P0z/WUQZF/QrY5wB1wgvl9/VkiWqGR/K5bdtjW1qiFBraEoe/dqfNTxXQPnSZHnha1qmSBRoa5oA7kwHPsTqA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
           "Microsoft.Extensions.Options": "10.0.0",
-          "Quartz": "3.18.1"
+          "Quartz": "3.18.2"
         }
       },
       "System.Diagnostics.EventLog": {
