@@ -25,6 +25,10 @@ public class ZhrWsGenericClient(
         CancellationToken ct = default
     ) where TResponse : IZhrWsBaseResponse
     {
+        if (pessoaSyncRefs == null || pessoaSyncRefs.Count == 0)
+        {
+            return default;
+        }
         using var client = _clientFactory.CreateClient();
         var inputs = pessoaSyncRefs.Select(pessoaRef =>
             new ZhrWsInputStruct
