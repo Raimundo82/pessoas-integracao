@@ -29,7 +29,10 @@ public class ZhrWsGenericClient(
         {
             return default;
         }
+
         using var client = _clientFactory.CreateClient();
+        using var registration = ct.Register(() => client.Abort());
+
         var inputs = pessoaSyncRefs.Select(pessoaRef =>
             new ZhrWsInputStruct
             {
@@ -39,6 +42,6 @@ public class ZhrWsGenericClient(
                 Dtreferencia = referenceDate.HasValue ? _referenceDateFormatter.Format(referenceDate.Value) : string.Empty
             }).ToArray();
 
-        return await zhrSOperation(client, inputs).WaitAsync(ct);
+        return await zhrSOperation(client, inputs);
     }
 }
