@@ -151,4 +151,43 @@ public class ZhrWsGenericClientTest()
         soapOperationMock.Verify(op => op(It.IsAny<ZHR_WSClient>(), It.IsAny<ZhrWsInputStruct[]>()), Times.Never);
 
     }
+
+    [Fact]
+    public async Task ShouldAbortClient_WhenCancellationTokenIsCancelled()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "00001", ExternalId = "3000001" } };
+        var clientFactoryMock = new Mock<IZhrWsGenericClientFactory<ZHR_WSClient, ZHR_WS>>();
+        clientFactoryMock.Setup(f => f.CreateClient()).Returns(new ZHR_WSClient());
+
+        var settingsMock = new Mock<IOptions<ZhrWsSettings>>();
+        settingsMock.Setup(s => s.Value).Returns(new ZhrWsSettings { Empresa = "TestEmpresa" });
+
+        var referenceDateFormatterMock = new Mock<IZhrReferenceDateFormatter>();
+
+        var uut = new ZhrWsGenericClient(clientFactoryMock.Object, settingsMock.Object, referenceDateFormatterMock.Object);
+
+        var cts = new CancellationTokenSource();
+
+        static async Task<ZhrWsAptidaoResponse1?> HangingOperation(ZHR_WSClient client, ZhrWsInputStruct[] inputs)
+        {
+            while (client.State == System.ServiceModel.CommunicationState.Opened)
+            {
+                await Task.Delay(10);
+            }
+            return null;
+        }
+
+        // Act
+        var callTask = uut.CallAsync(
+            HangingOperation,
+            pessoaSyncRefs,
+            ct: cts.Token
+        );
+
+        cts.Cancel();
+
+        // Assert
+        await callTask.As<Task>().WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken);
+    }
 }
