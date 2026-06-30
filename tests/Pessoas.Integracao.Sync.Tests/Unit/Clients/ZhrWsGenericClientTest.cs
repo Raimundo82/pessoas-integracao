@@ -190,4 +190,38 @@ public class ZhrWsGenericClientTest()
         // Assert
         await callTask.As<Task>().WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken);
     }
+
+    [Fact]
+    public async Task ShouldPropagateException_WhenSoapOperationFails()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "00001", ExternalId = "3000001" } };
+        var clientFactoryMock = new Mock<IZhrWsGenericClientFactory<ZHR_WSClient, ZHR_WS>>();
+        clientFactoryMock.Setup(f => f.CreateClient()).Returns(new ZHR_WSClient());
+
+        var settingsMock = new Mock<IOptions<ZhrWsSettings>>();
+        settingsMock.Setup(s => s.Value).Returns(new ZhrWsSettings { Empresa = "TestEmpresa" });
+
+        var referenceDateFormatterMock = new Mock<IZhrReferenceDateFormatter>();
+
+        var uut = new ZhrWsGenericClient(clientFactoryMock.Object, settingsMock.Object, referenceDateFormatterMock.Object);
+
+        var expectedException = new System.ServiceModel.FaultException("SOAP Fault");
+
+        Task<ZhrWsAptidaoResponse1?> FailingOperation(ZHR_WSClient client, ZhrWsInputStruct[] inputs)
+        {
+            return Task.FromException<ZhrWsAptidaoResponse1?>(expectedException);
+        }
+
+        // Act
+        var act = () => uut.CallAsync(
+            FailingOperation,
+            pessoaSyncRefs,
+            ct: TestContext.Current.CancellationToken
+        );
+
+        // Assert
+        await act.Should().ThrowAsync<System.ServiceModel.FaultException>()
+            .WithMessage("SOAP Fault");
+    }
 }
