@@ -10,6 +10,7 @@
     <PackageReference Include="Keycloak.AuthServices.Authentication" />
     <PackageReference Include="Keycloak.AuthServices.Common" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.OpenApi" />
     <PackageReference Include="NSwag.AspNetCore" />
   </ItemGroup>
 

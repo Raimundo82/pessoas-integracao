@@ -9,5 +9,5 @@ public class PessoaSyncRef
     [Key]
     public required string Ni { get; set; }
     public required string ExternalId { get; set; }
-    public required SyncState SyncState { get; set; } = new SyncState();
+    public SyncState SyncState { get; set; } = new SyncState();
 }
