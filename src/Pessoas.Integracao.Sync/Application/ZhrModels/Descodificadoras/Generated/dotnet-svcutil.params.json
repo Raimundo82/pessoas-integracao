@@ -1,0 +1,11 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": ["http://paas-01.marinha.pt/sap/epr/descodif-wsdl"],
+    "namespaceMappings": ["*, Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras"],
+    "outputFile": "DescodificadorasService.cs",
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}
