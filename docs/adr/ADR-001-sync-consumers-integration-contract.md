@@ -43,19 +43,19 @@ public interface IZhrSyncAdapter<TTarget>
 
 ### 3. Fronteiras entre assemblies
 
-| Assembly              | Responsabilidade                                    |
-| :-------------------- | :-------------------------------------------------- |
-| `Sync.Application`    | Define `ZhrOutputDto` e `IZhrSyncAdapter<TTTarget>` |
-| `Sync.Infrastructure` | Persistência — referencia `Sync.Application`        |
-| `ConsumidorX`         | Implementa `IZhrSyncAdapter<TargetTargetModelX>`    |
-| `Host` (por definir)  | Regista implementações via DI                       |
+| Assembly              | Responsabilidade                                   |
+| :-------------------- | :------------------------------------------------- |
+| `Sync.Application`    | Define `ZhrOutputDto` e `IZhrSyncAdapter<TTarget>` |
+| `Sync.Infrastructure` | Persistência — referencia `Sync.Application`       |
+| `ConsumidorX`         | Implementa `IZhrSyncAdapter<TargetModelX>`         |
+| `Host` (por definir)  | Regista implementações via DI                      |
 
-O SYNC não conhece os consumidores. Os consumidores não conhecem o SAP nem a infraestrutura do SYNC. O único ponto de acoplamento é o contrato (`ZhrOutputDto` + `IZhrSyncAdapter<TTTarget>`).
+O SYNC não conhece os consumidores. Os consumidores não conhecem o SAP nem a infraestrutura do SYNC. O único ponto de acoplamento é o contrato (`ZhrOutputDto` + `IZhrSyncAdapter<TTarget>`).
 
 ### 4. Registo DI em ponto de entrada aplicacional a definir
 
 ```csharp
-services.AddScoped<IZhrSyncAdapter<Pessoa>, ZhrA2dipAdapter>();
+services.AddScoped<IZhrSyncAdapter<Pessoa>, ZhrPessoasAdapter>();
 services.AddScoped<IZhrSyncAdapter<AnaliticaModel>, ZhrAnaliticaAdapter>();
 ```
 
@@ -84,9 +84,9 @@ No cenário de migração do SIGDN-RH para SAP S/4HANA (ou outro sistema externo
 | `Sync.Infrastructure`           | Substituída — nova camada de integração com o sistema destino        |
 | `Sync.Application/Models`       | Potencialmente revisto se o modelo de dados mudar significativamente |
 | `ZhrOutputDto`                  | Revisto apenas se os dados expostos mudarem                          |
-| `IZhrSyncAdapter<TTTarget>`     | Sem impacto — o contrato não conhece o sistema de origem             |
+| `IZhrSyncAdapter<TTarget>`      | Sem impacto — o contrato não conhece o sistema de origem             |
 | Implementações dos consumidores | Impacto proporcional às alterações no `ZhrOutputDto`                 |
-| Modelos de destino (`TTarget`)  | Sem impacto — são independentes do sistema de origem                 |
+| Modelos de destino (`Target`)   | Sem impacto — são independentes do sistema de origem                 |
 
 Em suma: a substituição do sistema externo é uma decisão interna ao SYNC. Os consumidores só são afectados se o contrato (`ZhrOutputDto`) mudar — e mesmo nesse caso, a alteração é localizada à implementação do adaptador de cada consumidor, não à sua lógica de negócio.
 
