@@ -48,11 +48,11 @@ public interface IZhrSyncAdapter<TTarget>
 | `Sync.Application`    | Define `ZhrOutputDto` e `IZhrSyncAdapter<<TTTarget>` |
 | `Sync.Infrastructure` | Persistência — referencia `Sync.Application`         |
 | `ConsumidorX`         | Implementa `IZhrSyncAdapter<<TargetTargetModelX>`    |
-| `Host`                | Regista implementações via DI                        |
+| `Host` (por definir)  | Regista implementações via DI                        |
 
 O SYNC não conhece os consumidores. Os consumidores não conhecem o SAP nem a infraestrutura do SYNC. O único ponto de acoplamento é o contrato (`ZhrOutputDto` + `IZhrSyncAdapter<<TTTarget>`).
 
-### 4. Registo DI
+### 4. Registo DI em ponto de entrada aplicacional a definir
 
 ```csharp
 services.AddScoped<IZhrSyncAdapter<Pessoa>, ZhrA2dipAdapter>();
