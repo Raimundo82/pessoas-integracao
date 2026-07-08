@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
+using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 using Pessoas.Integracao.Testing;
 
 namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;

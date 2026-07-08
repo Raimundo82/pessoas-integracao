@@ -4,8 +4,8 @@ using EFCore.BulkExtensions;
 
 using Microsoft.EntityFrameworkCore;
 
+using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 
 public sealed class NiGraphReplacer(ZhrSDbContext dbContext)
 {
