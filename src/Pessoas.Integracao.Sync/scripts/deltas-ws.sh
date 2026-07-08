@@ -5,7 +5,7 @@ ROOT_DIR=$(git rev-parse --show-toplevel)
 
 cd "$ROOT_DIR" || { echo "Failed to change to root directory"; exit 1; }
 
-dotnet dotnet-svcutil $ZHR_BASE_URL/ZHR_deltas_EPR?wsdl \
+dotnet dotnet-svcutil $ZHR_BASE_URL/sap/epr/deltas-wsdl \
 -d src/Pessoas.Integracao.Sync/Application/ZhrModels/Deltas/Generated/ \
 -o DeltasService  \
 --namespace "*,Pessoas.Integracao.Sync.Application.ZhrModels.Deltas"
