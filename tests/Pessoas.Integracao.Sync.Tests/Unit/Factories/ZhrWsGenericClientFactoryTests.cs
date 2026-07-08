@@ -4,11 +4,12 @@ using Microsoft.Extensions.Options;
 
 using Moq;
 
+using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
+using Pessoas.Integracao.Sync.Application.ZhrModels.Deltas;
+using Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras;
 using Pessoas.Integracao.Sync.Infrastructure.Configuration;
 using Pessoas.Integracao.Sync.Infrastructure.Factories;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Deltas;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras;
+
 
 namespace Pessoas.Integracao.Sync.Tests.Unit.Factories;
 
@@ -38,18 +39,18 @@ public class ZhrWsGenericClientFactoryTests
         var mockBindingFactory = new Mock<IBindingFactory>();
         mockBindingFactory.Setup(x => x.CreateBinding()).Returns(new System.ServiceModel.BasicHttpBinding());
 
-        var zhrWsClientFactory = new ZhrWsGenericClientFactory<ZHR_WSClient, ZHR_WS>(
+        var zhrWsClientFactory = new ZhrWsGenericClientFactory<zhr_wsClient, zhr_ws>(
             mockBindingFactory.Object,
             Options.Create(settings),
             s => s.Endpoints.DadosPath,
-            (binding, endpoint) => new ZHR_WSClient(binding, endpoint));
+            (binding, endpoint) => new zhr_wsClient(binding, endpoint));
 
         // Act
         var client = zhrWsClientFactory.CreateClient();
 
         // Assert
         client.Should().NotBeNull();
-        client.Should().BeOfType<ZHR_WSClient>();
+        client.Should().BeOfType<zhr_wsClient>();
         client.Endpoint.Address.Uri.ToString().Should().Be("http://example.com/dadosPath");
         client.ClientCredentials.UserName.UserName.Should().Be("user");
         client.ClientCredentials.UserName.Password.Should().Be("pass");
@@ -140,7 +141,7 @@ public class ZhrWsGenericClientFactoryTests
     public void ShouldBuildValidUrl(string baseUrl, string path, string expectedUrl)
     {
         // Act
-        var result = ZhrWsGenericClientFactory<ZHR_WSClient, ZHR_WS>.GetUrl(baseUrl, path);
+        var result = ZhrWsGenericClientFactory<zhr_wsClient, zhr_ws>.GetUrl(baseUrl, path);
 
         // Assert
         result.Should().Be(expectedUrl);
