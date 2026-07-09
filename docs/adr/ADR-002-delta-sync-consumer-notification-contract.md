@@ -19,8 +19,8 @@ Foram consideradas três abordagens para orquestrar este fluxo:
 Adoptar a **Opção B** — o Sync orquestra o fluxo completo através de uma interface `IZhrDeltasConsumer` que os consumidores implementam e registam via DI.
 
 ```csharp
-// Sync.Application/Contracts/IZhrDeltaConsumer.cs
-public interface IZhrDeltaConsumer
+// Sync.Application/Contracts/IZhrDeltasConsumer.cs
+public interface IZhrDeltasConsumer
 {
     Task OnDeltasProcessedAsync(IReadOnlyList<PessoaSyncRef> refs, CancellationToken ct);
 }
