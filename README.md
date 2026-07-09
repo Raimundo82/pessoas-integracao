@@ -25,6 +25,8 @@ gantt
     title Roadmap - Transformação e Persistência de dados SIGDN-RH para A2DIP
     dateFormat  YYYY-MM-DD
     axisFormat  %d/%m
+    tickInterval 1week
+    weekday friday
     todayMarker on
 
     section Sync
