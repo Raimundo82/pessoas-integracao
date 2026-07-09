@@ -1,4 +1,4 @@
-# ADR-001: Contrato de integração entre SYNC e consumidores de dados SIGDN-RH
+# ADR-001: Contrato de integração entre Sync e consumidores de dados SIGDN-RH
 
 ## Status
 
@@ -6,8 +6,8 @@ Accepted
 
 ## Contexto
 
-O componente SYNC é responsável por obter, normalizar e persistir dados do SAP SIGDN-RH. Existem dois consumidores (PIIP e A2DIP) que precisam de aceder a esses dados no seu próprio formato, sem conhecer detalhes do SAP ou da infraestrutura do SYNC.
-Os modelos ZhrS* viviam na Infrastructure do SYNC, o que impedia a sua utilização como contrato estável entre componentes.
+O componente Sync é responsável por obter, normalizar e persistir dados do SAP SIGDN-RH. Existem dois consumidores (PIIP e A2DIP) que precisam de aceder a esses dados no seu próprio formato, sem conhecer detalhes do SAP ou da infraestrutura do Sync.
+Os modelos ZhrS* viviam na Infrastructure do Sync, o que impedia a sua utilização como contrato estável entre componentes.
 
 ## Decisão
 
@@ -15,14 +15,14 @@ Os modelos ZhrS* viviam na Infrastructure do SYNC, o que impedia a sua utilizaç
 
 Os modelos `ZhrSBaseModel`, `ZhrSBaseModelOutput` e todos os tipos concretos (`ZhrSAptidao`, `ZhrSPessoais`, etc.) são promovidos de `Infrastructure` para `Application/Models`, tornando-os independentes de detalhes de persistência.
 
-### 2. Contrato de consumo definido no SYNC
+### 2. Contrato de consumo definido no Sync
 
-O SYNC define o contrato que os consumidores implementam.
+O Sync define o contrato que os consumidores implementam.
 
-`ZhrOutputDto` — vista agregada por `Ni` de todos os dados SAP persistidos:
+`ZhrOutput` — vista agregada por `Ni` de todos os dados SAP persistidos:
 
 ```csharp
-public class ZhrOutputDto
+public class ZhrOutput
 {
     public required string Ni { get; set; }
     public required string ExternalId { get; set; }
@@ -32,62 +32,66 @@ public class ZhrOutputDto
 }
 ```
 
-`IZhrSyncAdapter<TTarget>` — interface genérica que cada consumidor implementa com o seu próprio modelo de destino:
+`IZhrOutputProvider` — ponto de acesso único aos dados normalizados do SIGDN-RH:
 
 ```csharp
-public interface IZhrSyncAdapter<TTarget>
+public interface IZhrOutputProvider
 {
-    Task<TTarget> TransformAsync(ZhrOutputDto input, CancellationToken ct);
+    Task<IReadOnlyList> GetOutputsByNiAsync(IReadOnlyList pessoaSyncRefs, CancellationToken ct);
 }
 ```
 
+Os consumidores obtêm os dados invocando `IZhrOutputProvider`, nunca acedendo directamente à infraestrutura do Sync. A implementação é resolvida via DI em runtime.
+
+Cada consumidor é responsável por definir o seu próprio fluxo de transformação e persistência, composto por três peças internas ao consumidor:
+
+- **Transformer** — transforma `ZhrOutput` para o modelo de destino
+- **Persister** — persiste o modelo de destino no schema do consumidor
+- **Serviço de orquestração** — coordena o fluxo completo
+
 ### 3. Fronteiras entre assemblies
 
-| Assembly              | Responsabilidade                                   |
-| :-------------------- | :------------------------------------------------- |
-| `Sync.Application`    | Define `ZhrOutputDto` e `IZhrSyncAdapter<TTarget>` |
-| `Sync.Infrastructure` | Persistência — referencia `Sync.Application`       |
-| `ConsumidorX`         | Implementa `IZhrSyncAdapter<TargetModelX>`         |
-| `Host` (por definir)  | Regista implementações via DI                      |
+| Assembly              | Responsabilidade                                                                 |
+| --------------------- | -------------------------------------------------------------------------------- |
+| `Sync.Application`    | Define `ZhrOutput`, `IZhrOutputProvider` e `PessoaSyncRef`                       |
+| `Sync.Infrastructure` | Implementa `IZhrOutputProvider` — referencia `Sync.Application`                  |
+| `ConsumidorX`         | Implementa transformer, persister e orquestrador — referencia `Sync.Application` |
+| Host (por definir)    | Regista `IZhrOutputProvider` via DI                                              |
 
-O SYNC não conhece os consumidores. Os consumidores não conhecem o SAP nem a infraestrutura do SYNC. O único ponto de acoplamento é o contrato (`ZhrOutputDto` + `IZhrSyncAdapter<TTarget>`).
-
-### 4. Registo DI em ponto de entrada aplicacional a definir
-
-```csharp
-services.AddScoped<IZhrSyncAdapter<Pessoa>, ZhrPessoasAdapter>();
-services.AddScoped<IZhrSyncAdapter<AnaliticaModel>, ZhrAnaliticaAdapter>();
-```
+O Sync não conhece os consumidores. Os consumidores não conhecem o SAP nem a infraestrutura do Sync. O único ponto de acoplamento é o contrato (`ZhrOutput` + `IZhrOutputProvider`).
 
 ## Consequências
 
-- Modelos ZhrS* estáveis como contrato partilhado interno
-- Novos consumidores implementam `IZhrSyncAdapter<T>` sem tocar no SYNC
+- Modelos `ZhrS*` estáveis como contrato partilhado interno
+- Consumidores isolados da infraestrutura do Sync — dependem apenas de `Sync.Application`
 - `Infrastructure` passa a depender de `Application`
 - Suporta push diário por delta e pull on-demand sobre o mesmo contrato
+- Novos consumidores não implicam alterações no Sync
 
 ## Alternativas consideradas
 
-- **DTOs específicos por consumidor** — rejeitado por duplicação desnecessária dado que os ZhrS* já são suficientemente limpos e estáveis para servir de contrato
-- **Contrato definido pelo consumidor** — rejeitado porque o SYNC é o produtor dos dados e deve controlar o modelo que expõe
+- **`IZhrSyncAdapter<TTarget>` genérico** — rejeitado porque a responsabilidade de transformação e persistência é do consumidor, não do Sync. O provider é um ponto de acesso a dados, não um adaptador de transformação.
+- **Contrato definido pelo consumidor** — rejeitado porque o Sync é o produtor dos dados e deve controlar o modelo que expõe.
 
 ## Notas de evolução futura
 
 ### Substituição da camada de integração SAP
 
-A arquitectura adoptada isola completamente o SAP SIGDN-RH atrás do SYNC. O `ZhrOutputDto` e o `IZhrSyncAdapter<TTarget>` são o único ponto de contacto entre o SYNC e os consumidores — nenhum consumidor tem conhecimento do sistema de origem.
+A arquitectura adoptada isola completamente o SAP SIGDN-RH atrás do Sync.
+O `ZhrOutput` e o `IZhrOutputProvider` são o único ponto de contacto entre o Sync e os consumidores, sendo que nenhum consumidor tem conhecimento do sistema de origem.
 
-No cenário de migração do SIGDN-RH para SAP S/4HANA (ou outro sistema externo), o impacto fica contido:
+No cenário de migração do SIGDN-RH para SAP S/4HANA (ou outro sistema externo),
+o impacto fica contido:
 
 | Componente                      | Impacto                                                              |
-| :------------------------------ | :------------------------------------------------------------------- |
+| ------------------------------- | -------------------------------------------------------------------- |
 | `Sync.Infrastructure`           | Substituída — nova camada de integração com o sistema destino        |
 | `Sync.Application/Models`       | Potencialmente revisto se o modelo de dados mudar significativamente |
-| `ZhrOutputDto`                  | Revisto apenas se os dados expostos mudarem                          |
-| `IZhrSyncAdapter<TTarget>`      | Sem impacto — o contrato não conhece o sistema de origem             |
-| Implementações dos consumidores | Impacto proporcional às alterações no `ZhrOutputDto`                 |
-| Modelos de destino (`Target`)   | Sem impacto — são independentes do sistema de origem                 |
+| `ZhrOutput`                     | Revisto apenas se os dados expostos mudarem                          |
+| `IZhrOutputProvider`            | Sem impacto — o contrato não conhece o sistema de origem             |
+| Implementações dos consumidores | Impacto proporcional às alterações no `ZhrOutput`                    |
+| Modelos de destino              | Sem impacto — são independentes do sistema de origem                 |
 
-Em suma: a substituição do sistema externo é uma decisão interna ao SYNC. Os consumidores só são afectados se o contrato (`ZhrOutputDto`) mudar — e mesmo nesse caso, a alteração é localizada à implementação do adaptador de cada consumidor, não à sua lógica de negócio.
+A substituição do sistema externo é uma decisão interna ao Sync. Os consumidores só são afectados se o contrato (`ZhrOutput`) mudar e, mesmo nesse caso, a alteração é localizada ao transformer de cada consumidor, não à sua lógica de negócio.
 
 Esta propriedade foi um factor de decisão consciente na adopção desta arquitectura.
