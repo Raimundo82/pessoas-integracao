@@ -2,9 +2,8 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 
 using EFCore.BulkExtensions;
 
-
+using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
-using Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
 
 public sealed class BulkTableReplacer(ZhrSDbContext dbContext)
 {

@@ -2,8 +2,8 @@
   "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
   "version": "8.0.0",
   "options": {
-    "inputs": ["http://esb-lb-soa.marinha.pt:8301/ZHR_deltas_EPR?wsdl"],
-    "namespaceMappings": ["*, Pessoas.Integracao.Sync.Infrastructure.Models.Deltas"],
+    "inputs": ["http://paas-01.marinha.pt/sap/epr/deltas-wsdl"],
+    "namespaceMappings": ["*, Pessoas.Integracao.Sync.Application.ZhrModels.Deltas"],
     "outputFile": "DeltasService.cs",
     "targetFramework": "net10.0",
     "typeReuseMode": "All"

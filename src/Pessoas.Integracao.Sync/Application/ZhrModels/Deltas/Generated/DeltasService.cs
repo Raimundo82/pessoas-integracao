@@ -7,29 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
+namespace Pessoas.Integracao.Sync.Application.ZhrModels.Deltas
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS")]
     public interface ZHR_WS_DELTAS
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS_DELTAS:ZhrWsSetDeltasOkRe" +
             "quest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkResponse1> ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkResponse1> ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS_DELTAS:ZhrWsForceUpdateRe" +
             "quest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateResponse1> ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateResponse1> ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS_DELTAS:ZhrWsGetDeltasPern" +
             "rRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrResponse1> ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrResponse1> ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrRequest request);
     }
     
     /// <remarks/>
@@ -579,13 +579,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk;
         
         public ZhrWsSetDeltasOkRequest()
         {
         }
         
-        public ZhrWsSetDeltasOkRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk)
+        public ZhrWsSetDeltasOkRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk)
         {
             this.ZhrWsSetDeltasOk = ZhrWsSetDeltasOk;
         }
@@ -599,13 +599,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkResponse ZhrWsSetDeltasOkResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkResponse ZhrWsSetDeltasOkResponse;
         
         public ZhrWsSetDeltasOkResponse1()
         {
         }
         
-        public ZhrWsSetDeltasOkResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkResponse ZhrWsSetDeltasOkResponse)
+        public ZhrWsSetDeltasOkResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkResponse ZhrWsSetDeltasOkResponse)
         {
             this.ZhrWsSetDeltasOkResponse = ZhrWsSetDeltasOkResponse;
         }
@@ -668,13 +668,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate;
         
         public ZhrWsForceUpdateRequest()
         {
         }
         
-        public ZhrWsForceUpdateRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate)
+        public ZhrWsForceUpdateRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate)
         {
             this.ZhrWsForceUpdate = ZhrWsForceUpdate;
         }
@@ -688,13 +688,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateResponse ZhrWsForceUpdateResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateResponse ZhrWsForceUpdateResponse;
         
         public ZhrWsForceUpdateResponse1()
         {
         }
         
-        public ZhrWsForceUpdateResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateResponse ZhrWsForceUpdateResponse)
+        public ZhrWsForceUpdateResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateResponse ZhrWsForceUpdateResponse)
         {
             this.ZhrWsForceUpdateResponse = ZhrWsForceUpdateResponse;
         }
@@ -774,13 +774,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr;
         
         public ZhrWsGetDeltasPernrRequest()
         {
         }
         
-        public ZhrWsGetDeltasPernrRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr)
+        public ZhrWsGetDeltasPernrRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr)
         {
             this.ZhrWsGetDeltasPernr = ZhrWsGetDeltasPernr;
         }
@@ -794,26 +794,26 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrResponse ZhrWsGetDeltasPernrResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrResponse ZhrWsGetDeltasPernrResponse;
         
         public ZhrWsGetDeltasPernrResponse1()
         {
         }
         
-        public ZhrWsGetDeltasPernrResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrResponse ZhrWsGetDeltasPernrResponse)
+        public ZhrWsGetDeltasPernrResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrResponse ZhrWsGetDeltasPernrResponse)
         {
             this.ZhrWsGetDeltasPernrResponse = ZhrWsGetDeltasPernrResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public interface ZHR_WS_DELTASChannel : Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS, System.ServiceModel.IClientChannel
+    public interface ZHR_WS_DELTASChannel : Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public partial class ZHR_WS_DELTASClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS>, Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS
+    public partial class ZHR_WS_DELTASClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS>, Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS
     {
         
         /// <summary>
@@ -826,7 +826,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
         public ZHR_WS_DELTASClient() : 
                 base(ZHR_WS_DELTASClient.GetDefaultBinding(), ZHR_WS_DELTASClient.GetDefaultEndpointAddress())
         {
-            this.Endpoint.Name = EndpointConfiguration.ZHR_WS_DELTASQSPort.ToString();
+            this.Endpoint.Name = EndpointConfiguration.ZHR_WS_DELTAS.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
@@ -857,42 +857,42 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS.ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS.ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkRequest request)
         {
             return base.Channel.ZhrWsSetDeltasOkAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkResponse1> ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkResponse1> ZhrWsSetDeltasOkAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOk ZhrWsSetDeltasOk)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsSetDeltasOkRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsSetDeltasOkRequest();
             inValue.ZhrWsSetDeltasOk = ZhrWsSetDeltasOk;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsSetDeltasOkAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsSetDeltasOkAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS.ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS.ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateRequest request)
         {
             return base.Channel.ZhrWsForceUpdateAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateResponse1> ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateResponse1> ZhrWsForceUpdateAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdate ZhrWsForceUpdate)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsForceUpdateRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsForceUpdateRequest();
             inValue.ZhrWsForceUpdate = ZhrWsForceUpdate;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsForceUpdateAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsForceUpdateAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS.ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS.ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrRequest request)
         {
             return base.Channel.ZhrWsGetDeltasPernrAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrResponse1> ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrResponse1> ZhrWsGetDeltasPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernr ZhrWsGetDeltasPernr)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZhrWsGetDeltasPernrRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZhrWsGetDeltasPernrRequest();
             inValue.ZhrWsGetDeltasPernr = ZhrWsGetDeltasPernr;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsGetDeltasPernrAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Deltas.ZHR_WS_DELTAS)(this)).ZhrWsGetDeltasPernrAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -909,7 +909,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DELTASQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DELTAS))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
@@ -923,27 +923,27 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Deltas
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DELTASQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DELTAS))
             {
-                return new System.ServiceModel.EndpointAddress("http://esb-lb-soa.marinha.pt:8301/ZHR_deltas_EPR");
+                return new System.ServiceModel.EndpointAddress("http://paas-01.marinha.pt/ZHR_deltas_EPR");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
         
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return ZHR_WS_DELTASClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WS_DELTASQSPort);
+            return ZHR_WS_DELTASClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WS_DELTAS);
         }
         
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return ZHR_WS_DELTASClient.GetEndpointAddress(EndpointConfiguration.ZHR_WS_DELTASQSPort);
+            return ZHR_WS_DELTASClient.GetEndpointAddress(EndpointConfiguration.ZHR_WS_DELTAS);
         }
         
         public enum EndpointConfiguration
         {
             
-            ZHR_WS_DELTASQSPort,
+            ZHR_WS_DELTAS,
         }
     }
 }

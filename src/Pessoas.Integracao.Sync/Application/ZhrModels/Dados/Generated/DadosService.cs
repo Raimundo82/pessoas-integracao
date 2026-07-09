@@ -7,167 +7,167 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
+namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS")]
-    public interface ZHR_WS
+    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws")]
+    public interface zhr_ws
     {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsFeriasRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsFeriasRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasResponse1> ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasResponse1> ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetLouvoresRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetLouvoresRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresResponse1> ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresResponse1> ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetMdpRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetMdpRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpResponse1> ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpResponse1> ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetPernrRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetPernrRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrResponse1> ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrResponse1> ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetProcAvegdiscReque" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetProcAvegdiscReque" +
             "st", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscResponse1> ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscResponse1> ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetViaturaCrEmitidoR" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetViaturaCrEmitidoR" +
             "equest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoResponse1> ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoResponse1> ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsHabilitacoesRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsHabilitacoesRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesResponse1> ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesResponse1> ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsMobilidadesRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsMobilidadesRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesResponse1> ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesResponse1> ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsSigreRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsSigreRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreResponse1> ZhrWsSigreAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreResponse1> ZhrWsSigreAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsAptidaoRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsAptidaoRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoResponse1> ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoResponse1> ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetListViaturasReque" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetListViaturasReque" +
             "st", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasResponse1> ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasResponse1> ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetLouvoresTRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetLouvoresTRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTResponse1> ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTResponse1> ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsAdmRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsAdmRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmResponse1> ZhrWsAdmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmResponse1> ZhrWsAdmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsFormacaoRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsFormacaoRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoResponse1> ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoResponse1> ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsFotosmRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsFotosmRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmResponse1> ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmResponse1> ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetPostgradRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetPostgradRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradResponse1> ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradResponse1> ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsContigentesRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsContigentesRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesResponse1> ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesResponse1> ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsFuncoesRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsFuncoesRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesResponse1> ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesResponse1> ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetLicencas2001Reque" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetLicencas2001Reque" +
             "st", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Response1> ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Request request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Response1> ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Request request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsHorarioTabRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsHorarioTabRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabResponse1> ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabResponse1> ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsIdentifRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsIdentifRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifResponse1> ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifResponse1> ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsPersonalDataRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsPersonalDataRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataResponse1> ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataResponse1> ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsRemunRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsRemunRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunResponse1> ZhrWsRemunAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunResponse1> ZhrWsRemunAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsAtribOrgRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsAtribOrgRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgResponse1> ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgResponse1> ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsCondecorRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsCondecorRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorResponse1> ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorResponse1> ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetViaturaRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetViaturaRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaResponse1> ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaResponse1> ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGeadapRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGeadapRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapResponse1> ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapResponse1> ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsProfissionalSituatio" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsProfissionalSituatio" +
             "nRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationResponse1> ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationResponse1> ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsAumentosDiminuicoesR" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsAumentosDiminuicoesR" +
             "equest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesResponse1> ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesResponse1> ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsContratoRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsContratoRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoResponse1> ZhrWsContratoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoResponse1> ZhrWsContratoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsMedidasRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsMedidasRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasResponse1> ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasResponse1> ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsEndComRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsEndComRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComResponse1> ZhrWsEndComAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComResponse1> ZhrWsEndComAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsExamesMedRequest", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsExamesMedRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedResponse1> ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedResponse1> ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetIndicacoesTempReq" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetIndicacoesTempReq" +
             "uest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempResponse1> ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempResponse1> ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsGetListaUnidadeReque" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsGetListaUnidadeReque" +
             "st", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeResponse1> ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeResponse1> ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZHR_WS:ZhrWsTemposServicosReques" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws:ZhrWsTemposServicosReques" +
             "t", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosResponse1> ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosResponse1> ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosRequest request);
     }
     
     /// <remarks/>
@@ -263,270 +263,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
             set
             {
                 this.dtreferenciaField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZhrSTempTrabalhadorCivil
-    {
-        
-        private decimal anosField;
-        
-        private decimal mesesField;
-        
-        private decimal diasField;
-        
-        private string dataRefField;
-        
-        private string desctxtField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public decimal Anos
-        {
-            get
-            {
-                return this.anosField;
-            }
-            set
-            {
-                this.anosField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public decimal Meses
-        {
-            get
-            {
-                return this.mesesField;
-            }
-            set
-            {
-                this.mesesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public decimal Dias
-        {
-            get
-            {
-                return this.diasField;
-            }
-            set
-            {
-                this.diasField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string DataRef
-        {
-            get
-            {
-                return this.dataRefField;
-            }
-            set
-            {
-                this.dataRefField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public string Desctxt
-        {
-            get
-            {
-                return this.desctxtField;
-            }
-            set
-            {
-                this.desctxtField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZhrSTempAreaPreferencia
-    {
-        
-        private decimal anosField;
-        
-        private decimal mesesField;
-        
-        private decimal diasField;
-        
-        private string dataRefField;
-        
-        private string desctxtField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public decimal Anos
-        {
-            get
-            {
-                return this.anosField;
-            }
-            set
-            {
-                this.anosField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public decimal Meses
-        {
-            get
-            {
-                return this.mesesField;
-            }
-            set
-            {
-                this.mesesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public decimal Dias
-        {
-            get
-            {
-                return this.diasField;
-            }
-            set
-            {
-                this.diasField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string DataRef
-        {
-            get
-            {
-                return this.dataRefField;
-            }
-            set
-            {
-                this.dataRefField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public string Desctxt
-        {
-            get
-            {
-                return this.desctxtField;
-            }
-            set
-            {
-                this.desctxtField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZhrSTempEfetivPrestado
-    {
-        
-        private decimal anosField;
-        
-        private decimal mesesField;
-        
-        private decimal diasField;
-        
-        private string dataRefField;
-        
-        private string desctxtField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public decimal Anos
-        {
-            get
-            {
-                return this.anosField;
-            }
-            set
-            {
-                this.anosField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public decimal Meses
-        {
-            get
-            {
-                return this.mesesField;
-            }
-            set
-            {
-                this.mesesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public decimal Dias
-        {
-            get
-            {
-                return this.diasField;
-            }
-            set
-            {
-                this.diasField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string DataRef
-        {
-            get
-            {
-                return this.dataRefField;
-            }
-            set
-            {
-                this.dataRefField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public string Desctxt
-        {
-            get
-            {
-                return this.desctxtField;
-            }
-            set
-            {
-                this.desctxtField = value;
             }
         }
     }
@@ -1892,12 +1628,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private ZhrSTempAntigCateg[] tempoAntigCategField;
         
-        private ZhrSTempEfetivPrestado[] tempoEfetivPrestadoField;
-        
-        private ZhrSTempAreaPreferencia[] tempoAreaPreferenciaField;
-        
-        private ZhrSTempTrabalhadorCivil[] tempoTrabalhadorCivilField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Numsap
@@ -2148,51 +1878,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
             set
             {
                 this.tempoAntigCategField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZhrSTempEfetivPrestado[] TempoEfetivPrestado
-        {
-            get
-            {
-                return this.tempoEfetivPrestadoField;
-            }
-            set
-            {
-                this.tempoEfetivPrestadoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZhrSTempAreaPreferencia[] TempoAreaPreferencia
-        {
-            get
-            {
-                return this.tempoAreaPreferenciaField;
-            }
-            set
-            {
-                this.tempoAreaPreferenciaField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZhrSTempTrabalhadorCivil[] TempoTrabalhadorCivil
-        {
-            get
-            {
-                return this.tempoTrabalhadorCivilField;
-            }
-            set
-            {
-                this.tempoTrabalhadorCivilField = value;
             }
         }
     }
@@ -5581,366 +5266,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZhrSInfoProm
-    {
-        
-        private string begdaField;
-        
-        private string enddaField;
-        
-        private string sitpromField;
-        
-        private string motdemoraField;
-        
-        private string zdemDesField;
-        
-        private string motpretField;
-        
-        private string zpretDesField;
-        
-        private string classeMilitarField;
-        
-        private string postoField;
-        
-        private string zdatapromoField;
-        
-        private string zarmaField;
-        
-        private string zarfuField;
-        
-        private string zespxOsField;
-        
-        private string zespxPField;
-        
-        private string zcargField;
-        
-        private string zordemField;
-        
-        private string zzpublField;
-        
-        private string zznumpublField;
-        
-        private string zzdataField;
-        
-        private string zzseriField;
-        
-        private string zzdispalField;
-        
-        private string zzdespField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string Begda
-        {
-            get
-            {
-                return this.begdaField;
-            }
-            set
-            {
-                this.begdaField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public string Endda
-        {
-            get
-            {
-                return this.enddaField;
-            }
-            set
-            {
-                this.enddaField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string Sitprom
-        {
-            get
-            {
-                return this.sitpromField;
-            }
-            set
-            {
-                this.sitpromField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string Motdemora
-        {
-            get
-            {
-                return this.motdemoraField;
-            }
-            set
-            {
-                this.motdemoraField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public string ZdemDes
-        {
-            get
-            {
-                return this.zdemDesField;
-            }
-            set
-            {
-                this.zdemDesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
-        public string Motpret
-        {
-            get
-            {
-                return this.motpretField;
-            }
-            set
-            {
-                this.motpretField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
-        public string ZpretDes
-        {
-            get
-            {
-                return this.zpretDesField;
-            }
-            set
-            {
-                this.zpretDesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
-        public string ClasseMilitar
-        {
-            get
-            {
-                return this.classeMilitarField;
-            }
-            set
-            {
-                this.classeMilitarField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
-        public string Posto
-        {
-            get
-            {
-                return this.postoField;
-            }
-            set
-            {
-                this.postoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
-        public string Zdatapromo
-        {
-            get
-            {
-                return this.zdatapromoField;
-            }
-            set
-            {
-                this.zdatapromoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
-        public string Zarma
-        {
-            get
-            {
-                return this.zarmaField;
-            }
-            set
-            {
-                this.zarmaField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
-        public string Zarfu
-        {
-            get
-            {
-                return this.zarfuField;
-            }
-            set
-            {
-                this.zarfuField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
-        public string ZespxOs
-        {
-            get
-            {
-                return this.zespxOsField;
-            }
-            set
-            {
-                this.zespxOsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
-        public string ZespxP
-        {
-            get
-            {
-                return this.zespxPField;
-            }
-            set
-            {
-                this.zespxPField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
-        public string Zcarg
-        {
-            get
-            {
-                return this.zcargField;
-            }
-            set
-            {
-                this.zcargField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
-        public string Zordem
-        {
-            get
-            {
-                return this.zordemField;
-            }
-            set
-            {
-                this.zordemField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
-        public string Zzpubl
-        {
-            get
-            {
-                return this.zzpublField;
-            }
-            set
-            {
-                this.zzpublField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
-        public string Zznumpubl
-        {
-            get
-            {
-                return this.zznumpublField;
-            }
-            set
-            {
-                this.zznumpublField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
-        public string Zzdata
-        {
-            get
-            {
-                return this.zzdataField;
-            }
-            set
-            {
-                this.zzdataField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
-        public string Zzseri
-        {
-            get
-            {
-                return this.zzseriField;
-            }
-            set
-            {
-                this.zzseriField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
-        public string Zzdispal
-        {
-            get
-            {
-                return this.zzdispalField;
-            }
-            set
-            {
-                this.zzdispalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
-        public string Zzdesp
-        {
-            get
-            {
-                return this.zzdespField;
-            }
-            set
-            {
-                this.zzdespField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
     public partial class ZhrSClassifProf
     {
         
@@ -7270,8 +6595,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private ZhrSClassifProf[] classifProfField;
         
-        private ZhrSInfoProm[] infoPromField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Numsap
@@ -7428,21 +6751,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
             set
             {
                 this.classifProfField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZhrSInfoProm[] InfoProm
-        {
-            get
-            {
-                return this.infoPromField;
-            }
-            set
-            {
-                this.infoPromField = value;
             }
         }
     }
@@ -15171,43 +14479,11 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private string zzdatrField;
         
-        private string zzdespachoMobilidadeField;
-        
         private string zzdat2Field;
-        
-        private string zzentidadeMobilidadeField;
-        
-        private string zzueosMobilidadeField;
-        
-        private string zzueosMobilidadeDescField;
-        
-        private string zzurgMobilidadeField;
-        
-        private string zurgmDescField;
         
         private string zzueosField;
         
         private string zzueosDescField;
-        
-        private string zzplansMobilidadeField;
-        
-        private string zzplansMobilidadeAbrvField;
-        
-        private string zzplansMobilidadeDescField;
-        
-        private string zztipcMobilidadeField;
-        
-        private string ztipcmDescField;
-        
-        private string zzdtPrevistaMobilidadeField;
-        
-        private string zzstatusMobilidadeField;
-        
-        private string zzdescrField;
-        
-        private string zzdtStatusMobilidadeField;
-        
-        private string zzobservacoesMobilidadeField;
         
         private string zzsituField;
         
@@ -15243,7 +14519,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private string zztpcomField;
         
-        private string ztipcomDescField;
+        private string ztipcmDescField;
         
         private string zzurgField;
         
@@ -15445,20 +14721,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
-        public string ZzdespachoMobilidade
-        {
-            get
-            {
-                return this.zzdespachoMobilidadeField;
-            }
-            set
-            {
-                this.zzdespachoMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
         public string Zzdat2
         {
             get
@@ -15472,77 +14734,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
-        public string ZzentidadeMobilidade
-        {
-            get
-            {
-                return this.zzentidadeMobilidadeField;
-            }
-            set
-            {
-                this.zzentidadeMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
-        public string ZzueosMobilidade
-        {
-            get
-            {
-                return this.zzueosMobilidadeField;
-            }
-            set
-            {
-                this.zzueosMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
-        public string ZzueosMobilidadeDesc
-        {
-            get
-            {
-                return this.zzueosMobilidadeDescField;
-            }
-            set
-            {
-                this.zzueosMobilidadeDescField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
-        public string ZzurgMobilidade
-        {
-            get
-            {
-                return this.zzurgMobilidadeField;
-            }
-            set
-            {
-                this.zzurgMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
-        public string ZurgmDesc
-        {
-            get
-            {
-                return this.zurgmDescField;
-            }
-            set
-            {
-                this.zurgmDescField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
         public string Zzueos
         {
             get
@@ -15556,7 +14748,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
         public string ZzueosDesc
         {
             get
@@ -15570,147 +14762,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
-        public string ZzplansMobilidade
-        {
-            get
-            {
-                return this.zzplansMobilidadeField;
-            }
-            set
-            {
-                this.zzplansMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=22)]
-        public string ZzplansMobilidadeAbrv
-        {
-            get
-            {
-                return this.zzplansMobilidadeAbrvField;
-            }
-            set
-            {
-                this.zzplansMobilidadeAbrvField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
-        public string ZzplansMobilidadeDesc
-        {
-            get
-            {
-                return this.zzplansMobilidadeDescField;
-            }
-            set
-            {
-                this.zzplansMobilidadeDescField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
-        public string ZztipcMobilidade
-        {
-            get
-            {
-                return this.zztipcMobilidadeField;
-            }
-            set
-            {
-                this.zztipcMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
-        public string ZtipcmDesc
-        {
-            get
-            {
-                return this.ztipcmDescField;
-            }
-            set
-            {
-                this.ztipcmDescField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
-        public string ZzdtPrevistaMobilidade
-        {
-            get
-            {
-                return this.zzdtPrevistaMobilidadeField;
-            }
-            set
-            {
-                this.zzdtPrevistaMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
-        public string ZzstatusMobilidade
-        {
-            get
-            {
-                return this.zzstatusMobilidadeField;
-            }
-            set
-            {
-                this.zzstatusMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=28)]
-        public string Zzdescr
-        {
-            get
-            {
-                return this.zzdescrField;
-            }
-            set
-            {
-                this.zzdescrField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=29)]
-        public string ZzdtStatusMobilidade
-        {
-            get
-            {
-                return this.zzdtStatusMobilidadeField;
-            }
-            set
-            {
-                this.zzdtStatusMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=30)]
-        public string ZzobservacoesMobilidade
-        {
-            get
-            {
-                return this.zzobservacoesMobilidadeField;
-            }
-            set
-            {
-                this.zzobservacoesMobilidadeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
         public string Zzsitu
         {
             get
@@ -15724,7 +14776,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
         public string ZzsituDesc
         {
             get
@@ -15738,7 +14790,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
         public string Zzorga
         {
             get
@@ -15752,7 +14804,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
         public string Zzfunc
         {
             get
@@ -15766,7 +14818,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
         public string ZfuncDesc
         {
             get
@@ -15780,7 +14832,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
         public string Zzidguiam
         {
             get
@@ -15794,7 +14846,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
         public string Zzunguiam
         {
             get
@@ -15808,7 +14860,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=38)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=22)]
         public string ZzunguiamDesc
         {
             get
@@ -15822,7 +14874,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=39)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
         public string Zzdatp
         {
             get
@@ -15836,7 +14888,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=40)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=24)]
         public System.DateTime Zzhrprmr
         {
             get
@@ -15850,7 +14902,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=41)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
         public string Zzstat
         {
             get
@@ -15864,7 +14916,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=42)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
         public string ZstatDesc
         {
             get
@@ -15878,7 +14930,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=43)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
         public string Zztipn
         {
             get
@@ -15892,7 +14944,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=44)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=28)]
         public string ZtipnDesc
         {
             get
@@ -15906,7 +14958,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=45)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=29)]
         public string Zztipc
         {
             get
@@ -15920,7 +14972,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=46)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=30)]
         public string ZtipcDesc
         {
             get
@@ -15934,7 +14986,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=47)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=31)]
         public string Zztpcom
         {
             get
@@ -15948,21 +15000,21 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=48)]
-        public string ZtipcomDesc
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=32)]
+        public string ZtipcmDesc
         {
             get
             {
-                return this.ztipcomDescField;
+                return this.ztipcmDescField;
             }
             set
             {
-                this.ztipcomDescField = value;
+                this.ztipcmDescField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=49)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=33)]
         public string Zzurg
         {
             get
@@ -15976,7 +15028,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=50)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=34)]
         public string ZurgDesc
         {
             get
@@ -15990,7 +15042,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=51)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=35)]
         public string Zzcoloc
         {
             get
@@ -16004,7 +15056,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=52)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=36)]
         public string ZzprefDescr
         {
             get
@@ -16018,7 +15070,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=53)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=37)]
         public string Zzmiss
         {
             get
@@ -16032,7 +15084,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=54)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=38)]
         public string ZmissDesc
         {
             get
@@ -16046,7 +15098,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=55)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=39)]
         public string Zzundest
         {
             get
@@ -16060,7 +15112,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=56)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=40)]
         public string Zzabunid
         {
             get
@@ -16074,7 +15126,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=57)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=41)]
         public string ZzundestDesc
         {
             get
@@ -16088,7 +15140,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=58)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=42)]
         public string Zzunex
         {
             get
@@ -16102,7 +15154,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=59)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=43)]
         public string ZzunexDesc
         {
             get
@@ -16116,7 +15168,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=60)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=44)]
         public string Zzdati
         {
             get
@@ -16130,7 +15182,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=61)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=45)]
         public string Zhrmotexclu
         {
             get
@@ -16144,7 +15196,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=62)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=46)]
         public string Zhrmotexcludsc
         {
             get
@@ -16158,7 +15210,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=63)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=47)]
         public string Zhrobsmotexclu
         {
             get
@@ -16864,8 +15916,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private string datahomolocacaoField;
         
-        private string culpabilidadeArguidoField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Tipoproc
@@ -17327,20 +16377,6 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
                 this.datahomolocacaoField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=33)]
-        public string CulpabilidadeArguido
-        {
-            get
-            {
-                return this.culpabilidadeArguidoField;
-            }
-            set
-            {
-                this.culpabilidadeArguidoField = value;
-            }
-        }
     }
     
     /// <remarks/>
@@ -17677,16 +16713,12 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZhrWsInputMdp
+    public partial class ZhrEMdpPdf
     {
         
         private string posicaoField;
         
-        private string dataField;
-        
-        private string varPlaneamentoField;
-        
-        private string relEstruField;
+        private byte[] pdfField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
@@ -17703,44 +16735,56 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", Order=1)]
+        public byte[] Pdf
+        {
+            get
+            {
+                return this.pdfField;
+            }
+            set
+            {
+                this.pdfField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
+    public partial class ZhrWsInputMdp
+    {
+        
+        private string unidadeField;
+        
+        private string posicaoField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string Unidade
+        {
+            get
+            {
+                return this.unidadeField;
+            }
+            set
+            {
+                this.unidadeField = value;
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public string Data
+        public string Posicao
         {
             get
             {
-                return this.dataField;
+                return this.posicaoField;
             }
             set
             {
-                this.dataField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string VarPlaneamento
-        {
-            get
-            {
-                return this.varPlaneamentoField;
-            }
-            set
-            {
-                this.varPlaneamentoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string RelEstru
-        {
-            get
-            {
-                return this.relEstruField;
-            }
-            set
-            {
-                this.relEstruField = value;
+                this.posicaoField = value;
             }
         }
     }
@@ -18621,13 +17665,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFerias ZhrWsFerias;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFerias ZhrWsFerias;
         
         public ZhrWsFeriasRequest()
         {
         }
         
-        public ZhrWsFeriasRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFerias ZhrWsFerias)
+        public ZhrWsFeriasRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFerias ZhrWsFerias)
         {
             this.ZhrWsFerias = ZhrWsFerias;
         }
@@ -18641,13 +17685,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasResponse ZhrWsFeriasResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasResponse ZhrWsFeriasResponse;
         
         public ZhrWsFeriasResponse1()
         {
         }
         
-        public ZhrWsFeriasResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasResponse ZhrWsFeriasResponse)
+        public ZhrWsFeriasResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasResponse ZhrWsFeriasResponse)
         {
             this.ZhrWsFeriasResponse = ZhrWsFeriasResponse;
         }
@@ -18728,13 +17772,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvores ZhrWsGetLouvores;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvores ZhrWsGetLouvores;
         
         public ZhrWsGetLouvoresRequest()
         {
         }
         
-        public ZhrWsGetLouvoresRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvores ZhrWsGetLouvores)
+        public ZhrWsGetLouvoresRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvores ZhrWsGetLouvores)
         {
             this.ZhrWsGetLouvores = ZhrWsGetLouvores;
         }
@@ -18748,13 +17792,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresResponse ZhrWsGetLouvoresResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresResponse ZhrWsGetLouvoresResponse;
         
         public ZhrWsGetLouvoresResponse1()
         {
         }
         
-        public ZhrWsGetLouvoresResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresResponse ZhrWsGetLouvoresResponse)
+        public ZhrWsGetLouvoresResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresResponse ZhrWsGetLouvoresResponse)
         {
             this.ZhrWsGetLouvoresResponse = ZhrWsGetLouvoresResponse;
         }
@@ -18794,7 +17838,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private ZhrSLogMsg[] messageField;
         
-        private string outputField;
+        private ZhrEMdpPdf[] outputField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
@@ -18812,8 +17856,9 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public string Output
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+        public ZhrEMdpPdf[] Output
         {
             get
             {
@@ -18834,13 +17879,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdp ZhrWsGetMdp;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdp ZhrWsGetMdp;
         
         public ZhrWsGetMdpRequest()
         {
         }
         
-        public ZhrWsGetMdpRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdp ZhrWsGetMdp)
+        public ZhrWsGetMdpRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdp ZhrWsGetMdp)
         {
             this.ZhrWsGetMdp = ZhrWsGetMdp;
         }
@@ -18854,13 +17899,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpResponse ZhrWsGetMdpResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpResponse ZhrWsGetMdpResponse;
         
         public ZhrWsGetMdpResponse1()
         {
         }
         
-        public ZhrWsGetMdpResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpResponse ZhrWsGetMdpResponse)
+        public ZhrWsGetMdpResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpResponse ZhrWsGetMdpResponse)
         {
             this.ZhrWsGetMdpResponse = ZhrWsGetMdpResponse;
         }
@@ -18941,13 +17986,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernr ZhrWsGetPernr;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernr ZhrWsGetPernr;
         
         public ZhrWsGetPernrRequest()
         {
         }
         
-        public ZhrWsGetPernrRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernr ZhrWsGetPernr)
+        public ZhrWsGetPernrRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernr ZhrWsGetPernr)
         {
             this.ZhrWsGetPernr = ZhrWsGetPernr;
         }
@@ -18961,13 +18006,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrResponse ZhrWsGetPernrResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrResponse ZhrWsGetPernrResponse;
         
         public ZhrWsGetPernrResponse1()
         {
         }
         
-        public ZhrWsGetPernrResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrResponse ZhrWsGetPernrResponse)
+        public ZhrWsGetPernrResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrResponse ZhrWsGetPernrResponse)
         {
             this.ZhrWsGetPernrResponse = ZhrWsGetPernrResponse;
         }
@@ -19048,13 +18093,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc;
         
         public ZhrWsGetProcAvegdiscRequest()
         {
         }
         
-        public ZhrWsGetProcAvegdiscRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc)
+        public ZhrWsGetProcAvegdiscRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc)
         {
             this.ZhrWsGetProcAvegdisc = ZhrWsGetProcAvegdisc;
         }
@@ -19068,13 +18113,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscResponse ZhrWsGetProcAvegdiscResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscResponse ZhrWsGetProcAvegdiscResponse;
         
         public ZhrWsGetProcAvegdiscResponse1()
         {
         }
         
-        public ZhrWsGetProcAvegdiscResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscResponse ZhrWsGetProcAvegdiscResponse)
+        public ZhrWsGetProcAvegdiscResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscResponse ZhrWsGetProcAvegdiscResponse)
         {
             this.ZhrWsGetProcAvegdiscResponse = ZhrWsGetProcAvegdiscResponse;
         }
@@ -19155,13 +18200,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido;
         
         public ZhrWsGetViaturaCrEmitidoRequest()
         {
         }
         
-        public ZhrWsGetViaturaCrEmitidoRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido)
+        public ZhrWsGetViaturaCrEmitidoRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido)
         {
             this.ZhrWsGetViaturaCrEmitido = ZhrWsGetViaturaCrEmitido;
         }
@@ -19175,13 +18220,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoResponse ZhrWsGetViaturaCrEmitidoResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoResponse ZhrWsGetViaturaCrEmitidoResponse;
         
         public ZhrWsGetViaturaCrEmitidoResponse1()
         {
         }
         
-        public ZhrWsGetViaturaCrEmitidoResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoResponse ZhrWsGetViaturaCrEmitidoResponse)
+        public ZhrWsGetViaturaCrEmitidoResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoResponse ZhrWsGetViaturaCrEmitidoResponse)
         {
             this.ZhrWsGetViaturaCrEmitidoResponse = ZhrWsGetViaturaCrEmitidoResponse;
         }
@@ -19262,13 +18307,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes;
         
         public ZhrWsHabilitacoesRequest()
         {
         }
         
-        public ZhrWsHabilitacoesRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes)
+        public ZhrWsHabilitacoesRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes)
         {
             this.ZhrWsHabilitacoes = ZhrWsHabilitacoes;
         }
@@ -19282,13 +18327,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesResponse ZhrWsHabilitacoesResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesResponse ZhrWsHabilitacoesResponse;
         
         public ZhrWsHabilitacoesResponse1()
         {
         }
         
-        public ZhrWsHabilitacoesResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesResponse ZhrWsHabilitacoesResponse)
+        public ZhrWsHabilitacoesResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesResponse ZhrWsHabilitacoesResponse)
         {
             this.ZhrWsHabilitacoesResponse = ZhrWsHabilitacoesResponse;
         }
@@ -19369,13 +18414,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidades ZhrWsMobilidades;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidades ZhrWsMobilidades;
         
         public ZhrWsMobilidadesRequest()
         {
         }
         
-        public ZhrWsMobilidadesRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidades ZhrWsMobilidades)
+        public ZhrWsMobilidadesRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidades ZhrWsMobilidades)
         {
             this.ZhrWsMobilidades = ZhrWsMobilidades;
         }
@@ -19389,13 +18434,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesResponse ZhrWsMobilidadesResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesResponse ZhrWsMobilidadesResponse;
         
         public ZhrWsMobilidadesResponse1()
         {
         }
         
-        public ZhrWsMobilidadesResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesResponse ZhrWsMobilidadesResponse)
+        public ZhrWsMobilidadesResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesResponse ZhrWsMobilidadesResponse)
         {
             this.ZhrWsMobilidadesResponse = ZhrWsMobilidadesResponse;
         }
@@ -19457,13 +18502,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigre ZhrWsSigre;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigre ZhrWsSigre;
         
         public ZhrWsSigreRequest()
         {
         }
         
-        public ZhrWsSigreRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigre ZhrWsSigre)
+        public ZhrWsSigreRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigre ZhrWsSigre)
         {
             this.ZhrWsSigre = ZhrWsSigre;
         }
@@ -19477,13 +18522,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreResponse ZhrWsSigreResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreResponse ZhrWsSigreResponse;
         
         public ZhrWsSigreResponse1()
         {
         }
         
-        public ZhrWsSigreResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreResponse ZhrWsSigreResponse)
+        public ZhrWsSigreResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreResponse ZhrWsSigreResponse)
         {
             this.ZhrWsSigreResponse = ZhrWsSigreResponse;
         }
@@ -19564,13 +18609,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidao ZhrWsAptidao;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidao ZhrWsAptidao;
         
         public ZhrWsAptidaoRequest()
         {
         }
         
-        public ZhrWsAptidaoRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidao ZhrWsAptidao)
+        public ZhrWsAptidaoRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidao ZhrWsAptidao)
         {
             this.ZhrWsAptidao = ZhrWsAptidao;
         }
@@ -19584,13 +18629,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoResponse ZhrWsAptidaoResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoResponse ZhrWsAptidaoResponse;
         
         public ZhrWsAptidaoResponse1()
         {
         }
         
-        public ZhrWsAptidaoResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoResponse ZhrWsAptidaoResponse)
+        public ZhrWsAptidaoResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoResponse ZhrWsAptidaoResponse)
         {
             this.ZhrWsAptidaoResponse = ZhrWsAptidaoResponse;
         }
@@ -19671,13 +18716,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas;
         
         public ZhrWsGetListViaturasRequest()
         {
         }
         
-        public ZhrWsGetListViaturasRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas)
+        public ZhrWsGetListViaturasRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas)
         {
             this.ZhrWsGetListViaturas = ZhrWsGetListViaturas;
         }
@@ -19691,13 +18736,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasResponse ZhrWsGetListViaturasResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasResponse ZhrWsGetListViaturasResponse;
         
         public ZhrWsGetListViaturasResponse1()
         {
         }
         
-        public ZhrWsGetListViaturasResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasResponse ZhrWsGetListViaturasResponse)
+        public ZhrWsGetListViaturasResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasResponse ZhrWsGetListViaturasResponse)
         {
             this.ZhrWsGetListViaturasResponse = ZhrWsGetListViaturasResponse;
         }
@@ -19778,13 +18823,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT;
         
         public ZhrWsGetLouvoresTRequest()
         {
         }
         
-        public ZhrWsGetLouvoresTRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT)
+        public ZhrWsGetLouvoresTRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT)
         {
             this.ZhrWsGetLouvoresT = ZhrWsGetLouvoresT;
         }
@@ -19798,13 +18843,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTResponse ZhrWsGetLouvoresTResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTResponse ZhrWsGetLouvoresTResponse;
         
         public ZhrWsGetLouvoresTResponse1()
         {
         }
         
-        public ZhrWsGetLouvoresTResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTResponse ZhrWsGetLouvoresTResponse)
+        public ZhrWsGetLouvoresTResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTResponse ZhrWsGetLouvoresTResponse)
         {
             this.ZhrWsGetLouvoresTResponse = ZhrWsGetLouvoresTResponse;
         }
@@ -19866,13 +18911,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdm ZhrWsAdm;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdm ZhrWsAdm;
         
         public ZhrWsAdmRequest()
         {
         }
         
-        public ZhrWsAdmRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdm ZhrWsAdm)
+        public ZhrWsAdmRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdm ZhrWsAdm)
         {
             this.ZhrWsAdm = ZhrWsAdm;
         }
@@ -19886,13 +18931,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmResponse ZhrWsAdmResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmResponse ZhrWsAdmResponse;
         
         public ZhrWsAdmResponse1()
         {
         }
         
-        public ZhrWsAdmResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmResponse ZhrWsAdmResponse)
+        public ZhrWsAdmResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmResponse ZhrWsAdmResponse)
         {
             this.ZhrWsAdmResponse = ZhrWsAdmResponse;
         }
@@ -19973,13 +19018,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacao ZhrWsFormacao;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacao ZhrWsFormacao;
         
         public ZhrWsFormacaoRequest()
         {
         }
         
-        public ZhrWsFormacaoRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacao ZhrWsFormacao)
+        public ZhrWsFormacaoRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacao ZhrWsFormacao)
         {
             this.ZhrWsFormacao = ZhrWsFormacao;
         }
@@ -19993,13 +19038,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoResponse ZhrWsFormacaoResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoResponse ZhrWsFormacaoResponse;
         
         public ZhrWsFormacaoResponse1()
         {
         }
         
-        public ZhrWsFormacaoResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoResponse ZhrWsFormacaoResponse)
+        public ZhrWsFormacaoResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoResponse ZhrWsFormacaoResponse)
         {
             this.ZhrWsFormacaoResponse = ZhrWsFormacaoResponse;
         }
@@ -20096,13 +19141,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosm ZhrWsFotosm;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosm ZhrWsFotosm;
         
         public ZhrWsFotosmRequest()
         {
         }
         
-        public ZhrWsFotosmRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosm ZhrWsFotosm)
+        public ZhrWsFotosmRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosm ZhrWsFotosm)
         {
             this.ZhrWsFotosm = ZhrWsFotosm;
         }
@@ -20116,13 +19161,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmResponse ZhrWsFotosmResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmResponse ZhrWsFotosmResponse;
         
         public ZhrWsFotosmResponse1()
         {
         }
         
-        public ZhrWsFotosmResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmResponse ZhrWsFotosmResponse)
+        public ZhrWsFotosmResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmResponse ZhrWsFotosmResponse)
         {
             this.ZhrWsFotosmResponse = ZhrWsFotosmResponse;
         }
@@ -20203,13 +19248,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad;
         
         public ZhrWsGetPostgradRequest()
         {
         }
         
-        public ZhrWsGetPostgradRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad)
+        public ZhrWsGetPostgradRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad)
         {
             this.ZhrWsGetPostgrad = ZhrWsGetPostgrad;
         }
@@ -20223,13 +19268,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradResponse ZhrWsGetPostgradResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradResponse ZhrWsGetPostgradResponse;
         
         public ZhrWsGetPostgradResponse1()
         {
         }
         
-        public ZhrWsGetPostgradResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradResponse ZhrWsGetPostgradResponse)
+        public ZhrWsGetPostgradResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradResponse ZhrWsGetPostgradResponse)
         {
             this.ZhrWsGetPostgradResponse = ZhrWsGetPostgradResponse;
         }
@@ -20310,13 +19355,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentes ZhrWsContigentes;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentes ZhrWsContigentes;
         
         public ZhrWsContigentesRequest()
         {
         }
         
-        public ZhrWsContigentesRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentes ZhrWsContigentes)
+        public ZhrWsContigentesRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentes ZhrWsContigentes)
         {
             this.ZhrWsContigentes = ZhrWsContigentes;
         }
@@ -20330,13 +19375,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesResponse ZhrWsContigentesResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesResponse ZhrWsContigentesResponse;
         
         public ZhrWsContigentesResponse1()
         {
         }
         
-        public ZhrWsContigentesResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesResponse ZhrWsContigentesResponse)
+        public ZhrWsContigentesResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesResponse ZhrWsContigentesResponse)
         {
             this.ZhrWsContigentesResponse = ZhrWsContigentesResponse;
         }
@@ -20417,13 +19462,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoes ZhrWsFuncoes;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoes ZhrWsFuncoes;
         
         public ZhrWsFuncoesRequest()
         {
         }
         
-        public ZhrWsFuncoesRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoes ZhrWsFuncoes)
+        public ZhrWsFuncoesRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoes ZhrWsFuncoes)
         {
             this.ZhrWsFuncoes = ZhrWsFuncoes;
         }
@@ -20437,13 +19482,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesResponse ZhrWsFuncoesResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesResponse ZhrWsFuncoesResponse;
         
         public ZhrWsFuncoesResponse1()
         {
         }
         
-        public ZhrWsFuncoesResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesResponse ZhrWsFuncoesResponse)
+        public ZhrWsFuncoesResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesResponse ZhrWsFuncoesResponse)
         {
             this.ZhrWsFuncoesResponse = ZhrWsFuncoesResponse;
         }
@@ -20524,13 +19569,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001;
         
         public ZhrWsGetLicencas2001Request()
         {
         }
         
-        public ZhrWsGetLicencas2001Request(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001)
+        public ZhrWsGetLicencas2001Request(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001)
         {
             this.ZhrWsGetLicencas2001 = ZhrWsGetLicencas2001;
         }
@@ -20544,13 +19589,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Response ZhrWsGetLicencas2001Response;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Response ZhrWsGetLicencas2001Response;
         
         public ZhrWsGetLicencas2001Response1()
         {
         }
         
-        public ZhrWsGetLicencas2001Response1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Response ZhrWsGetLicencas2001Response)
+        public ZhrWsGetLicencas2001Response1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Response ZhrWsGetLicencas2001Response)
         {
             this.ZhrWsGetLicencas2001Response = ZhrWsGetLicencas2001Response;
         }
@@ -20631,13 +19676,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTab ZhrWsHorarioTab;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTab ZhrWsHorarioTab;
         
         public ZhrWsHorarioTabRequest()
         {
         }
         
-        public ZhrWsHorarioTabRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTab ZhrWsHorarioTab)
+        public ZhrWsHorarioTabRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTab ZhrWsHorarioTab)
         {
             this.ZhrWsHorarioTab = ZhrWsHorarioTab;
         }
@@ -20651,13 +19696,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabResponse ZhrWsHorarioTabResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabResponse ZhrWsHorarioTabResponse;
         
         public ZhrWsHorarioTabResponse1()
         {
         }
         
-        public ZhrWsHorarioTabResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabResponse ZhrWsHorarioTabResponse)
+        public ZhrWsHorarioTabResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabResponse ZhrWsHorarioTabResponse)
         {
             this.ZhrWsHorarioTabResponse = ZhrWsHorarioTabResponse;
         }
@@ -20738,13 +19783,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentif ZhrWsIdentif;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentif ZhrWsIdentif;
         
         public ZhrWsIdentifRequest()
         {
         }
         
-        public ZhrWsIdentifRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentif ZhrWsIdentif)
+        public ZhrWsIdentifRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentif ZhrWsIdentif)
         {
             this.ZhrWsIdentif = ZhrWsIdentif;
         }
@@ -20758,13 +19803,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifResponse ZhrWsIdentifResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifResponse ZhrWsIdentifResponse;
         
         public ZhrWsIdentifResponse1()
         {
         }
         
-        public ZhrWsIdentifResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifResponse ZhrWsIdentifResponse)
+        public ZhrWsIdentifResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifResponse ZhrWsIdentifResponse)
         {
             this.ZhrWsIdentifResponse = ZhrWsIdentifResponse;
         }
@@ -20845,13 +19890,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalData ZhrWsPersonalData;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalData ZhrWsPersonalData;
         
         public ZhrWsPersonalDataRequest()
         {
         }
         
-        public ZhrWsPersonalDataRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalData ZhrWsPersonalData)
+        public ZhrWsPersonalDataRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalData ZhrWsPersonalData)
         {
             this.ZhrWsPersonalData = ZhrWsPersonalData;
         }
@@ -20865,13 +19910,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataResponse ZhrWsPersonalDataResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataResponse ZhrWsPersonalDataResponse;
         
         public ZhrWsPersonalDataResponse1()
         {
         }
         
-        public ZhrWsPersonalDataResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataResponse ZhrWsPersonalDataResponse)
+        public ZhrWsPersonalDataResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataResponse ZhrWsPersonalDataResponse)
         {
             this.ZhrWsPersonalDataResponse = ZhrWsPersonalDataResponse;
         }
@@ -20952,13 +19997,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemun ZhrWsRemun;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemun ZhrWsRemun;
         
         public ZhrWsRemunRequest()
         {
         }
         
-        public ZhrWsRemunRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemun ZhrWsRemun)
+        public ZhrWsRemunRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemun ZhrWsRemun)
         {
             this.ZhrWsRemun = ZhrWsRemun;
         }
@@ -20972,13 +20017,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunResponse ZhrWsRemunResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunResponse ZhrWsRemunResponse;
         
         public ZhrWsRemunResponse1()
         {
         }
         
-        public ZhrWsRemunResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunResponse ZhrWsRemunResponse)
+        public ZhrWsRemunResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunResponse ZhrWsRemunResponse)
         {
             this.ZhrWsRemunResponse = ZhrWsRemunResponse;
         }
@@ -21059,13 +20104,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrg ZhrWsAtribOrg;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrg ZhrWsAtribOrg;
         
         public ZhrWsAtribOrgRequest()
         {
         }
         
-        public ZhrWsAtribOrgRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrg ZhrWsAtribOrg)
+        public ZhrWsAtribOrgRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrg ZhrWsAtribOrg)
         {
             this.ZhrWsAtribOrg = ZhrWsAtribOrg;
         }
@@ -21079,13 +20124,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgResponse ZhrWsAtribOrgResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgResponse ZhrWsAtribOrgResponse;
         
         public ZhrWsAtribOrgResponse1()
         {
         }
         
-        public ZhrWsAtribOrgResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgResponse ZhrWsAtribOrgResponse)
+        public ZhrWsAtribOrgResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgResponse ZhrWsAtribOrgResponse)
         {
             this.ZhrWsAtribOrgResponse = ZhrWsAtribOrgResponse;
         }
@@ -21166,13 +20211,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecor ZhrWsCondecor;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecor ZhrWsCondecor;
         
         public ZhrWsCondecorRequest()
         {
         }
         
-        public ZhrWsCondecorRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecor ZhrWsCondecor)
+        public ZhrWsCondecorRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecor ZhrWsCondecor)
         {
             this.ZhrWsCondecor = ZhrWsCondecor;
         }
@@ -21186,13 +20231,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorResponse ZhrWsCondecorResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorResponse ZhrWsCondecorResponse;
         
         public ZhrWsCondecorResponse1()
         {
         }
         
-        public ZhrWsCondecorResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorResponse ZhrWsCondecorResponse)
+        public ZhrWsCondecorResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorResponse ZhrWsCondecorResponse)
         {
             this.ZhrWsCondecorResponse = ZhrWsCondecorResponse;
         }
@@ -21273,13 +20318,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViatura ZhrWsGetViatura;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViatura ZhrWsGetViatura;
         
         public ZhrWsGetViaturaRequest()
         {
         }
         
-        public ZhrWsGetViaturaRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViatura ZhrWsGetViatura)
+        public ZhrWsGetViaturaRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViatura ZhrWsGetViatura)
         {
             this.ZhrWsGetViatura = ZhrWsGetViatura;
         }
@@ -21293,13 +20338,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaResponse ZhrWsGetViaturaResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaResponse ZhrWsGetViaturaResponse;
         
         public ZhrWsGetViaturaResponse1()
         {
         }
         
-        public ZhrWsGetViaturaResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaResponse ZhrWsGetViaturaResponse)
+        public ZhrWsGetViaturaResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaResponse ZhrWsGetViaturaResponse)
         {
             this.ZhrWsGetViaturaResponse = ZhrWsGetViaturaResponse;
         }
@@ -21345,13 +20390,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadap ZhrWsGeadap;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadap ZhrWsGeadap;
         
         public ZhrWsGeadapRequest()
         {
         }
         
-        public ZhrWsGeadapRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadap ZhrWsGeadap)
+        public ZhrWsGeadapRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadap ZhrWsGeadap)
         {
             this.ZhrWsGeadap = ZhrWsGeadap;
         }
@@ -21365,13 +20410,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapResponse ZhrWsGeadapResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapResponse ZhrWsGeadapResponse;
         
         public ZhrWsGeadapResponse1()
         {
         }
         
-        public ZhrWsGeadapResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapResponse ZhrWsGeadapResponse)
+        public ZhrWsGeadapResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapResponse ZhrWsGeadapResponse)
         {
             this.ZhrWsGeadapResponse = ZhrWsGeadapResponse;
         }
@@ -21452,13 +20497,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation;
         
         public ZhrWsProfissionalSituationRequest()
         {
         }
         
-        public ZhrWsProfissionalSituationRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation)
+        public ZhrWsProfissionalSituationRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation)
         {
             this.ZhrWsProfissionalSituation = ZhrWsProfissionalSituation;
         }
@@ -21472,13 +20517,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationResponse ZhrWsProfissionalSituationResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationResponse ZhrWsProfissionalSituationResponse;
         
         public ZhrWsProfissionalSituationResponse1()
         {
         }
         
-        public ZhrWsProfissionalSituationResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationResponse ZhrWsProfissionalSituationResponse)
+        public ZhrWsProfissionalSituationResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationResponse ZhrWsProfissionalSituationResponse)
         {
             this.ZhrWsProfissionalSituationResponse = ZhrWsProfissionalSituationResponse;
         }
@@ -21559,13 +20604,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes;
         
         public ZhrWsAumentosDiminuicoesRequest()
         {
         }
         
-        public ZhrWsAumentosDiminuicoesRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes)
+        public ZhrWsAumentosDiminuicoesRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes)
         {
             this.ZhrWsAumentosDiminuicoes = ZhrWsAumentosDiminuicoes;
         }
@@ -21579,13 +20624,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesResponse ZhrWsAumentosDiminuicoesResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesResponse ZhrWsAumentosDiminuicoesResponse;
         
         public ZhrWsAumentosDiminuicoesResponse1()
         {
         }
         
-        public ZhrWsAumentosDiminuicoesResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesResponse ZhrWsAumentosDiminuicoesResponse)
+        public ZhrWsAumentosDiminuicoesResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesResponse ZhrWsAumentosDiminuicoesResponse)
         {
             this.ZhrWsAumentosDiminuicoesResponse = ZhrWsAumentosDiminuicoesResponse;
         }
@@ -21666,13 +20711,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContrato ZhrWsContrato;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContrato ZhrWsContrato;
         
         public ZhrWsContratoRequest()
         {
         }
         
-        public ZhrWsContratoRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContrato ZhrWsContrato)
+        public ZhrWsContratoRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContrato ZhrWsContrato)
         {
             this.ZhrWsContrato = ZhrWsContrato;
         }
@@ -21686,13 +20731,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoResponse ZhrWsContratoResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoResponse ZhrWsContratoResponse;
         
         public ZhrWsContratoResponse1()
         {
         }
         
-        public ZhrWsContratoResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoResponse ZhrWsContratoResponse)
+        public ZhrWsContratoResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoResponse ZhrWsContratoResponse)
         {
             this.ZhrWsContratoResponse = ZhrWsContratoResponse;
         }
@@ -21773,13 +20818,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidas ZhrWsMedidas;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidas ZhrWsMedidas;
         
         public ZhrWsMedidasRequest()
         {
         }
         
-        public ZhrWsMedidasRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidas ZhrWsMedidas)
+        public ZhrWsMedidasRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidas ZhrWsMedidas)
         {
             this.ZhrWsMedidas = ZhrWsMedidas;
         }
@@ -21793,13 +20838,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasResponse ZhrWsMedidasResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasResponse ZhrWsMedidasResponse;
         
         public ZhrWsMedidasResponse1()
         {
         }
         
-        public ZhrWsMedidasResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasResponse ZhrWsMedidasResponse)
+        public ZhrWsMedidasResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasResponse ZhrWsMedidasResponse)
         {
             this.ZhrWsMedidasResponse = ZhrWsMedidasResponse;
         }
@@ -21880,13 +20925,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndCom ZhrWsEndCom;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndCom ZhrWsEndCom;
         
         public ZhrWsEndComRequest()
         {
         }
         
-        public ZhrWsEndComRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndCom ZhrWsEndCom)
+        public ZhrWsEndComRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndCom ZhrWsEndCom)
         {
             this.ZhrWsEndCom = ZhrWsEndCom;
         }
@@ -21900,13 +20945,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComResponse ZhrWsEndComResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComResponse ZhrWsEndComResponse;
         
         public ZhrWsEndComResponse1()
         {
         }
         
-        public ZhrWsEndComResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComResponse ZhrWsEndComResponse)
+        public ZhrWsEndComResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComResponse ZhrWsEndComResponse)
         {
             this.ZhrWsEndComResponse = ZhrWsEndComResponse;
         }
@@ -21987,13 +21032,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMed ZhrWsExamesMed;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMed ZhrWsExamesMed;
         
         public ZhrWsExamesMedRequest()
         {
         }
         
-        public ZhrWsExamesMedRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMed ZhrWsExamesMed)
+        public ZhrWsExamesMedRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMed ZhrWsExamesMed)
         {
             this.ZhrWsExamesMed = ZhrWsExamesMed;
         }
@@ -22007,13 +21052,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedResponse ZhrWsExamesMedResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedResponse ZhrWsExamesMedResponse;
         
         public ZhrWsExamesMedResponse1()
         {
         }
         
-        public ZhrWsExamesMedResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedResponse ZhrWsExamesMedResponse)
+        public ZhrWsExamesMedResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedResponse ZhrWsExamesMedResponse)
         {
             this.ZhrWsExamesMedResponse = ZhrWsExamesMedResponse;
         }
@@ -22094,13 +21139,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp;
         
         public ZhrWsGetIndicacoesTempRequest()
         {
         }
         
-        public ZhrWsGetIndicacoesTempRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp)
+        public ZhrWsGetIndicacoesTempRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp)
         {
             this.ZhrWsGetIndicacoesTemp = ZhrWsGetIndicacoesTemp;
         }
@@ -22114,13 +21159,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempResponse ZhrWsGetIndicacoesTempResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempResponse ZhrWsGetIndicacoesTempResponse;
         
         public ZhrWsGetIndicacoesTempResponse1()
         {
         }
         
-        public ZhrWsGetIndicacoesTempResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempResponse ZhrWsGetIndicacoesTempResponse)
+        public ZhrWsGetIndicacoesTempResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempResponse ZhrWsGetIndicacoesTempResponse)
         {
             this.ZhrWsGetIndicacoesTempResponse = ZhrWsGetIndicacoesTempResponse;
         }
@@ -22201,13 +21246,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade;
         
         public ZhrWsGetListaUnidadeRequest()
         {
         }
         
-        public ZhrWsGetListaUnidadeRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade)
+        public ZhrWsGetListaUnidadeRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade)
         {
             this.ZhrWsGetListaUnidade = ZhrWsGetListaUnidade;
         }
@@ -22221,13 +21266,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeResponse ZhrWsGetListaUnidadeResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeResponse ZhrWsGetListaUnidadeResponse;
         
         public ZhrWsGetListaUnidadeResponse1()
         {
         }
         
-        public ZhrWsGetListaUnidadeResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeResponse ZhrWsGetListaUnidadeResponse)
+        public ZhrWsGetListaUnidadeResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeResponse ZhrWsGetListaUnidadeResponse)
         {
             this.ZhrWsGetListaUnidadeResponse = ZhrWsGetListaUnidadeResponse;
         }
@@ -22308,13 +21353,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicos ZhrWsTemposServicos;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicos ZhrWsTemposServicos;
         
         public ZhrWsTemposServicosRequest()
         {
         }
         
-        public ZhrWsTemposServicosRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicos ZhrWsTemposServicos)
+        public ZhrWsTemposServicosRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicos ZhrWsTemposServicos)
         {
             this.ZhrWsTemposServicos = ZhrWsTemposServicos;
         }
@@ -22328,26 +21373,26 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosResponse ZhrWsTemposServicosResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosResponse ZhrWsTemposServicosResponse;
         
         public ZhrWsTemposServicosResponse1()
         {
         }
         
-        public ZhrWsTemposServicosResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosResponse ZhrWsTemposServicosResponse)
+        public ZhrWsTemposServicosResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosResponse ZhrWsTemposServicosResponse)
         {
             this.ZhrWsTemposServicosResponse = ZhrWsTemposServicosResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public interface ZHR_WSChannel : Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS, System.ServiceModel.IClientChannel
+    public interface zhr_wsChannel : Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public partial class ZHR_WSClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS>, Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS
+    public partial class zhr_wsClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws>, Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws
     {
         
         /// <summary>
@@ -22357,505 +21402,505 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         /// <param name="clientCredentials">The client credentials</param>
         static partial void ConfigureEndpoint(System.ServiceModel.Description.ServiceEndpoint serviceEndpoint, System.ServiceModel.Description.ClientCredentials clientCredentials);
         
-        public ZHR_WSClient() : 
-                base(ZHR_WSClient.GetDefaultBinding(), ZHR_WSClient.GetDefaultEndpointAddress())
+        public zhr_wsClient() : 
+                base(zhr_wsClient.GetDefaultBinding(), zhr_wsClient.GetDefaultEndpointAddress())
         {
-            this.Endpoint.Name = EndpointConfiguration.ZHR_WSQSPort.ToString();
+            this.Endpoint.Name = EndpointConfiguration.ZHR_WS.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public ZHR_WSClient(EndpointConfiguration endpointConfiguration) : 
-                base(ZHR_WSClient.GetBindingForEndpoint(endpointConfiguration), ZHR_WSClient.GetEndpointAddress(endpointConfiguration))
-        {
-            this.Endpoint.Name = endpointConfiguration.ToString();
-            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        }
-        
-        public ZHR_WSClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
-                base(ZHR_WSClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
+        public zhr_wsClient(EndpointConfiguration endpointConfiguration) : 
+                base(zhr_wsClient.GetBindingForEndpoint(endpointConfiguration), zhr_wsClient.GetEndpointAddress(endpointConfiguration))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public ZHR_WSClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(ZHR_WSClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        public zhr_wsClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
+                base(zhr_wsClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public ZHR_WSClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public zhr_wsClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(zhr_wsClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        {
+            this.Endpoint.Name = endpointConfiguration.ToString();
+            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
+        }
+        
+        public zhr_wsClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasRequest request)
         {
             return base.Channel.ZhrWsFeriasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasResponse1> ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFerias ZhrWsFerias)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasResponse1> ZhrWsFeriasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFerias ZhrWsFerias)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFeriasRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFeriasRequest();
             inValue.ZhrWsFerias = ZhrWsFerias;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsFeriasAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsFeriasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresRequest request)
         {
             return base.Channel.ZhrWsGetLouvoresAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresResponse1> ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvores ZhrWsGetLouvores)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresResponse1> ZhrWsGetLouvoresAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvores ZhrWsGetLouvores)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresRequest();
             inValue.ZhrWsGetLouvores = ZhrWsGetLouvores;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetLouvoresAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetLouvoresAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpRequest request)
         {
             return base.Channel.ZhrWsGetMdpAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpResponse1> ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdp ZhrWsGetMdp)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpResponse1> ZhrWsGetMdpAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdp ZhrWsGetMdp)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetMdpRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetMdpRequest();
             inValue.ZhrWsGetMdp = ZhrWsGetMdp;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetMdpAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetMdpAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrRequest request)
         {
             return base.Channel.ZhrWsGetPernrAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrResponse1> ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernr ZhrWsGetPernr)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrResponse1> ZhrWsGetPernrAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernr ZhrWsGetPernr)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPernrRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPernrRequest();
             inValue.ZhrWsGetPernr = ZhrWsGetPernr;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetPernrAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetPernrAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscRequest request)
         {
             return base.Channel.ZhrWsGetProcAvegdiscAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscResponse1> ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscResponse1> ZhrWsGetProcAvegdiscAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdisc ZhrWsGetProcAvegdisc)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetProcAvegdiscRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetProcAvegdiscRequest();
             inValue.ZhrWsGetProcAvegdisc = ZhrWsGetProcAvegdisc;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetProcAvegdiscAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetProcAvegdiscAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoRequest request)
         {
             return base.Channel.ZhrWsGetViaturaCrEmitidoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoResponse1> ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoResponse1> ZhrWsGetViaturaCrEmitidoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitido ZhrWsGetViaturaCrEmitido)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaCrEmitidoRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaCrEmitidoRequest();
             inValue.ZhrWsGetViaturaCrEmitido = ZhrWsGetViaturaCrEmitido;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetViaturaCrEmitidoAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetViaturaCrEmitidoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesRequest request)
         {
             return base.Channel.ZhrWsHabilitacoesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesResponse1> ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesResponse1> ZhrWsHabilitacoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoes ZhrWsHabilitacoes)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHabilitacoesRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHabilitacoesRequest();
             inValue.ZhrWsHabilitacoes = ZhrWsHabilitacoes;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsHabilitacoesAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsHabilitacoesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesRequest request)
         {
             return base.Channel.ZhrWsMobilidadesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesResponse1> ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidades ZhrWsMobilidades)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesResponse1> ZhrWsMobilidadesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidades ZhrWsMobilidades)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMobilidadesRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMobilidadesRequest();
             inValue.ZhrWsMobilidades = ZhrWsMobilidades;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsMobilidadesAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsMobilidadesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsSigreAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsSigreAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreRequest request)
         {
             return base.Channel.ZhrWsSigreAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreResponse1> ZhrWsSigreAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigre ZhrWsSigre)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreResponse1> ZhrWsSigreAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigre ZhrWsSigre)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsSigreRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsSigreRequest();
             inValue.ZhrWsSigre = ZhrWsSigre;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsSigreAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsSigreAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoRequest request)
         {
             return base.Channel.ZhrWsAptidaoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoResponse1> ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidao ZhrWsAptidao)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoResponse1> ZhrWsAptidaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidao ZhrWsAptidao)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAptidaoRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAptidaoRequest();
             inValue.ZhrWsAptidao = ZhrWsAptidao;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsAptidaoAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsAptidaoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasRequest request)
         {
             return base.Channel.ZhrWsGetListViaturasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasResponse1> ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasResponse1> ZhrWsGetListViaturasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturas ZhrWsGetListViaturas)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListViaturasRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListViaturasRequest();
             inValue.ZhrWsGetListViaturas = ZhrWsGetListViaturas;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetListViaturasAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetListViaturasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTRequest request)
         {
             return base.Channel.ZhrWsGetLouvoresTAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTResponse1> ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTResponse1> ZhrWsGetLouvoresTAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresT ZhrWsGetLouvoresT)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLouvoresTRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLouvoresTRequest();
             inValue.ZhrWsGetLouvoresT = ZhrWsGetLouvoresT;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetLouvoresTAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetLouvoresTAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsAdmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsAdmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmRequest request)
         {
             return base.Channel.ZhrWsAdmAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmResponse1> ZhrWsAdmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdm ZhrWsAdm)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmResponse1> ZhrWsAdmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdm ZhrWsAdm)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAdmRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAdmRequest();
             inValue.ZhrWsAdm = ZhrWsAdm;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsAdmAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsAdmAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoRequest request)
         {
             return base.Channel.ZhrWsFormacaoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoResponse1> ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacao ZhrWsFormacao)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoResponse1> ZhrWsFormacaoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacao ZhrWsFormacao)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFormacaoRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFormacaoRequest();
             inValue.ZhrWsFormacao = ZhrWsFormacao;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsFormacaoAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsFormacaoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmRequest request)
         {
             return base.Channel.ZhrWsFotosmAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmResponse1> ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosm ZhrWsFotosm)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmResponse1> ZhrWsFotosmAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosm ZhrWsFotosm)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFotosmRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFotosmRequest();
             inValue.ZhrWsFotosm = ZhrWsFotosm;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsFotosmAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsFotosmAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradRequest request)
         {
             return base.Channel.ZhrWsGetPostgradAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradResponse1> ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradResponse1> ZhrWsGetPostgradAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgrad ZhrWsGetPostgrad)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetPostgradRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetPostgradRequest();
             inValue.ZhrWsGetPostgrad = ZhrWsGetPostgrad;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetPostgradAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetPostgradAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesRequest request)
         {
             return base.Channel.ZhrWsContigentesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesResponse1> ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentes ZhrWsContigentes)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesResponse1> ZhrWsContigentesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentes ZhrWsContigentes)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContigentesRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContigentesRequest();
             inValue.ZhrWsContigentes = ZhrWsContigentes;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsContigentesAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsContigentesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesRequest request)
         {
             return base.Channel.ZhrWsFuncoesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesResponse1> ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoes ZhrWsFuncoes)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesResponse1> ZhrWsFuncoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoes ZhrWsFuncoes)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsFuncoesRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsFuncoesRequest();
             inValue.ZhrWsFuncoes = ZhrWsFuncoes;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsFuncoesAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsFuncoesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Response1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Request request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Response1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Request request)
         {
             return base.Channel.ZhrWsGetLicencas2001Async(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Response1> ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Response1> ZhrWsGetLicencas2001Async(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001 ZhrWsGetLicencas2001)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Request inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetLicencas2001Request();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Request inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetLicencas2001Request();
             inValue.ZhrWsGetLicencas2001 = ZhrWsGetLicencas2001;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetLicencas2001Async(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetLicencas2001Async(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabRequest request)
         {
             return base.Channel.ZhrWsHorarioTabAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabResponse1> ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTab ZhrWsHorarioTab)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabResponse1> ZhrWsHorarioTabAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTab ZhrWsHorarioTab)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsHorarioTabRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsHorarioTabRequest();
             inValue.ZhrWsHorarioTab = ZhrWsHorarioTab;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsHorarioTabAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsHorarioTabAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifRequest request)
         {
             return base.Channel.ZhrWsIdentifAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifResponse1> ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentif ZhrWsIdentif)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifResponse1> ZhrWsIdentifAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentif ZhrWsIdentif)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsIdentifRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsIdentifRequest();
             inValue.ZhrWsIdentif = ZhrWsIdentif;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsIdentifAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsIdentifAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataRequest request)
         {
             return base.Channel.ZhrWsPersonalDataAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataResponse1> ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalData ZhrWsPersonalData)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataResponse1> ZhrWsPersonalDataAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalData ZhrWsPersonalData)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsPersonalDataRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsPersonalDataRequest();
             inValue.ZhrWsPersonalData = ZhrWsPersonalData;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsPersonalDataAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsPersonalDataAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsRemunAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsRemunAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunRequest request)
         {
             return base.Channel.ZhrWsRemunAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunResponse1> ZhrWsRemunAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemun ZhrWsRemun)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunResponse1> ZhrWsRemunAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemun ZhrWsRemun)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsRemunRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsRemunRequest();
             inValue.ZhrWsRemun = ZhrWsRemun;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsRemunAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsRemunAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgRequest request)
         {
             return base.Channel.ZhrWsAtribOrgAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgResponse1> ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrg ZhrWsAtribOrg)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgResponse1> ZhrWsAtribOrgAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrg ZhrWsAtribOrg)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAtribOrgRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAtribOrgRequest();
             inValue.ZhrWsAtribOrg = ZhrWsAtribOrg;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsAtribOrgAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsAtribOrgAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorRequest request)
         {
             return base.Channel.ZhrWsCondecorAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorResponse1> ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecor ZhrWsCondecor)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorResponse1> ZhrWsCondecorAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecor ZhrWsCondecor)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsCondecorRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsCondecorRequest();
             inValue.ZhrWsCondecor = ZhrWsCondecor;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsCondecorAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsCondecorAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaRequest request)
         {
             return base.Channel.ZhrWsGetViaturaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaResponse1> ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViatura ZhrWsGetViatura)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaResponse1> ZhrWsGetViaturaAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViatura ZhrWsGetViatura)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetViaturaRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetViaturaRequest();
             inValue.ZhrWsGetViatura = ZhrWsGetViatura;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetViaturaAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetViaturaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapRequest request)
         {
             return base.Channel.ZhrWsGeadapAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapResponse1> ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadap ZhrWsGeadap)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapResponse1> ZhrWsGeadapAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadap ZhrWsGeadap)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGeadapRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGeadapRequest();
             inValue.ZhrWsGeadap = ZhrWsGeadap;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGeadapAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGeadapAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationRequest request)
         {
             return base.Channel.ZhrWsProfissionalSituationAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationResponse1> ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationResponse1> ZhrWsProfissionalSituationAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituation ZhrWsProfissionalSituation)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsProfissionalSituationRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsProfissionalSituationRequest();
             inValue.ZhrWsProfissionalSituation = ZhrWsProfissionalSituation;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsProfissionalSituationAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsProfissionalSituationAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesRequest request)
         {
             return base.Channel.ZhrWsAumentosDiminuicoesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesResponse1> ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesResponse1> ZhrWsAumentosDiminuicoesAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoes ZhrWsAumentosDiminuicoes)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsAumentosDiminuicoesRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsAumentosDiminuicoesRequest();
             inValue.ZhrWsAumentosDiminuicoes = ZhrWsAumentosDiminuicoes;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsAumentosDiminuicoesAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsAumentosDiminuicoesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsContratoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsContratoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoRequest request)
         {
             return base.Channel.ZhrWsContratoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoResponse1> ZhrWsContratoAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContrato ZhrWsContrato)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoResponse1> ZhrWsContratoAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContrato ZhrWsContrato)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsContratoRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsContratoRequest();
             inValue.ZhrWsContrato = ZhrWsContrato;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsContratoAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsContratoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasRequest request)
         {
             return base.Channel.ZhrWsMedidasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasResponse1> ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidas ZhrWsMedidas)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasResponse1> ZhrWsMedidasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidas ZhrWsMedidas)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsMedidasRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsMedidasRequest();
             inValue.ZhrWsMedidas = ZhrWsMedidas;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsMedidasAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsMedidasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsEndComAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsEndComAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComRequest request)
         {
             return base.Channel.ZhrWsEndComAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComResponse1> ZhrWsEndComAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndCom ZhrWsEndCom)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComResponse1> ZhrWsEndComAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndCom ZhrWsEndCom)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsEndComRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsEndComRequest();
             inValue.ZhrWsEndCom = ZhrWsEndCom;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsEndComAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsEndComAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedRequest request)
         {
             return base.Channel.ZhrWsExamesMedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedResponse1> ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMed ZhrWsExamesMed)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedResponse1> ZhrWsExamesMedAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMed ZhrWsExamesMed)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsExamesMedRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsExamesMedRequest();
             inValue.ZhrWsExamesMed = ZhrWsExamesMed;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsExamesMedAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsExamesMedAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempRequest request)
         {
             return base.Channel.ZhrWsGetIndicacoesTempAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempResponse1> ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempResponse1> ZhrWsGetIndicacoesTempAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTemp ZhrWsGetIndicacoesTemp)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetIndicacoesTempRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetIndicacoesTempRequest();
             inValue.ZhrWsGetIndicacoesTemp = ZhrWsGetIndicacoesTemp;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetIndicacoesTempAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetIndicacoesTempAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeRequest request)
         {
             return base.Channel.ZhrWsGetListaUnidadeAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeResponse1> ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeResponse1> ZhrWsGetListaUnidadeAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidade ZhrWsGetListaUnidade)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsGetListaUnidadeRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsGetListaUnidadeRequest();
             inValue.ZhrWsGetListaUnidade = ZhrWsGetListaUnidade;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsGetListaUnidadeAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsGetListaUnidadeAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS.ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws.ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosRequest request)
         {
             return base.Channel.ZhrWsTemposServicosAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosResponse1> ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicos ZhrWsTemposServicos)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosResponse1> ZhrWsTemposServicosAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicos ZhrWsTemposServicos)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZhrWsTemposServicosRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Dados.ZhrWsTemposServicosRequest();
             inValue.ZhrWsTemposServicos = ZhrWsTemposServicos;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Dados.ZHR_WS)(this)).ZhrWsTemposServicosAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Dados.zhr_ws)(this)).ZhrWsTemposServicosAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -22872,7 +21917,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WSQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
@@ -22886,27 +21931,27 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WSQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS))
             {
-                return new System.ServiceModel.EndpointAddress("http://esb-lb-soa.marinha.pt:8301/ZHR_EPR");
+                return new System.ServiceModel.EndpointAddress("http://paas-01.marinha.pt/ZHR_EPR/");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
         
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return ZHR_WSClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WSQSPort);
+            return zhr_wsClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WS);
         }
         
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return ZHR_WSClient.GetEndpointAddress(EndpointConfiguration.ZHR_WSQSPort);
+            return zhr_wsClient.GetEndpointAddress(EndpointConfiguration.ZHR_WS);
         }
         
         public enum EndpointConfiguration
         {
             
-            ZHR_WSQSPort,
+            ZHR_WS,
         }
     }
 }

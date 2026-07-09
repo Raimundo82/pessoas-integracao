@@ -1,4 +1,4 @@
-namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
+namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 public partial class ZhrSAptidaoOutput : ZhrSBaseModelOutput, IOutputModel { }
 
