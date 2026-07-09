@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
+namespace Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif")]
     public interface zhr_ws_descodif
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zhr_ws_descodif:ZhrWsDescodifica" +
             "dorasRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasResponse1> ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasRequest request);
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasResponse1> ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasRequest request);
     }
     
     /// <remarks/>
@@ -456,13 +456,13 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras;
         
         public ZhrWsDescodificadorasRequest()
         {
         }
         
-        public ZhrWsDescodificadorasRequest(Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras)
+        public ZhrWsDescodificadorasRequest(Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras)
         {
             this.ZhrWsDescodificadoras = ZhrWsDescodificadoras;
         }
@@ -476,26 +476,26 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", Order=0)]
-        public Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasResponse ZhrWsDescodificadorasResponse;
+        public Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasResponse ZhrWsDescodificadorasResponse;
         
         public ZhrWsDescodificadorasResponse1()
         {
         }
         
-        public ZhrWsDescodificadorasResponse1(Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasResponse ZhrWsDescodificadorasResponse)
+        public ZhrWsDescodificadorasResponse1(Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasResponse ZhrWsDescodificadorasResponse)
         {
             this.ZhrWsDescodificadorasResponse = ZhrWsDescodificadorasResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public interface zhr_ws_descodifChannel : Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif, System.ServiceModel.IClientChannel
+    public interface zhr_ws_descodifChannel : Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    public partial class zhr_ws_descodifClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif>, Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif
+    public partial class zhr_ws_descodifClient : System.ServiceModel.ClientBase<Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif>, Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif
     {
         
         /// <summary>
@@ -508,7 +508,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
         public zhr_ws_descodifClient() : 
                 base(zhr_ws_descodifClient.GetDefaultBinding(), zhr_ws_descodifClient.GetDefaultEndpointAddress())
         {
-            this.Endpoint.Name = EndpointConfiguration.ZHR_WS_DESCODIFQSPort.ToString();
+            this.Endpoint.Name = EndpointConfiguration.ZHR_WS_DESCODIF.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
@@ -539,16 +539,16 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasResponse1> Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif.ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasRequest request)
+        System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasResponse1> Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif.ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasRequest request)
         {
             return base.Channel.ZhrWsDescodificadorasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasResponse1> ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras)
+        public System.Threading.Tasks.Task<Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasResponse1> ZhrWsDescodificadorasAsync(Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadoras ZhrWsDescodificadoras)
         {
-            Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasRequest inValue = new Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.ZhrWsDescodificadorasRequest();
+            Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasRequest inValue = new Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.ZhrWsDescodificadorasRequest();
             inValue.ZhrWsDescodificadoras = ZhrWsDescodificadoras;
-            return ((Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras.zhr_ws_descodif)(this)).ZhrWsDescodificadorasAsync(inValue);
+            return ((Pessoas.Integracao.Sync.Application.ZhrModels.Descodificadoras.zhr_ws_descodif)(this)).ZhrWsDescodificadorasAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -565,7 +565,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DESCODIFQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DESCODIF))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
@@ -579,27 +579,27 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Models.Descodificadoras
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DESCODIFQSPort))
+            if ((endpointConfiguration == EndpointConfiguration.ZHR_WS_DESCODIF))
             {
-                return new System.ServiceModel.EndpointAddress("http://esb-lb-soa.marinha.pt:8301/ZHR_descodif_EPR");
+                return new System.ServiceModel.EndpointAddress("http://paas-01.marinha.pt/ZHR_descodif_EPR");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
         
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return zhr_ws_descodifClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WS_DESCODIFQSPort);
+            return zhr_ws_descodifClient.GetBindingForEndpoint(EndpointConfiguration.ZHR_WS_DESCODIF);
         }
         
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return zhr_ws_descodifClient.GetEndpointAddress(EndpointConfiguration.ZHR_WS_DESCODIFQSPort);
+            return zhr_ws_descodifClient.GetEndpointAddress(EndpointConfiguration.ZHR_WS_DESCODIF);
         }
         
         public enum EndpointConfiguration
         {
             
-            ZHR_WS_DESCODIFQSPort,
+            ZHR_WS_DESCODIF,
         }
     }
 }

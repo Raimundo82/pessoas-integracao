@@ -1,5 +1,4 @@
-namespace Pessoas.Integracao.Sync.Infrastructure.Models.Dados;
-
+namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 public interface IZhrWsBaseResponse { }
 
