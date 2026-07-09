@@ -28,20 +28,25 @@ gantt
     todayMarker on
 
     section Sync
-    Contrato de consumo (modelo + interface adaptadores)        :active,  s3, 2026-07-08, 5d
-    Componente de obtenção + persistência de dados por PERNR/NI :         s4, after s3, 10d
-    Componente de processamento de deltas                       :         s5, after s4, 10d
-    Feat atualização PERNR/NI ativos                            :         s6, after s5, 10d
-    Feat adicionar PERNR/NI ccom validação WS SIGDN-RH          :         s7, after s6, 10d
+    Contrato de consumo (modelo + interface provider)           :active,  s3, 2026-07-08, 5d
+    Implementação concreta provider de consumo                  :         s4, after s3, 5d 
+    Componente de obtenção + persistência de dados por PERNR/NI :         s5, after s4, 10d
+    Componente de processamento de deltas                       :         s6, after s5, 10d
+    Feat atualização PERNR/NI ativos                            :         s7, after s6, 10d
+    Feat adicionar PERNR/NI ccom validação WS SIGDN-RH          :         s8, after s7, 10d
 
     section Analítica
-    Implementar adaptador SYNC A2DIP                            :active,  an3, after s3, 10d
-    Transformação modelo SYNC em A2DIP                          :         an4, after an3, 10d
-    Orquestrar persistência dados A2DIP                         :         an5, after an4, 10d
-    Feat ingestão massiva                                       :         an6, after an5 s7, 10d  
+    Transformação modelo Sync em A2DIP                          :active,  an3, after s3, 10d
+    Orquestrar persistência dados A2DIP                         :         an4, after an3, 10d
+    Implementar adaptador/orquestrador Sync -> A2DIP            :         an5, after an4, 10d                                 
+    Feat ingestão massiva                                       :         an6, after an5 s7, 10d
+
+    section Orquestração
+    Criar ponto de entrada aplicacional (Host)                  :         o1, after an6 s8, 2d
+    Adicionar e efetuar injecção de depêndencias (DI)           :         o2, after o1, 5d
 
     section Deploy
-    Deploy Staging (ETS)                                        :         dep1, after an6, 5d
+    Deploy Staging (ETS)                                        :         dep1, after o2, 5d
     Testes E2E - Staging                                        :         e2e1, after dep1, 5d
     Preparação/Migração BD - Produção (EPR)                     :         mig, after e2e1, 2d
     Deploy Produção (EPR)                                       :         dep2, after mig, 10d
