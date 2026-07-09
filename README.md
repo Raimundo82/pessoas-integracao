@@ -20,11 +20,12 @@
 Plano de curto prazo até à próxima entrega.
 
 ```mermaid
-
 gantt
     title Roadmap - Transformação e Persistência de dados SIGDN-RH para A2DIP
     dateFormat  YYYY-MM-DD
     axisFormat  %d/%m
+    tickInterval 1week
+    weekday friday
     todayMarker on
 
     section Sync
@@ -42,11 +43,12 @@ gantt
     Feat ingestão massiva                                       :         an6, after an5 s7, 10d
 
     section Orquestração
-    Criar ponto de entrada aplicacional (Host)                  :         o1, after an6 s8, 2d
-    Adicionar e efetuar injecção de depêndencias (DI)           :         o2, after o1, 5d
+    Criar ponto de entrada aplicacional (Host)                  :         o1, after an6 s8, 1d
+    Adicionar e efetuar injecção de depêndencias (DI)           :         o2, after o1, 3d
+    Orquestrar caso de uso de atualização diária                :         o3, after o2, 3d
 
     section Deploy
-    Deploy Staging (ETS)                                        :         dep1, after o2, 5d
+    Deploy Staging (ETS)                                        :         dep1, after o3, 5d
     Testes E2E - Staging                                        :         e2e1, after dep1, 5d
     Preparação/Migração BD - Produção (EPR)                     :         mig, after e2e1, 2d
     Deploy Produção (EPR)                                       :         dep2, after mig, 10d
