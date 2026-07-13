@@ -15,7 +15,8 @@ public class ZhrAptidaoEnricher(ZhrSDbContext dbContext) : IZhrOutputsEnricher
         IReadOnlyList<ZhrOutput> zhrOutputs,
         CancellationToken ct)
     {
-        var niis = pessoaSyncRefs.Select(p => p.Ni);
+        var niis = pessoaSyncRefs.Select(p => p.Ni).ToList();
+
         var aptidoes = await dbContext
             .Set<ZhrSAptidao>()
             .Where(item => niis.Contains(item.Ni))

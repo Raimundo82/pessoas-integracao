@@ -12,7 +12,7 @@ public class ZhrPersonalDataEnricher(ZhrSDbContext dbContext) : IZhrOutputsEnric
 
     public async Task EnrichAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct)
     {
-        var niis = pessoaSyncRefs.Select(p => p.Ni);
+        var niis = pessoaSyncRefs.Select(p => p.Ni).ToList();
         var pessoais = await dbContext.Set<ZhrSPessoais>().Where(item => niis.Contains(item.Ni)).ToListAsync(cancellationToken: ct);
         var familias = await dbContext.Set<ZhrSFamilia>().Where(item => niis.Contains(item.Ni)).ToListAsync(cancellationToken: ct);
         var outrosDados = await dbContext.Set<ZhrSOutrosdados>().Where(item => niis.Contains(item.Ni)).ToListAsync(cancellationToken: ct);
