@@ -6,10 +6,10 @@ public class ZhrOutput
 {
     public required string Ni { get; init; }
     public required string ExternalId { get; init; }
-    public IReadOnlyList<ZhrSAptidao> Aptidoes { get; init; } = [];
-    public IReadOnlyList<ZhrSPessoais> Pessoais { get; init; } = [];
-    public IReadOnlyList<ZhrSFamilia> Familias { get; init; } = [];
-    public IReadOnlyList<ZhrSOutrosdados> OutrosDados { get; init; } = [];
-    public IReadOnlyList<ZhrSDeficiencias> Deficiencias { get; init; } = [];
+    public List<ZhrSAptidao> Aptidoes { get; init; } = [];
+    public List<ZhrSPessoais> Pessoais { get; init; } = [];
+    public List<ZhrSFamilia> Familias { get; init; } = [];
+    public List<ZhrSOutrosdados> OutrosDados { get; init; } = [];
+    public List<ZhrSDeficiencias> Deficiencias { get; init; } = [];
 
 }
