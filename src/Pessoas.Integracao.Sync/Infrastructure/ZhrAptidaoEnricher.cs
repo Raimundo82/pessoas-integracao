@@ -22,9 +22,11 @@ public class ZhrAptidaoEnricher(ZhrSDbContext dbContext) : IZhrOutputsEnricher
             .Where(item => niis.Contains(item.Ni))
             .ToListAsync(cancellationToken: ct);
 
+        var aptidoesLookup = aptidoes.ToLookup(p => p.Ni);
+
         foreach (var output in zhrOutputs)
         {
-            output.Aptidoes.AddRange(aptidoes.Where(p => p.Ni == output.Ni));
+            output.Aptidoes.AddRange(aptidoesLookup[output.Ni]);
         }
     }
 }
