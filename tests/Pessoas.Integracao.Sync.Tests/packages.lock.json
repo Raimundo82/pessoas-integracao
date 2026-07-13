@@ -684,7 +684,7 @@
           "EFCore.BulkExtensions.Core": "[10.0.1, )",
           "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
           "Microsoft.EntityFrameworkCore": "[10.0.9, )",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.2, )"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.3, )"
         }
       },
       "pessoas.integracao.core": {
@@ -693,7 +693,7 @@
           "EFCore.BulkExtensions.Core": "[10.0.1, )",
           "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
           "Microsoft.EntityFrameworkCore": "[10.0.9, )",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.2, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.3, )",
           "System.Security.Cryptography.Xml": "[10.0.9, )"
         }
       },
@@ -715,7 +715,7 @@
         "dependencies": {
           "DatabaseSchemaReader": "[2.22.0, )",
           "Microsoft.EntityFrameworkCore": "[10.0.9, )",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.2, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.3, )",
           "Pessoas.Integracao.Analitica": "[1.0.0, )",
           "Pessoas.Integracao.Core": "[1.0.0, )",
           "Pessoas.Integracao.Sync": "[1.0.0, )",
@@ -799,9 +799,9 @@
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
         "type": "CentralTransitive",
-        "requested": "[10.0.2, )",
-        "resolved": "10.0.2",
-        "contentHash": "PsNYgPOSW41Xx19gin7y4EdZAPteWr9Cb01XkdObxOsPzi+mgBupBEN7J7+erXFsROPOILM7MlIoO9QzL8+LGQ==",
+        "requested": "[10.0.3, )",
+        "resolved": "10.0.3",
+        "contentHash": "IPGrrZnRkuW7OlHDhUESZz4G5DLkW7Nej/O3Cx+0iTsgyU5XJxBgpsvTHLloo3WWuAKKbDHXBvWPVkX1deRh1Q==",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "[10.0.4, 11.0.0)",
           "Microsoft.EntityFrameworkCore.Relational": "[10.0.4, 11.0.0)",
