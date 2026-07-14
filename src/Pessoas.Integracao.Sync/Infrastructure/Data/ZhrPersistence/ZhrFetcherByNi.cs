@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 
-public sealed class ZhrFetcherByNi(ZhrSDbContext dbContext)
+public sealed class ZhrFetcherByNi(ZhrSDbContext dbContext) : IZhrFetcherByNi
 {
     private const int BatchSize = 1_000;
 
