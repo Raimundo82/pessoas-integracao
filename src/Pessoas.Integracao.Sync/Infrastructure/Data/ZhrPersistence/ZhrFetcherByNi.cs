@@ -13,7 +13,7 @@ public sealed class ZhrFetcherByNi(ZhrSDbContext dbContext)
             CancellationToken ct
         ) where T : ZhrSBaseModel
     {
-        var nis = pessoaSyncRefs.Select(p => p.Ni).ToList();
+        var nis = pessoaSyncRefs.Select(p => p.Ni);
         return await dbContext.Set<T>()
             .Where(x => nis.Contains(x.Ni))
             .ToListAsync(cancellationToken: ct);
