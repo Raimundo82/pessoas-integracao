@@ -1,22 +1,19 @@
 namespace Pessoas.Integracao.Sync.Infrastructure;
 
-using Microsoft.EntityFrameworkCore;
-
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Infrastructure.Data;
+using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 
-public class ZhrPersonalDataEnricher(ZhrSDbContext dbContext) : IZhrOutputsEnricher
+public class ZhrPersonalDataEnricher(ZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnricher
 {
 
     public async Task EnrichAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct)
     {
-        var niis = pessoaSyncRefs.Select(p => p.Ni).ToList();
-        var pessoaisTask = dbContext.Set<ZhrSPessoais>().Where(i => niis.Contains(i.Ni)).ToListAsync(ct);
-        var familiasTask = dbContext.Set<ZhrSFamilia>().Where(i => niis.Contains(i.Ni)).ToListAsync(ct);
-        var outrosDadosTask = dbContext.Set<ZhrSOutrosdados>().Where(i => niis.Contains(i.Ni)).ToListAsync(ct);
-        var deficienciasTask = dbContext.Set<ZhrSDeficiencias>().Where(i => niis.Contains(i.Ni)).ToListAsync(ct);
+        var pessoaisTask = zhrFetcherByNi.ExecuteAsync<ZhrSPessoais>(pessoaSyncRefs, ct);
+        var familiasTask = zhrFetcherByNi.ExecuteAsync<ZhrSFamilia>(pessoaSyncRefs, ct);
+        var outrosDadosTask = zhrFetcherByNi.ExecuteAsync<ZhrSOutrosdados>(pessoaSyncRefs, ct);
+        var deficienciasTask = zhrFetcherByNi.ExecuteAsync<ZhrSDeficiencias>(pessoaSyncRefs, ct);
 
         await Task.WhenAll(pessoaisTask, familiasTask, outrosDadosTask, deficienciasTask);
 
