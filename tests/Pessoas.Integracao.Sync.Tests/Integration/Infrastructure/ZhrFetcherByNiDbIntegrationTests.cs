@@ -152,7 +152,7 @@ public sealed class ZhrFetcherByNiDbIntegrationTests(PostgresTestContainerDb db)
     {
         // Arrange
         var inputs = new List<PessoaSyncRef>();
-        for (int i = 0; i < 1_000; i++)
+        for (int i = 0; i < 10_000; i++)
         {
             string ni = $"000{i}", externalId = $"3000{i}";
             inputs.Add(new PessoaSyncRef { Ni = ni, ExternalId = externalId });
@@ -164,6 +164,6 @@ public sealed class ZhrFetcherByNiDbIntegrationTests(PostgresTestContainerDb db)
         var result = await new ZhrFetcherByNi(actContext).ExecuteAsync<ZhrSAptidao>(inputs, _ct);
 
         // Assert
-        result.Should().HaveCount(1000);
+        result.Should().HaveCount(10_000);
     }
 }
