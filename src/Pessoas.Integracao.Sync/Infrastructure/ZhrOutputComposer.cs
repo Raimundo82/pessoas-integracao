@@ -1,6 +1,7 @@
 
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 
 namespace Pessoas.Integracao.Sync.Infrastructure;
 

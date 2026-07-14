@@ -1,6 +1,7 @@
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
-namespace Pessoas.Integracao.Sync.Infrastructure;
+
+namespace Pessoas.Integracao.Sync.Infrastructure.Contracts;
 
 public interface IZhrOutputsEnricher
 {
