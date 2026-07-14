@@ -1,11 +1,9 @@
-namespace Pessoas.Integracao.Sync.Infrastructure;
-
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 
+namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enrichers;
 
 public class ZhrAptidaoEnricher(ZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnricher
 {
