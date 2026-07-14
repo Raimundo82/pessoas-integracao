@@ -148,7 +148,7 @@ public sealed class ZhrFetcherByNiDbIntegrationTests(PostgresTestContainerDb db)
     }
 
     [Fact]
-    public async Task ShouldReturnLargeList_WhenInputIsLarge()
+    public async Task ShouldReturnAllRecords_WhenProcessingLargeInput()
     {
         // Arrange
         var inputs = new List<PessoaSyncRef>();
@@ -166,5 +166,4 @@ public sealed class ZhrFetcherByNiDbIntegrationTests(PostgresTestContainerDb db)
         // Assert
         result.Should().HaveCount(1000);
     }
-
 }
