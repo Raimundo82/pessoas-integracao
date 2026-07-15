@@ -13,7 +13,7 @@ using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enric
 public sealed class ZhrAptidaoEnricherTests
 {
     [Fact]
-    public async Task ShouldPopulateAllAptidaoLists_WhenMatchingRecordsExistInDatabase()
+    public async Task ShouldPopulateAllAptidaoLists_WhenMatchingRecordsExistInDb()
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
@@ -26,11 +26,11 @@ public sealed class ZhrAptidaoEnricherTests
                 ct: TestContext.Current.CancellationToken))
             .ReturnsAsync(aptidoesFetcher);
 
-        var results = new List<ZhrOutput> { new() { Ni = "0001", ExternalId = "30001" } };
+        var zhrOutputs = new List<ZhrOutput> { new() { Ni = "0001", ExternalId = "30001" } };
         var uut = new ZhrAptidaoEnricher(zhrFetcherByNiMock.Object);
 
         // Act
-        await uut.EnrichAsync(pessoaSyncRefs, results, TestContext.Current.CancellationToken);
+        var result = await uut.EnrichAsync(pessoaSyncRefs, zhrOutputs, TestContext.Current.CancellationToken);
 
         // Assert
         zhrFetcherByNiMock.Verify(x => x.ExecuteAsync<ZhrSAptidao>(
@@ -38,7 +38,46 @@ public sealed class ZhrAptidaoEnricherTests
             ct: TestContext.Current.CancellationToken),
             Times.Once);
 
-        results.Should().ContainSingle();
-        results[0].Aptidoes.Should().ContainSingle().Which.Should().BeEquivalentTo(aptidoesFetcher[0]);
+        result.Should().ContainSingle();
+        result[0].Aptidoes.Should().ContainSingle().Which.Should().BeEquivalentTo(aptidoesFetcher[0]);
+    }
+
+    [Fact]
+    public async Task ShouldPopulateAptidoesAndPreserveExistingData_WhenMatchingRecordsExistInDb()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
+        var aptidoesFetcher = new List<ZhrSAptidao> { new() { Ni = "0001", ArexamesDesc = "Test Aptidao" } };
+
+        var zhrFetcherByNiMock = new Mock<IZhrFetcherByNi>();
+        zhrFetcherByNiMock
+            .Setup(x => x.ExecuteAsync<ZhrSAptidao>(
+                pessoaSyncRefs,
+                ct: TestContext.Current.CancellationToken))
+            .ReturnsAsync(aptidoesFetcher);
+
+        var zhrOutputs = new List<ZhrOutput>
+        {
+            new()
+            {
+                Ni = "0001",
+                ExternalId = "30001",
+                Pessoais = [new() {  Ni = "0001", Nome = "Test User"}],
+            }
+        };
+
+        var uut = new ZhrAptidaoEnricher(zhrFetcherByNiMock.Object);
+
+        // Act
+        var result = await uut.EnrichAsync(pessoaSyncRefs, zhrOutputs, TestContext.Current.CancellationToken);
+
+        // Assert
+        zhrFetcherByNiMock.Verify(x => x.ExecuteAsync<ZhrSAptidao>(
+            pessoaSyncRefs,
+            ct: TestContext.Current.CancellationToken),
+            Times.Once);
+
+        result.Should().ContainSingle();
+        result[0].Aptidoes.Should().ContainSingle().Which.Should().BeEquivalentTo(aptidoesFetcher[0]);
     }
 }
