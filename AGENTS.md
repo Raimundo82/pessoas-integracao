@@ -91,7 +91,7 @@ This project is the heart of the system and is divided into three main areas:
 
 ## 8. Guidelines for Commit Messages and PRs
 
-- **Format**: Use conventional commits (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `test:`).
+- **Format**: Use conventional commits (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `test:`). Refer to `GIT_CONVENTIONS.md` for detailed standards and granularity rules.
 - **Clarity**: Commit messages should clearly describe *what* was changed and *why*.
 - **PR Descriptions**: Automated PRs should include a summary of changes and a checklist confirming that tests were run.
 
