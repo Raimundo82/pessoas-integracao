@@ -8,7 +8,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.E
 public class ZhrPersonalDataEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnricher
 {
 
-    public async Task EnrichAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct)
+    public async Task<IReadOnlyList<ZhrOutput>> EnrichAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct)
     {
         var pessoaisTask = zhrFetcherByNi.ExecuteAsync<ZhrSPessoais>(pessoaSyncRefs, ct);
         var familiasTask = zhrFetcherByNi.ExecuteAsync<ZhrSFamilia>(pessoaSyncRefs, ct);
@@ -29,5 +29,6 @@ public class ZhrPersonalDataEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutpu
             output.OutrosDados.AddRange(outrosDadosLookup[output.Ni]);
             output.Deficiencias.AddRange(deficienciasLookup[output.Ni]);
         }
+        return zhrOutputs;
     }
 }

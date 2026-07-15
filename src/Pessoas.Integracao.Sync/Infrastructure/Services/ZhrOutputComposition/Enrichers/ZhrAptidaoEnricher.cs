@@ -8,7 +8,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.E
 public class ZhrAptidaoEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnricher
 {
 
-    public async Task EnrichAsync(
+    public async Task<IReadOnlyList<ZhrOutput>> EnrichAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         IReadOnlyList<ZhrOutput> zhrOutputs,
         CancellationToken ct)
@@ -17,8 +17,8 @@ public class ZhrAptidaoEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnr
         var aptidoesLookup = aptidoes.ToLookup(p => p.Ni);
 
         foreach (var output in zhrOutputs)
-        {
             output.Aptidoes.AddRange(aptidoesLookup[output.Ni]);
-        }
+
+        return zhrOutputs;
     }
 }

@@ -6,22 +6,21 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 public class ZhrOutputComposer(IEnumerable<IZhrOutputsEnricher> enrichers)
 {
 
-    public async Task<IReadOnlyList<ZhrOutput>> Compose(
+    public async Task<IReadOnlyList<ZhrOutput>> ComposeAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         CancellationToken ct
     )
     {
-        var results = pessoaSyncRefs
+        IReadOnlyList<ZhrOutput> results = [.. pessoaSyncRefs
             .Select(pRef => new ZhrOutput
             {
                 Ni = pRef.Ni,
                 ExternalId = pRef.ExternalId,
-            })
-            .ToList();
+            })];
 
         foreach (var enricher in enrichers)
         {
-            await enricher.EnrichAsync(pessoaSyncRefs, results, ct);
+            results = await enricher.EnrichAsync(pessoaSyncRefs, results, ct);
         }
 
         return results;
