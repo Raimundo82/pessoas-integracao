@@ -48,6 +48,20 @@
           "Testcontainers": "4.13.0"
         }
       },
+      "Verify.XunitV3": {
+        "type": "Direct",
+        "requested": "[31.24.1, )",
+        "resolved": "31.24.1",
+        "contentHash": "5VWdQzhaqycelRFTlefNK0rDsBTq8MA4zoF1klBslkMFaLUUh/Gkw8CVVJXJ4ArExzg3/G60weShll6Gkzy8ig==",
+        "dependencies": {
+          "Argon": "0.35.0",
+          "DiffEngine": "19.3.2",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.9",
+          "SimpleInfoName": "3.2.0",
+          "Verify": "31.24.1",
+          "xunit.v3.extensibility.core": "3.2.2"
+        }
+      },
       "xunit.runner.visualstudio": {
         "type": "Direct",
         "requested": "[3.1.5, )",
@@ -850,20 +864,6 @@
         "dependencies": {
           "Microsoft.Extensions.ObjectPool": "10.0.0",
           "System.Security.Cryptography.Xml": "10.0.0"
-        }
-      },
-      "Verify.XunitV3": {
-        "type": "CentralTransitive",
-        "requested": "[31.24.1, )",
-        "resolved": "31.24.1",
-        "contentHash": "5VWdQzhaqycelRFTlefNK0rDsBTq8MA4zoF1klBslkMFaLUUh/Gkw8CVVJXJ4ArExzg3/G60weShll6Gkzy8ig==",
-        "dependencies": {
-          "Argon": "0.35.0",
-          "DiffEngine": "19.3.2",
-          "Microsoft.Bcl.AsyncInterfaces": "10.0.9",
-          "SimpleInfoName": "3.2.0",
-          "Verify": "31.24.1",
-          "xunit.v3.extensibility.core": "3.2.2"
         }
       },
       "xunit.v3.extensibility.core": {
