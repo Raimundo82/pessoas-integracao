@@ -11,7 +11,7 @@ public class ZhrOutputComposer(IEnumerable<IZhrOutputsEnricher> enrichers)
         CancellationToken ct
     )
     {
-        IReadOnlyList<ZhrOutput> results = [.. pessoaSyncRefs
+        IReadOnlyList<ZhrOutput> zhrOutputs = [.. pessoaSyncRefs
             .Select(pRef => new ZhrOutput
             {
                 Ni = pRef.Ni,
@@ -20,9 +20,9 @@ public class ZhrOutputComposer(IEnumerable<IZhrOutputsEnricher> enrichers)
 
         foreach (var enricher in enrichers)
         {
-            results = await enricher.EnrichAsync(pessoaSyncRefs, results, ct);
+            zhrOutputs = await enricher.EnrichAsync(pessoaSyncRefs, zhrOutputs, ct);
         }
 
-        return results;
+        return zhrOutputs;
     }
 }
