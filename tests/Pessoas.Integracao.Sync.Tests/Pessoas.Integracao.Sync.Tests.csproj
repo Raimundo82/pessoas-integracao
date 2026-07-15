@@ -16,6 +16,7 @@
     <PackageReference Include="Testcontainers.PostgreSql" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Verify.XunitV3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Pessoas.Integracao.Testing\ModuleInitializer.cs" Link="ModuleInitializer.cs" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
     <ProjectReference Include="../../tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
   </ItemGroup>
