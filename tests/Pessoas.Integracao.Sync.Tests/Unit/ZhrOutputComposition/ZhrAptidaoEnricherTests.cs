@@ -80,4 +80,27 @@ public sealed class ZhrAptidaoEnricherTests
         result.Should().ContainSingle();
         result[0].Aptidoes.Should().ContainSingle().Which.Should().BeEquivalentTo(aptidoesFetcher[0]);
     }
+
+    [Fact]
+    public async Task ShouldReturnTheSameInstanceOfZhrOutputs_WhenEnriching()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
+        var zhrOutputs = new List<ZhrOutput> { new() { Ni = "0001", ExternalId = "30001" } };
+
+        var zhrFetcherByNiMock = new Mock<IZhrFetcherByNi>();
+        zhrFetcherByNiMock
+            .Setup(x => x.ExecuteAsync<ZhrSAptidao>(
+                pessoaSyncRefs,
+                ct: TestContext.Current.CancellationToken))
+            .ReturnsAsync([]);
+
+        var uut = new ZhrAptidaoEnricher(zhrFetcherByNiMock.Object);
+
+        // Act
+        var result = await uut.EnrichAsync(pessoaSyncRefs, zhrOutputs, TestContext.Current.CancellationToken);
+
+        // Assert
+        result.Should().BeSameAs(zhrOutputs);
+    }
 }
