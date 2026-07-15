@@ -17,10 +17,10 @@ public class ZhrPersonalDataEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutpu
 
         await Task.WhenAll(pessoaisTask, familiasTask, outrosDadosTask, deficienciasTask);
 
-        var pessoaisLookup = pessoaisTask.Result.ToLookup(p => p.Ni);
-        var familiasLookup = familiasTask.Result.ToLookup(f => f.Ni);
-        var outrosDadosLookup = outrosDadosTask.Result.ToLookup(o => o.Ni);
-        var deficienciasLookup = deficienciasTask.Result.ToLookup(d => d.Ni);
+        var pessoaisLookup = (await pessoaisTask).ToLookup(p => p.Ni);
+        var familiasLookup = (await familiasTask).ToLookup(f => f.Ni);
+        var outrosDadosLookup = (await outrosDadosTask).ToLookup(o => o.Ni);
+        var deficienciasLookup = (await deficienciasTask).ToLookup(d => d.Ni);
 
         foreach (var output in zhrOutputs)
         {
