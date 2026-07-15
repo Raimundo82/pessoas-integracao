@@ -1,5 +1,6 @@
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enrichers;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 
