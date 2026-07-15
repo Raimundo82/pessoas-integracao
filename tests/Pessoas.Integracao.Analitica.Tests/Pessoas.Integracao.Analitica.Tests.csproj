@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Pessoas.Integracao.Testing\ModuleInitializer.cs" Link="ModuleInitializer.cs" />
     <ProjectReference Include="..\Pessoas.Integracao.Testing\Pessoas.Integracao.Testing.csproj" />
     <ProjectReference
       Include="..\..\src\Pessoas.Integracao.Analitica\Pessoas.Integracao.Analitica.csproj" />
