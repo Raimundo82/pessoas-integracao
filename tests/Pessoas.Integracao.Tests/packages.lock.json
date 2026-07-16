@@ -604,7 +604,7 @@
           "Keycloak.AuthServices.Authentication": "[3.0.0, )",
           "Keycloak.AuthServices.Common": "[3.0.0, )",
           "Microsoft.AspNetCore.OpenApi": "[10.0.10, )",
-          "Microsoft.OpenApi": "[2.10.0, )",
+          "Microsoft.OpenApi": "[2.11.0, )",
           "NSwag.AspNetCore": "[14.7.1, )",
           "Pessoas.Integracao.Core": "[1.0.0, )",
           "Pessoas.Integracao.Worker": "[1.0.0, )"
@@ -701,9 +701,9 @@
       },
       "Microsoft.OpenApi": {
         "type": "CentralTransitive",
-        "requested": "[2.10.0, )",
-        "resolved": "2.10.0",
-        "contentHash": "tD7ve8JrWfJ+aRfW7J9yDj8t6pbMOzdr8nSc5BlIZaIRxqZZ67RJ8J69//Tx6HHSNFsqomBbipkPP20opnqvMg=="
+        "requested": "[2.11.0, )",
+        "resolved": "2.11.0",
+        "contentHash": "/ignjfdeKT2SGLIR7QEv19KnI0rvoxRG/TYDOZdK9EsWLjKK9IK8i1Mo5NRm9PRV3i64DzlTqnIflWvoyfljLg=="
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
         "type": "CentralTransitive",
