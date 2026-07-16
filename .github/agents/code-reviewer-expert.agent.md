@@ -29,8 +29,19 @@ You are an expert software architect and code reviewer for the Pessoas-Integraca
    - Verify that Conventional Commits are used (refer to `GIT_CONVENTIONS.md`).
    - Check for null handling and exception logging in public endpoints.
 5. **Design & Best Practices**:
-   - **SOLID Principles**: Verify that classes have a single responsibility, interfaces are lean, and dependencies are injected.
-   - **Clean Design**: Check for appropriate use of design patterns (e.g., Strategy, Factory, Repository) and avoid "God Classes" or overly complex methods.
+   - **SOLID Principles**:
+     - **SRP**: Search for "God Classes" or "God Mappers" that orchestrate too many different domain entities. If a class is doing too much, mandate decomposition.
+     - **OCP**: Ask: "If a new entity or field is added, how many files must change? Does it require modifying existing logic?" Flag designs that require modifying a central orchestrator for every new entity.
+     - **LSP**: Check if derived classes change the behavior of base classes in a way that breaks the calling code. Look for `NotImplementedException` in overridden methods.
+     - **ISP**: Check if interfaces are too "fat". Are classes forced to implement methods they don't need? Suggest splitting large interfaces into smaller, more specific ones.
+     - **DIP**: Verify that high-level modules do not depend on low-level modules.
+   - **Clean Design**:
+     - Identify "Design Smells": Large switch statements, long lists of repetitive mapping methods, or classes that grow linearly with the number of entities.
+     - Suggest appropriate patterns (e.g., Strategy, Composite, Factory) when a monolithic approach is detected.
+   - **Design Pattern Analysis**: Actively seek opportunities to replace primitive logic with formal design patterns.
+     - **Problem Mapping**: Identify the core problem (e.g., "varying business rules," "complex object creation," "multiple data sources").
+     - **Pattern Evaluation**: If the solution uses primitive constructs (long `if/else`, `switch`, or monolithic orchestrators), evaluate if a pattern (e.g., Strategy, State, Command, Visitor, Observer) would increase maintainability.
+     - **Anti-Overengineering**: Ensure the suggested pattern solves a real problem and doesn't introduce unnecessary complexity. Justify the trade-off between simplicity and extensibility.
    - **Code Quality**: Ensure the code is readable, maintainable, and follows .NET coding conventions.
    - **Complexity**: Flag any high cyclomatic complexity or redundant logic.
 6. **Security & Performance**:
