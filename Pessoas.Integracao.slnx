@@ -10,6 +10,7 @@
     <Project Path="src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <Project Path="src/Pessoas.Integracao.Consulta/Pessoas.Integracao.Consulta.csproj" />
     <Project Path="src/Pessoas.Integracao.Sync/Pessoas.Integracao.Sync.csproj" />
+    <Project Path="src/Pessoas.Integracao.Analitica/Pessoas.Integracao.Analitica.csproj"/>
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Pessoas.Integracao.Testing/Pessoas.Integracao.Testing.csproj" />
