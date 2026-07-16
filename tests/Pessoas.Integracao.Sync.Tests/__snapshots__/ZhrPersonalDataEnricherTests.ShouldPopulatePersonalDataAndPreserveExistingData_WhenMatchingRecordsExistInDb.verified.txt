@@ -1,0 +1,36 @@
+﻿[
+  {
+    Ni: 0001,
+    ExternalId: 30001,
+    Aptidoes: [
+      {
+        AreaExame: Test Aptidao,
+        Ni: 0001
+      }
+    ],
+    Pessoais: [
+      {
+        Nome: Test User,
+        Ni: 0001
+      }
+    ],
+    Familias: [
+      {
+        Fanam: Test Familia,
+        Ni: 0001
+      }
+    ],
+    OutrosDados: [
+      {
+        Aus10: Test,
+        Ni: 0001
+      }
+    ],
+    Deficiencias: [
+      {
+        Descricao: Test Deficiencia,
+        Ni: 0001
+      }
+    ]
+  }
+]
