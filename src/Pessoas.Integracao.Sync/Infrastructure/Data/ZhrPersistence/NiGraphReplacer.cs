@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
 
-public sealed class NiGraphReplacer(ZhrSDbContext dbContext)
+public sealed class NiGraphReplacer(ZhrSDbContext dbContext) : IZhrPersistenceReplacer
 {
     private readonly ZhrSDbContext _context = dbContext;
     public async Task ExecuteAsync<T>(

@@ -5,7 +5,7 @@ using EFCore.BulkExtensions;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
 
-public sealed class BulkTableReplacer(ZhrSDbContext dbContext)
+public sealed class BulkTableReplacer(ZhrSDbContext dbContext) : IZhrPersistenceReplacer
 {
     public async Task ExecuteAsync<T>(
             IReadOnlyList<T> roots,
