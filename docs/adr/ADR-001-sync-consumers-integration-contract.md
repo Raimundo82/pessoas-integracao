@@ -7,11 +7,11 @@ Accepted
 ## Contexto
 
 O componente Sync é responsável por obter, normalizar e persistir dados do SAP SIGDN-RH. Existem dois consumidores (PIIP e A2DIP) que precisam de aceder a esses dados no seu próprio formato, sem conhecer detalhes do SAP ou da infraestrutura do Sync.
-Os modelos ZhrS* viviam na Infrastructure do Sync, o que impedia a sua utilização como contrato estável entre componentes.
+Os modelos ZhrS\* viviam na Infrastructure do Sync, o que impedia a sua utilização como contrato estável entre componentes.
 
 ## Decisão
 
-### 1. Promoção dos modelos ZhrS* para Application
+### 1. Promoção dos modelos ZhrS\* para Application
 
 Os modelos `ZhrSBaseModel`, `ZhrSBaseModelOutput` e todos os tipos concretos (`ZhrSAptidao`, `ZhrSPessoais`, etc.) são promovidos de `Infrastructure` para `Application/Models`, tornando-os independentes de detalhes de persistência.
 
