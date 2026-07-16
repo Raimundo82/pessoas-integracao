@@ -1,10 +1,11 @@
 using FluentAssertions;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
+using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
@@ -158,11 +159,13 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
         childrenResult.Should().BeEmpty();
     }
 
-
-    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
-        where TOutput : ZhrSBaseModelOutput, IOutputModel
+    private async Task ExecuteAsync<TOutput>(
+        TOutput[] outputs,
+        IReadOnlyList<ZhrSBaseModel[]> children
+    ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new NiGraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
+        IZhrPersistenceReplacer replacer = new NiGraphReplacer(context);
+        await replacer.ExecuteAsync(outputs, [.. children], _ct);
     }
 }

@@ -1,10 +1,11 @@
 using FluentAssertions;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
+using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
@@ -237,10 +238,13 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         childrenResult.Should().ContainSingle(c => c.Ni == ni && c.AreaExame == "Aptidao1");
     }
 
-    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
-        where TOutput : ZhrSBaseModelOutput, IOutputModel
+    private async Task ExecuteAsync<TOutput>(
+        TOutput[] outputs,
+        IReadOnlyList<ZhrSBaseModel[]> children
+    ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new BulkTableReplacer(context).ExecuteAsync(outputs, children, _ct);
+        IZhrPersistenceReplacer replacer = new BulkTableReplacer(context);
+        await replacer.ExecuteAsync(outputs, children, _ct);
     }
 }
