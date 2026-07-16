@@ -24,10 +24,10 @@ public class ZhrPersonalDataEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutpu
 
         foreach (var output in zhrOutputs)
         {
-            output.Pessoais.AddRange(pessoaisLookup[output.Ni]);
-            output.Familias.AddRange(familiasLookup[output.Ni]);
-            output.OutrosDados.AddRange(outrosDadosLookup[output.Ni]);
-            output.Deficiencias.AddRange(deficienciasLookup[output.Ni]);
+            output.Pessoais = [.. pessoaisLookup[output.Ni]];
+            output.Familias = [.. familiasLookup[output.Ni]];
+            output.OutrosDados = [.. outrosDadosLookup[output.Ni]];
+            output.Deficiencias = [.. deficienciasLookup[output.Ni]];
         }
         return zhrOutputs;
     }

@@ -17,7 +17,7 @@ public class ZhrAptidaoEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnr
         var aptidoesLookup = aptidoes.ToLookup(p => p.Ni);
 
         foreach (var output in zhrOutputs)
-            output.Aptidoes.AddRange(aptidoesLookup[output.Ni]);
+            output.Aptidoes = [.. aptidoesLookup[output.Ni]];
 
         return zhrOutputs;
     }
