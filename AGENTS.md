@@ -58,6 +58,7 @@ This project is the heart of the system and is divided into three main areas:
 |---|---|---|
 | `Pessoas.Integracao.Core` | **Domain + Application** | Entities, Value Objects, Use Cases, Contracts, DTOs, Internal Repositories. |
 | `Pessoas.Integracao.Worker` | **Infrastructure + Background** | SOAP Integrations (SIGDN-RH), Quartz Jobs, Data Sync Logic. |
+| `Pessoas.Integracao.Sync` | **Data Synchronization** | Raw data fetching from external systems, persistence in external schema, daily cron jobs, providing raw data to Core and Analitica. |
 | `Pessoas.Integracao.Admin` | **Presentation (REST API)** | Admin Controllers, Import endpoints, Management logic. |
 | `Pessoas.Integracao.Consulta`| **Presentation (Frontend/API)**| Read-only endpoints and User Interface logic. |
 | `Pessoas.Integracao.Analitica`| **Infrastructure (Analytics)** | EF-scaffolded Models, Analytical Views, Reporting logic. |
