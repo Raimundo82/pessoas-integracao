@@ -1,7 +1,6 @@
 using FluentAssertions;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
-using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
@@ -244,7 +243,6 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
     ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        IZhrPersistenceReplacer replacer = new BulkTableReplacer(context);
-        await replacer.ExecuteAsync(outputs, children, _ct);
+        await new BulkTableReplacer(context).ExecuteAsync(outputs, children, _ct);
     }
 }

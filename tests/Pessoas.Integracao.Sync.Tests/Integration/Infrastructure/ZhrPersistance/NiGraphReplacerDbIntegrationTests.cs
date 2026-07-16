@@ -1,7 +1,6 @@
 using FluentAssertions;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
-using Pessoas.Integracao.Sync.Infrastructure.Contracts;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
@@ -165,7 +164,6 @@ public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db
     ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        IZhrPersistenceReplacer replacer = new NiGraphReplacer(context);
-        await replacer.ExecuteAsync(outputs, [.. children], _ct);
+        await new NiGraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
     }
 }
