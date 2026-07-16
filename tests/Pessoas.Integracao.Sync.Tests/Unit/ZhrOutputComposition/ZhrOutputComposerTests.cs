@@ -1,15 +1,14 @@
-namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrOutputComposition;
 
 using FluentAssertions;
 
 using Moq;
 
 using Pessoas.Integracao.Sync.Application.Contracts;
-using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enrichers;
 
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrOutputComposition;
 
 public sealed class ZhrOutputComposerTests
 {
@@ -27,8 +26,8 @@ public sealed class ZhrOutputComposerTests
                 It.IsAny<CancellationToken>()))
             .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
-                zhrOutputs[0].Pessoais.Add(new ZhrSPessoais { Ni = "0001", Nome = "Test User" });
-                return Task.FromResult<IReadOnlyList<ZhrOutput>>(zhrOutputs);
+                zhrOutputs[0].Pessoais = [new() { Ni = "0001", Nome = "Test User" }];
+                return Task.FromResult(zhrOutputs);
             });
 
         var secondEnricher = new Mock<IZhrOutputsEnricher>();
@@ -39,8 +38,8 @@ public sealed class ZhrOutputComposerTests
                 It.IsAny<CancellationToken>()))
             .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
-                zhrOutputs[0].Familias.Add(new ZhrSFamilia { Ni = "0001", Fanam = "Test Family" });
-                return Task.FromResult<IReadOnlyList<ZhrOutput>>([.. zhrOutputs]);
+                zhrOutputs[0].Familias = [new() { Ni = "0001", Fanam = "Test Family" }];
+                return Task.FromResult(zhrOutputs);
             });
 
         var thirdEnricher = new Mock<IZhrOutputsEnricher>();
@@ -51,8 +50,8 @@ public sealed class ZhrOutputComposerTests
                 It.IsAny<CancellationToken>()))
             .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
-                zhrOutputs[0].Aptidoes.Add(new ZhrSAptidao { Ni = "0001", ArexamesDesc = "Test Aptidao" });
-                return Task.FromResult<IReadOnlyList<ZhrOutput>>([.. zhrOutputs]);
+                zhrOutputs[0].Aptidoes = [new() { Ni = "0001", ArexamesDesc = "Test Aptidao" }];
+                return Task.FromResult(zhrOutputs);
             });
 
         var composer = new ZhrOutputComposer([firstEnricher.Object, secondEnricher.Object, thirdEnricher.Object]);
