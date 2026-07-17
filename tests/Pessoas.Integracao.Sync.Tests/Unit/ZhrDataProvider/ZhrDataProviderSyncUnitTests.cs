@@ -2,11 +2,12 @@ using FluentAssertions;
 
 using Moq;
 
-using Pessoas.Integracao.Sync.Application.Contracts;
-using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Infrastructure.Providers;
 
-namespace Pessoas.Integracao.Sync.Tests.Unit.Providers;
+using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
+
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrDataProvider;
 
 public class ZhrDataProviderSyncUnitTests
 {

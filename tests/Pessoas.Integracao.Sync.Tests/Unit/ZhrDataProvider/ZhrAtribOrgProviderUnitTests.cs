@@ -5,18 +5,13 @@ using Moq;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Strategies;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
 
-namespace Pessoas.Integracao.Sync.Tests.Unit.Strategies;
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrDataProvider;
 
-public class ZhrWsAtribOrgFetcherConcreteStrategyUnitTests
+public class ZhrAtribOrgProviderUnitTests
 {
     private readonly Mock<IZhrWsGenericClient> _clientMock = new();
-
-    private ZhrWsAtribOrgFetcherConcreteStrategy CreateSut() =>
-        new(_clientMock.Object);
-
-
 
     [Fact]
     public async Task ShouldPopulateAtribOrgOutputs_WhenResponseContainsData()
@@ -116,10 +111,12 @@ public class ZhrWsAtribOrgFetcherConcreteStrategyUnitTests
             Times.Once);
     }
 
+    private ZhrAtribOrgProvider CreateSut() => new(_clientMock.Object);
+
     private static List<PessoaSyncRef> SomePessoaSyncRefs() =>
-[
-    new() { Ni = "21412", ExternalId = "30005902" }
-];
+    [
+        new() { Ni = "21412", ExternalId = "30005902" }
+    ];
 
     private void SetupResponse(ZhrSAtribOrgOutput[]? response)
     {

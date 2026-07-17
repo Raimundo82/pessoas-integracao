@@ -5,11 +5,11 @@ using Moq;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Strategies;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
 
-namespace Pessoas.Integracao.Sync.Tests.Unit.Strategies;
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrDataProvider;
 
-public class ZhrWsAptidaoFetcherConcreteStrategyUnitTests
+public sealed class ZhrAptidaoProviderUnitTests
 {
     private readonly Mock<IZhrWsGenericClient> _clientMock = new();
 
@@ -107,8 +107,7 @@ public class ZhrWsAptidaoFetcherConcreteStrategyUnitTests
             Times.Once);
     }
 
-    private ZhrWsAptidaoFetcherConcreteStrategy CreateSut() =>
-       new(_clientMock.Object);
+    private ZhrAptidaoProvider CreateSut() => new(_clientMock.Object);
 
     private static List<PessoaSyncRef> SomePessoaSyncRefs() =>
     [
