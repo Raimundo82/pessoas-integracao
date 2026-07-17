@@ -107,6 +107,80 @@ public sealed class ZhrAptidaoProviderUnitTests
             Times.Once);
     }
 
+    [Fact]
+    public async Task ShouldUseCorrectOperation_WhenFetchAsyncIsCalled()
+    {
+        // Arrange
+        var refs = SomePessoaSyncRefs();
+        var sut = CreateSut();
+
+        Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>> capturedOperation = null!;
+
+        _clientMock
+            .Setup(c => c.CallAsync(
+                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>>(),
+                It.IsAny<Func<ZhrWsAptidaoResponse1?, ZhrSBaseModelOutput[]?>>(),
+                It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
+                It.IsAny<DateOnly?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>,
+                      Func<ZhrWsAptidaoResponse1?, ZhrSBaseModelOutput[]?>,
+                      IReadOnlyList<PessoaSyncRef>,
+                      DateOnly?,
+                      CancellationToken>
+                      ((op, sel, r, d, ct) => capturedOperation = op)
+            .ReturnsAsync([]);
+
+        // Act
+        await sut.FetchAsync(refs, ct: TestContext.Current.CancellationToken);
+
+        // Assert
+        capturedOperation.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task ShouldUseCorrectSelector_WhenFetchAsyncIsCalled()
+    {
+        // Arrange
+        var refs = SomePessoaSyncRefs();
+        var sut = CreateSut();
+
+        Func<ZhrWsAptidaoResponse1?, ZhrSBaseModelOutput[]?> capturedSelector = null!;
+
+        _clientMock
+            .Setup(c => c.CallAsync(
+                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>>(),
+                It.IsAny<Func<ZhrWsAptidaoResponse1?, ZhrSBaseModelOutput[]?>>(),
+                It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
+                It.IsAny<DateOnly?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>,
+                      Func<ZhrWsAptidaoResponse1?, ZhrSBaseModelOutput[]?>,
+                      IReadOnlyList<PessoaSyncRef>,
+                      DateOnly?,
+                      CancellationToken>
+                      ((op, sel, r, d, ct) => capturedSelector = sel)
+            .ReturnsAsync([]);
+
+        // Act
+        await sut.FetchAsync(refs, ct: TestContext.Current.CancellationToken);
+
+        // Assert
+        var mockSoapResponse = new ZhrWsAptidaoResponse1
+        {
+            ZhrWsAptidaoResponse = new ZhrWsAptidaoResponse
+            {
+                Output = [ZhrAptidaoTestData.ValidOutput()]
+            }
+        };
+
+        var result = capturedSelector(mockSoapResponse);
+
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        result![0].Should().BeEquivalentTo(ZhrAptidaoTestData.ValidOutput());
+    }
+
     private ZhrAptidaoProvider CreateSut() => new(_clientMock.Object);
 
     private static List<PessoaSyncRef> SomePessoaSyncRefs() =>
@@ -154,4 +228,6 @@ public sealed class ZhrAptidaoProviderUnitTests
                 ]
             };
     }
+
+
 }
