@@ -21,15 +21,12 @@ public class ZhrWsGenericClient(
     public async Task<ZhrSBaseModelOutput[]?> CallAsync<TResponse>(
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse?>> zhrSOperation,
         Func<TResponse, ZhrSBaseModelOutput[]?> selectOutput,
-        IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
+        IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate = null,
         CancellationToken ct = default
     ) where TResponse : IZhrWsBaseResponse
     {
-        if (pessoaSyncRefs == null || pessoaSyncRefs.Count == 0)
-        {
-            return default;
-        }
+        if (pessoaSyncRefs == null || pessoaSyncRefs.Count == 0) return [];
 
         using var client = _clientFactory.CreateClient();
         using var registration = ct.Register(() => client.Abort());
@@ -44,7 +41,6 @@ public class ZhrWsGenericClient(
             }).ToArray();
 
         var response = await zhrSOperation(client, inputs);
-        if (response == null) return [];
-        return selectOutput(response) ?? [];
+        return response == null ? null : selectOutput(response);
     }
 }
