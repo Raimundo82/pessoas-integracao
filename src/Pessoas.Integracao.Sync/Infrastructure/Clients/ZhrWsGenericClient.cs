@@ -18,8 +18,9 @@ public class ZhrWsGenericClient(
     private readonly ZhrWsSettings _settings = settings.Value;
     private readonly IZhrReferenceDateFormatter _referenceDateFormatter = referenceDateFormatter;
 
-    public async Task<TResponse?> CallAsync<TResponse>(
+    public async Task<ZhrSBaseModelOutput[]?> CallAsync<TResponse>(
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse?>> zhrSOperation,
+        Func<TResponse, ZhrSBaseModelOutput[]?> selectOutput,
         IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate = null,
         CancellationToken ct = default
@@ -42,6 +43,8 @@ public class ZhrWsGenericClient(
                 Dtreferencia = referenceDate.HasValue ? _referenceDateFormatter.Format(referenceDate.Value) : string.Empty
             }).ToArray();
 
-        return await zhrSOperation(client, inputs);
+        var response = await zhrSOperation(client, inputs);
+        if (response == null) return [];
+        return selectOutput(response) ?? [];
     }
 }

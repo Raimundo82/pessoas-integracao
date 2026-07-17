@@ -6,8 +6,9 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Clients;
 
 public interface IZhrWsGenericClient
 {
-    Task<TResponse?> CallAsync<TResponse>(
+    Task<ZhrSBaseModelOutput[]?> CallAsync<TResponse>(
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse?>> zhrSOperation,
+        Func<TResponse?, ZhrSBaseModelOutput[]?> selectOutput,
         IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate = null,
         CancellationToken ct = default
