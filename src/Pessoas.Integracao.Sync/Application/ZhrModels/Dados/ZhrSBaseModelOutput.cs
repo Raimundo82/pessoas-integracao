@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+
 namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 public interface IOutputModel
@@ -8,6 +10,7 @@ public interface IOutputModel
 
 public abstract class ZhrSBaseModelOutput
 {
+    [XmlElement(Order = 0)]
     public DateTimeOffset? UpdatedAt { get; set; }
 
 }

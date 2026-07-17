@@ -1,0 +1,23 @@
+﻿[
+  {
+    Numsap: 30005902,
+    Ni: 21412,
+    Aptidao: [
+      {
+        Subty: 0001,
+        Denominacao: Exame Médico Geral,
+        AreaExame: 01,
+        ArexamesDesc: Medicina Geral,
+        ServicoMedInt: S,
+        Valor: 15.50,
+        DataExame: 2025-01-15,
+        Modalidade: NORMAL,
+        ModalDesc: Normal,
+        Resultado: AP,
+        ResultadoDesc: Apto,
+        Observacoes: Sem restrições,
+        Ni: 21412
+      }
+    ]
+  }
+]
