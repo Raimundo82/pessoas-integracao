@@ -14,7 +14,7 @@ public sealed class ZhrAptidaoProvider(IZhrWsGenericClient client) : IZhrRawData
     {
         var aptidaoOutputs = await client.CallAsync(
             static (c, inputs) => c.ZhrWsAptidaoAsync(new ZhrWsAptidao { Input = inputs }),
-            r => r?.ZhrWsAptidaoResponse?.Output,
+            static r => r?.ZhrWsAptidaoResponse?.Output,
             pessoaSyncRefs,
             referenceDate,
             ct);

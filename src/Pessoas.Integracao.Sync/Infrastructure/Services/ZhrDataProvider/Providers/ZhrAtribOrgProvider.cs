@@ -12,9 +12,8 @@ public sealed class ZhrAtribOrgProvider(IZhrWsGenericClient client) : IZhrRawDat
         CancellationToken ct = default)
     {
         var atribOrgOutputs = await client.CallAsync(
-            static (c, inputs) =>
-                c.ZhrWsAtribOrgAsync(new ZhrWsAtribOrg { Input = inputs }),
-            r => r?.ZhrWsAtribOrgResponse?.Output,
+            static (c, inputs) => c.ZhrWsAtribOrgAsync(new ZhrWsAtribOrg { Input = inputs }),
+            static r => r?.ZhrWsAtribOrgResponse?.Output,
             pessoaSyncRefs,
             referenceDate,
             ct);
