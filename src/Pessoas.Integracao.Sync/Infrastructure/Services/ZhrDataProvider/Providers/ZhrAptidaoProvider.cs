@@ -4,11 +4,6 @@ using Pessoas.Integracao.Sync.Infrastructure.Clients;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
 
-/// <summary>
-/// Shared aggregation object.
-/// Each strategy owns exactly one property and may only replace
-/// the property value. Properties must never be mutated.
-/// </summary>
 public sealed class ZhrAptidaoProvider(IZhrWsGenericClient client) : IZhrRawDataFetcherStrategy
 
 {
