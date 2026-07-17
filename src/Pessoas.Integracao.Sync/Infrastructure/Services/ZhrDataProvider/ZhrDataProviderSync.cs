@@ -1,7 +1,7 @@
-using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Providers;
+namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider;
 
 public class ZhrDataProviderSync(IEnumerable<IZhrRawDataFetcherStrategy> zhrRawDataFetcherStrategies) : IZhrDataProviderSync
 {
