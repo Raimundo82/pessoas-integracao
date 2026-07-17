@@ -7,6 +7,6 @@ public interface IZhrRawDataFetcherStrategy
 {
     Task<ZhrSBaseModelOutput[]?> FetchAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
-        DateOnly? referenceDate,
-        CancellationToken ct);
+        DateOnly? referenceDate = null,
+        CancellationToken ct = default);
 }
