@@ -2,7 +2,6 @@ using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Providers.FetchResults;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Strategies;
 
@@ -11,16 +10,14 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Strategies;
 /// Each strategy owns exactly one property and may only replace
 /// the property value. Properties must never be mutated.
 /// </summary>
-public sealed class ZhrWsAtribOrgFetcherConcreteStrategy(IZhrWsGenericClient client)
-    : ZhrRawDataFetcherStrategyBase(client),
-      IZhrRawDataFetcherStrategy
+public sealed class ZhrWsAtribOrgFetcherConcreteStrategy(IZhrWsGenericClient client) : IZhrRawDataFetcherStrategy
 {
-    public async Task<IZhrFetchResult> FetchAsync(
+    public async Task<ZhrSBaseModelOutput[]?> FetchAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
-        DateOnly? referenceDate,
-        CancellationToken ct)
+        DateOnly? referenceDate = null,
+        CancellationToken ct = default)
     {
-        var atribOrgOutputs = await ExecuteAsync(
+        var atribOrgOutputs = await client.CallAsync(
             static (c, inputs) =>
                 c.ZhrWsAtribOrgAsync(new ZhrWsAtribOrg { Input = inputs }),
             r => r?.ZhrWsAtribOrgResponse?.Output,
@@ -28,6 +25,6 @@ public sealed class ZhrWsAtribOrgFetcherConcreteStrategy(IZhrWsGenericClient cli
             referenceDate,
             ct);
 
-        return new AtribOrgFetchResult(atribOrgOutputs);
+        return atribOrgOutputs ?? [];
     }
 }

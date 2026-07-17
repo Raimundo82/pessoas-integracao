@@ -2,7 +2,6 @@ using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Providers.FetchResults;
 
 namespace Pessoas.Integracao.Sync.Infrastructure.Strategies;
 
@@ -11,21 +10,21 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Strategies;
 /// Each strategy owns exactly one property and may only replace
 /// the property value. Properties must never be mutated.
 /// </summary>
-public class ZhrWsAptidaoFetcherConcreteStrategy(IZhrWsGenericClient client) : ZhrRawDataFetcherStrategyBase(client), IZhrRawDataFetcherStrategy
+public class ZhrWsAptidaoFetcherConcreteStrategy(IZhrWsGenericClient client) : IZhrRawDataFetcherStrategy
 
 {
-    public async Task<IZhrFetchResult> FetchAsync(
+    public async Task<ZhrSBaseModelOutput[]?> FetchAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
-        DateOnly? referenceDate,
-        CancellationToken ct)
+        DateOnly? referenceDate = null,
+        CancellationToken ct = default)
     {
-        var aptidaoOutputs = await ExecuteAsync(
+        var aptidaoOutputs = await client.CallAsync(
             static (c, inputs) => c.ZhrWsAptidaoAsync(new ZhrWsAptidao { Input = inputs }),
             r => r?.ZhrWsAptidaoResponse?.Output,
             pessoaSyncRefs,
             referenceDate,
             ct);
 
-        return new AptidaoFetchResult(aptidaoOutputs);
+        return aptidaoOutputs ?? [];
     }
 }
