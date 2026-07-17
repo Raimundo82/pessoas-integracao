@@ -23,8 +23,13 @@
   <ItemGroup>
     <Compile Include="..\Pessoas.Integracao.Testing\ModuleInitializer.cs" Link="ModuleInitializer.cs" />
     <ProjectReference Include="..\Pessoas.Integracao.Testing\Pessoas.Integracao.Testing.csproj" />
-    <ProjectReference
-      Include="..\..\src\Pessoas.Integracao.Analitica\Pessoas.Integracao.Analitica.csproj" />
+    <ProjectReference Include="..\..\src\Pessoas.Integracao.Analitica\Pessoas.Integracao.Analitica.csproj" />
+    <ProjectReference Include="..\..\src\Pessoas.Integracao.Sync\Pessoas.Integracao.Sync.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Unit\UseCases\" />
+    <Folder Include="Unit\SyncHandlers\" />
   </ItemGroup>
 
 </Project>
