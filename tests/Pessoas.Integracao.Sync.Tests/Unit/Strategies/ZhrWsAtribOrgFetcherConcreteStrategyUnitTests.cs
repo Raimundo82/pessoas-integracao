@@ -5,7 +5,6 @@ using Moq;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Providers.FetchResults;
 using Pessoas.Integracao.Sync.Infrastructure.Strategies;
 
 namespace Pessoas.Integracao.Sync.Tests.Unit.Strategies;
@@ -17,17 +16,118 @@ public class ZhrWsAtribOrgFetcherConcreteStrategyUnitTests
     private ZhrWsAtribOrgFetcherConcreteStrategy CreateSut() =>
         new(_clientMock.Object);
 
-    private static List<PessoaSyncRef> SomeRefs() =>
-    [
-        new() { Ni = "21412", ExternalId = "30005902" }
-    ];
 
-    private void SetupResponse(ZhrWsAtribOrgResponse1? response)
+
+    [Fact]
+    public async Task ShouldPopulateAtribOrgOutputs_WhenResponseContainsData()
+    {
+        // Arrange
+        var atribOrg = ZhrAtribOrgTestData.ValidOutput();
+        SetupResponse([atribOrg]);
+        var sut = CreateSut();
+
+        // Act
+        var result = await sut.FetchAsync(SomePessoaSyncRefs(), ct: TestContext.Current.CancellationToken);
+
+        // Assert
+        result.Should().BeOfType<ZhrSAtribOrgOutput[]>();
+        await Verify(result);
+    }
+
+    [Fact]
+    public async Task ShouldPopulateEmptyAtribOrgOutputs_WhenResponseIsNull()
+    {
+        // Arrange
+        SetupResponse(null);
+
+        var sut = CreateSut();
+
+        // Act
+        var result = await sut.FetchAsync(
+            SomePessoaSyncRefs(),
+            null,
+            CancellationToken.None);
+
+        // Assert
+        result.Should().BeAssignableTo<ZhrSBaseModelOutput[]>();
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task ShouldPopulateEmptyAtribOrgOutputs_WhenOutputIsNull()
+    {
+        // Arrange
+        SetupResponse(null);
+        var sut = CreateSut();
+
+        // Act
+        var result = await sut.FetchAsync(
+            SomePessoaSyncRefs(),
+            null,
+            CancellationToken.None);
+
+        // Assert
+        result.Should().BeAssignableTo<ZhrSBaseModelOutput[]>();
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task ShouldCallClientWithSameRefsAndNullDate_WhenFetchAsyncIsCalled()
+    {
+        // Arrange
+        var refs = SomePessoaSyncRefs();
+        SetupResponse(null);
+        var sut = CreateSut();
+
+        // Act
+        await sut.FetchAsync(refs, ct: TestContext.Current.CancellationToken);
+
+        // Assert
+        _clientMock.Verify(c => c.CallAsync(
+                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAtribOrgResponse1?>>>(),
+                It.IsAny<Func<ZhrWsAtribOrgResponse1?, ZhrSBaseModelOutput[]?>>(),
+                refs,
+                null,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldCallClientWithReferenceDate_WhenReferenceDateIsProvided()
+    {
+        // Arrange
+        var referenceDate = new DateOnly(2025, 01, 15);
+        SetupResponse(null);
+        var sut = CreateSut();
+
+        // Act
+        await sut.FetchAsync(
+            SomePessoaSyncRefs(),
+            referenceDate,
+            ct: TestContext.Current.CancellationToken);
+
+        // Assert
+        _clientMock.Verify(c => c.CallAsync(
+                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAtribOrgResponse1?>>>(),
+                It.IsAny<Func<ZhrWsAtribOrgResponse1?, ZhrSBaseModelOutput[]?>>(),
+                It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
+                referenceDate,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    private static List<PessoaSyncRef> SomePessoaSyncRefs() =>
+[
+    new() { Ni = "21412", ExternalId = "30005902" }
+];
+
+    private void SetupResponse(ZhrSAtribOrgOutput[]? response)
     {
         _clientMock
             .Setup(c => c.CallAsync(
                 It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAtribOrgResponse1?>>>(),
-                It.IsAny<IReadOnlyCollection<PessoaSyncRef>>(),
+                It.IsAny<Func<ZhrWsAtribOrgResponse1?, ZhrSBaseModelOutput[]?>>(),
+                It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
                 It.IsAny<DateOnly?>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
@@ -195,152 +295,5 @@ public class ZhrWsAtribOrgFetcherConcreteStrategyUnitTests
                     }
                 ]
             };
-    }
-
-    [Fact]
-    public async Task ShouldPopulateAtribOrgOutputs_WhenResponseContainsData()
-    {
-        // Arrange
-        var atribOrg = ZhrAtribOrgTestData.ValidOutput();
-
-        SetupResponse(new ZhrWsAtribOrgResponse1
-        {
-            ZhrWsAtribOrgResponse = new ZhrWsAtribOrgResponse
-            {
-                Output = [atribOrg]
-            }
-        });
-
-        var sut = CreateSut();
-
-        // Act
-        var result = await sut.FetchAsync(
-            SomeRefs(),
-            null,
-            CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<AtribOrgFetchResult>();
-        var atribOrgResult = (AtribOrgFetchResult)result;
-        await Verify(atribOrgResult.Data);
-    }
-
-    [Fact]
-    public async Task ShouldPopulateEmptyAtribOrgOutputs_WhenResponseIsNull()
-    {
-        // Arrange
-        SetupResponse(null);
-
-        var sut = CreateSut();
-
-        // Act
-        var result = await sut.FetchAsync(
-            SomeRefs(),
-            null,
-            CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<AtribOrgFetchResult>();
-        var atribOrgResult = (AtribOrgFetchResult)result;
-        atribOrgResult.Data.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task ShouldPopulateEmptyAtribOrgOutputs_WhenInnerResponseIsNull()
-    {
-        // Arrange
-        SetupResponse(new ZhrWsAtribOrgResponse1
-        {
-            ZhrWsAtribOrgResponse = null
-        });
-
-        var sut = CreateSut();
-
-        // Act
-        var result = await sut.FetchAsync(
-            SomeRefs(),
-            null,
-            CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<AtribOrgFetchResult>();
-        var atribOrgResult = (AtribOrgFetchResult)result;
-        atribOrgResult.Data.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task ShouldPopulateEmptyAtribOrgOutputs_WhenOutputIsNull()
-    {
-        // Arrange
-        SetupResponse(new ZhrWsAtribOrgResponse1
-        {
-            ZhrWsAtribOrgResponse = new ZhrWsAtribOrgResponse
-            {
-                Output = null
-            }
-        });
-
-        var sut = CreateSut();
-
-        // Act
-        var result = await sut.FetchAsync(
-            SomeRefs(),
-            null,
-            CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<AtribOrgFetchResult>();
-        var atribOrgResult = (AtribOrgFetchResult)result;
-        atribOrgResult.Data.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task ShouldPassSameRefsAndNullReferenceDateToClient()
-    {
-        // Arrange
-        var refs = SomeRefs();
-
-        SetupResponse(null);
-
-        var sut = CreateSut();
-
-        // Act
-        await sut.FetchAsync(
-            refs,
-            null,
-            CancellationToken.None);
-
-        // Assert
-        _clientMock.Verify(c => c.CallAsync(
-                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAtribOrgResponse1?>>>(),
-                refs,
-                null,
-                It.IsAny<CancellationToken>()),
-            Times.Once);
-    }
-
-    [Fact]
-    public async Task ShouldPassReferenceDateToClient()
-    {
-        // Arrange
-        var referenceDate = new DateOnly(2025, 01, 15);
-
-        SetupResponse(null);
-
-        var sut = CreateSut();
-
-        // Act
-        await sut.FetchAsync(
-            SomeRefs(),
-            referenceDate,
-            CancellationToken.None);
-
-        // Assert
-        _clientMock.Verify(c => c.CallAsync(
-                It.IsAny<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAtribOrgResponse1?>>>(),
-                It.IsAny<IReadOnlyCollection<PessoaSyncRef>>(),
-                referenceDate,
-                It.IsAny<CancellationToken>()),
-            Times.Once);
     }
 }
