@@ -491,3 +491,5 @@ $RECYCLE.BIN/
 .sonarqube
 
 .continue/**
+
+.devcontainer/devcontainer-lock.json
