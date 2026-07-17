@@ -12,5 +12,5 @@ public interface IZhrWsGenericClient
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate = null,
         CancellationToken ct = default
-    ) where TResponse : IZhrWsBaseResponse;
+    ) where TResponse : class, IZhrWsBaseResponse;
 }

@@ -24,7 +24,7 @@ public class ZhrWsGenericClient(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate = null,
         CancellationToken ct = default
-    ) where TResponse : IZhrWsBaseResponse
+    ) where TResponse : class, IZhrWsBaseResponse
     {
         if (pessoaSyncRefs == null || pessoaSyncRefs.Count == 0) return [];
 
