@@ -1,4 +1,4 @@
-# ADR-00X: Estratégia de orquestração da ingestão de dados do SIGDN-RH
+# ADR-002: Estratégia de orquestração da ingestão de dados do SIGDN-RH
 
 ## Status
 
@@ -189,8 +189,6 @@ deactivate Sync2
 - Agregação de children por tipo é responsabilidade do `ZhrChildrenAggregator`, chamado pelo synchronizer antes de persistir
 
 ## Concorrência e Fiabilidade
-
-### Concorrência e Fiabilidade
 
 A estratégia de orquestração recorre à execução paralela dos sincronizadores através de `Task.WhenAll`. Esta abordagem é segura e eficiente, com base nas seguintes premissas:
 
