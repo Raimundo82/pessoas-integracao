@@ -1,11 +1,11 @@
 using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer.Syncronizers;
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider;
+namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer;
 
-public class ZhrDataProviderSync(IEnumerable<IZhrRawDataFetcherStrategy> zhrRawDataFetcherStrategies) : IZhrDataProviderSync
+public class ZhrSyncOrchestrator(IEnumerable<IZhrSyncronizer> zhrRawDataFetcherStrategies) : IZhrSyncOrchestrator
 {
-    private readonly IEnumerable<IZhrRawDataFetcherStrategy> _zhrRawDataFetcherStrategies = zhrRawDataFetcherStrategies;
+    private readonly IEnumerable<IZhrSyncronizer> _zhrRawDataFetcherStrategies = zhrRawDataFetcherStrategies;
     public async Task SyncZhrDataAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         DateOnly? referenceDate,

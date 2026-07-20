@@ -1,8 +1,8 @@
 using Pessoas.Integracao.Sync.Domain.Entities;
 
-namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider;
+namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer;
 
-public interface IZhrDataProviderSync
+public interface IZhrSyncOrchestrator
 {
     Task SyncZhrDataAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,

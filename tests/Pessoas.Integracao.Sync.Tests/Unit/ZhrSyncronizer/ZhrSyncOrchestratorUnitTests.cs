@@ -4,15 +4,15 @@ using Moq;
 
 
 using Pessoas.Integracao.Sync.Domain.Entities;
-using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider;
-using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer.Syncronizers;
 
-namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrDataProvider;
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrSyncronizer;
 
-public class ZhrDataProviderSyncUnitTests
+public class ZhrSyncOrchestratorUnitTests
 {
-    private readonly Mock<IZhrRawDataFetcherStrategy> _strategy1Mock = new();
-    private readonly Mock<IZhrRawDataFetcherStrategy> _strategy2Mock = new();
+    private readonly Mock<IZhrSyncronizer> _strategy1Mock = new();
+    private readonly Mock<IZhrSyncronizer> _strategy2Mock = new();
 
     [Fact]
     public async Task ShouldInvokeAllStrategies_WhenSyncIsCalled()
@@ -89,7 +89,7 @@ public class ZhrDataProviderSyncUnitTests
     public async Task ShouldComplete_WhenNoStrategiesAreRegistered()
     {
         // Arrange
-        var sut = new ZhrDataProviderSync([]);
+        var sut = new ZhrSyncOrchestrator([]);
 
         // Act
         var act = () => sut.SyncZhrDataAsync(
@@ -131,7 +131,7 @@ public class ZhrDataProviderSyncUnitTests
             Times.Once);
     }
 
-    private ZhrDataProviderSync CreateSut() =>
+    private ZhrSyncOrchestrator CreateSut() =>
      new([
          _strategy1Mock.Object,
             _strategy2Mock.Object

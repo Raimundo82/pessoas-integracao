@@ -5,11 +5,11 @@ using Moq;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Clients;
-using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrDataProvider.Providers;
+using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrSyncronizer.Syncronizers;
 
-namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrDataProvider;
+namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrSyncronizer;
 
-public sealed class ZhrAptidaoProviderUnitTests
+public sealed class ZhrAptidaoSyncronizerUnitTests
 {
     private readonly Mock<IZhrWsGenericClient> _clientMock = new();
 
