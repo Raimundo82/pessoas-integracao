@@ -187,3 +187,15 @@ deactivate Sync2
 - `GetChildren()` testável directamente nas classes do modelo sem dependências externas
 - `ZhrChildrenAggregator` testável isoladamente
 - Agregação de children por tipo é responsabilidade do `ZhrChildrenAggregator`, chamado pelo synchronizer antes de persistir
+
+## Concorrência e Fiabilidade
+
+### Concorrência e Fiabilidade
+
+A estratégia de orquestração recorre à execução paralela dos sincronizadores através de `Task.WhenAll`. Esta abordagem é segura e eficiente, com base nas seguintes premissas:
+
+- Isolamento de Dados: Cada ZhrSyncronizer gere um grafo de entidades completamente independente. Não existem dependências cruzadas ou restrições de chaves estrangeiras entre as raízes processadas por diferentes instâncias do ZhrSyncronizer, eliminando assim o risco de race conditions na integridade referencial.
+
+- Gestão de Recursos: Com um máximo de 20 entidades root que correspondem aos webservices existentes, a concorrência máxima está limitada a 20 ligações simultâneas à base de dados. Este valor encontra-se bem abaixo do limite configurado para o pool de ligações (50), garantindo que não ocorrem timeouts de ligação durante o pico de sincronização.
+
+- Estratégia de Escrita: Para evitar conflitos de "Insert ou Update", o sistema utiliza um padrão de "Eliminação seguida de Inserção" (Delete-then-Insert). Isto assegura um estado limpo para cada conjunto de entidades e previne a violação de chaves primárias durante as escritas concorrentes.
