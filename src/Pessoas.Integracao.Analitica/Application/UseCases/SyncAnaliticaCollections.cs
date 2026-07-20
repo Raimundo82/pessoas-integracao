@@ -1,9 +1,9 @@
-﻿using Pessoas.Integracao.Analitica.Infrastructure.SyncHandlers;
+﻿using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 using Pessoas.Integracao.Sync.Application.Contracts;
 
 namespace Pessoas.Integracao.Analitica.Application.UseCases;
 
-public sealed class SyncAnaliticaData(IEnumerable<IZhrCollectionSyncHandler> syncHandlers)
+public sealed class SyncAnaliticaCollections(IEnumerable<ICollectionSyncStrategy> syncHandlers)
 {
     public async Task ExecuteAsync(ZhrOutput input, CancellationToken ct)
     {
