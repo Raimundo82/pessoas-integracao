@@ -1,7 +1,7 @@
 ﻿using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
-namespace Pessoas.Integracao.Analitica.Tests.Unit.Strategies;
+namespace Pessoas.Integracao.Analitica.Tests.Unit;
 
 public static class ZhrOutputTestData
 {
