@@ -6,7 +6,7 @@ Accepted
 
 ## Contexto
 
-O componente Sync necessita de obter dados de múltiplos webservices do SIGDN-RH, normalizar os outputs e persistir os dados no schema de origem. É necessário decidir como organizar estas responsabilidades dentro do Orquestrador e onde vive a lógica de resolução de Ni, UpdatedAt e agregação de children.
+O componente Sync necessita de obter dados de múltiplos webservices do SIGDN-RH, normalizar os outputs e persistir os dados no schema de origem. É necessário decidir como organizar estas responsabilidades dentro do Orquestrador, onde vive a lógica de resolução de Ni, UpdatedAt, agregação de children, e como comunicar o resultado da sincronização ao caso de uso que invoca o orquestrador.
 
 ## Decisão
 
@@ -37,9 +37,22 @@ Antes de persistir, os children de todos os outputs têm de ser agregados por ti
 - Mantém o synchronizer focado na orquestração (fetch + persistência)
 - Facilita evolução futura se a lógica de agregação se tornar mais complexa
 
-### 4. Classe base abstrata para synchronizers
-
 Foi introduzida a classe `ZhrSynchronizerBase` que contém a dependência do `IZhrChildrenAggregator` e disponibiliza o método `AggregateChildren()` para uso pelos synchronizers concretos.
+
+### 4. Resultado da sincronização
+
+O `IZhrSyncOrchestrator` retorna um resultado consolidado por `PessoaSyncRef`, sendo que o caso de uso que invoca o orquestrador não sabe quantos webservices existem nem quais falharam:
+
+- `Processed` — todos os synchronizers sucederam para aquele `Ni`
+- `Failed` — pelo menos um synchronizer falhou para aquele `Ni`
+
+Assim, o `ZhrSyncOrchestrator` é responsável por consolidar os resultados de todos os `IZhrSynchronizer` antes de retornar ao caso de uso. Um `Ni` está sincronizado ou não, sendo que
+não existe estado parcial do ponto de vista da lógica do negócio.
+
+O contrato de retorno:
+
+- `ZhrSyncResult` — resultado por `PessoaSyncRef` com estado, mensagem de erro opcional e timestamp de sincronização
+- `ZhrSyncStatus` — `Processed` ou `Failed`
 
 ## Diagramas
 
@@ -51,7 +64,11 @@ Foi introduzida a classe `ZhrSynchronizerBase` que contém a dependência do `IZ
 title Class Diagram — Orquestração da ingestão de dados do SIGDN-RH
 
 interface IZhrSynchronizer {
-    +ExecuteAsync(refs): Task
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
+}
+
+interface IZhrSyncOrchestrator {
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
 }
 
 interface IZhrChildrenAggregator {
@@ -72,19 +89,31 @@ abstract class ZhrSynchronizerBase {
 
 class ZhrSyncOrchestrator {
     -synchronizers: IEnumerable<IZhrSynchronizer>
-    +ExecuteAsync(refs): Task
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
 }
 
 class ZhrAptidaoSynchronizer {
     -client: IZhrGenericClient
     -persister: IZhrPersistenceReplacer
-    +ExecuteAsync(refs): Task
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
 }
 
 class ZhrPersonalDataSynchronizer {
     -client: IZhrGenericClient
     -persister: IZhrPersistenceReplacer
-    +ExecuteAsync(refs): Task
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
+}
+
+class ZhrSyncResult {
+    +PessoaRef: PessoaSyncRef
+    +Status: ZhrSyncStatus
+    +ErrorMessage: string?
+    +SyncedAt: DateTimeOffset
+}
+
+enum ZhrSyncStatus {
+    Processed
+    Failed
 }
 
 class ZhrChildrenAggregator {
@@ -105,6 +134,7 @@ ZhrSynchronizerBase <|-- ZhrAptidaoSynchronizer
 ZhrSynchronizerBase <|-- ZhrPersonalDataSynchronizer
 ZhrSynchronizerBase --> IZhrChildrenAggregator
 IZhrChildrenAggregator <|.. ZhrChildrenAggregator
+ZhrSyncResult --> ZhrSyncStatus
 ZhrSBaseModelOutput <|-- ZhrSAptidaoOutput
 ZhrSBaseModelOutput <|-- ZhrSPersonalDataOutput
 
@@ -145,7 +175,7 @@ deactivate Aggregator
 Sync1 -> BD: persist root + children
 BD --> Sync1: ok
 
-Sync1 --> Orchestrator: done
+Sync1 --> Orchestrator: IReadOnlyList<ZhrSyncResult>
 deactivate Sync1
 
 Sync2 -> SIGDN: request
@@ -162,8 +192,11 @@ deactivate Aggregator
 Sync2 -> BD: persist root + children
 BD --> Sync2: ok
 
-Sync2 --> Orchestrator: done
+Sync2 --> Orchestrator: IReadOnlyList<ZhrSyncResult>
 deactivate Sync2
+
+Orchestrator -> Orchestrator: consolidate results by PessoaSyncRef
+Orchestrator --> Caller: IReadOnlyList<ZhrSyncResult>
 
 @enduml
 ```
@@ -194,6 +227,7 @@ A estratégia de orquestração recorre à execução paralela dos sincronizador
 
 - Isolamento de Dados: Cada ZhrSyncronizer gere um grafo de entidades completamente independente. Não existem dependências cruzadas ou restrições de chaves estrangeiras entre as raízes processadas por diferentes instâncias do ZhrSyncronizer, eliminando assim o risco de race conditions na integridade referencial.
 
-- Gestão de Recursos: Com um máximo de 20 entidades root que correspondem aos webservices existentes, a concorrência máxima está limitada a 20 ligações simultâneas à base de dados. Este valor encontra-se bem abaixo do limite configurado para o pool de ligações (50), garantindo que não ocorrem timeouts de ligação durante o pico de sincronização.
+- Gestão de Recursos: Com um número de webservices na ordem das dezenas, a concorrência máxima está bem abaixo do limite configurado para o pool de ligações, garantindo que não
+  ocorrem timeouts de ligação durante o pico de sincronização.
 
 - Estratégia de Escrita: Para evitar conflitos de "Insert ou Update", o sistema utiliza um padrão de "Eliminação seguida de Inserção" (Delete-then-Insert). Isto assegura um estado limpo para cada conjunto de entidades e previne a violação de chaves primárias durante as escritas concorrentes.
