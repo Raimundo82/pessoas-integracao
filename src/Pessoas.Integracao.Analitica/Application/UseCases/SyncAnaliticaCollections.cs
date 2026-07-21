@@ -3,13 +3,13 @@ using Pessoas.Integracao.Sync.Application.Contracts;
 
 namespace Pessoas.Integracao.Analitica.Application.UseCases;
 
-public sealed class SyncAnaliticaCollections(IEnumerable<ICollectionSyncStrategy> syncHandlers)
+public sealed class SyncAnaliticaCollections(IEnumerable<ICollectionSyncStrategy> strategies)
 {
     public async Task ExecuteAsync(ZhrOutput input, CancellationToken ct)
     {
-        foreach (var handler in syncHandlers)
+        foreach (var strategy in strategies)
         {
-            await handler.SyncAsync(input, ct);
+            await strategy.SyncAsync(input, ct);
         }
     }
 }

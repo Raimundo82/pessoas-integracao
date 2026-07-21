@@ -1,14 +1,10 @@
-﻿using FluentAssertions;
-
-using Moq;
-
-using Pessoas.Integracao.Analitica.Application.UseCases;
+﻿using Pessoas.Integracao.Analitica.Application.UseCases;
 using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 
 
 namespace Pessoas.Integracao.Analitica.Tests.Unit.UseCases;
 
-public sealed class SyncAnaliticatCollectionsTests
+public sealed class SyncAnaliticaCollectionsTests
 {
     [Fact]
     public async Task ShouldInvokeAllRegisteredHandlers_WhenExecuting()
