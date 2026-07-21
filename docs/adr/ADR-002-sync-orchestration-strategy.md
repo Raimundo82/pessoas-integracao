@@ -82,8 +82,10 @@ abstract class ZhrSBaseModelOutput {
 }
 
 abstract class ZhrSynchronizerBase {
+    -client: IZhrGenericClient
+    -persister: IZhrPersistenceReplacer
     -childrenAggregator: IZhrChildrenAggregator
-    +ExecuteAsync(refs): Task
+    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
     #AggregateChildren(outputs): List<ZhrSBaseModel[]>
 }
 
@@ -93,15 +95,9 @@ class ZhrSyncOrchestrator {
 }
 
 class ZhrAptidaoSynchronizer {
-    -client: IZhrGenericClient
-    -persister: IZhrPersistenceReplacer
-    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
 }
 
 class ZhrPersonalDataSynchronizer {
-    -client: IZhrGenericClient
-    -persister: IZhrPersistenceReplacer
-    +ExecuteAsync(refs, ct): Task<IReadOnlyList<ZhrSyncResult>>
 }
 
 class ZhrSyncResult {
@@ -128,6 +124,7 @@ class ZhrSPersonalDataOutput {
     +GetChildren(): IReadOnlyList<ZhrSBaseModel[]>
 }
 
+IZhrSyncOrchestrator <|.. ZhrSyncOrchestrator
 ZhrSyncOrchestrator o-- IZhrSynchronizer
 IZhrSynchronizer <|.. ZhrSynchronizerBase
 ZhrSynchronizerBase <|-- ZhrAptidaoSynchronizer
