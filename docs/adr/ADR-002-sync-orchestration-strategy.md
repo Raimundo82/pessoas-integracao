@@ -20,7 +20,7 @@ A lógica de injecção de `Ni` nos children e marcação de `UpdatedAt` no root
 
 - `SetUpdatedAt()` — marca o timestamp de actualização no root
 - `GetChildren()` — abstracto, cada output concreto implementa devolvendo a sua estrutura de children
-- `SetNi()` — injeta o `Ni` em todos os children usando `GetChildren()`
+- `SetChildrenNi()` — injeta o `Ni` em todos os children usando `GetChildren()`
 
 Cada partial concreta implementa apenas `GetChildren()`, sendo essa a sua única responsabilidade: conhecer e devolver a sua própria estrutura de children.
 
@@ -60,8 +60,8 @@ interface IZhrChildrenAggregator {
 
 abstract class ZhrSBaseModelOutput {
     +SetUpdatedAt(): void
-    +SetNi(): void
-    +GetChildren(): IReadOnlyList<ZhrSBaseModel[]>
+    +SetChildrenNi(): void
+    +{abstract} GetChildren(): IReadOnlyList<ZhrSBaseModel[]>
 }
 
 abstract class ZhrSynchronizerBase {
@@ -135,7 +135,7 @@ Sync1 -> SIGDN: request
 SIGDN --> Sync1: output
 
 Sync1 -> Sync1: output.SetUpdatedAt()
-Sync1 -> Sync1: output.SetNi()
+Sync1 -> Sync1: output.SetChildrenNi()
 
 Sync1 -> Aggregator: Aggregate(outputs)
 activate Aggregator
@@ -152,7 +152,7 @@ Sync2 -> SIGDN: request
 SIGDN --> Sync2: output
 
 Sync2 -> Sync2: output.SetUpdatedAt()
-Sync2 -> Sync2: output.SetNi()
+Sync2 -> Sync2: output.SetChildrenNi()
 
 Sync2 -> Aggregator: Aggregate(outputs)
 activate Aggregator
@@ -170,9 +170,9 @@ deactivate Sync2
 
 ## Alternativas rejeitadas
 
-**Componente externo `IZhrOutputResolver`** — rejeitado porque a lógica de injecção de `Ni` e marcação de `UpdatedAt` pertence ao modelo. `SetNi()` no root usa `GetChildren()` para injectar o `Ni` sem duplicação e sem componentes externos. As classes parciais permitem adicionar este comportamento sem tocar no código gerado pelo WCF.
+**Componente externo `IZhrOutputResolver`** — rejeitado porque a lógica de injecção de `Ni` e marcação de `UpdatedAt` pertence ao modelo. `SetChildrenNi()` no root usa `GetChildren()` para injectar o `Ni` sem duplicação e sem componentes externos. As classes parciais permitem adicionar este comportamento sem tocar no código gerado pelo WCF.
 
-**`GetChildren()` com lógica de `Ni` interna** — rejeitado porque mistura duas responsabilidades numa só operação. `GetChildren()` deve apenas devolver a estrutura de children, sendo a injecção do `Ni` responsabilidade de `SetNi()` no root.
+**`GetChildren()` com lógica de `Ni` interna** — rejeitado porque mistura duas responsabilidades numa só operação. `GetChildren()` deve apenas devolver a estrutura de children, sendo a injecção do `Ni` responsabilidade de `SetChildrenNi()` no root.
 
 **Agregação inline no synchronizer** — rejeitada porque a lógica de agregação por tipo é reutilizável entre synchronizers e merece um componente dedicado para melhor testabilidade e manutenção.
 
