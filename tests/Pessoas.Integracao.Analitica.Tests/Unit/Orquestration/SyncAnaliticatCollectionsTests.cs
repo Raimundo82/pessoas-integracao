@@ -2,11 +2,11 @@
 
 using Moq;
 
-using Pessoas.Integracao.Analitica.Application.UseCases;
+using Pessoas.Integracao.Analitica.Infrastructure.Orquestration;
 using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 
 
-namespace Pessoas.Integracao.Analitica.Tests.Unit.UseCases;
+namespace Pessoas.Integracao.Analitica.Tests.Unit.Orquestration;
 
 public sealed class SyncAnaliticaCollectionsTests
 {

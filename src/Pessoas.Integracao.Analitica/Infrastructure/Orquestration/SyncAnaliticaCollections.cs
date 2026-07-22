@@ -1,7 +1,7 @@
 ﻿using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 using Pessoas.Integracao.Sync.Application.Contracts;
 
-namespace Pessoas.Integracao.Analitica.Application.UseCases;
+namespace Pessoas.Integracao.Analitica.Infrastructure.Orquestration;
 
 public sealed class SyncAnaliticaCollections(IEnumerable<ICollectionSyncStrategy> strategies)
 {
