@@ -1,4 +1,8 @@
-﻿using Pessoas.Integracao.Analitica.Application.UseCases;
+﻿using FluentAssertions;
+
+using Moq;
+
+using Pessoas.Integracao.Analitica.Application.UseCases;
 using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 
 
