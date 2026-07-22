@@ -4,11 +4,11 @@ using Pessoas.Integracao.Analitica.Models;
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
-namespace Pessoas.Integracao.Analitica.Infrastructure.Strategies;
+namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
-public sealed class AptidaoSyncConcreteStrategy(
+public sealed class AnaliticaAptidaoSyncronizer(
     IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao> mapper,
-    IAnaliticaRepository<ZhrWsAptidaoAptidao> repository) : ICollectionSyncStrategy
+    IAnaliticaRepository<ZhrWsAptidaoAptidao> repository) : IAnaliticaSynchronizer
 {
     public async Task SyncAsync(ZhrOutput input, CancellationToken ct)
     {

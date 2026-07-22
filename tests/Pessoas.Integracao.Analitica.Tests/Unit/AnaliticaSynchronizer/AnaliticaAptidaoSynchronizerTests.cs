@@ -3,19 +3,17 @@
 using Moq;
 
 using Pessoas.Integracao.Analitica.Application.Contracts;
+using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 using Pessoas.Integracao.Analitica.Infrastructure.Mappers;
-using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
 using Pessoas.Integracao.Analitica.Models;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
-namespace Pessoas.Integracao.Analitica.Tests.Unit.Strategies;
+namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
-public sealed class AptidaoSyncConcreteStrategyTests
+public sealed class AnaliticaAptidaoSynchronizerTests
 {
     private readonly Mock<IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao>> _mapper = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsAptidaoAptidao>> _repository = new();
-
-    private AptidaoSyncConcreteStrategy CreateSut() => new(_mapper.Object, _repository.Object);
 
     [Fact]
     public async Task ShouldNotCallMapperOrRepository_WhenAptidoesIsNull()
@@ -130,7 +128,7 @@ public sealed class AptidaoSyncConcreteStrategyTests
             .Callback<IReadOnlyList<ZhrWsAptidaoAptidao>, CancellationToken>((list, _) => captured = list)
             .Returns(Task.CompletedTask);
 
-        var sut = new AptidaoSyncConcreteStrategy(new AptidaoMapper(), _repository.Object);
+        var sut = new AnaliticaAptidaoSyncronizer(new AptidaoMapper(), _repository.Object);
 
         // Act & Assert
         return SyncAndVerifyAsync();
@@ -144,4 +142,7 @@ public sealed class AptidaoSyncConcreteStrategyTests
             await Verify(captured);
         }
     }
+
+    private AnaliticaAptidaoSyncronizer CreateSut() => new(_mapper.Object, _repository.Object);
+
 }

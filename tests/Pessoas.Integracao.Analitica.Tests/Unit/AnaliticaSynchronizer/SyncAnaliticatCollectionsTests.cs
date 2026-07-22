@@ -2,21 +2,23 @@
 
 using Moq;
 
-using Pessoas.Integracao.Analitica.Infrastructure.Orquestration;
-using Pessoas.Integracao.Analitica.Infrastructure.Strategies;
+using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer;
+
+using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 
-namespace Pessoas.Integracao.Analitica.Tests.Unit.Orquestration;
 
-public sealed class SyncAnaliticaCollectionsTests
+namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
+
+public sealed class AnaliticaSyncOrchestratorTests
 {
     [Fact]
     public async Task ShouldInvokeAllRegisteredHandlers_WhenExecuting()
     {
         // Arrange
-        var handler1 = new Mock<ICollectionSyncStrategy>();
-        var handler2 = new Mock<ICollectionSyncStrategy>();
-        var sut = new SyncAnaliticaCollections([handler1.Object, handler2.Object]);
+        var handler1 = new Mock<IAnaliticaSynchronizer>();
+        var handler2 = new Mock<IAnaliticaSynchronizer>();
+        var sut = new AnaliticaSyncOrchestrator([handler1.Object, handler2.Object]);
         var input = ZhrOutputTestData.OutputWith();
 
         // Act
@@ -31,7 +33,7 @@ public sealed class SyncAnaliticaCollectionsTests
     public async Task ShouldDoNothing_WhenNoHandlersAreRegistered()
     {
         // Arrange
-        var sut = new SyncAnaliticaCollections([]);
+        var sut = new AnaliticaSyncOrchestrator([]);
 
         // Act
         var act = () => sut.ExecuteAsync(ZhrOutputTestData.OutputWith(), CancellationToken.None);
