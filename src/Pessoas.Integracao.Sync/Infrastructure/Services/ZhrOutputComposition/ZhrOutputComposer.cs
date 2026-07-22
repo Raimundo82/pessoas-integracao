@@ -14,10 +14,12 @@ public class ZhrOutputComposer(IEnumerable<IZhrOutputsEnricher> enrichers)
     {
         IReadOnlyList<ZhrOutput> zhrOutputs = [.. pessoaSyncRefs
             .Select(pRef => new ZhrOutput
-            {
-                Ni = pRef.Ni,
-                ExternalId = pRef.ExternalId,
-            })];
+                {
+                    Ni = pRef.Ni,
+                    ExternalId = pRef.ExternalId,
+                    UpdateAt = pRef.SyncState.UpdatedAt
+                }
+            )];
 
         foreach (var enricher in enrichers)
         {

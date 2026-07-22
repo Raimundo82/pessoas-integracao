@@ -6,6 +6,7 @@ public class ZhrOutput
 {
     public required string Ni { get; init; }
     public required string ExternalId { get; init; }
+    public DateTimeOffset? UpdateAt { get; init; }
     public IReadOnlyList<ZhrSAptidao>? Aptidoes { get; set; }
     public IReadOnlyList<ZhrSPessoais>? Pessoais { get; set; }
     public IReadOnlyList<ZhrSFamilia>? Familias { get; set; }
