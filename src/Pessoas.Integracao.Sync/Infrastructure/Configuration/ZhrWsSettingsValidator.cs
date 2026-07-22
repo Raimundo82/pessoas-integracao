@@ -7,9 +7,8 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Configuration;
 public class ZhrWsSettingsValidator : AbstractValidator<ZhrWsSettings>
 {
     private readonly IFormatProvider _formatProvider;
-    public ZhrWsSettingsValidator() : this(CultureInfo.InvariantCulture)
-    {
-    }
+
+    public ZhrWsSettingsValidator() : this(CultureInfo.InvariantCulture) { }
 
     public ZhrWsSettingsValidator(IFormatProvider formatProvider)
     {
@@ -25,9 +24,10 @@ public class ZhrWsSettingsValidator : AbstractValidator<ZhrWsSettings>
             .NotEmpty()
             .WithMessage("ZhrWsSettings:Empresa is required.");
 
-        RuleFor(x => x.Endpoints.BaseUrl)
-            .NotEmpty()
-            .WithMessage("ZhrWsSettings:Endpoints:BaseUrl is required.");
+        RuleFor(x => x.Endpoints)
+            .NotNull()
+            .WithMessage("ZhrWsSettings:Endpoints is required.")
+            .SetValidator(new ZhrWsEndpointSettingsValidator());
     }
 
     private bool BeAValidDateFormat(string format)

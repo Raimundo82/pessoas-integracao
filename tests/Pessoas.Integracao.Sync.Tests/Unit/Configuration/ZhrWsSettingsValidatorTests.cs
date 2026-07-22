@@ -74,6 +74,22 @@ public class ZhrWsSettingsValidatorTests
               .WithErrorMessage("ZhrWsSettings:Empresa is required.");
     }
 
+    [Fact]
+    public void ShouldHaveValidationErrorForEndpointsBaseUrl_WhenEndpointsIsNull()
+    {
+        // Arrange
+        var validator = new ZhrWsSettingsValidator();
+        var settings = CreateValidSettings();
+        settings.Endpoints = null!;
+
+        // Act
+        var result = validator.TestValidate(settings);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.Endpoints)
+              .WithErrorMessage("ZhrWsSettings:Endpoints is required.");
+    }
+
 
     [Fact]
     public void ShouldHaveValidationErrorForEndpointsBaseUrl_WhenBaseUrlIsEmpty()
