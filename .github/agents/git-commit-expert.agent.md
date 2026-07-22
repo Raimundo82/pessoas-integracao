@@ -33,6 +33,7 @@ You MUST follow these steps in order:
 4. **Execution Phase (Post-Approval)**:
    - Execute `git add` for the specific files of the approved commit.
    - Execute `git commit -m "message"`.
+   - **CRITICAL**: Never use the `--no-verify` or `-n` flag to bypass git hooks. If a hook fails, the agent must stop, report the error, and help the user resolve the issue (e.g., by fixing formatting or linting errors) before attempting to commit again.
    - Repeat for the next commit in the sequence.
 
 ## Constraints

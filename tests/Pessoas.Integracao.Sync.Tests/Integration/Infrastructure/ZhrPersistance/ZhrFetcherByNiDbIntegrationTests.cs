@@ -5,7 +5,7 @@ using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class ZhrFetcherByNiDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime

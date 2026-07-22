@@ -4,12 +4,13 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
 
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
-public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime
+public sealed class NiGraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime
 {
+
     [Fact]
     public async Task ShouldInsertRootAndChildren_WhenDbIsEmpty()
     {
@@ -31,7 +32,7 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
     }
 
     [Fact]
-    public async Task ShouldWipeAllExistingDataAndInsertNewRoots_WhenDbIsPopulated()
+    public async Task ShouldReplaceMatchingRootAndPreserveOthers_WhenDbIsPopulated()
     {
 
         // Arrange
@@ -55,10 +56,10 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
             ]
         );
 
-        var newAptidao = AptidaoOutput(ni1, "30002697", updatedAt);
-        newAptidao.Aptidao = [AptidaoChild(ni1, "Aptidao3"), AptidaoChild(ni1, "Aptidao4")];
+        var aptidaoReplacement = AptidaoOutput(ni1, "30002697", updatedAt);
+        aptidaoReplacement.Aptidao = [AptidaoChild(ni1, "Aptidao3"), AptidaoChild(ni1, "Aptidao4")];
 
-        var newPessoais = new ZhrSPessoaisOutput
+        var pessoaisReplacement = new ZhrSPessoaisOutput
         {
             Ni = "226002",
             Numsap = "30002699",
@@ -68,20 +69,23 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
 
 
         // Act
-        await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
-        await ExecuteAsync([newPessoais], [newPessoais.Pessoais, newPessoais.Familia]);
+        await ExecuteAsync([aptidaoReplacement], [aptidaoReplacement.Aptidao]);
+        await ExecuteAsync([pessoaisReplacement], [pessoaisReplacement.Pessoais, pessoaisReplacement.Familia]);
 
         // Assert
         await using var assertContext = NewContext();
 
         var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
-        aptidaoRootResult.Should().HaveCount(1);
+        aptidaoRootResult.Should().HaveCount(2);
         aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni1 && r.Numsap == "30002697" && r.UpdatedAt == updatedAt);
+        aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni2 && r.Numsap == "30002698");
 
         var childrenResult = assertContext.Set<ZhrSAptidao>();
-        childrenResult.Should().HaveCount(2);
+        childrenResult.Should().HaveCount(4);
         childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao3");
         childrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao4");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao1");
+        childrenResult.Should().ContainSingle(c => c.Ni == ni2 && c.AreaExame == "Aptidao2");
 
         var pessoaisRootResult = assertContext.Set<ZhrSPessoaisOutput>();
         pessoaisRootResult.Should().HaveCount(1);
@@ -129,7 +133,7 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
     }
 
     [Fact]
-    public async Task ShouldWipeAllChildrenAndInsertNewOnes_WhenRootIsReplacedWithEmptyChildrenData()
+    public async Task ShouldDeleteOnlyMatchingChildren_WhenRootIsReplacedWithEmptyChildrenData()
     {
 
         // Arrange
@@ -154,93 +158,12 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         childrenResult.Should().BeEmpty();
     }
 
-    [Fact]
-    public async Task ShouldPreserveOtherZhrOutputs_WhenOnlyOneZhrOutputIsReplaced()
-    {
-        // Arrange
-        var (ni1, ni2) = ("22600", "226001");
-
-        await SeedAsync(
-            AptidaoOutput(ni1, "30002697"),
-            [AptidaoChild(ni1, "Aptidao1"), AptidaoChild(ni1, "Aptidao2")]);
-
-        await SeedAsync(
-            AptidaoOutput(ni2, "30002698"),
-            [AptidaoChild(ni2, "Aptidao3"), AptidaoChild(ni2, "Aptidao4")]);
-
-        var updatedAt = new DateTimeOffset(2024, 6, 1, 0, 0, 0, TimeSpan.Zero);
-
-        await SeedAsync(
-            new ZhrSPessoaisOutput { Ni = ni1, Numsap = "30002699" },
-            [new ZhrSPessoais { Ni = ni1, Nome = "Pessoa2" }],
-            [
-                new ZhrSFamilia { Ni = ni1, Fcnam = "Familiar1" },
-                new ZhrSFamilia { Ni = ni1, Fcnam = "Familiar2" }
-            ]
-        );
-
-        var newAptidao = AptidaoOutput(ni1, "30002697", updatedAt);
-        newAptidao.Aptidao = [AptidaoChild(ni1, "Aptidao5"), AptidaoChild(ni1, "Aptidao6")];
-
-        await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
-
-        // Assert
-        await using var assertContext = NewContext();
-
-        var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
-        aptidaoRootResult.Should().HaveCount(1);
-        aptidaoRootResult.Should().ContainSingle(r => r.Ni == ni1 && r.UpdatedAt == updatedAt);
-
-        var aptidaoChildrenResult = assertContext.Set<ZhrSAptidao>();
-        aptidaoChildrenResult.Should().HaveCount(2);
-        aptidaoChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao5");
-        aptidaoChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.AreaExame == "Aptidao6");
-
-        var pessoaisRootResult = assertContext.Set<ZhrSPessoaisOutput>();
-        pessoaisRootResult.Should().ContainSingle(c => c.Ni == ni1);
-
-        var pessoaisChildrenResult = assertContext.Set<ZhrSPessoais>();
-        pessoaisChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Nome == "Pessoa2");
-
-        var familiaChildrenResult = assertContext.Set<ZhrSFamilia>();
-        familiaChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Fcnam == "Familiar1");
-        familiaChildrenResult.Should().ContainSingle(c => c.Ni == ni1 && c.Fcnam == "Familiar2");
-    }
-
-    [Fact]
-    public async Task ShouldRollbackWipe_WhenInsertFails()
-    {
-        // Arrange
-        var ni = "22600";
-        await SeedAsync(
-            AptidaoOutput(ni, "30002697"),
-            [AptidaoChild(ni, "Aptidao1")]
-        );
-
-        var replacement = AptidaoOutput(ni, "30002697");
-        var invalidChildren = new ZhrSAptidao[]
-        {
-            new() { Ni = null!, AreaExame = "Invalid" }
-        };
-
-        // Act
-        var act = async () => await ExecuteAsync([replacement], [invalidChildren]);
-
-        // Assert
-        await act.Should().ThrowAsync<Exception>();
-
-        await using var assertContext = NewContext();
-        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
-        var childrenResult = assertContext.Set<ZhrSAptidao>();
-
-        rootResult.Should().ContainSingle(r => r.Ni == ni);
-        childrenResult.Should().ContainSingle(c => c.Ni == ni && c.AreaExame == "Aptidao1");
-    }
-
-    private async Task ExecuteAsync<TOutput>(TOutput[] outputs, IReadOnlyList<ZhrSBaseModel[]> children)
-        where TOutput : ZhrSBaseModelOutput, IOutputModel
+    private async Task ExecuteAsync<TOutput>(
+        TOutput[] outputs,
+        IReadOnlyList<ZhrSBaseModel[]> children
+    ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new BulkTableReplacer(context).ExecuteAsync(outputs, children, _ct);
+        await new NiGraphReplacer(context).ExecuteAsync(outputs, [.. children], _ct);
     }
 }

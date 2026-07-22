@@ -4,7 +4,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data;
 using Pessoas.Integracao.Testing;
 
-namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure;
+namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
 
 public abstract class TableReplacerTestsBase(PostgresTestContainerDb db) : IAsyncLifetime
 {
