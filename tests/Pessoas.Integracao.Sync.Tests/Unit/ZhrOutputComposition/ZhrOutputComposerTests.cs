@@ -1,10 +1,10 @@
-
 using FluentAssertions;
 
 using Moq;
 
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Domain.ValueObjects;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enrichers;
 
@@ -13,7 +13,7 @@ namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrOutputComposition;
 public sealed class ZhrOutputComposerTests
 {
     [Fact]
-    public async Task ShouldApplyAllEnrichersToTheSameOutputCollection()
+    public async Task ShouldContainAllEnrichedSections_WhenMultipleEnrichersAreApplied()
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
@@ -85,7 +85,7 @@ public sealed class ZhrOutputComposerTests
     }
 
     [Fact]
-    public async Task ShouldPassTheSameListInstanceThroughAllEnrichers()
+    public async Task ShouldPassSameListInstanceThroughAllEnrichers_WhenComposedWithMultipleEnrichers()
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
@@ -121,5 +121,35 @@ public sealed class ZhrOutputComposerTests
             Times.Once);
 
         results.Should().BeSameAs(capturedList);
+    }
+
+    [Fact]
+    public async Task ShouldMapUpdateAtCorrectly_WhenSyncStateHasOrLacksUpdatedAt()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef>
+        {
+            new() { Ni = "0001", ExternalId = "30001" },
+            new() {
+                Ni = "0001",
+                ExternalId = "30001",
+                SyncState = new SyncState
+                {
+                    UpdatedAt = new DateTimeOffset(new DateTime(2024, 10, 5))
+                }
+            },
+
+        };
+
+        var composer = new ZhrOutputComposer([]);
+
+        // Act
+        var results = await composer.ComposeAsync(pessoaSyncRefs, TestContext.Current.CancellationToken);
+
+        // Assert
+        results.Should().HaveCount(2);
+        results[0].UpdateAt.Should().BeNull();
+        results[1].UpdateAt.Should().BeExactly(pessoaSyncRefs[1].SyncState.UpdatedAt);
+
     }
 }
