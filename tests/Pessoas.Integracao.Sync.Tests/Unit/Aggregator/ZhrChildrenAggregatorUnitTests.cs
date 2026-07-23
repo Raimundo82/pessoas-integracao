@@ -25,7 +25,7 @@ public class ZhrChildrenAggregatorTests
         var aggregator = new ZhrChildrenAggregator();
 
         // Act
-        var result = aggregator.Aggregate<TestOutput>([]);
+        var result = aggregator.Aggregate([]);
 
         // Assert
         result.Should().BeEmpty();
