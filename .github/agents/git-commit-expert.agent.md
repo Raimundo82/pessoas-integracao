@@ -17,7 +17,7 @@ You MUST follow these steps in order:
    - Always perform a fresh verification of the current workspace state.
    - Execute `git status` to identify modified and untracked files.
    - Execute `git diff` to analyze the actual code changes in the working tree.
-   - Read `GIT_CONVENTIONS.md` to ensure alignment with the project's specific rules.
+   - Read the absolute path of `GIT_CONVENTIONS.md` to ensure alignment with the project's specific rules.
 
 2. **Logical Decomposition**:
    - Group changes by intent (e.g., separate a typo fix from a new feature).
