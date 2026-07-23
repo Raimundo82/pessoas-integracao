@@ -6,10 +6,10 @@ public partial class ZhrSPessoaisOutput : ZhrSBaseModelOutput, IOutputModel
     {
         return
         [
-            ..Pessoais?.Cast<ZhrSBaseModel>() ?? [],
-            ..Familia?.Cast<ZhrSBaseModel>() ?? [],
-            ..OutrosDados?.Cast<ZhrSBaseModel>() ?? [],
-            ..Deficiencias?.Cast<ZhrSBaseModel>() ?? []
+            ..Pessoais ?? [],
+            ..Familia ?? [],
+            ..OutrosDados ?? [],
+            ..Deficiencias ?? []
         ];
     }
 }
