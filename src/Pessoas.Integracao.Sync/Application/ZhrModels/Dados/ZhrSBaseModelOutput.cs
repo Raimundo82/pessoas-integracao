@@ -6,6 +6,14 @@ public interface IOutputModel
 {
     string Ni { get; set; }
     string Numsap { get; set; }
+    public IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened();
+    public void SetChildrenNi()
+    {
+        foreach (var child in GetChildrenFlattened())
+        {
+            child.Ni = Ni;
+        }
+    }
 }
 
 public abstract class ZhrSBaseModelOutput
@@ -17,15 +25,5 @@ public abstract class ZhrSBaseModelOutput
     public virtual void SetUpdatedAt(DateTimeOffset updatedAt)
     {
         UpdatedAt = updatedAt;
-    }
-
-    public abstract IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened();
-
-    public void SetChildrenNi(string ni)
-    {
-        foreach (var child in GetChildrenFlattened())
-        {
-            child.Ni = ni;
-        }
     }
 }
