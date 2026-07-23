@@ -6,11 +6,11 @@ public partial class ZhrSAtribOrgOutput : ZhrSBaseModelOutput, IOutputModel
     {
         return
         [
-            ..AtribOrg?.Cast<ZhrSBaseModel>() ?? [],
-            ..MonitPrazos?.Cast<ZhrSBaseModel>() ?? [],
-            ..DataMedida?.Cast<ZhrSBaseModel>() ?? [],
-            ..Om?.Cast<ZhrSBaseModel>() ?? [],
-            ..ClassifProf?.Cast<ZhrSBaseModel>() ?? []
+            ..AtribOrg ?? [],
+            ..MonitPrazos ?? [],
+            ..DataMedida ?? [],
+            ..Om ?? [],
+            ..ClassifProf ?? []
         ];
     }
 }
