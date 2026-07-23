@@ -6,8 +6,8 @@ public interface IOutputModel
 {
     string Ni { get; set; }
     string Numsap { get; set; }
-    public IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened();
-    public void SetChildrenNi()
+    IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened();
+    void SetChildrenNi()
     {
         foreach (var child in GetChildrenFlattened())
         {
