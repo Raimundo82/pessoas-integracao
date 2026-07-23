@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.Aggregator;
 
 public interface IZhrChildrenAggregator
 {
-    IReadOnlyList<ZhrSBaseModel[]> Aggregate(IReadOnlyList<ZhrSBaseModelOutput> outputs);
+    IReadOnlyList<ZhrSBaseModel[]> Aggregate(IReadOnlyList<IOutputModel> outputs);
 }

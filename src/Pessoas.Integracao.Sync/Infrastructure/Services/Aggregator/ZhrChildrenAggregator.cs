@@ -4,7 +4,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.Aggregator;
 
 public sealed class ZhrChildrenAggregator : IZhrChildrenAggregator
 {
-    public IReadOnlyList<ZhrSBaseModel[]> Aggregate(IReadOnlyList<ZhrSBaseModelOutput> outputs)
+    public IReadOnlyList<ZhrSBaseModel[]> Aggregate(IReadOnlyList<IOutputModel> outputs)
     {
         return [.. outputs
             .SelectMany(x => x.GetChildrenFlattened())
