@@ -13,7 +13,7 @@ public class ZhrSAptidaoOutputTests
         var output = new ZhrSAptidaoOutput();
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().BeEmpty();
@@ -36,7 +36,7 @@ public class ZhrSAptidaoOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().HaveCount(2);
@@ -58,7 +58,7 @@ public class ZhrSAptidaoOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().OnlyContain(x => x is ZhrSAptidao);

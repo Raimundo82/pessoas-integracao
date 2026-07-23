@@ -9,7 +9,7 @@ public sealed class ZhrChildrenAggregator : IZhrChildrenAggregator
         where TOutput : ZhrSBaseModelOutput
     {
         return [.. outputs
-            .SelectMany(x => x.GetChildren())
+            .SelectMany(x => x.GetChildrenFlattened())
             .GroupBy(x => x.GetType())
             .Select(g => g.ToArray())];
     }

@@ -11,7 +11,7 @@ public class ZhrChildrenAggregatorTests
     {
         public IReadOnlyList<ZhrSBaseModel> Children { get; init; } = [];
 
-        public override IReadOnlyList<ZhrSBaseModel> GetChildren() => Children;
+        public override IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened() => Children;
     }
 
     private sealed class ChildA : ZhrSBaseModel { }

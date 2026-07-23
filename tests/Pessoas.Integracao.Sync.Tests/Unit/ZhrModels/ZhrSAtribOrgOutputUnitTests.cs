@@ -13,7 +13,7 @@ public class ZhrSAtribOrgOutputTests
         var output = new ZhrSAtribOrgOutput();
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().BeEmpty();
@@ -39,7 +39,7 @@ public class ZhrSAtribOrgOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().HaveCount(5);
@@ -69,7 +69,7 @@ public class ZhrSAtribOrgOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().HaveCount(3);

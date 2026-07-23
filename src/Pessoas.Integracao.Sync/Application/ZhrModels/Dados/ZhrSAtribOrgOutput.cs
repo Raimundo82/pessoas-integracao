@@ -2,7 +2,7 @@ namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 public partial class ZhrSAtribOrgOutput : ZhrSBaseModelOutput, IOutputModel
 {
-    public override IReadOnlyList<ZhrSBaseModel> GetChildren()
+    public override IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened()
     {
         return
         [

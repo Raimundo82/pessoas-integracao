@@ -13,7 +13,7 @@ public class ZhrSPessoaisOutputTests
         var output = new ZhrSPessoaisOutput();
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().BeEmpty();
@@ -37,7 +37,7 @@ public class ZhrSPessoaisOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().HaveCount(4);
@@ -73,7 +73,7 @@ public class ZhrSPessoaisOutputTests
         };
 
         // Act
-        var result = output.GetChildren();
+        var result = output.GetChildrenFlattened();
 
         // Assert
         result.Should().Contain(x => x is ZhrSPessoais);

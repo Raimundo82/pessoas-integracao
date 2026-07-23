@@ -14,7 +14,7 @@ public class ZhrSBaseModelOutputTests
     {
         public IReadOnlyList<ZhrSBaseModel> Children { get; init; } = [];
 
-        public override IReadOnlyList<ZhrSBaseModel> GetChildren() => Children;
+        public override IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened() => Children;
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class ZhrSBaseModelOutputTests
         };
 
         // Act
-        output.SetNi("ROOT123");
+        output.SetChildrenNi("ROOT123");
 
         // Assert
         child.Ni.Should().Be("ROOT123");
@@ -89,14 +89,14 @@ public class ZhrSBaseModelOutputTests
         };
 
         // Act
-        output.SetNi("ROOT123");
+        output.SetChildrenNi("ROOT123");
 
         // Assert
         child.Ni.Should().Be("ROOT123");
     }
 
     [Fact]
-    public void ShouldPreserveExistingNi_WhenChildNiIsAlreadySet()
+    public void ShouldNotPreserveExistingNi_WhenChildNiIsAlreadySet()
     {
         // Arrange
         var child = new TestChild
@@ -110,10 +110,10 @@ public class ZhrSBaseModelOutputTests
         };
 
         // Act
-        output.SetNi("ROOT123");
+        output.SetChildrenNi("ROOT123");
 
         // Assert
-        child.Ni.Should().Be("CHILD456");
+        child.Ni.Should().Be("ROOT123");
     }
 
     [Fact]
@@ -133,7 +133,7 @@ public class ZhrSBaseModelOutputTests
         };
 
         // Act
-        output.SetNi("ROOT123");
+        output.SetChildrenNi("ROOT123");
 
         // Assert
         children.Should().OnlyContain(x => x.Ni == "ROOT123");
@@ -146,7 +146,7 @@ public class ZhrSBaseModelOutputTests
         var output = new TestOutput();
 
         // Act
-        var action = () => output.SetNi("ROOT123");
+        var action = () => output.SetChildrenNi("ROOT123");
 
         // Assert
         action.Should().NotThrow();
@@ -167,7 +167,7 @@ public class ZhrSBaseModelOutputTests
         };
 
         // Act
-        output.SetNi("ROOT123");
+        output.SetChildrenNi("ROOT123");
 
         // Assert
         child.Ni.Should().Be("ROOT123");

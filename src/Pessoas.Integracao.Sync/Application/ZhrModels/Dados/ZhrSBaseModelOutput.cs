@@ -19,11 +19,11 @@ public abstract class ZhrSBaseModelOutput
         UpdatedAt = updatedAt;
     }
 
-    public abstract IReadOnlyList<ZhrSBaseModel> GetChildren();
+    public abstract IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened();
 
-    public void SetNi(string ni)
+    public void SetChildrenNi(string ni)
     {
-        foreach (var child in GetChildren().Where(c => string.IsNullOrWhiteSpace(c.Ni)))
+        foreach (var child in GetChildrenFlattened())
         {
             child.Ni = ni;
         }
