@@ -20,7 +20,7 @@ public class ZhrSAtribOrgOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldReturnChildrenFromAllCollections()
+    public void ShouldReturnChildrenFromAllCollections_WhenAllCollectionsArePopulated()
     {
         // Arrange
         var atribOrg = new ZhrSAtribOrg { Ni = "NI1" };
@@ -52,7 +52,7 @@ public class ZhrSAtribOrgOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldFlattenAllChildCollections()
+    public void ShouldFlattenAllChildCollections_WhenMultipleCollectionsContainChildren()
     {
         // Arrange
         var output = new ZhrSAtribOrgOutput

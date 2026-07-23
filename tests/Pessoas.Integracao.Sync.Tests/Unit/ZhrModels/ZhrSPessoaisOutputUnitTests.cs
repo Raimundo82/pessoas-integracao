@@ -20,7 +20,7 @@ public class ZhrSPessoaisOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldReturnChildrenFromAllCollections()
+    public void ShouldReturnChildrenFromAllCollections_WhenAllCollectionsArePopulated()
     {
         // Arrange
         var pessoais = new ZhrSPessoais { Ni = "NI1" };
@@ -49,7 +49,7 @@ public class ZhrSPessoaisOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldReturnAllExpectedChildTypes()
+    public void ShouldReturnAllExpectedChildTypes_WhenAllCollectionsArePopulated()
     {
         // Arrange
         var output = new ZhrSPessoaisOutput

@@ -64,7 +64,7 @@ public class ZhrChildrenAggregatorTests
     }
 
     [Fact]
-    public void Aggregate_ShouldGroupChildrenByConcreteType()
+    public void ShouldGroupChildrenByConcreteType_WhenMultipleChildTypesArePresent()
     {
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
@@ -95,7 +95,7 @@ public class ZhrChildrenAggregatorTests
     }
 
     [Fact]
-    public void Aggregate_ShouldFlattenChildrenFromMultipleOutputs()
+    public void ShouldFlattenChildren_WhenMultipleOutputsAreProvided()
     {
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
@@ -126,7 +126,7 @@ public class ZhrChildrenAggregatorTests
     }
 
     [Fact]
-    public void Aggregate_ShouldIgnoreOutputsWithoutChildren()
+    public void ShouldIgnoreOutputs_WhenOutputsHaveNoChildren()
     {
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
@@ -151,7 +151,7 @@ public class ZhrChildrenAggregatorTests
     }
 
     [Fact]
-    public void Aggregate_ShouldPreserveAllChildren()
+    public void ShouldPreserveAllChildren_WhenMultipleChildrenAreProvided()
     {
         // Arrange
         var child1 = new ChildA { Ni = "NI1" };

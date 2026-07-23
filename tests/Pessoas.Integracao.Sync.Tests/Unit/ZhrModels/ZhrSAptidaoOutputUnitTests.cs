@@ -20,7 +20,7 @@ public class ZhrSAptidaoOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldReturnAllAptidaoChildren()
+    public void ShouldReturnAllAptidaoChildren_WhenAptidaoCollectionIsPopulated()
     {
         // Arrange
         var child1 = new ZhrSAptidao { Ni = "NI1" };
@@ -45,7 +45,7 @@ public class ZhrSAptidaoOutputTests
     }
 
     [Fact]
-    public void GetChildren_ShouldReturnOnlyAptidaoChildren()
+    public void ShouldReturnOnlyAptidaoChildren_WhenAptidaoCollectionContainsOnlyAptidaoItems()
     {
         // Arrange
         var output = new ZhrSAptidaoOutput

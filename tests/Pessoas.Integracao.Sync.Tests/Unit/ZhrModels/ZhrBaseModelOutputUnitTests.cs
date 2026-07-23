@@ -18,7 +18,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetUpdatedAt_ShouldSetTimestamp()
+    public void ShouldSetTimestamp_WhenSetUpdatedAtIsCalled()
     {
         // Arrange
         var output = new TestOutput();
@@ -34,7 +34,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetUpdatedAt_ShouldOverwriteExistingTimestamp()
+    public void ShouldOverwriteExistingTimestamp_WhenSetUpdatedAtIsCalledWithNewValue()
     {
         // Arrange
         var output = new TestOutput
@@ -54,7 +54,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldPopulateEmptyNi()
+    public void ShouldPopulateNi_WhenChildNiIsEmpty()
     {
         // Arrange
         var child = new TestChild
@@ -75,7 +75,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldPopulateWhitespaceNi()
+    public void ShouldPopulateNi_WhenChildNiIsWhitespace()
     {
         // Arrange
         var child = new TestChild
@@ -96,7 +96,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldPreserveExistingNi()
+    public void ShouldPreserveExistingNi_WhenChildNiIsAlreadySet()
     {
         // Arrange
         var child = new TestChild
@@ -117,7 +117,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldPopulateMultipleChildren()
+    public void ShouldPopulateNiForAllChildren_WhenMultipleChildrenArePresent()
     {
         // Arrange
         var children = new List<TestChild>
@@ -140,7 +140,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldHandleEmptyChildrenCollection()
+    public void ShouldNotThrow_WhenChildrenCollectionIsEmpty()
     {
         // Arrange
         var output = new TestOutput();
@@ -153,7 +153,7 @@ public class ZhrSBaseModelOutputTests
     }
 
     [Fact]
-    public void SetNi_ShouldModifyOriginalChildInstances()
+    public void ShouldModifyOriginalChildInstances_WhenSetNiIsCalled()
     {
         // Arrange
         var child = new TestChild
