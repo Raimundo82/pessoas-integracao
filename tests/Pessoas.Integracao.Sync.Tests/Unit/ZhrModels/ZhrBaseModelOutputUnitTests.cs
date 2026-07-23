@@ -2,26 +2,18 @@ using FluentAssertions;
 
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
+using Pessoas.Integracao.Sync.Tests.Unit.Helpers;
+
 namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrModels;
 
 public class ZhrSBaseModelOutputTests
 {
-    private sealed class TestChild : ZhrSBaseModel
-    {
-    }
-
-    private sealed class TestOutput : ZhrSBaseModelOutput
-    {
-        public IReadOnlyList<ZhrSBaseModel> Children { get; init; } = [];
-
-        public override IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened() => Children;
-    }
 
     [Fact]
     public void ShouldSetTimestamp_WhenSetUpdatedAtIsCalled()
     {
         // Arrange
-        var output = new TestOutput();
+        ZhrTestOutput output = GetZhrTestOutput();
 
         var timestamp = new DateTimeOffset(
             2025, 1, 1, 12, 0, 0, TimeSpan.Zero);
@@ -33,15 +25,13 @@ public class ZhrSBaseModelOutputTests
         output.UpdatedAt.Should().Be(timestamp);
     }
 
+
     [Fact]
     public void ShouldOverwriteExistingTimestamp_WhenSetUpdatedAtIsCalledWithNewValue()
     {
         // Arrange
-        var output = new TestOutput
-        {
-            UpdatedAt = new DateTimeOffset(
-                2024, 1, 1, 12, 0, 0, TimeSpan.Zero)
-        };
+        ZhrTestOutput output = GetZhrTestOutput();
+
 
         var timestamp = new DateTimeOffset(
             2025, 1, 1, 12, 0, 0, TimeSpan.Zero);
@@ -57,18 +47,15 @@ public class ZhrSBaseModelOutputTests
     public void ShouldPopulateNi_WhenChildNiIsEmpty()
     {
         // Arrange
-        var child = new TestChild
+        var child = new ZhrChildA
         {
             Ni = string.Empty
         };
 
-        var output = new TestOutput
-        {
-            Children = [child]
-        };
+        IOutputModel output = GetZhrTestOutput("ROOT123", [child]);
 
         // Act
-        output.SetChildrenNi("ROOT123");
+        output.SetChildrenNi();
 
         // Assert
         child.Ni.Should().Be("ROOT123");
@@ -78,18 +65,15 @@ public class ZhrSBaseModelOutputTests
     public void ShouldPopulateNi_WhenChildNiIsWhitespace()
     {
         // Arrange
-        var child = new TestChild
+        var child = new ZhrChildA
         {
             Ni = "   "
         };
 
-        var output = new TestOutput
-        {
-            Children = [child]
-        };
+        IOutputModel output = GetZhrTestOutput("ROOT123", [child]);
 
         // Act
-        output.SetChildrenNi("ROOT123");
+        output.SetChildrenNi();
 
         // Assert
         child.Ni.Should().Be("ROOT123");
@@ -99,18 +83,15 @@ public class ZhrSBaseModelOutputTests
     public void ShouldNotPreserveExistingNi_WhenChildNiIsAlreadySet()
     {
         // Arrange
-        var child = new TestChild
+        var child = new ZhrChildB
         {
             Ni = "CHILD456"
         };
 
-        var output = new TestOutput
-        {
-            Children = [child]
-        };
+        IOutputModel output = GetZhrTestOutput("ROOT123", [child]);
 
         // Act
-        output.SetChildrenNi("ROOT123");
+        output.SetChildrenNi();
 
         // Assert
         child.Ni.Should().Be("ROOT123");
@@ -120,20 +101,18 @@ public class ZhrSBaseModelOutputTests
     public void ShouldPopulateNiForAllChildren_WhenMultipleChildrenArePresent()
     {
         // Arrange
-        var children = new List<TestChild>
+        var children = new ZhrSBaseModel[]
         {
-            new() { Ni = "" },
-            new() { Ni = "" },
-            new() { Ni = "" }
+            new ZhrChildA { Ni = "" },
+            new ZhrChildA { Ni = "" },
+            new ZhrChildB { Ni = "" }
         };
 
-        var output = new TestOutput
-        {
-            Children = children
-        };
+        IOutputModel output = GetZhrTestOutput("ROOT123", children);
+
 
         // Act
-        output.SetChildrenNi("ROOT123");
+        output.SetChildrenNi();
 
         // Assert
         children.Should().OnlyContain(x => x.Ni == "ROOT123");
@@ -143,10 +122,10 @@ public class ZhrSBaseModelOutputTests
     public void ShouldNotThrow_WhenChildrenCollectionIsEmpty()
     {
         // Arrange
-        var output = new TestOutput();
+        IOutputModel output = GetZhrTestOutput("ROOT123");
 
         // Act
-        var action = () => output.SetChildrenNi("ROOT123");
+        var action = () => output.SetChildrenNi();
 
         // Assert
         action.Should().NotThrow();
@@ -156,20 +135,27 @@ public class ZhrSBaseModelOutputTests
     public void ShouldModifyOriginalChildInstances_WhenSetNiIsCalled()
     {
         // Arrange
-        var child = new TestChild
+        var child = new ZhrChildA
         {
             Ni = string.Empty
         };
 
-        var output = new TestOutput
-        {
-            Children = [child]
-        };
+        IOutputModel output = GetZhrTestOutput("ROOT123", [child]);
 
         // Act
-        output.SetChildrenNi("ROOT123");
+        output.SetChildrenNi();
 
         // Assert
         child.Ni.Should().Be("ROOT123");
+    }
+
+    private static ZhrTestOutput GetZhrTestOutput(string ni = "NI", ZhrSBaseModel[]? children = null)
+    {
+        return new ZhrTestOutput
+        {
+            Ni = ni,
+            Numsap = "NUMSAP",
+            Children = children ?? []
+        };
     }
 }

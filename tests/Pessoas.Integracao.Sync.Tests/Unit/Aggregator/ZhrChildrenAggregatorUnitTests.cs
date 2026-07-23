@@ -1,23 +1,12 @@
 using FluentAssertions;
 
-using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Services.Aggregator;
+using Pessoas.Integracao.Sync.Tests.Unit.Helpers;
 
 namespace Pessoas.Integracao.Sync.Tests.Unit.Aggregator;
 
 public class ZhrChildrenAggregatorTests
 {
-    private sealed class TestOutput : ZhrSBaseModelOutput
-    {
-        public IReadOnlyList<ZhrSBaseModel> Children { get; init; } = [];
-
-        public override IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened() => Children;
-    }
-
-    private sealed class ChildA : ZhrSBaseModel { }
-
-    private sealed class ChildB : ZhrSBaseModel { }
-
     [Fact]
     public void Aggregate_ShouldReturnEmpty_WhenOutputsAreEmpty()
     {
@@ -37,20 +26,22 @@ public class ZhrChildrenAggregatorTests
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
 
-        var outputs = new List<TestOutput>
+        var outputs = new List<ZhrTestOutput>
         {
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI1" },
-                    new ChildA { Ni = "NI2" }
+            new()
+            {
+                Ni = "NI1",
+                Numsap = "NUMSAP1",
+                Children = [
+                    new ZhrChildA { Ni = "NI1" },
+                    new ZhrChildA { Ni = "NI1" }
                 ]
             },
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI3" }
-                ]
+            new()
+            {
+                Ni = "NI2",
+                Numsap = "NUMSAP2",
+                Children = [new ZhrChildA { Ni = "NI2" }]
             }
         };
 
@@ -60,7 +51,7 @@ public class ZhrChildrenAggregatorTests
         // Assert
         result.Should().HaveCount(1);
         result[0].Should().HaveCount(3);
-        result[0].Should().OnlyContain(x => x is ChildA);
+        result[0].Should().OnlyContain(x => x is ZhrChildA);
     }
 
     [Fact]
@@ -69,15 +60,25 @@ public class ZhrChildrenAggregatorTests
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
 
-        var outputs = new List<TestOutput>
+        var outputs = new List<ZhrTestOutput>
         {
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI1" },
-                    new ChildB { Ni = "NI2" },
-                    new ChildA { Ni = "NI3" }
-                ]
+            new()
+            {
+                Ni = "NI1",
+                Numsap = "NUMSAP1",
+                Children = [new ZhrChildA { Ni = "NI1" }]
+            },
+            new()
+            {
+                Ni = "NI2",
+                Numsap = "NUMSAP2",
+                Children = [new ZhrChildB { Ni = "NI2" }]
+            },
+            new()
+            {
+                Ni = "NI3",
+                Numsap = "NUMSAP3",
+                Children = [new ZhrChildA { Ni = "NI3" }]
             }
         };
 
@@ -88,10 +89,10 @@ public class ZhrChildrenAggregatorTests
         result.Should().HaveCount(2);
 
         result.Should()
-            .Contain(x => x.All(c => c is ChildA) && x.Length == 2);
+                .Contain(x => x.All(c => c is ZhrChildA) && x.Length == 2);
 
         result.Should()
-            .Contain(x => x.All(c => c is ChildB) && x.Length == 1);
+            .Contain(x => x.All(c => c is ZhrChildB) && x.Length == 1);
     }
 
     [Fact]
@@ -100,21 +101,23 @@ public class ZhrChildrenAggregatorTests
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
 
-        var outputs = new List<TestOutput>
+        var outputs = new List<ZhrTestOutput>
         {
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI1" },
+            new()
+            {
+                Ni = "NI1",
+                Numsap = "NUMSAP1",
+                Children = [new ZhrChildA { Ni = "NI1" }]
+            },
+            new()
+            {
+                Ni = "NI2",
+                Numsap = "NUMSAP2",
+                Children = [
+                    new ZhrChildA { Ni = "NI2" },
+                    new ZhrChildA { Ni = "NI2" }
                 ]
             },
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI2" },
-                    new ChildA { Ni = "NI3" },
-                ]
-            }
         };
 
         // Act
@@ -131,15 +134,15 @@ public class ZhrChildrenAggregatorTests
         // Arrange
         var aggregator = new ZhrChildrenAggregator();
 
-        var outputs = new List<TestOutput>
+        var outputs = new List<ZhrTestOutput>
         {
-            new(),
-            new() {
-                Children =
-                [
-                    new ChildA { Ni = "NI1" },
-                ]
-            }
+            new() {Ni = "NI", Numsap = "NUMSAP"},
+            new()
+            {
+                Ni = "NI1",
+                Numsap = "NUMSAP1",
+                Children = [new ZhrChildA { Ni = "NI1" }]
+            },
         };
 
         // Act
@@ -154,15 +157,17 @@ public class ZhrChildrenAggregatorTests
     public void ShouldPreserveAllChildren_WhenMultipleChildrenAreProvided()
     {
         // Arrange
-        var child1 = new ChildA { Ni = "NI1" };
-        var child2 = new ChildA { Ni = "NI2" };
-        var child3 = new ChildB() { Ni = "NI3" };
+        var child1 = new ZhrChildA { Ni = "NI1" };
+        var child2 = new ZhrChildA { Ni = "NI2" };
+        var child3 = new ZhrChildB() { Ni = "NI3" };
 
         var aggregator = new ZhrChildrenAggregator();
 
-        var outputs = new List<TestOutput>
+        var outputs = new List<ZhrTestOutput>
         {
             new() {
+                Ni = "NI",
+                Numsap = "NUMSAP",
                 Children =
                 [
                     child1,
