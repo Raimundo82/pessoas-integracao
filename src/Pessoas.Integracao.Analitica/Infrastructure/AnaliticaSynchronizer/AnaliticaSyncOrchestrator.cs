@@ -7,9 +7,7 @@ public sealed class AnaliticaSyncOrchestrator(IEnumerable<IAnaliticaSynchronizer
 {
     public async Task ExecuteAsync(ZhrOutput input, CancellationToken ct)
     {
-        foreach (var synchronizer in syncronizers)
-        {
-            await synchronizer.SyncAsync(input, ct);
-        }
+        var tasks = syncronizers.Select(synchronizer => synchronizer.SyncAsync(input, ct));
+        await Task.WhenAll(tasks);
     }
 }
