@@ -5,6 +5,7 @@ using FluentAssertions;
 using Moq;
 
 using Pessoas.Integracao.Sync.Application.Contracts;
+using Pessoas.Integracao.Sync.Application.ZhrModels;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Domain.Entities;
 using Pessoas.Integracao.Sync.Infrastructure.Contracts;
@@ -26,7 +27,7 @@ public sealed class ZhrAptidaoEnricherTests
                 ct: TestContext.Current.CancellationToken))
             .ReturnsAsync(aptidoesFetcher);
 
-        var zhrOutputs = new List<ZhrOutput> { new() { Ni = "0001", ExternalId = "30001" } };
+        var zhrOutputs = new List<IZhrOutput> { new ZhrOutput { Ni = "0001", ExternalId = "30001" } };
         var uut = new ZhrAptidaoEnricher(zhrFetcherByNiMock.Object);
 
         // Act
@@ -56,9 +57,9 @@ public sealed class ZhrAptidaoEnricherTests
                 ct: TestContext.Current.CancellationToken))
             .ReturnsAsync(aptidoesFetcher);
 
-        var zhrOutputs = new List<ZhrOutput>
+        var zhrOutputs = new List<IZhrOutput>
         {
-            new()
+            new ZhrOutput
             {
                 Ni = "0001",
                 ExternalId = "30001",
@@ -86,7 +87,7 @@ public sealed class ZhrAptidaoEnricherTests
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
-        var zhrOutputs = new List<ZhrOutput> { new() { Ni = "0001", ExternalId = "30001" } };
+        var zhrOutputs = new List<IZhrOutput> { new ZhrOutput { Ni = "0001", ExternalId = "30001" } };
 
         var zhrFetcherByNiMock = new Mock<IZhrFetcherByNi>();
         zhrFetcherByNiMock
