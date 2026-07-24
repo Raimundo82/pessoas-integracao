@@ -5,9 +5,9 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.E
 
 public interface IZhrOutputsEnricher
 {
-    Task<IReadOnlyList<ZhrOutput>> EnrichAsync(
+    Task<IReadOnlyList<IZhrOutput>> EnrichAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
-        IReadOnlyList<ZhrOutput> zhrOutputs,
+        IReadOnlyList<IZhrOutput> zhrOutputs,
         CancellationToken ct
     );
 }

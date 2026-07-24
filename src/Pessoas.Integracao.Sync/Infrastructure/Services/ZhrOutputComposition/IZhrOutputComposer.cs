@@ -5,7 +5,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 
 public interface IZhrOutputComposer
 {
-    Task<IReadOnlyList<ZhrOutput>> ComposeAsync(
+    Task<IReadOnlyList<IZhrOutput>> ComposeAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
         CancellationToken ct
     );
