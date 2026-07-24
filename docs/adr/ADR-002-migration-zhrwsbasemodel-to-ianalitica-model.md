@@ -94,23 +94,23 @@ Adotou-se a seguinte arquitetura para os modelos da camada Analitica:
 
 ## Alternativas Consideradas
 
-### Alternativa 1: Manter uma Classe Abstrata Única (como `AnaliticaBaseModel`)
+### Alternativa 1: Manter uma Classe Abstrata Única `AnaliticaBaseModel`
 
-**Descrição**: Continuar a usar uma classe base abstrata (como `AnaliticaBaseModel`) e adicionar `Numsap` a esta classe.
+**Descrição**: Continuar a usar uma classe base abstrata `AnaliticaBaseModel` e adicionar `Numsap` a esta classe.
 
-**Rejeitada porque**: Causaria um conflito de duplicação de propriedades com as classes geradas pelo EF Core Power Tools que já definem `Numsap`.
+**Rejeitada porque** causaria um conflito de duplicação de propriedades com as classes geradas pelo EF Core Power Tools que já definem `Numsap`.
 
 ### Alternativa 2: Adicionar Propriedades Individualmente a Cada Classe Concreta
 
-**Descrição**: Remover a classe abstrata (`AnaliticaBaseModel`) e adicionar `Id`, `Ni`, `UpdatedAt` e `Numsap` individualmente a cada uma das 30+ classes concretas.
+**Descrição**: Remover a classe abstrata `AnaliticaBaseModel` e adicionar `Id`, `Ni`, `UpdatedAt` e `Numsap` individualmente a cada uma das múltiplas classes concretas ZhrWs.
 
-**Rejeitada porque**: Seria anti-pattern, dificultaria a manutenção e violaria o princípio DRY (Don't Repeat Yourself).
+**Rejeitada porque** seria anti-pattern, dificultaria a manutenção e violaria o princípio DRY.
 
 ### Alternativa 3: Usar Apenas a Interface `IAnaliticaModel` Sem Classe Abstrata
 
-**Descrição**: Remover a classe abstrata (`AnaliticaBaseModel`) e fazer com que todas as classes concretas implementem diretamente `IAnaliticaModel`, definindo todas as propriedades (`Id`, `Ni`, `UpdatedAt`, `Numsap`).
+**Descrição**: Remover a classe abstrata `AnaliticaBaseModel` e fazer com que todas as classes concretas ZhrWs implementem diretamente `IAnaliticaModel`, definindo todas as propriedades (`Id`, `Ni`, `UpdatedAt`, `Numsap`).
 
-**Rejeitada porque**: Obrigaría a adicionar os atributos `Id`, `Ni`, `UpdatedAt` a todas as 30+ classes concretas, o que seria mantenedor e propenso a erros.
+**Rejeitada porque** obrigaría a adicionar os atributos `Id`, `Ni`, `UpdatedAt` a todas as múltiplas classes concretas, o que seria repetitico, propenso a erros e oneroso de manter.
 
 ## Notas de Evolução Futura
 
