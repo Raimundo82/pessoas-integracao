@@ -1,4 +1,4 @@
-# ADR-001: Contrato de integração entre Sync e consumidores de dados SIGDN-RH
+# ADR-001-SYNC: Contrato de integração entre Sync e consumidores de dados SIGDN-RH
 
 ## Status
 
