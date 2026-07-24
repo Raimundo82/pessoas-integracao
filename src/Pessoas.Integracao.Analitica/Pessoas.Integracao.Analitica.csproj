@@ -11,6 +11,11 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="EFCore.BulkExtensions.Core" />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
+    <PackageReference Include="Riok.Mapperly" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pessoas.Integracao.Sync\Pessoas.Integracao.Sync.csproj" />
   </ItemGroup>
 
 </Project>
