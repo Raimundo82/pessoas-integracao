@@ -8,9 +8,9 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.E
 public class ZhrAptidaoEnricher(IZhrFetcherByNi zhrFetcherByNi) : IZhrOutputsEnricher
 {
 
-    public async Task<IReadOnlyList<ZhrOutput>> EnrichAsync(
+    public async Task<IReadOnlyList<IZhrOutput>> EnrichAsync(
         IReadOnlyList<PessoaSyncRef> pessoaSyncRefs,
-        IReadOnlyList<ZhrOutput> zhrOutputs,
+        IReadOnlyList<IZhrOutput> zhrOutputs,
         CancellationToken ct)
     {
         var aptidoes = await zhrFetcherByNi.ExecuteAsync<ZhrSAptidao>(pessoaSyncRefs, ct);
