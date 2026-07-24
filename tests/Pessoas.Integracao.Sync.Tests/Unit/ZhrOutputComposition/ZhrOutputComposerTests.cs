@@ -1,10 +1,10 @@
-
 using FluentAssertions;
 
 using Moq;
 
 using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Domain.Entities;
+using Pessoas.Integracao.Sync.Domain.ValueObjects;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition;
 using Pessoas.Integracao.Sync.Infrastructure.Services.ZhrOutputComposition.Enrichers;
 
@@ -13,7 +13,7 @@ namespace Pessoas.Integracao.Sync.Tests.Unit.ZhrOutputComposition;
 public sealed class ZhrOutputComposerTests
 {
     [Fact]
-    public async Task ShouldApplyAllEnrichersToTheSameOutputCollection()
+    public async Task ShouldContainAllEnrichedSections_WhenMultipleEnrichersAreApplied()
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
@@ -22,9 +22,9 @@ public sealed class ZhrOutputComposerTests
         firstEnricher
             .Setup(x => x.EnrichAsync(
                 pessoaSyncRefs,
-                It.IsAny<IReadOnlyList<ZhrOutput>>(),
+                It.IsAny<IReadOnlyList<IZhrOutput>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
+            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<IZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
                 zhrOutputs[0].Pessoais = [new() { Ni = "0001", Nome = "Test User" }];
                 return Task.FromResult(zhrOutputs);
@@ -34,9 +34,9 @@ public sealed class ZhrOutputComposerTests
         secondEnricher
             .Setup(x => x.EnrichAsync(
                 pessoaSyncRefs,
-               It.IsAny<IReadOnlyList<ZhrOutput>>(),
+               It.IsAny<IReadOnlyList<IZhrOutput>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
+            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<IZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
                 zhrOutputs[0].Familias = [new() { Ni = "0001", Fanam = "Test Family" }];
                 return Task.FromResult(zhrOutputs);
@@ -46,9 +46,9 @@ public sealed class ZhrOutputComposerTests
         thirdEnricher
             .Setup(x => x.EnrichAsync(
                 pessoaSyncRefs,
-               It.IsAny<IReadOnlyList<ZhrOutput>>(),
+               It.IsAny<IReadOnlyList<IZhrOutput>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> zhrOutputs, CancellationToken ct) =>
+            .Returns((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<IZhrOutput> zhrOutputs, CancellationToken ct) =>
             {
                 zhrOutputs[0].Aptidoes = [new() { Ni = "0001", ArexamesDesc = "Test Aptidao" }];
                 return Task.FromResult(zhrOutputs);
@@ -62,19 +62,19 @@ public sealed class ZhrOutputComposerTests
         // Assert
         firstEnricher.Verify(x => x.EnrichAsync(
             pessoaSyncRefs,
-            It.IsAny<IReadOnlyList<ZhrOutput>>(),
+            It.IsAny<IReadOnlyList<IZhrOutput>>(),
             TestContext.Current.CancellationToken),
             Times.Once);
 
         secondEnricher.Verify(x => x.EnrichAsync(
             pessoaSyncRefs,
-            It.IsAny<IReadOnlyList<ZhrOutput>>(),
+            It.IsAny<IReadOnlyList<IZhrOutput>>(),
             TestContext.Current.CancellationToken),
             Times.Once);
 
         thirdEnricher.Verify(x => x.EnrichAsync(
             pessoaSyncRefs,
-            It.IsAny<IReadOnlyList<ZhrOutput>>(),
+            It.IsAny<IReadOnlyList<IZhrOutput>>(),
             TestContext.Current.CancellationToken),
             Times.Once);
 
@@ -85,28 +85,28 @@ public sealed class ZhrOutputComposerTests
     }
 
     [Fact]
-    public async Task ShouldPassTheSameListInstanceThroughAllEnrichers()
+    public async Task ShouldPassSameListInstanceThroughAllEnrichers_WhenComposedWithMultipleEnrichers()
     {
         // Arrange
         var pessoaSyncRefs = new List<PessoaSyncRef> { new() { Ni = "0001", ExternalId = "30001" } };
-        IReadOnlyList<ZhrOutput> capturedList = null!;
+        IReadOnlyList<IZhrOutput> capturedList = null!;
 
         var firstEnricher = new Mock<IZhrOutputsEnricher>();
         firstEnricher
             .Setup(x => x.EnrichAsync(
                 It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
-                It.IsAny<IReadOnlyList<ZhrOutput>>(),
+                It.IsAny<IReadOnlyList<IZhrOutput>>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<IReadOnlyList<PessoaSyncRef>, IReadOnlyList<ZhrOutput>, CancellationToken>((refs, list, ct) => capturedList = list)
-            .ReturnsAsync((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> list, CancellationToken ct) => list);
+            .Callback<IReadOnlyList<PessoaSyncRef>, IReadOnlyList<IZhrOutput>, CancellationToken>((refs, list, ct) => capturedList = list)
+            .ReturnsAsync((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<IZhrOutput> list, CancellationToken ct) => list);
 
         var secondEnricher = new Mock<IZhrOutputsEnricher>();
         secondEnricher
             .Setup(x => x.EnrichAsync(
                 It.IsAny<IReadOnlyList<PessoaSyncRef>>(),
-                It.IsAny<IReadOnlyList<ZhrOutput>>(),
+                It.IsAny<IReadOnlyList<IZhrOutput>>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<ZhrOutput> list, CancellationToken ct) => list);
+            .ReturnsAsync((IReadOnlyList<PessoaSyncRef> refs, IReadOnlyList<IZhrOutput> list, CancellationToken ct) => list);
 
         var composer = new ZhrOutputComposer([firstEnricher.Object, secondEnricher.Object]);
 
@@ -121,5 +121,35 @@ public sealed class ZhrOutputComposerTests
             Times.Once);
 
         results.Should().BeSameAs(capturedList);
+    }
+
+    [Fact]
+    public async Task ShouldMapUpdateAtCorrectly_WhenSyncStateHasOrLacksUpdatedAt()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef>
+        {
+            new() { Ni = "0001", ExternalId = "30001" },
+            new() {
+                Ni = "0001",
+                ExternalId = "30001",
+                SyncState = new SyncState
+                {
+                    UpdatedAt = new DateTimeOffset(new DateTime(2024, 10, 5))
+                }
+            },
+
+        };
+
+        var composer = new ZhrOutputComposer([]);
+
+        // Act
+        var results = await composer.ComposeAsync(pessoaSyncRefs, TestContext.Current.CancellationToken);
+
+        // Assert
+        results.Should().HaveCount(2);
+        results[0].UpdateAt.Should().BeNull();
+        results[1].UpdateAt.Should().BeExactly(pessoaSyncRefs[1].SyncState.UpdatedAt);
+
     }
 }

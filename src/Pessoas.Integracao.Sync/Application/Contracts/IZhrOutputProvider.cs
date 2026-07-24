@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Sync.Application.Contracts;
 
 public interface IZhrOutputProvider
 {
-    Task<IReadOnlyList<ZhrOutput>> GetOutputsByNiAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, CancellationToken ct);
+    Task<IReadOnlyList<IZhrOutput>> GetOutputsByNiAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, CancellationToken ct);
 }
