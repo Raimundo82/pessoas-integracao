@@ -8,10 +8,10 @@ public class ZhrOutput : IZhrOutput
     public required string Ni { get; init; }
     public required string ExternalId { get; init; }
     public DateTimeOffset? UpdateAt { get; init; }
-    public IReadOnlyList<ZhrSAptidao>? Aptidoes { get; set; }
-    public IReadOnlyList<ZhrSPessoais>? Pessoais { get; set; }
-    public IReadOnlyList<ZhrSFamilia>? Familias { get; set; }
-    public IReadOnlyList<ZhrSOutrosdados>? OutrosDados { get; set; }
-    public IReadOnlyList<ZhrSDeficiencias>? Deficiencias { get; set; }
+    public IList<ZhrSAptidao>? Aptidoes { get; set; }
+    public IList<ZhrSPessoais>? Pessoais { get; set; }
+    public IList<ZhrSFamilia>? Familias { get; set; }
+    public IList<ZhrSOutrosdados>? OutrosDados { get; set; }
+    public IList<ZhrSDeficiencias>? Deficiencias { get; set; }
 
 }
