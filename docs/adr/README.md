@@ -2,9 +2,9 @@
 
 ## SYNC
 
-| ID | Título | Estado | Data |
-| :--- | :--- | :--- | :--- |
-| [ADR-001-SYNC](./ADR-001-SYNC-sync-consumers-integration-contract.md) | Contrato de integração entre SYNC e consumidores (PIIP e A2DIP) | Accepted | 2026-07-08 |
+| ID                                                                                      | Título                                                             | Estado   | Data       |
+| :-------------------------------------------------------------------------------------- | :----------------------------------------------------------------- | :------- | :--------- |
+| [001-SYNC-consumers-integration-contract](./001-SYNC-consumers-integration-contract.md) | Contrato de integração entre SYNC e consumidores de dados SIGDN-RH | Accepted | 2026-07-25 |
 
 ## Mapeamento de Componentes
 
