@@ -30,10 +30,6 @@ O Sync define o contrato que os consumidores utilizam.
 `IZhrOutput` — interface que representa a vista agregada por `Ni` de todos os dados SAP persistidos:
 
 ```csharp
-using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
-
-namespace Pessoas.Integracao.Sync.Application.Contracts;
-
 public interface IZhrOutput
 {
     public string Ni { get; init; }
@@ -50,10 +46,6 @@ public interface IZhrOutput
 `IZhrOutputProvider` — ponto de acesso único aos dados normalizados do SIGDN-RH:
 
 ```csharp
-using Pessoas.Integracao.Sync.Domain.Entities;
-
-namespace Pessoas.Integracao.Sync.Application.Contracts;
-
 public interface IZhrOutputProvider
 {
     Task<IReadOnlyList<IZhrOutput>> GetOutputsByNiAsync(IReadOnlyList<PessoaSyncRef> pessoaSyncRefs, CancellationToken ct);
