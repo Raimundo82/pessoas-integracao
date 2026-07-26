@@ -32,7 +32,7 @@ NNN-PPP-description-with-dashes.md
 
 Where:
 
-- `NNN` is the sequential ADR number (e.g., `001`, `002`, `003`).
+- `NNN` is the sequential ADR number **per project/assembly** (e.g., `001`, `002`, `003` for SYNC; `001`, `002`, `003` for GEN). The numbering restarts at `001` for each assembly alias.
 - `PPP` identifies the assembly and must be one of the assembly aliases defined in `docs/adr/README.md`.
 - `description-with-dashes` is a short, descriptive, kebab-case description of the decision.
 
@@ -40,13 +40,15 @@ Examples:
 
 ```
 001-SYNC-sync-consumers-integration-contract.md
-002-PIIP-adopt-event-driven-integration.md
+002-SYNC-adopt-event-driven-integration.md
+001-GEN-adopt-datetimeoffset-for-all-dates.md
+002-GEN-explicit-midnight-for-daily-granularity.md
 003-A2DIP-use-redis-for-distributed-cache.md
 ```
 
-The implementation must inspect `docs/adr/README.md` to determine the valid assembly aliases. Do not invent new assembly aliases.
+The implementation must inspect `docs/adr/README.md` to determine the valid assembly aliases and their corresponding numbering schemes. Do not invent new assembly aliases.
 
-When creating a new ADR, the agent must determine the next available sequential `NNN` value for the relevant ADR numbering scheme and avoid duplicate ADR numbers. The agent must not silently overwrite an existing ADR.
+When creating a new ADR, the agent must determine the next available sequential `NNN` value **for the specific assembly alias (PPP)** and avoid duplicate ADR numbers within that assembly's numbering scheme. The agent must not silently overwrite an existing ADR.
 
 ## 1.3 ADR Directory
 
@@ -75,6 +77,7 @@ The supported ADR lifecycle states and their intended meaning are:
 - **Superseded**: A new ADR has been created that replaces or modifies this decision.
 
 Additionally, the following rules must be followed:
+
 - An ADR must not be used to imply that a recommendation from the AI agent was approved by the team.
 - The agent must distinguish between a recommendation, a proposal, and an actual decision.
 
@@ -236,5 +239,6 @@ Avoid unnecessary implementation details that are likely to become obsolete. Pre
 ADRs may be written in pt-PT or en-US. Maintain consistency with the language used in the existing ADRs and the project context.
 
 When creating a new ADR, the appropriate template should be used based on the language of the ADR:
+
 - For ADRs written in en-US, use `docs/adr/adr-template-en.md`.
 - For ADRs written in pt-PT, use `docs/adr/adr-template-pt.md`.
