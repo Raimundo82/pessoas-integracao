@@ -118,4 +118,4 @@ O Sync não conhece os consumidores. Os consumidores não conhecem o SAP nem a i
     - Modelos de destino: Sem impacto — são independentes do sistema de origem
   - A substituição do sistema externo é uma decisão interna ao Sync. Os consumidores só são afectados se o contrato (`IZhrOutput`) mudar e, mesmo nesse caso, a alteração é localizada ao transformer de cada consumidor, não à sua lógica de negócio. Esta propriedade foi um factor de decisão consciente na adopção desta arquitectura.
 - Negativas, pois:
-  - `Infrastructure` passa a depender de `Application`
+  - `Infrastructure` passa a depender de `Application`.
