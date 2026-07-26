@@ -17,20 +17,26 @@ You MUST follow these steps in order:
    - Always perform a fresh verification of the current workspace state.
    - Execute `git status` to identify modified and untracked files.
    - Execute `git diff` to analyze the actual code changes in the working tree.
+   - Execute `git branch --show-current` to identify the current branch and verify if it is the default branch (e.g., `main`, `master`).
    - Read the absolute path of `GIT_CONVENTIONS.md` to ensure alignment with the project's specific rules.
 
-2. **Logical Decomposition**:
+2. **Branch Verification & Proposal**:
+   - **CRITICAL**: Never commit to the default branch (e.g., `main`, `master`).
+   - If the current branch is the default branch, you MUST propose the creation of a new branch (following the project's branch naming conventions), checkout to that new branch, and perform the commits there.
+   - Wait for explicit human approval before creating and checking out the new branch.
+
+3. **Logical Decomposition**:
    - Group changes by intent (e.g., separate a typo fix from a new feature).
    - Ensure that each proposed commit is atomic and represents a single logical change.
 
-3. **Proposal Phase**:
+4. **Proposal Phase**:
    - Present a numbered list of proposed commits.
    - For each commit, provide:
      - The Conventional Commit message: `type(scope): description`.
      - The list of files to be staged (`git add`).
    - **CRITICAL**: Stop and wait for explicit human approval before proceeding to execution.
 
-4. **Execution Phase (Post-Approval)**:
+5. **Execution Phase (Post-Approval)**:
    - Execute `git add` for the specific files of the approved commit.
    - Execute `git commit -m "message"`.
    - **CRITICAL**: Never use the `--no-verify` or `-n` flag to bypass git hooks. If a hook fails, the agent must stop, report the error, and help the user resolve the issue (e.g., by fixing formatting or linting errors) before attempting to commit again.
