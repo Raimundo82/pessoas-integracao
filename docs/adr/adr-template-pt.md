@@ -23,10 +23,10 @@ Status: Proposto
 
 #### Positivas
 
-- {positive consequence, e.g., improvement of one or more desired qualities, …}
+- {consequência positiva, ex., melhoria de uma ou mais qualidades desejadas, …}
 - … <!-- numbers of consequences can vary -->
 
 #### Negativas
 
-- {negative consequence, e.g., compromising one or more desired qualities, …}
+- {consequência negativa, ex., comprometendo uma ou mais qualidades desejadas, …}
 - … <!-- numbers of consequences can vary -->
