@@ -9,10 +9,10 @@
 
 ## SYNC
 
-| ID                                                                | Título                                                                      | Estado   | Data       |
-| :---------------------------------------------------------------- | :-------------------------------------------------------------------------- | :------- | :--------- |
-| [001-SYNC](./001-SYNC-consumers-integration-contract.md)          | Contrato de integração entre SYNC e consumidores de dados SIGDN-RH          | Accepted | 2026-07-25 |
-| [002-SYNC](./002-SYNC-implement-zhr-freshness-checker-service.md) | Componente `IZhrFreshnessChecker` para verificação de dados ZHR atualizados | Proposed | 2026-07-26 |
+| ID                                                        | Título                                                                      | Estado   | Data       |
+| :-------------------------------------------------------- | :-------------------------------------------------------------------------- | :------- | :--------- |
+| [001-SYNC](./001-SYNC-consumers-integration-contract.md)  | Contrato de integração entre SYNC e consumidores de dados SIGDN-RH          | Accepted | 2026-07-25 |
+| [002-SYNC](./002-SYNC-implement-zhr-freshness-checker.md) | Componente `IZhrFreshnessChecker` para verificação de dados ZHR atualizados | Proposed | 2026-07-26 |
 
 ## Mapeamento de Componentes
 
