@@ -15,12 +15,18 @@ Status: Proposto
 
 ## Resultado da Decisão
 
-Opção escolhida: "{título da opção 1}", porque {justificação. ex.: única opção que cumpre o critério de decisão k.o. | que resolve a força {force} | … | se sai melhor (veja abaixo)}.
+**Opção escolhida:** "{título da opção 1}", porque {justificação. ex.: única opção que cumpre o critério de decisão k.o. | que resolve a força {force} | … | se sai melhor (veja abaixo)}.
 
 <!-- Este é um elemento opcional. Sinta-se à vontade para o remover se não houver elementos de informação a adicionar. -->
 
 ### Consequências
 
-- Positivo, porque {consequência positiva, ex.: melhoria de uma ou mais qualidades desejadas, …}
-- Negativo, porque {consequência negativa, ex.: comprometimento de uma ou mais qualidades desejadas, …}
-- … <!-- o número de consequências pode variar -->
+#### Positivas
+
+- {positive consequence, e.g., improvement of one or more desired qualities, …}
+- … <!-- numbers of consequences can vary -->
+
+#### Negativas
+
+- {negative consequence, e.g., compromising one or more desired qualities, …}
+- … <!-- numbers of consequences can vary -->
