@@ -10,7 +10,7 @@ public sealed class AnaliticaAptidaoSyncronizer(
     IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao> mapper,
     IAnaliticaRepository<ZhrWsAptidaoAptidao> repository) : IAnaliticaSynchronizer
 {
-    public async Task SyncAsync(ZhrOutput input, CancellationToken ct)
+    public async Task SyncAsync(IZhrOutput input, CancellationToken ct)
     {
         var source = input.Aptidoes;
         if (source is null || source.Count == 0)
