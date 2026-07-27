@@ -61,8 +61,7 @@ docs/adr/
 The canonical ADR templates and guidelines must also be stored under this directory:
 
 ```
-docs/adr/adr-template-en.md
-docs/adr/adr-template-pt.md
+docs/adr/adr-template.md
 docs/adr/adr-guidelines.md
 ```
 
@@ -236,9 +235,8 @@ Avoid unnecessary implementation details that are likely to become obsolete. Pre
 
 ## 1.14 Language
 
-ADRs may be written in pt-PT or en-US. Maintain consistency with the language used in the existing ADRs and the project context.
+ADRs must be written in PT-pt. Maintain consistency with the language used in the existing ADRs and the project context.
 
-When creating a new ADR, the appropriate template should be used based on the language of the ADR:
+When creating a new ADR, the appropriate template should be used:
 
-- For ADRs written in en-US, use `docs/adr/adr-template-en.md`.
-- For ADRs written in pt-PT, use `docs/adr/adr-template-pt.md`.
+- For ADRs written in PT-pt, use `docs/adr/adr-template.md`.
