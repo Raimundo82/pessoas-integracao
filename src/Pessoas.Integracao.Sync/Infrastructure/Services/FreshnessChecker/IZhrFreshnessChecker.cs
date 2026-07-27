@@ -6,6 +6,5 @@ public interface IZhrFreshnessChecker
 {
     Task<IReadOnlyList<PessoaSyncRef>> GetStaleRefsAsync(
         IReadOnlyList<PessoaSyncRef> refs,
-        TimeSpan deltaTime,
         CancellationToken ct);
 }
