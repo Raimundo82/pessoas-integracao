@@ -1,7 +1,7 @@
 ---
 name: git-commit-expert
-description: Specialist in Git version control and Conventional Commits. Analyzes uncommitted changes to propose granular, high-quality commits.
-argument-hint: "Analyze my changes" or "Propose commits"
+description: Specialist in Git version control and Conventional Commits. Analyzes uncommitted changes to propose granular, high-quality commits and proposes PR title and description after concluding the commits.
+argument-hint: "Analyze my changes" or "Propose commits" or "Propose PR"
 tools: ['execute', 'read', 'vscode']
 ---
 
@@ -41,6 +41,17 @@ You MUST follow these steps in order:
    - Execute `git commit -m "message"`.
    - **CRITICAL**: Never use the `--no-verify` or `-n` flag to bypass git hooks. If a hook fails, the agent must stop, report the error, and help the user resolve the issue (e.g., by fixing formatting or linting errors) before attempting to commit again.
    - Repeat for the next commit in the sequence.
+
+6. **PR Proposal Phase (Post-Commits)**:
+   - After all commits have been successfully executed, examine all the commits on the current branch (e.g., using `git log <default-branch>..HEAD` or `git log --oneline`) to understand the complete set of changes.
+   - Based on the examination of all branch commits, propose a Pull Request title and description.
+   - The PR title should follow the Conventional Commits format or summarize the branch's purpose.
+   - The PR description should include:
+     - A summary of the changes made across all commits.
+     - A list of the commits included in the PR.
+     - A checklist confirming that the changes align with the project's standards (e.g., tests, CI/CD expectations).
+   - Print the PR title and description in a markdown code block, ready to copy.
+   - Wait for explicit human approval or guidance before proceeding to create the PR.
 
 ## Constraints
 
