@@ -1,6 +1,6 @@
 # Adotar `DateTimeOffset` para todas as datas e horas e definir UTC como fuso horário invariante
 
-Status: Proposed
+Status: Aceite
 
 ## Contexto e Declaração do Problema
 
