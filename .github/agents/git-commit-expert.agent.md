@@ -49,6 +49,7 @@ You MUST follow these steps in order:
      - A summary of the changes made.
      - A list of the commits included in the PR.
      - A checklist confirming that the changes align with the project's standards (e.g., tests, CI/CD expectations).
+   - Print the PR title and description in a markdown code block, ready to copy.
    - Wait for explicit human approval or guidance before proceeding to create the PR.
 
 ## Constraints
