@@ -5,5 +5,5 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.ZhrBaseModelOutputEnri
 public interface IZhrBaseModelOutputEnricher
 {
     Task EnrichAsync<T>(IEnumerable<T> outputs, DateTimeOffset updateTime, CancellationToken ct)
-        where T : ZhrSBaseModelOutput;
+        where T : ZhrSBaseModelOutput, IOutputModel;
 }
