@@ -1,6 +1,18 @@
 namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
-public partial class ZhrSPessoaisOutput : ZhrSBaseModelOutput, IOutputModel { }
+public partial class ZhrSPessoaisOutput : ZhrSBaseModelOutput, IOutputModel
+{
+    public IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened()
+    {
+        return
+        [
+            ..Pessoais ?? [],
+            ..Familia ?? [],
+            ..OutrosDados ?? [],
+            ..Deficiencias ?? []
+        ];
+    }
+}
 
 public partial class ZhrSPessoais : ZhrSBaseModel { }
 
