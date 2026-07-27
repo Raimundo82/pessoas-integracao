@@ -1,6 +1,6 @@
 # Definir explicitamente `00:00:00` para granularidade diária com `DateTimeOffset`
 
-Status: Proposed
+Status: Aceite
 
 ## Contexto e Declaração do Problema
 

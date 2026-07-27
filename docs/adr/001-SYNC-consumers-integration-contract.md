@@ -1,6 +1,6 @@
 # 001-SYNC: Contrato de integração entre SYNC e consumidores de dados SIGDN-RH
 
-Status: Accepted
+Status: Aceite
 
 ## Contexto e Declaração do Problema
 
