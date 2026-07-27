@@ -1,6 +1,6 @@
-# 002-SYNC: Lógica Centralizada de Enriquecimento para Sincronizadores
+# Encapsulamento da Lógica de Enriquecimento para Sincronizadores
 
-**Estado:** Proposto
+Status: Proposto
 
 ## Contexto e Declaração do Problema
 
@@ -10,15 +10,13 @@ Atualmente, esta lógica teria de ser implementada em cada sincronizador, origin
 
 ## Opções Consideradas
 
-- Manter a implementação distribuída pelos sincronizadores.
-- Centralizar a lógica numa classe base.
-- Introduzir um componente de enriquecimento (`IZhrBaseModelOutputEnricher`).
+- Manter a implementação distribuída pelos sincronizadores
+- Centralizar a lógica numa classe base
+- Introduzir um componente de enriquecimento (`IZhrBaseModelOutputEnricher`)
 
 ## Resultado da Decisão
 
-**Opção escolhida:** Introduzir um componente de enriquecimento (`IZhrBaseModelOutputEnricher`).
-
-Esta abordagem centraliza a lógica comum de enriquecimento dos modelos de saída, eliminando duplicação entre sincronizadores e promovendo uma separação clara de responsabilidades:
+**Opção escolhida:** "Introduzir um componente de enriquecimento (`IZhrBaseModelOutputEnricher`)", porque esta abordagem centraliza a lógica comum de enriquecimento dos modelos de saída, eliminando duplicação entre sincronizadores e promovendo uma separação clara de responsabilidades:
 
 - Os sincronizadores continuam responsáveis pela obtenção dos dados e pela orquestração do processo.
 - O componente `IZhrBaseModelOutputEnricher` fica responsável por aplicar o enriquecimento comum aos modelos.
@@ -35,7 +33,7 @@ participant "Synchronizer" as Synchronizer
 participant "IZhrBaseModelOutputEnricher" as Enricher
 participant "ZhrSBaseModelOutput" as Model
 
-Synchronizer -> Enricher: EnrichAsync(outputs : IEnumerable<ZhrSBaseModelOutput>, updateTime : DateTimeOffset, ct : CancellationToken)
+Synchronizer -> Enricher: EnrichAsync(outputs, updateTime)
 activate Enricher
 
 Enricher -> Enricher: Resolve NI value
@@ -44,7 +42,7 @@ loop For each output in outputs
     Enricher -> Model: SetUpdatedAt(updateTime)
     Model --> Enricher
 
-    Enricher -> Model: SetChildrenNi(ni)
+    Enricher -> Model: SetChildrenNi()
     Model --> Enricher
 end
 
@@ -67,7 +65,3 @@ deactivate Enricher
 
 - Introduz uma dependência adicional nos sincronizadores.
 - Acrescenta um componente à arquitetura, aumentando ligeiramente a complexidade estrutural.
-
-## Referências
-
-- [Architecture Decision Records (ADR)](https://adr.github.io/)
