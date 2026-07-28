@@ -19,10 +19,5 @@ public sealed partial class AptidaoMapper : IEntityMapper<ZhrSAptidao, ZhrWsApti
     [MapperIgnoreTarget(nameof(ZhrWsAptidaoAptidao.Numsap))]
     private partial ZhrWsAptidaoAptidao MapFields(ZhrSAptidao source);
 
-    public ZhrWsAptidaoAptidao Map(ZhrSAptidao source, string numsap)
-    {
-        var target = MapFields(source);
-        target.Numsap = numsap;
-        return target;
-    }
+    public ZhrWsAptidaoAptidao Map(ZhrSAptidao source) => MapFields(source);
 }
