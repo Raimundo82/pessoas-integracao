@@ -6,7 +6,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
-public sealed class PessoaisSyncronizer(
+public sealed class PessoaisSynchronizer(
     IEntityMapper<ZhrWsPersonalDataPessoai> mapper,
     IAnaliticaRepository<ZhrWsPersonalDataPessoai> repository)
     : AnaliticaSynchronizerBase<ZhrWsPersonalDataPessoai, ZhrSPessoais>(mapper, repository)
