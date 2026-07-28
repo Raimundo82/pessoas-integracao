@@ -10,11 +10,11 @@ public static class ZhrOutputTestData
         string ni = "1",
         string externalId = "3000",
         DateTimeOffset? updateAt = null,
-        IReadOnlyList<ZhrSAptidao>? aptidoes = null,
-        IReadOnlyList<ZhrSPessoais>? pessoais = null,
-        IReadOnlyList<ZhrSFamilia>? familias = null,
-        IReadOnlyList<ZhrSOutrosdados>? outrosDados = null,
-        IReadOnlyList<ZhrSDeficiencias>? deficiencias = null) => new ZhrOutput
+        IList<ZhrSAptidao>? aptidoes = null,
+        IList<ZhrSPessoais>? pessoais = null,
+        IList<ZhrSFamilia>? familias = null,
+        IList<ZhrSOutrosdados>? outrosDados = null,
+        IList<ZhrSDeficiencias>? deficiencias = null) => new ZhrOutput
         {
             Ni = ni,
             ExternalId = externalId,

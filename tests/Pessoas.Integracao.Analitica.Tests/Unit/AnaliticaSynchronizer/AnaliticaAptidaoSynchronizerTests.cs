@@ -12,7 +12,7 @@ namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
 public sealed class AnaliticaAptidaoSynchronizerTests
 {
-    private readonly Mock<IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao>> _mapper = new();
+    private readonly Mock<IEntityMapper> _mapper = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsAptidaoAptidao>> _repository = new();
 
     [Fact]
@@ -53,7 +53,7 @@ public sealed class AnaliticaAptidaoSynchronizerTests
         var mapped = new ZhrWsAptidaoAptidao { Ni = "1", Numsap = "3000" };
         var input = ZhrOutputTestData.OutputWith(externalId: "3000", aptidoes: [item]);
 
-        _mapper.Setup(m => m.Map(item, "3000")).Returns(mapped);
+        _mapper.Setup(m => m.Map(item)).Returns(mapped);
 
         var sut = CreateSut();
 
@@ -61,7 +61,7 @@ public sealed class AnaliticaAptidaoSynchronizerTests
         await sut.SyncAsync(input, CancellationToken.None);
 
         // Assert
-        _mapper.Verify(m => m.Map(item, "3000"), Times.Once);
+        _mapper.Verify(m => m.Map(item), Times.Once);
         mapped.Numsap.Should().Be("3000");
         mapped.Ni.Should().Be("1");
     }
@@ -75,9 +75,8 @@ public sealed class AnaliticaAptidaoSynchronizerTests
 
         var input = ZhrOutputTestData.OutputWith(aptidoes: [item1, item2]);
 
-        _mapper.Setup(m => m.Map(It.IsAny<ZhrSAptidao>(), It.IsAny<string>()))
-            .Returns((ZhrSAptidao s, string n) =>
-                new ZhrWsAptidaoAptidao { Ni = s.Ni, Subty = s.Subty, Numsap = n });
+        _mapper.Setup(m => m.Map(It.IsAny<ZhrSAptidao>()))
+            .Returns((ZhrSAptidao s) => new ZhrWsAptidaoAptidao { Ni = s.Ni, Subty = s.Subty });
 
         IReadOnlyList<ZhrWsAptidaoAptidao>? captured = null;
 
