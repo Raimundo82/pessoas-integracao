@@ -14,6 +14,7 @@
 | [001-SYNC](./001-SYNC-consumers-integration-contract.md)                      | Contrato de integração entre SYNC e consumidores de dados SIGDN-RH          | Aceite   | 2026-07-25 |
 | [002-SYNC](./002-SYNC-implement-zhr-freshness-checker.md)                     | Componente `IZhrFreshnessChecker` para verificação de dados ZHR atualizados | Aceite   | 2026-07-26 |
 | [003-SYNC](./003-SYNC-encapsulation-of-enrichment-logic-for-synchronizers.md) | Encapsulamento da lógica de enriquecimento para sincronizadores             | Proposto | 2026-07-27 |
+| [004-SYNC](./004-SYNC-generic-zhr-ws-client-pattern.md)                       | Cliente Genérico para Serviços Web ZHR                                      | Proposto | 2026-07-28 |
 
 ## A2DIP
 
