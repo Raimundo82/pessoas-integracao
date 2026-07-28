@@ -4,7 +4,7 @@ Status: Proposto
 
 ## Contexto e Declaração do Problema
 
-No assembly `Pessoas.Integracao.Analitica`, existe a necessidade de efetuar mapeamentos entre modelos de dados de diferentes camadas da aplicação, encontrando-se estes na camada de Infraestrutura. Pretende-se evitar código de mapeamento manual repetitivo (boilerplate) e garantir que os mapeamentos sejam validados durante a compilação. Foi definido o contrato genérico `IEntityMapper<TSource, TTarget>` para uniformizar a implementação dos mapeadores, com implementações concretas existentes no assembly (por exemplo, `Infrastructure/Mappers/AptidaoMapper.cs`).
+No assembly `Pessoas.Integracao.Analitica`, existe a necessidade de efetuar mapeamentos entre modelos de dados de diferentes camadas da aplicação, encontrando-se estes na camada de Infraestrutura. Pretende-se evitar código de mapeamento manual repetitivo (boilerplate) e garantir que os mapeamentos sejam validados durante a compilação. Foi definido o contrato genérico `IEntityMapper<TTarget>` para uniformizar a implementação dos mapeadores, com implementações concretas existentes no assembly (por exemplo, `Infrastructure/Mappers/AptidaoMapper.cs`).
 
 ## Opções Consideradas
 

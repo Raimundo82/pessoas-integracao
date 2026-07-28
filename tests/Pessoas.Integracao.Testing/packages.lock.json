@@ -590,6 +590,7 @@
         "dependencies": {
           "EFCore.BulkExtensions.Core": "[10.0.1, )",
           "EFCore.BulkExtensions.PostgreSql": "[10.0.1, )",
+          "FluentValidation": "[12.1.1, )",
           "Microsoft.EntityFrameworkCore": "[10.0.10, )",
           "Microsoft.Extensions.Hosting": "[10.0.10, )",
           "System.Security.Cryptography.Xml": "[10.0.10, )",
@@ -618,6 +619,12 @@
           "EFCore.BulkExtensions.Core": "10.0.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
         }
+      },
+      "FluentValidation": {
+        "type": "CentralTransitive",
+        "requested": "[12.1.1, )",
+        "resolved": "12.1.1",
+        "contentHash": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw=="
       },
       "Microsoft.Extensions.Hosting": {
         "type": "CentralTransitive",
