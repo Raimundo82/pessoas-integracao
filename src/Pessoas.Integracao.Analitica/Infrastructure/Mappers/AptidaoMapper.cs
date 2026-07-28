@@ -13,9 +13,9 @@ public sealed partial class AptidaoMapper : IEntityMapper<ZhrSAptidao, ZhrWsApti
     [FormatProvider(Default = true)]
     private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
 
-    [MapperIgnoreSource(nameof(ZhrSAptidao.Id))]
-    [MapperIgnoreTarget(nameof(ZhrWsAptidaoAptidao.Id))]
-    [MapperIgnoreTarget(nameof(ZhrWsAptidaoAptidao.UpdatedAt))]
+    [MapperIgnoreSource(nameof(ZhrSBaseModel.Id))]
+    [MapperIgnoreTarget(nameof(IAnaliticaModel.Id))]
+    [MapperIgnoreTarget(nameof(IAnaliticaModel.UpdatedAt))]
     [MapperIgnoreTarget(nameof(ZhrWsAptidaoAptidao.Numsap))]
     private partial ZhrWsAptidaoAptidao MapFields(ZhrSAptidao source);
 
