@@ -173,7 +173,7 @@ public sealed class AnaliticaRepositoryIntegrationTests(PostgresTestContainerDb 
 
     private AnaliticaDbContext CreateContext() => new(_options);
 
-    private async Task SeedDataAsync<T>(IEnumerable<T> entities) where T : ZhrWsBaseModel
+    private async Task SeedDataAsync<T>(IEnumerable<T> entities) where T : class, IAnaliticaModel
     {
         await using var context = new AnaliticaDbContext(_options);
         await context.Set<T>().AddRangeAsync(entities, _ct);
