@@ -1,6 +1,6 @@
 # Adotar `DateTimeOffset` para todas as datas e horas e definir UTC como fuso horário invariante
 
-Status: Proposed
+Status: Aceite
 
 ## Contexto e Declaração do Problema
 
@@ -16,11 +16,16 @@ O problema que se pretende resolver é definir de forma clara e uniforme qual o 
 
 ## Resultado da Decisão
 
-Opção escolhida: "Utilizar `DateTimeOffset` para todos os casos de datas e horas", porque é a única opção que resolve de forma inequívoca as questões de fuso horário, garante a imutabilidade e a clareza semântica dos valores de data e hora, e evita ambiguidades relacionadas com a conversão entre fusos horários ou a interpretação de `DateTime.Kind`.
+**Opção escolhida:** "Utilizar `DateTimeOffset` para todos os casos de datas e horas", porque é a única opção que resolve de forma inequívoca as questões de fuso horário, garante a imutabilidade e a clareza semântica dos valores de data e hora, e evita ambiguidades relacionadas com a conversão entre fusos horários ou a interpretação de `DateTime.Kind`.
 
 O fuso horário deverá ser sempre o mesmo invariante: UTC.
 
 ### Consequências
 
-- Positivo, porque a utilização de `DateTimeOffset` garante que a data e hora são sempre acompanhadas do respetivo fuso horário, evitando ambiguidades e erros de conversão.
-- Negativo, porque pode exigir ajustes nos locais onde `DateTime` ou `DateOnly` eram utilizados anteriormente, requerendo refatoração para adotar `DateTimeOffset`.
+#### Positivas
+
+- A utilização de `DateTimeOffset` garante que a data e hora são sempre acompanhadas do respetivo fuso horário, evitando ambiguidades e erros de conversão.
+
+#### Negativas
+
+- Pode exigir ajustes nos locais onde `DateTime` ou `DateOnly` eram utilizados anteriormente, requerendo refatoração para adotar `DateTimeOffset`.
