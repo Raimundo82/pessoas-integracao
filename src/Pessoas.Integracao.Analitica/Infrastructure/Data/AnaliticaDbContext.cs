@@ -10,7 +10,12 @@ public partial class AnaliticaDbContext
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
         foreach (var entityType in modelBuilder.Model.GetEntityTypes()
-            .Where(t => t.ClrType.IsSubclassOf(typeof(ZhrWsBaseModel))))
+            .Where(t =>
+                typeof(IAnaliticaModel).IsAssignableFrom(t.ClrType) &&
+                t.ClrType.IsClass &&
+                !t.ClrType.IsAbstract
+                )
+            )
         {
             modelBuilder.Entity(entityType.ClrType, entity =>
             {
