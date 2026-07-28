@@ -12,7 +12,7 @@ namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
 public sealed class AnaliticaAptidaoSynchronizerTests
 {
-    private readonly Mock<IEntityMapper> _mapper = new();
+    private readonly Mock<IEntityMapper<ZhrWsAptidaoAptidao>> _mapper = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsAptidaoAptidao>> _repository = new();
 
     [Fact]
