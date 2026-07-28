@@ -7,18 +7,9 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 public sealed class AnaliticaAptidaoSyncronizer(
-    IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao> mapper,
-    IAnaliticaRepository<ZhrWsAptidaoAptidao> repository) : IAnaliticaSynchronizer
+    IEntityMapper mapper,
+    IAnaliticaRepository<ZhrWsAptidaoAptidao> repository)
+    : AnaliticaSynchronizerBase<ZhrWsAptidaoAptidao, ZhrSAptidao>(mapper, repository)
 {
-    public async Task SyncAsync(IZhrOutput input, CancellationToken ct)
-    {
-        var source = input.Aptidoes;
-        if (source is null || source.Count == 0)
-        {
-            return;
-        }
-
-        var mapped = source.Select(a => mapper.Map(a, input.ExternalId)).ToList();
-        await repository.ReplaceMatchingByNiAsync(mapped, ct);
-    }
+    protected override IList<ZhrSAptidao>? GetSourceCollection(IZhrOutput input) => input.Aptidoes;
 }
