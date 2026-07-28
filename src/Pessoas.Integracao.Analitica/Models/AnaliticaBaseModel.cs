@@ -17,4 +17,6 @@ public abstract class AnaliticaBaseModel
 
 public partial class ZhrWsAptidaoAptidao : AnaliticaBaseModel, IAnaliticaModel { }
 public partial class ZhrWsAtribOrgAtribOrg : AnaliticaBaseModel, IAnaliticaModel { }
+public partial class ZhrWsPersonalDataPessoai : AnaliticaBaseModel, IAnaliticaModel { }
+
 
