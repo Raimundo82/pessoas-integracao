@@ -1,8 +1,8 @@
 using Pessoas.Integracao.Analitica.Models;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
- 
+
 using Riok.Mapperly.Abstractions;
- 
+
 namespace Pessoas.Integracao.Analitica.Infrastructure.Mappers;
 
 [Mapper]
