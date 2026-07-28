@@ -79,7 +79,7 @@ The `.config/dotnet-tools.json` pins the exact versions of all .NET tools:
   "dotnet-sonarscanner": { "version": "11.2.0" },
   "dotnet-coverage": { "version": "18.5.2" },
   "dotnet-ef": { "version": "10.0.5" },
-  "reportgenerator": { "version": "5.5.4" }
+  "dotnet-reportgenerator-globaltool": { "version": "5.5.11" }
 }
 ```
 
