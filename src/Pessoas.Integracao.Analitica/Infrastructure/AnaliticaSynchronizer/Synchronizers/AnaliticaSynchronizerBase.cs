@@ -7,7 +7,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 public abstract class AnaliticaSynchronizerBase<TModel, TSource>(
-    IEntityMapper mapper,
+    IEntityMapper<TModel> mapper,
     IAnaliticaRepository<TModel> repository) : IAnaliticaSynchronizer
     where TModel : AnaliticaBaseModel, IAnaliticaModel
     where TSource : ZhrSBaseModel
@@ -22,7 +22,7 @@ public abstract class AnaliticaSynchronizerBase<TModel, TSource>(
 
         var mapped = source.Select(a =>
         {
-            var mappedModel = (TModel)mapper.Map(a);
+            var mappedModel = mapper.Map(a);
             mappedModel.UpdatedAt = input.UpdateAt;
             mappedModel.Numsap = input.ExternalId;
             return mappedModel;
