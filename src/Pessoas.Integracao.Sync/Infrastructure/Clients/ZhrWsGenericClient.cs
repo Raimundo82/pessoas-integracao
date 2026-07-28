@@ -14,9 +14,7 @@ public class ZhrWsGenericClient(
     IZhrReferenceDateFormatter referenceDateFormatter
 ) : IZhrWsGenericClient
 {
-    private readonly IZhrWsGenericClientFactory<zhr_wsClient, zhr_ws> _clientFactory = clientFactory;
     private readonly ZhrWsSettings _settings = settings.Value;
-    private readonly IZhrReferenceDateFormatter _referenceDateFormatter = referenceDateFormatter;
     public async Task<TResponse?> CallAsync<TResponse1, TResponse>(
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse1?>> zhrSOperation,
         Func<TResponse1, TResponse?> responseSelector,
@@ -31,7 +29,7 @@ public class ZhrWsGenericClient(
             return default;
         }
 
-        using var client = _clientFactory.CreateClient();
+        using var client = clientFactory.CreateClient();
         using var registration = ct.Register(() => client.Abort());
 
         var inputs = pessoaSyncRefs.Select(pessoaRef =>
@@ -40,7 +38,7 @@ public class ZhrWsGenericClient(
                 Ni = pessoaRef.Ni,
                 Numsap = pessoaRef.ExternalId,
                 Empresa = _settings.Empresa,
-                Dtreferencia = zhrReferenceDate.HasValue ? _referenceDateFormatter.Format(zhrReferenceDate.Value) : string.Empty
+                Dtreferencia = zhrReferenceDate.HasValue ? referenceDateFormatter.Format(zhrReferenceDate.Value) : string.Empty
             }).ToArray();
 
         var response = await zhrSOperation(client, inputs);
