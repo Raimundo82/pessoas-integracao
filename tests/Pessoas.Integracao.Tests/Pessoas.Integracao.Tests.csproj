@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Pessoas.Integracao.Testing\ModuleInitializer.cs" Link="ModuleInitializer.cs" />
+    <Compile Include="..\Pessoas.Integracao.Testing\ModuleInitializer.cs"
+      Link="ModuleInitializer.cs" />
+    <Compile Include="..\Pessoas.Integracao.Testing\Converters\DateTimeOffsetFormatConverter.cs"
+      Link="DateTimeOffsetFormatConverter.cs" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Admin/Pessoas.Integracao.Admin.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Core/Pessoas.Integracao.Core.csproj" />
     <ProjectReference Include="../../src/Pessoas.Integracao.Worker/Pessoas.Integracao.Worker.csproj" />
