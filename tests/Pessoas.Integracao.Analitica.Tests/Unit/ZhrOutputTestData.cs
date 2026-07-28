@@ -14,7 +14,8 @@ public static class ZhrOutputTestData
         IList<ZhrSPessoais>? pessoais = null,
         IList<ZhrSFamilia>? familias = null,
         IList<ZhrSOutrosdados>? outrosDados = null,
-        IList<ZhrSDeficiencias>? deficiencias = null) => new ZhrOutput
+        IList<ZhrSDeficiencias>? deficiencias = null)
+        => new ZhrOutput
         {
             Ni = ni,
             ExternalId = externalId,

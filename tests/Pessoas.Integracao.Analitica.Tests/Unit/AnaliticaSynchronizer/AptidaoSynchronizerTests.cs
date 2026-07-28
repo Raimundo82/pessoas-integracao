@@ -10,7 +10,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
-public sealed class AnaliticaAptidaoSynchronizerTests
+public sealed class AptidaoSynchronizerTests
 {
     private readonly Mock<IEntityMapper<ZhrWsAptidaoAptidao>> _mapper = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsAptidaoAptidao>> _repository = new();
@@ -46,7 +46,7 @@ public sealed class AnaliticaAptidaoSynchronizerTests
     }
 
     [Fact]
-    public async Task ShouldMapEachItem_UsingExternalIdFromZhrOutput()
+    public async Task ShouldMapEachItem_WhenExternalIdIsProvidedFromZhrOutput()
     {
         // Arrange
         var item = new ZhrSAptidao { Ni = "1" };
@@ -97,7 +97,7 @@ public sealed class AnaliticaAptidaoSynchronizerTests
     }
 
     [Fact]
-    public Task ShouldPersistFullyPopulatedAptidao_Snapshot()
+    public async Task ShouldPersistFullyPopulatedAptidao_WhenSourceIsFullyPopulated()
     {
         // Arrange
         var source = new ZhrSAptidao
@@ -127,21 +127,15 @@ public sealed class AnaliticaAptidaoSynchronizerTests
             .Callback<IReadOnlyList<ZhrWsAptidaoAptidao>, CancellationToken>((list, _) => captured = list)
             .Returns(Task.CompletedTask);
 
-        var sut = new AnaliticaAptidaoSyncronizer(new AptidaoMapper(), _repository.Object);
+        var sut = new AptidaoSynchronizer(new AptidaoMapper(), _repository.Object);
 
-        // Act & Assert
-        return SyncAndVerifyAsync();
+        // Act
+        await sut.SyncAsync(input, CancellationToken.None);
 
-        async Task SyncAndVerifyAsync()
-        {
-            // Act
-            await sut.SyncAsync(input, CancellationToken.None);
-
-            // Assert
-            await Verify(captured);
-        }
+        // Assert
+        await Verify(captured);
     }
 
-    private AnaliticaAptidaoSyncronizer CreateSut() => new(_mapper.Object, _repository.Object);
+    private AptidaoSynchronizer CreateSut() => new(_mapper.Object, _repository.Object);
 
 }
