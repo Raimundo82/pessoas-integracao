@@ -1,6 +1,19 @@
 namespace Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
-public partial class ZhrSAtribOrgOutput : ZhrSBaseModelOutput, IOutputModel { }
+public partial class ZhrSAtribOrgOutput : ZhrSBaseModelOutput, IOutputModel
+{
+    public IReadOnlyList<ZhrSBaseModel> GetChildrenFlattened()
+    {
+        return
+        [
+            ..AtribOrg ?? [],
+            ..MonitPrazos ?? [],
+            ..DataMedida ?? [],
+            ..Om ?? [],
+            ..ClassifProf ?? []
+        ];
+    }
+}
 
 public partial class ZhrSAtribOrg : ZhrSBaseModel { }
 public partial class ZhrSMonitPrazos : ZhrSBaseModel { }
