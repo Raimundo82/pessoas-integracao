@@ -15,9 +15,19 @@ No assembly `Pessoas.Integracao.Analitica`, existe a necessidade de efetuar mape
 
 ## Resultado da Decisão
 
-Opção escolhida: "Riok.Mapperly", porque é uma biblioteca open-source e gratuita, sem custos de licenciamento, utiliza Source Generators para geração de código em compilação, com mapeamentos explícitos e validados durante o build, possui boas integrações com refactoring e análise estática, e mantém dependências mínimas em runtime.
+**Opção escolhida:** "Riok.Mapperly", porque é uma biblioteca open-source e gratuita, sem custos de licenciamento, utiliza Source Generators para geração de código em compilação, com mapeamentos explícitos e validados durante o build, possui boas integrações com refactoring e análise estática, e mantém dependências mínimas em runtime.
 
 ### Consequências
 
-- Positivo, porque reduz código repetitivo (boilerplate), garante consistência na implementação, valida mapeamentos durante a compilação e alinha-se com a arquitetura da solução.
-- Negativo, porque apresenta menor maturidade e adoção comparativamente ao AutoMapper, menor flexibilidade para cenários extremamente dinâmicos, e requer familiaridade com Source Generators.
+#### Positivas
+
+- Reduz código repetitivo (boilerplate).
+- Garante consistência na implementação.
+- Valida mapeamentos durante a compilação.
+- Alinha-se com a arquitetura da solução.
+
+#### Negativas
+
+- Apresenta menor maturidade e adoção comparativamente ao AutoMapper.
+- Menor flexibilidade para cenários extremamente dinâmicos.
+- Requer familiaridade com Source Generators.
