@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 
 using Pessoas.Integracao.Analitica.Infrastructure.Mappers;
+using Pessoas.Integracao.Analitica.Models;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Tests.Unit.Mappers;
@@ -57,7 +58,7 @@ public sealed class AptidaoMapperTests
         // Arrange
         var source = new ZhrSAptidao { Ni = "20002", Valor = 18.5m };
 
-        var result = _aptidaoMapper.Map(source);
+        var result = (ZhrWsAptidaoAptidao)_aptidaoMapper.Map(source);
 
         result.Valor.Should().Be("18.5");
     }

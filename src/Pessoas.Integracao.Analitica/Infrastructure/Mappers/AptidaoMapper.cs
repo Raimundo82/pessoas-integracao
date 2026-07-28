@@ -8,7 +8,7 @@ using Riok.Mapperly.Abstractions;
 namespace Pessoas.Integracao.Analitica.Infrastructure.Mappers;
 
 [Mapper]
-public sealed partial class AptidaoMapper : IEntityMapper<ZhrSAptidao, ZhrWsAptidaoAptidao>
+public sealed partial class AptidaoMapper : IEntityMapper
 {
     [FormatProvider(Default = true)]
     private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
@@ -16,8 +16,8 @@ public sealed partial class AptidaoMapper : IEntityMapper<ZhrSAptidao, ZhrWsApti
     [MapperIgnoreSource(nameof(ZhrSBaseModel.Id))]
     [MapperIgnoreTarget(nameof(IAnaliticaModel.Id))]
     [MapperIgnoreTarget(nameof(IAnaliticaModel.UpdatedAt))]
-    [MapperIgnoreTarget(nameof(ZhrWsAptidaoAptidao.Numsap))]
+    [MapperIgnoreTarget(nameof(IAnaliticaModel.Numsap))]
     private partial ZhrWsAptidaoAptidao MapFields(ZhrSAptidao source);
 
-    public ZhrWsAptidaoAptidao Map(ZhrSAptidao source) => MapFields(source);
+    public AnaliticaBaseModel Map(ZhrSBaseModel source) => MapFields((ZhrSAptidao)source);
 }

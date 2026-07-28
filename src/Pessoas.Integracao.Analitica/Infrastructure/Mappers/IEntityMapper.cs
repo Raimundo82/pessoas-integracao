@@ -3,9 +3,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.Mappers;
 
-public interface IEntityMapper<TSource, TTarget>
-    where TSource : ZhrSBaseModel
-    where TTarget : AnaliticaBaseModel
+public interface IEntityMapper
 {
-    TTarget Map(TSource source);
+    AnaliticaBaseModel Map(ZhrSBaseModel source);
 }
