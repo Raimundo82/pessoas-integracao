@@ -13,9 +13,7 @@ public sealed partial class PessoaisMapper : IEntityMapper
     [FormatProvider(Default = true)]
     private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
 
-    [MapperIgnoreSource(nameof(ZhrSBaseModel.Id))]
-    [MapperIgnoreTarget(nameof(IAnaliticaModel.Id))]
-    [MapperIgnoreTarget(nameof(IAnaliticaModel.UpdatedAt))]
+    [IncludeMappingConfiguration(nameof(@SharedMappingConfig.IgnoreCommonFields))]
     [MapperIgnoreTarget(nameof(IAnaliticaModel.Numsap))]
     private partial ZhrWsPersonalDataPessoai MapFields(ZhrSPessoais source);
 
