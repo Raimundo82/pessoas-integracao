@@ -10,7 +10,7 @@ public interface IZhrWsGenericClient
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse1?>> zhrSOperation,
         Func<TResponse1, TResponse?> responseSelector,
         IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
-        DateOnly? referenceDate = null,
+        DateOnly? zhrReferenceDate = null,
         CancellationToken ct = default
     )
     where TResponse1 : IZhrWsBaseResponse1
