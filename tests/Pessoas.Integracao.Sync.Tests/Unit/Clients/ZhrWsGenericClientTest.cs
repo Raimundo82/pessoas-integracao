@@ -55,13 +55,14 @@ public class ZhrWsGenericClientTest()
         // Act
         var result = await uut.CallAsync(
             DelegatedFunc,
+            (response) => response.ZhrWsAptidaoResponse,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken,
             referenceDate: referenceDate
         );
 
         // Assert
-        result.Should().BeSameAs(expectedResponse);
+        result.Should().BeSameAs(expectedResponse.ZhrWsAptidaoResponse);
         capturedInputs.Should().NotBeNull();
         capturedInputs.Should().HaveCount(1);
         var input = capturedInputs[0];
@@ -107,12 +108,13 @@ public class ZhrWsGenericClientTest()
         // Act
         var result = await uut.CallAsync(
             DelegatedFunc,
+            (response) => response.ZhrWsAptidaoResponse,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken
         );
 
         // Assert
-        result.Should().BeSameAs(expectedResponse);
+        result.Should().BeSameAs(expectedResponse.ZhrWsAptidaoResponse);
         capturedInputs.Should().NotBeNull();
         capturedInputs.Should().HaveCount(2);
         capturedInputs.Select(i => i.Dtreferencia).Should().AllBeEquivalentTo(string.Empty);
@@ -136,11 +138,12 @@ public class ZhrWsGenericClientTest()
 
         var uut = new ZhrWsGenericClient(clientFactoryMock.Object, settingsMock.Object, referenceDateFormatterMock.Object);
         var soapOperationMock = new Mock<Func<zhr_wsClient, ZhrWsInputStruct[], Task<ZhrWsAptidaoResponse1?>>>();
-
+        var responseSelectorMock = new Mock<Func<ZhrWsAptidaoResponse1, ZhrWsAptidaoResponse?>>();
 
         // Act
         var result = await uut.CallAsync(
             soapOperationMock.Object,
+             responseSelectorMock.Object,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken
         );
@@ -175,10 +178,12 @@ public class ZhrWsGenericClientTest()
             }
             return null;
         }
+        var responseSelectorMock = new Mock<Func<ZhrWsAptidaoResponse1, ZhrWsAptidaoResponse?>>();
 
         // Act
         var callTask = uut.CallAsync(
             HangingOperation,
+            responseSelectorMock.Object,
             pessoaSyncRefs,
             ct: cts.Token
         );
@@ -188,6 +193,7 @@ public class ZhrWsGenericClientTest()
         // Assert
         await callTask.As<Task>().WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken);
         var result = await callTask;
+        responseSelectorMock.Verify(op => op(It.IsAny<ZhrWsAptidaoResponse1>()), Times.Never);
         result.Should().BeNull();
     }
 
@@ -212,16 +218,60 @@ public class ZhrWsGenericClientTest()
         {
             return Task.FromException<ZhrWsAptidaoResponse1?>(expectedException);
         }
+        var responseSelectorMock = new Mock<Func<ZhrWsAptidaoResponse1, ZhrWsAptidaoResponse?>>();
 
         // Act
         var act = () => uut.CallAsync(
             FailingOperation,
+            responseSelectorMock.Object,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken
         );
 
         // Assert
-        await act.Should().ThrowAsync<System.ServiceModel.FaultException>()
-            .WithMessage("SOAP Fault");
+        await act.Should().ThrowAsync<System.ServiceModel.FaultException>().WithMessage("SOAP Fault");
+        responseSelectorMock.Verify(op => op(It.IsAny<ZhrWsAptidaoResponse1>()), Times.Never);
+
+    }
+
+    [Fact]
+    public async Task ShouldPopulateEmptyAptidaoOutputs_WhenReponseIsNull()
+    {
+        // Arrange
+        var pessoaSyncRefs = new List<PessoaSyncRef> {
+            new() { Ni = "00001", ExternalId = "3000001" },
+            new() { Ni = "00002", ExternalId = "3000002" }
+        };
+        var clientFactoryMock = new Mock<IZhrWsGenericClientFactory<zhr_wsClient, zhr_ws>>();
+
+        clientFactoryMock.Setup(f => f.CreateClient()).Returns(new zhr_wsClient());
+
+        var settingsMock = new Mock<IOptions<ZhrWsSettings>>();
+        var settings = new ZhrWsSettings { Empresa = "TestEmpresa" };
+        settingsMock.Setup(s => s.Value).Returns(settings);
+
+        var referenceDateFormatterMock = new Mock<IZhrReferenceDateFormatter>();
+
+        var uut = new ZhrWsGenericClient(clientFactoryMock.Object, settingsMock.Object, referenceDateFormatterMock.Object);
+        ZhrWsInputStruct[] capturedInputs = [];
+
+        var expectedResponse = new ZhrWsAptidaoResponse1 { ZhrWsAptidaoResponse = null, };
+
+        Task<ZhrWsAptidaoResponse1?> DelegatedFunc(zhr_wsClient client, ZhrWsInputStruct[] inputs)
+        {
+            capturedInputs = inputs;
+            return Task.FromResult<ZhrWsAptidaoResponse1?>(expectedResponse);
+        }
+
+        // Act
+        var result = await uut.CallAsync(
+            DelegatedFunc,
+            (response) => response?.ZhrWsAptidaoResponse,
+            pessoaSyncRefs,
+            ct: TestContext.Current.CancellationToken
+        );
+
+        // Assert
+        result.Should().BeNull();
     }
 }
