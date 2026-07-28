@@ -1,5 +1,4 @@
 ﻿{
-  Numsap: 3000,
   Subty: 0001,
   Denominacao: Aptidão Física,
   AreaExame: Cardiologia,

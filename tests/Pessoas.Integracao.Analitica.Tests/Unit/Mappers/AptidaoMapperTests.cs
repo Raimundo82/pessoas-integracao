@@ -32,7 +32,7 @@ public sealed class AptidaoMapperTests
         };
 
         // Act
-        var result = _aptidaoMapper.Map(source, numsap: "3000");
+        var result = _aptidaoMapper.Map(source);
 
         // Assert
         return Verify(result);
@@ -45,7 +45,7 @@ public sealed class AptidaoMapperTests
         var source = new ZhrSAptidao { Ni = "20002", Id = 999 };
 
         // Act
-        var result = _aptidaoMapper.Map(source, "3000");
+        var result = _aptidaoMapper.Map(source);
 
         // Assert
         result.Id.Should().Be(0);
@@ -57,7 +57,7 @@ public sealed class AptidaoMapperTests
         // Arrange
         var source = new ZhrSAptidao { Ni = "20002", Valor = 18.5m };
 
-        var result = _aptidaoMapper.Map(source, "3000");
+        var result = _aptidaoMapper.Map(source);
 
         result.Valor.Should().Be("18.5");
     }
@@ -69,7 +69,7 @@ public sealed class AptidaoMapperTests
         var source = new ZhrSAptidao { Ni = "20002" };
 
         // Act
-        var result = _aptidaoMapper.Map(source, "3000");
+        var result = _aptidaoMapper.Map(source);
 
         // Assert
         return Verify(result);
