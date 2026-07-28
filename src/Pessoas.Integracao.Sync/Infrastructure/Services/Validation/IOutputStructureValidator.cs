@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.Validation;
 
 public interface IOutputStructureValidator
 {
-    bool IsValid<TOutput>(IReadOnlyList<ZhrSBaseModelOutput> outputs);
+    Task<bool> IsValidAsync<TOutput>(IReadOnlyList<ZhrSBaseModelOutput> outputs, CancellationToken ct);
 }

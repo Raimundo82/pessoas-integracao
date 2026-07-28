@@ -50,7 +50,7 @@ A utilização será realizada da seguinte forma:
 ```csharp
 var roots = await client.CallAsync(...);
 
-ValidationResult result = validator.ValidateOutputs<ZhrSAptidaoOutput>(roots);
+ValidationResult result = await validator.ValidateOutputs<ZhrSAptidaoOutput>(roots, ct);
 
 //...restante lógica de decisão face aos resultados da validação
 ```
@@ -83,8 +83,9 @@ Verifica se a estrutura das mensagens SAP devolvidas é válida, validando a exi
 Exemplo:
 
 ```csharp
-interface IMessageStructureValidator {
-    Bool IsValid(IReadOnlyList<ZhrSsLogMsg> logMessages)
+public interface IMessageStructureValidator
+{
+    Task<bool> IsValidAsync(IReadOnlyList<ZhrSLogMsg> logMessages, CancellationToken ct);
 }
 ```
 
@@ -95,8 +96,9 @@ Interpreta as mensagens devolvidas pelo SAP e determina o resultado funcional da
 Exemplo:
 
 ```csharp
-interface IMessageSemanticsValidator {
-    SapOutcome Validate(IReadOnlyList<ZhrSsLogMsg> logMessages)
+public interface IMessageSemanticsValidator
+{
+    Task<SapOutcome> ValidateAsync(IReadOnlyList<ZhrSLogMsg> logMessages, CancellationToken ct);
 }
 ```
 
@@ -113,21 +115,22 @@ Regras de severidade:
 
 `Termination > Exit > Error > Warning > Informational > Success`
 
-Casos com mensagens `SapOutcome`, `Error`, `Exit` ou `Termination` originam falha da validação.
+Casos com mensagens `Error`, `Exit` ou `Termination` originam falha da validação.
 
 A especificação técnica e o comportamento esperado para cada um destes tipos de mensagem estão documentados nos canais oficiais da SAP:
 
 - **Mensagens do Sistema e Estrutura SY-MSGTY:** O comportamento padrão das mensagens `S, I, W, E, A, X` no ecossistema ABAP pode ser consultado no [SAP Help Portal - ABAP Message Handling](https://help.sap.com/docs/SUPPORT_CONTENT/abap/3353524182.html?locale=en-US).
 
-#### 2. Validação da Estrutura de Output (`IOutputStructureValidator` / `OutputStructureValidator`)
+#### 3. Validação da Estrutura de Output (`IOutputStructureValidator` / `OutputStructureValidator`)
 
 Verifica se os objetos recebidos cumprem o contrato esperado pelo sincronizador (conformidade recursiva com a hierarquia de objetos, propriedades e coleções obrigatórias).
 
 Exemplo:
 
 ```csharp
-interface IOutputStructureValidator {
-    Bool IsValid<TOutput>(IReadOnlyList<IZhrBaseModelOutputs> outputs)
+public interface IOutputStructureValidator
+{
+    Task<bool> IsValidAsync<TOutput>(IReadOnlyList<ZhrSBaseModelOutput> outputs, CancellationToken ct);
 }
 ```
 
@@ -172,7 +175,7 @@ Structure validators answer: "Is the response structurally valid?"
 Semantic validator answers: "What is the SAP meaning of the response?"
 Response validator answers: "Given all validation results, what is the final validation state?"
 
-#### 5. Validação da resposta (`ZhrResponseValidator`)
+#### 4. Validação da resposta (`ZhrResponseValidator`)
 
 O componente `ZhrResponseValidator` é o responsável por orquestrar as três validações anteriores — estrutura das mensagens SAP, semântica das mensagens SAP e estrutura de output — e consolidar os seus resultados num único objeto `ValidationResult`. Este resultado sintetiza o estado funcional da operação (via `SapOutcome`), as falhas detetadas em cada camada de validação (via `Failures`) e as mensagens originais devolvidas pelo SAP (via `Messages`).
 
@@ -256,7 +259,7 @@ SapOutcome = Error
 Failures   = Semantics | OutputStructure
 ```
 
-#### 4. Diagrama Estrutural com definição de interfaces, classes, estruturas de dados e as suas relações
+#### 5. Diagrama Estrutural com definição de interfaces, classes, estruturas de dados e as suas relações
 
 ```plantuml
 @startuml
@@ -268,7 +271,7 @@ class ZhrWsSynchronizer {
 }
 
 interface IZhrResponseValidator {
-    +ValidateOutputs<TExpectedOutput>(response) : ValidationResult
+    +ValidateOutputs<TExpectedOutput>(response, ct) : Task<ValidationResult>
 }
 
 class ZhrResponseValidator {
@@ -278,15 +281,15 @@ class ZhrResponseValidator {
 }
 
 interface IMessageStructureValidator {
-    +IsValid(messages) : bool
+    +IsValidAsync(messages, ct) : Task<bool>
 }
 
 interface IMessageSemanticsValidator {
-    +Validate(messages) : SapOutcome
+    +ValidateAsync(messages, ct) : Task<SapOutcome>
 }
 
 interface IOutputStructureValidator {
-    +IsValid<TOutput>(outputs) : bool
+    +IsValidAsync<TOutput>(outputs, ct) : Task<bool>
 }
 
 class SapMessageStructureValidator
@@ -294,7 +297,7 @@ class SapMessageSemanticsValidator
 class OutputStructureValidator
 
 class ValidationResult {
-    +IsValid : bool <<derived>>
+    +IsValid : bool <<derived from Failures == ValidationFailureFlags.None>>
     +SapOutcome : SapOutcome
     +Failures : ValidationFailureFlags
     +Messages : IReadOnlyCollection<ZhrSLogMsg>

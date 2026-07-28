@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Services.Validation;
 
 public interface IMessageStructureValidator
 {
-    bool IsValid(IReadOnlyList<ZhrSLogMsg> logMessages);
+    Task<bool> IsValidAsync(IReadOnlyList<ZhrSLogMsg> logMessages, CancellationToken ct);
 }
