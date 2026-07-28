@@ -6,6 +6,7 @@ public class ZhrWsSettings
 {
     public const string SectionName = "ZhrWsSettings";
     public string Empresa { get; set; } = "3000";
+    public string DateFormat { get; set; } = "yyyy-MM-dd";
     public ZhrEndpointSettings Endpoints { get; set; } = new ZhrEndpointSettings();
     public ZhrAuthenticationSettings Auth { get; set; } = new ZhrAuthenticationSettings();
     public WcfBindingSettings Binding { get; set; } = new WcfBindingSettings();
