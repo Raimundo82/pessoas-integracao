@@ -21,7 +21,7 @@ public class ZhrWsGenericClient(
         Func<zhr_wsClient, ZhrWsInputStruct[], Task<TResponse1?>> zhrSOperation,
         Func<TResponse1, TResponse?> responseSelector,
         IReadOnlyCollection<PessoaSyncRef> pessoaSyncRefs,
-        DateOnly? referenceDate = null,
+        DateOnly? zhrReferenceDate = null,
         CancellationToken ct = default)
         where TResponse1 : IZhrWsBaseResponse1
         where TResponse : IZhrWsBaseResponse
@@ -40,7 +40,7 @@ public class ZhrWsGenericClient(
                 Ni = pessoaRef.Ni,
                 Numsap = pessoaRef.ExternalId,
                 Empresa = _settings.Empresa,
-                Dtreferencia = referenceDate.HasValue ? _referenceDateFormatter.Format(referenceDate.Value) : string.Empty
+                Dtreferencia = zhrReferenceDate.HasValue ? _referenceDateFormatter.Format(zhrReferenceDate.Value) : string.Empty
             }).ToArray();
 
         var response = await zhrSOperation(client, inputs);

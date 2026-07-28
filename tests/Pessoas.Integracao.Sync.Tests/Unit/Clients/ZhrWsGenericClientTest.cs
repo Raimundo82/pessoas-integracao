@@ -58,7 +58,7 @@ public class ZhrWsGenericClientTest()
             (response) => response.ZhrWsAptidaoResponse,
             pessoaSyncRefs,
             ct: TestContext.Current.CancellationToken,
-            referenceDate: referenceDate
+            zhrReferenceDate: referenceDate
         );
 
         // Assert
