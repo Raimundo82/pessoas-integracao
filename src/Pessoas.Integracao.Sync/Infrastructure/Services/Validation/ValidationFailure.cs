@@ -1,7 +1,7 @@
 namespace Pessoas.Integracao.Sync.Infrastructure.Services.Validation;
 
 [Flags]
-public enum ValidationFailure
+public enum ValidationFailures
 {
     None = 0,
     MessageStructure = 1,
