@@ -292,7 +292,7 @@ end note
 Esta abordagem está arquitetonicamente preparada para evoluir respeitando o **Princípio Aberto/Fechado (Open-Closed Principle - OCP)**:
 
 - Novas regras podem ser adicionadas como novas implementações de `IZhrValidationRule`, sem modificar a classe `ZhrResponseValidator`.
-- Novas respostas SAP só precisam de implementar `IZhrWsBaseResponse` e ter o seu `Output` concreto a implementar `IZhrOutputRecord`, sem alterar nenhuma regra existente.
+- Novas respostas SAP só precisam de implementar `IZhrWsBaseResponse` e ter o seu `Output` concreto a implementar `IOutputModel`, sem alterar nenhuma regra existente.
 - A classe `ZhrResponseValidator` depende de uma coleção de `IZhrValidationRule`, permitindo que os validadores sejam executados de forma independente e agregados no final.
 - No futuro, pode-se considerar tratar mensagens do tipo `W` (Warning) ou `I` (Informational) sob certas condições, ou adicionar validação de outros campos além do `Ni`.
 
