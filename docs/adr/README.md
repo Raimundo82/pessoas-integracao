@@ -18,9 +18,10 @@
 
 ## A2DIP
 
-| ID                                                                       | Título                                                               | Estado   | Data       |
-| :----------------------------------------------------------------------- | :------------------------------------------------------------------- | :------- | :--------- |
-| [001-A2DIP](./001-A2DIP-migration-zhrwsbasemodel-to-ianalitica-model.md) | Migração de ZhrWsBaseModel para IAnaliticaModel e AnaliticaBaseModel | Accepted | 2026-07-24 |
+| ID                                                                       | Título                                                                                      | Estado   | Data       |
+| :----------------------------------------------------------------------- | :------------------------------------------------------------------------------------------ | :------- | :--------- |
+| [001-A2DIP](./001-A2DIP-migration-zhrwsbasemodel-to-ianalitica-model.md) | Migração de ZhrWsBaseModel para IAnaliticaModel e AnaliticaBaseModel                        | Accepted | 2026-07-24 |
+| [002-A2DIP](./002-A2DIP-adopt-riok-mapperly-for-model-mapping.md)        | Adoção do Riok.Mapperly para mapeamento de modelos no assembly Pessoas.Integracao.Analitica | Proposto | 2026-07-28 |
 
 ## Mapeamento de Assemblies
 
