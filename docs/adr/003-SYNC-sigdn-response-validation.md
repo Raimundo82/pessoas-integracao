@@ -297,9 +297,9 @@ class SapMessageSemanticsValidator
 class OutputStructureValidator
 
 class ValidationResult {
-    +IsValid : bool <<derived from Failures == ValidationFailureFlags.None>>
+    +IsValid : bool <<derived from Failures == ValidationFailure.None>>
     +SapOutcome : SapOutcome
-    +Failures : ValidationFailureFlags
+    +Failures : ValidationFailure
     +Messages : IReadOnlyCollection<ZhrSLogMsg>
 }
 
@@ -312,7 +312,7 @@ enum SapOutcome {
     Termination
 }
 
-enum ValidationFailureFlags {
+enum ValidationFailure {
     None
     MessageStructure
     OutputStructure
@@ -337,7 +337,7 @@ ZhrResponseValidator --> ValidationResult
 
 ValidationResult *-- ZhrSLogMsg
 ValidationResult --> SapOutcome
-ValidationResult --> ValidationFailureFlags
+ValidationResult --> ValidationFailure
 
 OutputStructureValidator ..> TExpectedOutput : validates against
 
