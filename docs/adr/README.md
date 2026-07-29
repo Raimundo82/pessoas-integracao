@@ -15,7 +15,7 @@
 | [002-SYNC](./002-SYNC-implement-zhr-freshness-checker.md)                     | Componente `IZhrFreshnessChecker` para verificação de dados ZHR atualizados | Aceite   | 2026-07-26 |
 | [003-SYNC](./003-SYNC-encapsulation-of-enrichment-logic-for-synchronizers.md) | Encapsulamento da lógica de enriquecimento para sincronizadores             | Aceite   | 2026-07-27 |
 | [004-SYNC](./004-SYNC-generic-zhr-ws-client-pattern.md)                       | Cliente Genérico para Serviços Web ZHR                                      | Aceite   | 2026-07-28 |
-| [005-SYNC](./005-SYNC-sigdn-response-validation.md)                           | alidação Centralizada de Respostas SAP por `PessoaSyncRef`                  | Proposto | 2026-07-29 |
+| [005-SYNC](./005-SYNC-sigdn-response-validation.md)                           | Validação Centralizada de Respostas SAP por `PessoaSyncRef`                 | Proposto | 2026-07-29 |
 
 ## A2DIP
 
