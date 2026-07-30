@@ -12,21 +12,27 @@ public abstract class AnaliticaSynchronizerBase<TModel, TSource>(
     where TModel : AnaliticaBaseModel, IAnaliticaModel
     where TSource : ZhrSBaseModel
 {
-    public async Task SyncAsync(IZhrOutput input, CancellationToken ct)
+    public async Task SyncAsync(IReadOnlyList<IZhrOutput> inputs, CancellationToken ct)
     {
-        var source = GetSourceCollection(input);
-        if (source is null || source.Count == 0)
+        var mapped = inputs
+            .SelectMany(input =>
+            {
+                var source = GetSourceCollection(input);
+                return source is null || source.Count == 0
+                    ? Enumerable.Empty<TModel>()
+                    : source.Select(a =>
+                {
+                    var mappedModel = mapper.Map(a);
+                    mappedModel.UpdatedAt = input.UpdateAt;
+                    mappedModel.Numsap = input.ExternalId;
+                    return mappedModel;
+                });
+            }).ToList();
+
+        if (mapped.Count == 0)
         {
             return;
         }
-
-        var mapped = source.Select(a =>
-        {
-            var mappedModel = mapper.Map(a);
-            mappedModel.UpdatedAt = input.UpdateAt;
-            mappedModel.Numsap = input.ExternalId;
-            return mappedModel;
-        }).ToList();
 
         await repository.ReplaceMatchingByNiAsync(mapped, ct);
     }
