@@ -1,0 +1,76 @@
+name: "Bug"
+about: "Reportar um problema ou comportamento inesperado"
+title: "[BUG] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportares este bug. Preenche os campos abaixo com o máximo de detalhe possível.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição do problema
+      description: O que aconteceu? O que esperavas que acontecesse?
+      placeholder: Descreve o bug de forma clara e concisa.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      description: Lista os passos necessários para reproduzir o problema.
+      placeholder: |
+        1. Ir a '...'
+        2. Clicar em '...'
+        3. Ver o erro
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+      description: O que devia acontecer em vez disso?
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / capturas de ecrã
+      description: Cola aqui mensagens de erro, logs relevantes ou anexa capturas de ecrã.
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão / commit afetado
+      placeholder: ex. v1.4.2 ou hash do commit
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      placeholder: SO, browser, versão do runtime, etc.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severidade
+      options:
+        - Baixa
+        - Média
+        - Alta
+        - Crítica
+    validations:
+      required: false
