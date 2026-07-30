@@ -1,0 +1,30 @@
+[
+  {
+    Numsap: 3000,
+    Nome: João Silva,
+    Apelido: Silva,
+    Sexo: M,
+    SexoDesc: Masculino,
+    DtNasci: 19800101,
+    Idade: 44,
+    Idade31dezembro: 44,
+    Nacionalidade1: 107,
+    Nacionalidade2: ,
+    Nacionalidade3: ,
+    PaisNat: PT,
+    PaisnascDesc: PORTUGAL,
+    DistritoNat: 15,
+    DistnascDesc: LISBOA,
+    ConcelhoNat: 1503,
+    ConcnascDesc: LISBOA,
+    FreguesiaNat: 150301,
+    FregnascDesc: ALCANTARA,
+    EstCivil: C,
+    EstadocivilDesc: Casado,
+    DataEstCivil: 20050505,
+    Rufnm: JOAO,
+    DtFalec: ,
+    Ni: 20002,
+    UpdatedAt: 2025-01-01 00:00:00 +00:00
+  }
+]
