@@ -1,0 +1,47 @@
+name: 'Documentação'
+about: 'Reportar um problema na documentação ou pedir documentação nova'
+title: '[DOCS] '
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Usa este template para reportar erros na documentação, conteúdo em falta, ou pedir documentação nova.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo de pedido
+      options:
+        - Erro na documentação existente
+        - Documentação em falta
+        - Documentação desatualizada
+        - Sugestão de melhoria de clareza
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Localização
+      description: Página, ficheiro ou URL da documentação em causa.
+      placeholder: ex. docs/instalacao.md ou https://...
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição
+      description: O que está errado, em falta, ou que devia ser adicionado?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Sugestão de conteúdo
+      description: Se já tens uma proposta de texto ou estrutura, escreve aqui.
+    validations:
+      required: false

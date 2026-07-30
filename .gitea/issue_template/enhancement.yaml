@@ -1,0 +1,53 @@
+name: 'Enhancement'
+about: 'Propor uma melhoria a algo que já existe'
+title: '[ENHANCEMENT] '
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Usa este template para propor uma melhoria a uma funcionalidade, processo ou comportamento já existente (não uma funcionalidade nova de raiz).
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Situação atual
+      description: Como funciona hoje?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Melhoria proposta
+      description: O que gostarias de ver mudado ou melhorado?
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivação
+      description: Porque é que esta melhoria é importante? Que problema resolve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Consideraste outras abordagens? Porque não servem?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridade
+      options:
+        - Baixa
+        - Média
+        - Alta
+    validations:
+      required: false
