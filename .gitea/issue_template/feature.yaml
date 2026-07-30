@@ -1,0 +1,53 @@
+name: 'Feature Request'
+about: 'Propor uma funcionalidade nova'
+title: '[FEATURE] '
+labels:
+  - feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Usa este template para propor uma funcionalidade completamente nova (não uma melhoria a algo existente — para isso usa o template "Enhancement").
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema a resolver
+      description: Que problema ou necessidade motiva este pedido?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solução proposta
+      description: Descreve a funcionalidade que gostarias de ver implementada.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Outras soluções ou workarounds que já experimentaste.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexto adicional
+      description: Mockups, exemplos de outros projetos, links relevantes, etc.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridade
+      options:
+        - Baixa
+        - Média
+        - Alta
+    validations:
+      required: false
