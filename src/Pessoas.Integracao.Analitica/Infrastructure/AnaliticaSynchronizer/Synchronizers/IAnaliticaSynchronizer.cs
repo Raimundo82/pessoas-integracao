@@ -4,5 +4,5 @@ namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Sync
 
 public interface IAnaliticaSynchronizer
 {
-    Task SyncAsync(IReadOnlyList<IZhrOutput> inputs, CancellationToken ct);
+    Task SyncAsync(IReadOnlyList<IZhrOutput> zhrOutputs, CancellationToken ct);
 }
