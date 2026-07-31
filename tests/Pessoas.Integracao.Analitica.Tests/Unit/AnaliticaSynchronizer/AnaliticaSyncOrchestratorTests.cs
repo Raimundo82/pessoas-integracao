@@ -3,8 +3,8 @@
 using Moq;
 
 using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer;
-
 using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
+using Pessoas.Integracao.Sync.Application.Contracts;
 
 
 
@@ -19,7 +19,7 @@ public sealed class AnaliticaSyncOrchestratorTests
         var handler1 = new Mock<IAnaliticaSynchronizer>();
         var handler2 = new Mock<IAnaliticaSynchronizer>();
         var sut = new AnaliticaSyncOrchestrator([handler1.Object, handler2.Object]);
-        var input = ZhrOutputTestData.OutputWith();
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith() };
 
         // Act
         await sut.ExecuteAsync(input, CancellationToken.None);
@@ -36,7 +36,7 @@ public sealed class AnaliticaSyncOrchestratorTests
         var sut = new AnaliticaSyncOrchestrator([]);
 
         // Act
-        var act = () => sut.ExecuteAsync(ZhrOutputTestData.OutputWith(), CancellationToken.None);
+        var act = () => sut.ExecuteAsync([ZhrOutputTestData.OutputWith()], CancellationToken.None);
 
         // Assert
         await act.Should().NotThrowAsync();

@@ -6,6 +6,7 @@ using Pessoas.Integracao.Analitica.Application.Contracts;
 using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 using Pessoas.Integracao.Analitica.Infrastructure.Mappers;
 using Pessoas.Integracao.Analitica.Models;
+using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
@@ -19,7 +20,7 @@ public sealed class PessoaisSynchronizerTests
     public async Task ShouldNotCallMapperOrRepository_WhenPessoaisIsNull()
     {
         // Arrange
-        var input = ZhrOutputTestData.OutputWith(pessoais: null);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(pessoais: null) };
         var sut = CreateSut();
 
         // Act
@@ -34,7 +35,7 @@ public sealed class PessoaisSynchronizerTests
     public async Task ShouldNotCallMapperOrRepository_WhenPessoaisIsEmpty()
     {
         // Arrange
-        var input = ZhrOutputTestData.OutputWith(pessoais: []);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(pessoais: []) };
         var sut = CreateSut();
 
         // Act
@@ -52,8 +53,8 @@ public sealed class PessoaisSynchronizerTests
         var timestamp = new DateTimeOffset(new DateTime(2025, 1, 1));
         var item = new ZhrSPessoais { Ni = "1" };
         var mapped = new ZhrWsPersonalDataPessoai { Ni = "1", Numsap = "3000", };
-        var input = ZhrOutputTestData
-            .OutputWith(externalId: "3000", updateAt: timestamp, pessoais: [item]);
+        var input = new List<IZhrOutput> { ZhrOutputTestData
+            .OutputWith(externalId: "3000", updateAt: timestamp, pessoais: [item]) };
 
         _mapper.Setup(m => m.Map(item)).Returns(mapped);
 
@@ -77,7 +78,7 @@ public sealed class PessoaisSynchronizerTests
         var item1 = new ZhrSPessoais { Ni = "1", Apelido = "Toni" };
         var item2 = new ZhrSPessoais { Ni = "1", Apelido = "Bujo" };
 
-        var input = ZhrOutputTestData.OutputWith("1", "3000", updateAt: timestamp, pessoais: [item1, item2]);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith("1", "3000", updateAt: timestamp, pessoais: [item1, item2]) };
 
         _mapper.Setup(m => m.Map(It.IsAny<ZhrSPessoais>()))
             .Returns((ZhrSPessoais s) => new ZhrWsPersonalDataPessoai { Ni = s.Ni, Apelido = s.Apelido });
@@ -141,11 +142,12 @@ public sealed class PessoaisSynchronizerTests
             DtFalec = ""
         };
 
-        var input = ZhrOutputTestData.OutputWith(
+        var input = new List<IZhrOutput>
+            { ZhrOutputTestData.OutputWith(
             externalId: "3000",
             updateAt: timestamp,
             pessoais: [source]
-        );
+        )};
 
         IReadOnlyList<ZhrWsPersonalDataPessoai>? captured = null;
 

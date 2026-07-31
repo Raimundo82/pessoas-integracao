@@ -6,6 +6,7 @@ using Pessoas.Integracao.Analitica.Application.Contracts;
 using Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 using Pessoas.Integracao.Analitica.Infrastructure.Mappers;
 using Pessoas.Integracao.Analitica.Models;
+using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
@@ -19,7 +20,7 @@ public sealed class AptidaoSynchronizerTests
     public async Task ShouldNotCallMapperOrRepository_WhenAptidoesIsNull()
     {
         // Arrange
-        var input = ZhrOutputTestData.OutputWith(aptidoes: null);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(aptidoes: null) };
         var sut = CreateSut();
 
         // Act
@@ -34,7 +35,7 @@ public sealed class AptidaoSynchronizerTests
     public async Task ShouldNotCallMapperOrRepository_WhenAptidoesIsEmpty()
     {
         // Arrange
-        var input = ZhrOutputTestData.OutputWith(aptidoes: []);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(aptidoes: []) };
         var sut = CreateSut();
 
         // Act
@@ -51,7 +52,7 @@ public sealed class AptidaoSynchronizerTests
         // Arrange
         var item = new ZhrSAptidao { Ni = "1" };
         var mapped = new ZhrWsAptidaoAptidao { Ni = "1", Numsap = "3000" };
-        var input = ZhrOutputTestData.OutputWith(externalId: "3000", aptidoes: [item]);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(externalId: "3000", aptidoes: [item]) };
 
         _mapper.Setup(m => m.Map(item)).Returns(mapped);
 
@@ -73,7 +74,7 @@ public sealed class AptidaoSynchronizerTests
         var item1 = new ZhrSAptidao { Ni = "1", Subty = "0001" };
         var item2 = new ZhrSAptidao { Ni = "1", Subty = "0002" };
 
-        var input = ZhrOutputTestData.OutputWith(aptidoes: [item1, item2]);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(aptidoes: [item1, item2]) };
 
         _mapper.Setup(m => m.Map(It.IsAny<ZhrSAptidao>()))
             .Returns((ZhrSAptidao s) => new ZhrWsAptidaoAptidao { Ni = s.Ni, Subty = s.Subty });
@@ -118,7 +119,7 @@ public sealed class AptidaoSynchronizerTests
             Observacoes = "Sem observações relevantes"
         };
 
-        var input = ZhrOutputTestData.OutputWith(externalId: "3000", aptidoes: [source]);
+        var input = new List<IZhrOutput> { ZhrOutputTestData.OutputWith(externalId: "3000", aptidoes: [source]) };
 
         IReadOnlyList<ZhrWsAptidaoAptidao>? captured = null;
 
