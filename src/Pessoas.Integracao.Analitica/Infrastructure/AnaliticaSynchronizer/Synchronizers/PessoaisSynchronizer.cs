@@ -11,5 +11,5 @@ public sealed class PessoaisSynchronizer(
     IAnaliticaRepository<ZhrWsPersonalDataPessoai> repository)
     : AnaliticaSynchronizerBase<ZhrWsPersonalDataPessoai, ZhrSPessoais>(mapper, repository)
 {
-    protected override IList<ZhrSPessoais>? GetSourceCollection(IZhrOutput input) => input.Pessoais;
+    protected override IList<ZhrSPessoais>? GetZhrOutputSlice(IZhrOutput input) => input.Pessoais;
 }

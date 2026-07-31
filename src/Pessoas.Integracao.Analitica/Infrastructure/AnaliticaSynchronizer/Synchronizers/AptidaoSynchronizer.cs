@@ -11,5 +11,5 @@ public sealed class AptidaoSynchronizer(
     IAnaliticaRepository<ZhrWsAptidaoAptidao> repository)
     : AnaliticaSynchronizerBase<ZhrWsAptidaoAptidao, ZhrSAptidao>(mapper, repository)
 {
-    protected override IList<ZhrSAptidao>? GetSourceCollection(IZhrOutput input) => input.Aptidoes;
+    protected override IList<ZhrSAptidao>? GetZhrOutputSlice(IZhrOutput input) => input.Aptidoes;
 }
