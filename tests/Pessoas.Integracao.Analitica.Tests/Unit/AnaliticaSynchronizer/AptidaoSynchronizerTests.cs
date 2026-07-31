@@ -240,7 +240,7 @@ public sealed class AptidaoSynchronizerTests
         var sut = CreateSut();
 
         // Act
-        await sut.SyncAsync(new List<IZhrOutput>(), CancellationToken.None);
+        await sut.SyncAsync([], CancellationToken.None);
 
         // Assert
         _mapper.Invocations.Should().BeEmpty();

@@ -19,7 +19,7 @@ public abstract class AnaliticaSynchronizerBase<TModel, TSource>(
             {
                 var source = GetSourceCollection(input);
                 return source is null || source.Count == 0
-                    ? Enumerable.Empty<TModel>()
+                    ? []
                     : source.Select(a =>
                 {
                     var mappedModel = mapper.Map(a);
