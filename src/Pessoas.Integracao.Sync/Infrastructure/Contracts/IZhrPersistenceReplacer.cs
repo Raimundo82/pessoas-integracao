@@ -4,7 +4,7 @@ namespace Pessoas.Integracao.Sync.Infrastructure.Contracts;
 
 public interface IZhrPersistenceReplacer
 {
-    Task ExecuteAsync<T>(
+    Task<bool> ExecuteAsync<T>(
         IReadOnlyList<T> roots,
         IReadOnlyList<ZhrSBaseModel[]> children,
         CancellationToken ct

@@ -1,11 +1,12 @@
 using FluentAssertions;
 
+using Microsoft.Extensions.Logging.Abstractions;
+
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 using Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
 using Pessoas.Integracao.Testing;
 
 namespace Pessoas.Integracao.Sync.Tests.Integration.Infrastructure.ZhrPersistance;
-
 
 [Collection(nameof(PostgresTestDatabaseCollection))]
 public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) : TableReplacerTestsBase(db), IAsyncLifetime
@@ -19,9 +20,11 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         newOutput.Aptidao = [AptidaoChild("22600", "Aptidao1"), AptidaoChild("22600", "Aptidao2")];
 
         // Act
-        await ExecuteAsync([newOutput], [newOutput.Aptidao]);
+        var result = await ExecuteAsync([newOutput], [newOutput.Aptidao]);
 
         // Assert
+        result.Should().BeTrue();
+
         await using var assertContext = NewContext();
         var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
         var childrenResult = assertContext.Set<ZhrSAptidao>();
@@ -68,10 +71,13 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
 
 
         // Act
-        await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
-        await ExecuteAsync([newPessoais], [newPessoais.Pessoais, newPessoais.Familia]);
+        var firstResult = await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
+        var secondResult = await ExecuteAsync([newPessoais], [newPessoais.Pessoais, newPessoais.Familia]);
 
         // Assert
+        firstResult.Should().BeTrue();
+        secondResult.Should().BeTrue();
+
         await using var assertContext = NewContext();
 
         var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
@@ -111,9 +117,11 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         ZhrSAptidao[] aptidoes = [.. outputs.SelectMany(o => o.Aptidao)];
 
         // Act
-        await ExecuteAsync(outputs, [aptidoes]);
+        var result = await ExecuteAsync(outputs, [aptidoes]);
 
         // Assert
+        result.Should().BeTrue();
+
         var assertContext = NewContext();
         var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
         rootResult.Should().HaveCount(2);
@@ -142,9 +150,11 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         replacement.Aptidao = [];
 
         // Act
-        await ExecuteAsync([replacement], [replacement.Aptidao]);
+        var result = await ExecuteAsync([replacement], [replacement.Aptidao]);
 
         // Assert
+        result.Should().BeTrue();
+
         await using var assertContext = NewContext();
         var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
         rootResult.Should().HaveCount(1);
@@ -182,9 +192,12 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         var newAptidao = AptidaoOutput(ni1, "30002697", updatedAt);
         newAptidao.Aptidao = [AptidaoChild(ni1, "Aptidao5"), AptidaoChild(ni1, "Aptidao6")];
 
-        await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
+        // Act
+        var result = await ExecuteAsync([newAptidao], [newAptidao.Aptidao]);
 
         // Assert
+        result.Should().BeTrue();
+
         await using var assertContext = NewContext();
 
         var aptidaoRootResult = assertContext.Set<ZhrSAptidaoOutput>();
@@ -208,7 +221,37 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
     }
 
     [Fact]
-    public async Task ShouldRollbackWipe_WhenInsertFails()
+    public async Task ShouldRollbackWipeAndReturnFalse_WhenInsertFails()
+    {
+        // Arrange
+        var ni = "22600";
+        await SeedAsync(
+            AptidaoOutput(ni, "30002697"),
+            [AptidaoChild(ni, "Aptidao1")]
+        );
+
+        var replacement = AptidaoOutput(ni, "30002697");
+        var invalidChildren = new ZhrSAptidao[]
+        {
+            new() { Ni = null!, AreaExame = "Invalid" }
+        };
+
+        // Act
+        var result = await ExecuteAsync([replacement], [invalidChildren]);
+
+        // Assert
+        result.Should().BeFalse();
+
+        await using var assertContext = NewContext();
+        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
+        var childrenResult = assertContext.Set<ZhrSAptidao>();
+
+        rootResult.Should().ContainSingle(r => r.Ni == ni);
+        childrenResult.Should().ContainSingle(c => c.Ni == ni && c.AreaExame == "Aptidao1");
+    }
+
+    [Fact]
+    public async Task ShouldNotThrow_WhenInsertFails()
     {
         // Arrange
         var ni = "22600";
@@ -227,22 +270,18 @@ public sealed class GraphReplacerDbIntegrationTests(PostgresTestContainerDb db) 
         var act = async () => await ExecuteAsync([replacement], [invalidChildren]);
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
-
-        await using var assertContext = NewContext();
-        var rootResult = assertContext.Set<ZhrSAptidaoOutput>();
-        var childrenResult = assertContext.Set<ZhrSAptidao>();
-
-        rootResult.Should().ContainSingle(r => r.Ni == ni);
-        childrenResult.Should().ContainSingle(c => c.Ni == ni && c.AreaExame == "Aptidao1");
+        await act.Should().NotThrowAsync();
     }
 
-    private async Task ExecuteAsync<TOutput>(
+    private async Task<bool> ExecuteAsync<TOutput>(
         TOutput[] outputs,
         IReadOnlyList<ZhrSBaseModel[]> children
     ) where TOutput : ZhrSBaseModelOutput, IOutputModel
     {
         await using var context = NewContext();
-        await new BulkTableReplacer(context).ExecuteAsync(outputs, children, _ct);
+        var replacer = new BulkTableReplacer(context, NullLogger<BulkTableReplacer>.Instance);
+        return await replacer.ExecuteAsync(outputs, children, _ct);
     }
 }
+
+
