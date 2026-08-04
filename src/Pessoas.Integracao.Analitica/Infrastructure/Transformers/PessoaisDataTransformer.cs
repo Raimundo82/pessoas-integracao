@@ -9,6 +9,6 @@ public sealed class PessoaisDataTransformer(
     IEntityMapper<ZhrWsPersonalDataPessoai> mapper)
     : BaseDataTransformer<ZhrWsPersonalDataPessoai, ZhrSPessoais>(mapper)
 {
-    protected override IList<ZhrSPessoais>? GetZhrOutputSlice(IZhrOutput input)
-        => input.Pessoais;
+    protected override IList<ZhrSPessoais>? GetZhrOutputSlice(IZhrOutput output)
+        => output.Pessoais;
 }
