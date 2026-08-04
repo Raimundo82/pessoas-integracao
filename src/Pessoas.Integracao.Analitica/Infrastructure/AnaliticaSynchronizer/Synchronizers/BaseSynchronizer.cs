@@ -7,7 +7,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 public abstract class BaseSynchronizer<TAnaliticaModel, TZhrModel>(
-    IDataTransformer<TAnaliticaModel, TZhrModel> transformer,
+    IDataTransformer<TAnaliticaModel> transformer,
     IAnaliticaRepository<TAnaliticaModel> repository) : IAnaliticaSynchronizer
     where TAnaliticaModel : AnaliticaBaseModel, IAnaliticaModel
     where TZhrModel : ZhrSBaseModel

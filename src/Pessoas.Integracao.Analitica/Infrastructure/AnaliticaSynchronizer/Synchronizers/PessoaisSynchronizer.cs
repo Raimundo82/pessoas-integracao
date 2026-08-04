@@ -6,7 +6,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 public sealed class PessoaisSynchronizer(
-    IDataTransformer<ZhrWsPersonalDataPessoai, ZhrSPessoais> transformer,
+    IDataTransformer<ZhrWsPersonalDataPessoai> transformer,
     IAnaliticaRepository<ZhrWsPersonalDataPessoai> repository)
     : BaseSynchronizer<ZhrWsPersonalDataPessoai, ZhrSPessoais>(transformer, repository)
 {

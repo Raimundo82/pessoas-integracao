@@ -7,7 +7,7 @@ namespace Pessoas.Integracao.Analitica.Infrastructure.Transformers;
 
 public abstract class BaseDataTransformer<TAnaliticaModel, TZhrModel>(
     IEntityMapper<TAnaliticaModel> mapper
-) : IDataTransformer<TAnaliticaModel, TZhrModel>
+) : IDataTransformer<TAnaliticaModel>
     where TAnaliticaModel : AnaliticaBaseModel, IAnaliticaModel
     where TZhrModel : ZhrSBaseModel
 {

@@ -6,7 +6,7 @@ using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
 
 public sealed class AptidaoSynchronizer(
-    IDataTransformer<ZhrWsAptidaoAptidao, ZhrSAptidao> transformer,
+    IDataTransformer<ZhrWsAptidaoAptidao> transformer,
     IAnaliticaRepository<ZhrWsAptidaoAptidao> repository)
     : BaseSynchronizer<ZhrWsAptidaoAptidao, ZhrSAptidao>(transformer, repository)
 {
