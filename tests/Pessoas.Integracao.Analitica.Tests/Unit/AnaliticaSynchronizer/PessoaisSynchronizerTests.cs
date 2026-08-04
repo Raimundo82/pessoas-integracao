@@ -13,7 +13,7 @@ namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
 public sealed class PessoaisSynchronizerTests
 {
-    private readonly Mock<IDataTransformer<ZhrWsPersonalDataPessoai, ZhrSPessoais>> _transformer = new();
+    private readonly Mock<IDataTransformer<ZhrWsPersonalDataPessoai>> _transformer = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsPersonalDataPessoai>> _repository = new();
 
     [Fact]

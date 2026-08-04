@@ -13,7 +13,7 @@ namespace Pessoas.Integracao.Analitica.Tests.Unit.AnaliticaSynchronizer;
 
 public sealed class AptidaoSynchronizerTests
 {
-    private readonly Mock<IDataTransformer<ZhrWsAptidaoAptidao, ZhrSAptidao>> _transformer = new();
+    private readonly Mock<IDataTransformer<ZhrWsAptidaoAptidao>> _transformer = new();
     private readonly Mock<IAnaliticaRepository<ZhrWsAptidaoAptidao>> _repository = new();
 
     [Fact]
