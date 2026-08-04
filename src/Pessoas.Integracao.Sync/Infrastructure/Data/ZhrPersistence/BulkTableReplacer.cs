@@ -1,23 +1,22 @@
-namespace Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
-
 using EFCore.BulkExtensions;
 
-using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
-using Pessoas.Integracao.Sync.Infrastructure.Contracts;
-using Pessoas.Integracao.Sync.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
 
-public sealed class BulkTableReplacer(ZhrSDbContext dbContext) : IZhrPersistenceReplacer
+using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
+
+namespace Pessoas.Integracao.Sync.Infrastructure.Data.ZhrPersistence;
+
+public sealed class BulkTableReplacer(ZhrSDbContext dbContext, ILogger<BulkTableReplacer> logger)
+    : ZhrBasePersistenceReplacer(dbContext, logger)
 {
-    public async Task ExecuteAsync<T>(
-            IReadOnlyList<T> roots,
-            IReadOnlyList<ZhrSBaseModel[]> children,
-            CancellationToken ct
-        ) where T : ZhrSBaseModelOutput, IOutputModel
+    protected override async Task ExecuteReplaceAsync<T>(
+        IReadOnlyList<T> roots,
+        IReadOnlyList<ZhrSBaseModel[]> children,
+        CancellationToken ct
+    )
     {
-        await using var transaction = await dbContext.Database.BeginTransactionAsync(ct);
-        await dbContext.TruncateTableAsync<T>(cascade: true, ct);
-        await dbContext.BulkInsertAsync(roots, cancellationToken: ct);
-        foreach (var child in children) await dbContext.BulkInsertAsync(child, cancellationToken: ct);
-        await transaction.CommitAsync(ct);
+        await DbContext.TruncateTableAsync<T>(cascade: true, ct);
+        await DbContext.BulkInsertAsync(roots, cancellationToken: ct);
+        foreach (var child in children) await DbContext.BulkInsertAsync(child, cancellationToken: ct);
     }
 }
