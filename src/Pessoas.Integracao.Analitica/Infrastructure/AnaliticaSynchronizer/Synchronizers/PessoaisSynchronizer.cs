@@ -1,7 +1,6 @@
 using Pessoas.Integracao.Analitica.Application.Contracts;
 using Pessoas.Integracao.Analitica.Infrastructure.Transformers;
 using Pessoas.Integracao.Analitica.Models;
-using Pessoas.Integracao.Sync.Application.Contracts;
 using Pessoas.Integracao.Sync.Application.ZhrModels.Dados;
 
 namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer.Synchronizers;
@@ -11,6 +10,4 @@ public sealed class PessoaisSynchronizer(
     IAnaliticaRepository<ZhrWsPersonalDataPessoai> repository)
     : BaseSynchronizer<ZhrWsPersonalDataPessoai, ZhrSPessoais>(transformer, repository)
 {
-    protected override IList<ZhrSPessoais>? GetZhrOutputSlice(IZhrOutput output)
-        => output.Pessoais;
 }

@@ -19,12 +19,4 @@ public abstract class BaseSynchronizer<TAnaliticaModel, TZhrModel>(
         if (analiticaDataSlices.Count == 0) return;
         await repository.ReplaceMatchingByNiAsync(analiticaDataSlices, ct);
     }
-
-    protected abstract IList<TZhrModel>? GetZhrOutputSlice(IZhrOutput input);
-
-    protected virtual void ApplyZhrOutputFields(TAnaliticaModel analiticaDataSlice, IZhrOutput output)
-    {
-        analiticaDataSlice.UpdatedAt = output.UpdateAt;
-        analiticaDataSlice.Numsap = output.ExternalId;
-    }
 }
