@@ -18,6 +18,13 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
           ssh-known-hosts: ${{ vars.SSH_KNOWN_HOSTS }}
 
+      - name: Inspect tool cache
+        run: |
+          echo "RUNNER_TOOL_CACHE=$RUNNER_TOOL_CACHE"
+          echo "RUNNER_TEMP=$RUNNER_TEMP"
+          ls -la /toolcache || true
+          find /toolcache -maxdepth 4 -type d 2>/dev/null | sort | head -100
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -30,6 +37,12 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
+
+      - name: Inspect tool cache after setup
+        run: |
+          echo "RUNNER_TOOL_CACHE=$RUNNER_TOOL_CACHE"
+          find /toolcache -maxdepth 5 -type d 2>/dev/null | sort | head -200
+          dotnet --info
 
       - name: Format code
         run: dotnet format --verify-no-changes
