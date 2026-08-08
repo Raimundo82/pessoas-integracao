@@ -7,9 +7,6 @@ on:
       - reopened
       - synchronize
 
-env:
-  RUNNER_TOOL_CACHE: /toolcache
-
 jobs:
   pr-sonarscan:
     runs-on: ubuntu-latest
