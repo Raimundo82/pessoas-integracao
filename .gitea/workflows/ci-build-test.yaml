@@ -26,26 +26,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Debug .NET tool cache
-        run: |
-          echo "RUNNER_TOOL_CACHE=$RUNNER_TOOL_CACHE"
-          echo "RUNNER_TEMP=$RUNNER_TEMP"
-          echo "HOME=$HOME"
-          env | grep -E 'RUNNER|DOTNET' | sort
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
-
-      - name: Debug .NET installation
-        run: |
-          dotnet --info
-          dotnet --list-sdks
-          dotnet --list-runtimes
-          find /opt/hostedtoolcache /toolcache -maxdepth 4 -type d 2>/dev/null | sort | head -200
-            - name: Format code
-              run: dotnet format --verify-no-changes
 
       - name: Build (No incremental)
         run: dotnet build --no-incremental
