@@ -5,9 +5,9 @@ namespace Pessoas.Integracao.Analitica.Infrastructure.AnaliticaSynchronizer;
 
 public sealed class AnaliticaSyncOrchestrator(IEnumerable<IAnaliticaSynchronizer> synchronizers)
 {
-    public async Task ExecuteAsync(IZhrOutput input, CancellationToken ct)
+    public async Task ExecuteAsync(IReadOnlyList<IZhrOutput> zhrOutputs, CancellationToken ct)
     {
-        var tasks = synchronizers.Select(synchronizer => synchronizer.SyncAsync(input, ct));
+        var tasks = synchronizers.Select(synchronizer => synchronizer.SyncAsync(zhrOutputs, ct));
         await Task.WhenAll(tasks);
     }
 }
