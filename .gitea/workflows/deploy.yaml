@@ -4,8 +4,6 @@ name: Deploy .NET App with Docker Compose
 #  push:
 #    tags:
 #      - '*'
-env:
-  RUNNER_TOOL_CACHE: /toolcache
 
 jobs:
   build-and-deploy:
