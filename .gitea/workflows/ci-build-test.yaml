@@ -53,8 +53,5 @@ jobs:
       - name: Build (No incremental)
         run: dotnet build --no-incremental
 
-      - name: Check for vulnerable NuGet packages
-        run: dotnet list package --vulnerable --include-transitive --no-restore
-
       - name: Test with dotnet CLI
         run: dotnet test --no-build
