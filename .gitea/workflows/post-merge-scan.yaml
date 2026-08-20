@@ -44,9 +44,6 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
           dotnet tool update dotnet-coverage --tool-path ./.sonar/coverage
 
-      - name: Restore tools
-        run: dotnet tool restore
-
       - name: Begin SonarQube Analysis
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin \
@@ -63,7 +60,7 @@ jobs:
 
       - name: Run tests with coverage for SonarQube
         run: |
-          dotnet dotnet-coverage collect "dotnet test" \
+          ./.sonar/coverage/dotnet-coverage collect "dotnet test" \
               -f xml \
               -o coverage.xml
 
