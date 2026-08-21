@@ -63,7 +63,6 @@ A sincronização devia completar sem erros.
 ```text
 System.Exception: ...
 ```
-````
 
 ## Versão / commit afetado
 
@@ -79,6 +78,9 @@ Alta
 
 ```
 
+```
+````
+
 ## Guidelines
 
 - Be objective and concise.
@@ -87,38 +89,41 @@ Alta
 
 ## Template Fields to Fill
 
-Use the exact field labels below (matching the Gitea templates). Fields marked *(optional)* may be filled with `_Não fornecido_` when no information is available.
+Use the exact field labels below (matching the Gitea templates). Fields marked _(optional)_ may be filled with `_Não fornecido_` when no information is available.
 
 ### Bug Template (labels: `bug`)
 
 - **Descrição do problema** — what happened and what was expected
 - **Passos para reproduzir** — ordered list of steps
-- **Comportamento esperado** *(optional)*
-- **Logs / capturas de ecrã** *(optional)* — use fenced code blocks
-- **Versão / commit afetado** *(optional)*
-- **Ambiente** *(optional)*
-- **Severidade** *(optional)* — one of: Baixa, Média, Alta, Crítica
+- **Comportamento esperado** _(optional)_
+- **Logs / capturas de ecrã** _(optional)_ — use fenced code blocks
+- **Versão / commit afetado** _(optional)_
+- **Ambiente** _(optional)_
+- **Severidade** _(optional)_ — one of: Baixa, Média, Alta, Crítica
 
 ### Feature Template (labels: `feature`)
 
 - **Problema a resolver**
 - **Solução proposta**
-- **Alternativas consideradas** *(optional)*
-- **Contexto adicional** *(optional)*
-- **Prioridade** *(optional)* — one of: Baixa, Média, Alta
+- **Alternativas consideradas** _(optional)_
+- **Contexto adicional** _(optional)_
+- **Prioridade** _(optional)_ — one of: Baixa, Média, Alta
 
 ### Enhancement Template (labels: `enhancement`)
 
 - **Situação atual**
 - **Melhoria proposta**
 - **Motivação**
-- **Alternativas consideradas** *(optional)*
-- **Prioridade** *(optional)* — one of: Baixa, Média, Alta
+- **Alternativas consideradas** _(optional)_
+- **Prioridade** _(optional)_ — one of: Baixa, Média, Alta
 
 ### Documentation Template (labels: `documentation`)
 
 - **Tipo de pedido** — one of: Erro na documentação existente, Documentação em falta, Documentação desatualizada, Sugestão de melhoria de clareza
-- **Localização** *(optional)* — page, file, or URL
+- **Localização** _(optional)_ — page, file, or URL
 - **Descrição**
-- **Sugestão de conteúdo** *(optional)*
+- **Sugestão de conteúdo** _(optional)_
+
+```
+
 ```
