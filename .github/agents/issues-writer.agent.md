@@ -1,6 +1,8 @@
 ---
 name: issues-writer
 description: Agent specialized in generating well-formatted issue descriptions based on the project's Gitea issue templates (bug, feature, enhancement, docs).
+argument-hint: 'Write a [bug|feature|enhancement|docs] issue'
+tools: ['read', 'search']
 ---
 
 # Issues Writer Agent
@@ -33,7 +35,7 @@ The final answer MUST be pure, well-formed Markdown, ready to copy-paste into th
 - **Title**: Provide the issue title on its own as a level-1 heading (`# [PREFIX] Short summary`) at the top of the output.
 - **Labels**: Immediately after the title, add a single line: `**Labels:** ` followed by the comma-separated labels for the template type.
 - **Lists**: Use ordered lists (`1.`, `2.`, ...) for steps to reproduce, and unordered lists (`-`) for enumerations.
-- **Code/logs**: Wrap logs, stack traces, and code snippets in fenced code blocks with the appropriate language tag (e.g. `text, `csharp, ```shell).
+- **Code/logs**: Wrap logs, stack traces, and code snippets in fenced code blocks with the appropriate language tag (e.g. ` ```text `, ` ```csharp `, ` ```shell `).
 - **Empty optional fields**: If an optional field has no information, write `_Não fornecido_` instead of omitting the heading, so the output structure stays consistent.
 - **No wrappers**: Do NOT wrap the output in markdown code fences (like ` ```markdown `), blockquotes, or tables unless the content itself requires it.
 - **No conversational text**: Do NOT include introductions, explanations, apologies, or commentary before or after the Markdown content. The entire response is the issue content.
@@ -75,10 +77,6 @@ Windows Server 2022, .NET 8
 ## Severidade
 
 Alta
-
-```
-
-```
 ````
 
 ## Guidelines
@@ -123,7 +121,3 @@ Use the exact field labels below (matching the Gitea templates). Fields marked _
 - **Localização** _(optional)_ — page, file, or URL
 - **Descrição**
 - **Sugestão de conteúdo** _(optional)_
-
-```
-
-```
